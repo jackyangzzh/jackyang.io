@@ -3,17 +3,14 @@
 # See also: <https://jsonresume.org/>.
 basics:
   name: "Jack Yang"
-  label: "Award-winning AR/VR developer"
+  label: "Reimagining Reality with XR"
   picture: "./assets/img/profile.webp"
   email: "jackyangzzh@gmail.com"
   phone: ""
   website: ""
   summary: >
     Hello! I'm Jack, an AR/VR developer specializing in XR interactions and virtual social experiences. Currently I'm shaping the future at Microsoft Mixed Reality.
-
     Since working in the XR industry in 2015, I've passionately focused on using immersive tech to make the world a better place.
-    
-    Feel free to reach out if you want to collaborate or just want to chat!
   location:
     city: "Seattle"
     countryCode: "US"
@@ -87,6 +84,9 @@ certifications:
   - name: "Human-Computer Interaction Professional Certificate"
     publisher: "Georgia Tech"
     website: "https://credentials.edx.org/credentials/b9772631937843bea733b9c2ddfc319a/"
+  - name: "Interaction Design Specialization Certificate"
+    publisher: "UC San Diego"
+    website: "https://www.coursera.org/account/accomplishments/specialization/certificate/WRB5BFC3DYGD"
   - name: "Project Management Certificate"
     publisher: "Google"
     website: "https://www.credly.com/badges/4563a4d5-c106-4edf-a6de-16b7c2bdb131"

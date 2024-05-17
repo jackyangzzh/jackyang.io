@@ -130,12 +130,12 @@ resume:
   volunteer:           Volunteer
   volunteer_title:     <!--position--> at <!--organization-->
   education:           Education
-  education_title:     <!--study_type--> in <!--area--> from <!--institution--> with GPA of <!--gpa-->
+  education_title:     <!--study_type--> from <!--institution-->
   courses:             Courses
   awards:              Awards
   awards_title:        <!--title--> from <!--awarder-->
   publications:        Publications
-  publications_title:  <!--name--> by <!--publisher-->
+  publications_title:  <!--name--> 
   references:          References
   languages:           Languages
   fluency:             Fluency
@@ -145,9 +145,10 @@ resume:
   summary:             Summary
   keywords:            Keywords
   print:               Print
-  download_pdf:        PDF
+  download_pdf:        Resume
   download_vcf:        vCard
   download_json:       JSON
+  connect:             Book time with me
   icons:
     fallback:          icon-link
     location:          icon-location
@@ -161,6 +162,7 @@ resume:
     volunteer:         icon-earth
     education:         icon-library
     awards:            icon-trophy
+    certifications:    icon-trophy
     publications:      icon-book
     references:        icon-quotes-right
     languages:         icon-bubbles
