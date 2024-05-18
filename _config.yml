@@ -27,10 +27,10 @@ description: >
   Award-winning XR developer with a decade of experience in building immersive experiences.
 
 # A shorter description for the sidebar.
-tagline: Award-winning XR developer
+tagline: Reimagining Reality with XR
 
 # A list of keywords for your blog
-keywords: []
+keywords: [ar, vr, xr, mr]
 
 # A (square) logo for your site.
 # If provided, it will be shown at the top of the sidebar.
@@ -47,12 +47,12 @@ author:
 
 # Add links to the sidebar.
 menu:
-  - title: About me
+  - title: About
     url: /resume/
   - title: Projects
     url: /projects/
-  - title: Blog
-    url: /blog/
+  - title: Blogs
+    url: /blogs/
 
 # This text will appear in a `<small>` tag in the footer of every page.
 copyright: © made with ❤️
@@ -74,7 +74,7 @@ paginate_path: /blog/:num/
 # ----------------------------------------------------------------------------------------
 
 # Sidebar image and theme color of the site.
-accent_image: /assets/img/bg-image.jpg
+accent_image: /assets/img/bg-image.webp
 accent_color: rgb(79,177,186)
 
 # This is used for the `theme-color` meta tag,
