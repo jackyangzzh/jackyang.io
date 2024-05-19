@@ -35,8 +35,8 @@ work:
     startDate: "2019-02-01"
     endDate: "2022-05-01"
     highlights:
-      - "Developed an AR/VR training system with advanced features like gesture recognition and hand tracking." 
-      - "Introduced multiplayer networking, 3D modeling processing, and other features." 
+      - "Developed an AR/VR training system with advanced features like gesture recognition and hand tracking."
+      - "Introduced multiplayer networking, 3D modeling processing, and other features."
       - "Helped Holos to secure a $750K U.S. Air Force contract and get into the TechStars Program."
   - company: "Kats Research Group"
     position: "AR/VR Researcher"
@@ -44,7 +44,7 @@ work:
     startDate: "2017-10-01"
     endDate: "2022-05-01"
     highlights:
-      - "Formulated algorithms for simulating color blindness on hyperspectral images and designed VR simulations with a color-calibrated Oculus Rift" 
+      - "Formulated algorithms for simulating color blindness on hyperspectral images and designed VR simulations with a color-calibrated Oculus Rift"
       - "Developed an AI mimicking human color vision behavior, achieving 90% chromatic adjustment accuracy."
   - company: "UW Graphics Group"
     position: "Graphics Researcher"
@@ -94,44 +94,49 @@ certifications:
     publisher: "Udacity"
     website: "https://www.udacity.com/certificate/HREPUZSD"
 publications:
-  - name:  “Breaking Binocular Redundancy Through Virtual Reality” 
+  - name: “Breaking Binocular Redundancy Through Virtual Reality”
     publisher: ""
     releaseDate: ""
     website: "../assets/files/Breaking Binocular Redundancy.pdf"
     summary: ""
-  - name:  “Passive frequency conversion of ultraviolet images into the visible using perovskite nanocrystals” 
+  - name: “Passive frequency conversion of ultraviolet images into the visible using perovskite nanocrystals”
     publisher: ""
     releaseDate: ""
     website: "https://arxiv.org/abs/2101.02837"
     summary: ""
-  - name:  "Effective Leaders: Four Attributes That Underpin The Core Characteristics of Effective Leadership"
+  - name: "Effective Leaders: Four Attributes That Underpin The Core Characteristics of Effective Leadership"
     publisher: "SpiritCast Network "
     releaseDate: ""
-    website: "https://www.strategically.com.au/effective-leaders-book/" 
+    website: "https://www.strategically.com.au/effective-leaders-book/"
     summary: "My article on critical conversation is featured in the book"
 skills:
   - name: "Unity"
     level: "3/3"
     keywords:
       - "C#"
-      - "AR/VR"
+      - "ShaderLab"
+      - "XR development"
   - name: "XR Interaction Design"
     level: "3/3"
     keywords:
       - "Unity"
       - "Figma"
+      - "Blender"
   - name: "Unreal"
     level: "2/3"
     keywords:
       - "C++"
-      - "AR/VR"
+      - "Blueprint"
+      - "XR development"
   - name: "WebXR"
     level: "2/3"
     keywords:
-      - "Javascript"
-      - "AR/VR"
+      - "JavaScript"
+      - "WebGL"
+      - "Three.js"
   - name: "VisionOS"
     level: "2/3"
     keywords:
       - "Swift"
       - "Xcode"
+      - "Reality Composer"

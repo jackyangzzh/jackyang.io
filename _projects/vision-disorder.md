@@ -8,10 +8,10 @@ date: '01-01-2020'
 image: 
   path: /assets/img/projects/kats.webp
 links:
-  - title: Release note
-    url: https://learn.microsoft.com/en-us/windows/mixed-reality/mrtk-unity/mrtk2/release-notes/mrtk-27-release-notes?view=mrtkunity-2021-05#added-support-for-leap-motion-unity-modules-version-460-470-471-and-480
+  - title: Technical Report
+    url: ../../assets/files/Breaking Binocular Redundancy.pdf
   - title: Github
-    url: https://github.com/microsoft/MixedRealityToolkit-Unity
+    url: https://github.com/jackyangzzh/Monocular-Vision-VR-demo
 sitemap: false
 
 ---
@@ -19,6 +19,7 @@ This project explores and simulates the vision of several visual impairments suc
 
 ## Color vision deficiency
 ![Color vision deficiency](/assets/img/projects/colorDeficiencyCover.webp){:loading="lazy"}
+
 In the first phase, I devised chromatic adjustment algorithms using computer vision to simulate this condition. Next, I confirmed my hypothesis by combining optics with AI to develop a system to mimic human interactions during a colorblindness test with 90% accuracy. In the second phase, I programmed simulation models into VR environments to visualize my research findings.
 
 ## Binocular rivalry 
