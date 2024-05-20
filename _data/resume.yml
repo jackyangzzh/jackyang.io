@@ -28,7 +28,7 @@ work:
     startDate: "2022-06-01"
     endDate: ""
     highlights:
-      - "Working on Microsoft Mesh - the next generation communication and collaboration platform"
+      - "Working on Microsoft Mesh - the next generation communication and collaboration platform."
   - company: "Holos"
     position: "AR/VR Interaction Engineer"
     website: "https://holos.io/"
@@ -44,7 +44,7 @@ work:
     startDate: "2017-10-01"
     endDate: "2022-05-01"
     highlights:
-      - "Formulated algorithms for simulating color blindness on hyperspectral images and designed VR simulations with a color-calibrated Oculus Rift"
+      - "Formulated algorithms for simulating color blindness on hyperspectral images and designed VR simulations with a color-calibrated Oculus Rift."
       - "Developed an AI mimicking human color vision behavior, achieving 90% chromatic adjustment accuracy."
   - company: "UW Graphics Group"
     position: "Graphics Researcher"
@@ -52,7 +52,7 @@ work:
     startDate: "2020-09-01"
     endDate: "2022-05-01"
     highlights:
-      - "Developed a low-latency VR system for remote robot control via gestures"
+      - "Developed a low-latency VR system for remote robot control via gestures."
       - "Created a UI for replicating robot arm movements, analyzing data from 15+ lab experiments in Unity."
 education:
   - institution: "University of Wisconsin - Madison"
@@ -60,15 +60,15 @@ education:
     startDate: "2016-09-01"
     endDate: "2020-06-01"
     courses:
-      - "Double majored in Computer Science and Communication Arts"
-      - "Teaching Assistant for CS 559 (Computer Graphics)"
+      - "Double majored in Computer Science and Communication Arts."
+      - "Teaching Assistant for CS 559 (Computer Graphics)."
   - institution: "Carnegie Mellon University"
     studyType: "National Game Academy"
     startDate: "2015-05-01"
     endDate: "2015-09-01"
     courses:
-      - "Studied game design at CMU Entertainment Technology Cente"
-      - "Led and published a VR game with Oculus Rift DK2 called Kitchen Kraving"
+      - "Studied game design at CMU Entertainment Technology Cente."
+      - "Led and published a VR game with Oculus Rift DK2 called Kitchen Kraving."
 awards:
   - title: "Digital Compression Pioneer Award"
     date: "2014-11-01"
