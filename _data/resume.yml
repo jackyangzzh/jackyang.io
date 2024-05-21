@@ -67,7 +67,7 @@ education:
     startDate: "2015-05-01"
     endDate: "2015-09-01"
     courses:
-      - "Studied game design at CMU Entertainment Technology Cente."
+      - "Studied game design at CMU Entertainment Technology Center."
       - "Led and published a VR game with Oculus Rift DK2 called Kitchen Kraving."
 awards:
   - title: "Digital Compression Pioneer Award"
@@ -122,6 +122,12 @@ skills:
       - "Unity"
       - "Figma"
       - "Blender"
+  - name: "VisionOS"
+    level: "25/3"
+    keywords:
+      - "Swift"
+      - "Xcode"
+      - "Reality Composer"
   - name: "Unreal"
     level: "2/3"
     keywords:
@@ -134,9 +140,3 @@ skills:
       - "JavaScript"
       - "WebGL"
       - "Three.js"
-  - name: "VisionOS"
-    level: "2/3"
-    keywords:
-      - "Swift"
-      - "Xcode"
-      - "Reality Composer"

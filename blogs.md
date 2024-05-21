@@ -7,7 +7,7 @@ sitemap: false
 ---
 # Blogs
 
-I write blogs on Medium, from book reviews to thoughts on the latest tech. Check out [My Medium Page](https://jackyangzzh.medium.com/)
+I write blogs on Medium, from book reviews to thoughts on the latest tech. Check out <a href="https://jackyangzzh.medium.com/" target="_blank">My Medium Page</a>
 <div
     id="retainable-rss-embed"
     data-rss="https://medium.com/feed/@jackyangzzh"
