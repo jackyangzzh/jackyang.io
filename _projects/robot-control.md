@@ -1,7 +1,7 @@
 ---
 layout: project
 title: 'Robot control through VR'
-caption: Control robot arm remotely in VR
+caption: Control robot arm through VR
 description: >
   
 date: '01-01-2020'
@@ -14,8 +14,8 @@ This project explores remote manipulation of robots through virtual reality and 
 
 ## Mimicry Control
 In the first part of the research, I implemented a virtual reality system that allows users to remote control robots with their hand and arm gestures by passing ROS (Robot Operating System) data between Unity and the robot through network socket with minimal latency. The video below demonstrates this capability in action.
-<iframe width="560" height="315" src="https://www.youtube.com/embed/vwSFuWbTOUY?si=hxstaPddypvPRl3-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>{:loading="lazy"}
+<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/vwSFuWbTOUY' frameborder='0' allowfullscreen></iframe></div>{:loading="lazy"}
 
 ## Recreate Robot Movement
 During the second half of the research, due to COVID-19 restriction, I could not be in the lab and research with the robot, so I switched gear into replicating movement by interpolating data from actual robotic experiments in Unity. By providing a spreadsheet of joint angles with timestamps, the interpreter I designed can create animation clips that replicate the exact robot arm movement. Here is a demo of what it looks like.
-<iframe width="560" height="315" src="https://www.youtube.com/embed/LLw-ksfGENA?si=uuUmwi7ooqV15yn2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>{:loading="lazy"}
+<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/LLw-ksfGENA' frameborder='0' allowfullscreen></iframe></div>{:loading="lazy"}

@@ -1,7 +1,7 @@
 ---
 layout: project
-title: 'Vision disorder through VR'
-caption: Simulating different types of vision disorder
+title: 'VR vision disorder simulation'
+caption: Simulating vision disorder through VR
 description: >
   
 date: '01-01-2020'
