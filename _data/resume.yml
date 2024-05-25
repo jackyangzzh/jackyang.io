@@ -23,7 +23,7 @@ basics:
       url: "https://www.linkedin.com/in/jackyangzzh/"
 work:
   - company: "Microsoft Mesh"
-    position: "AR/VR Software Engineer"
+    position: "Mixed Reality Software Engineer"
     website: "https://www.microsoft.com/en-us/microsoft-teams/microsoft-mesh"
     startDate: "2022-06-01"
     endDate: ""
