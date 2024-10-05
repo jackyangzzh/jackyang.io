@@ -9,8 +9,7 @@ basics:
   phone: ""
   website: ""
   summary: >
-    Hello! I'm Jack, an AR/VR developer specializing in XR interactions and virtual social experiences. Currently I'm shaping the future at Microsoft Mixed Reality.
-    Since working in the XR industry in 2015, I've passionately focused on using immersive tech to make the world a better place.
+    Hello! I am Jack, an AR/VR developer with a specialization in XR interactions and virtual social experiences. Currently, I am at the forefront of shaping the future at Microsoft Mixed Reality. Since embarking on my journey in the XR industry in 2015, I have been passionately dedicated to leveraging immersive technology to create a better world.
   location:
     city: "Seattle"
     countryCode: "US"
@@ -28,8 +27,8 @@ work:
     startDate: "2022-06-01"
     endDate: ""
     highlights:
-      - Work on a set of delightful, high-quality, performant social experiences that work across three-dimensional graphics (3D) including Virtual Reality (VR) and Augmented Reality (AR) and two-dimensional graphics (2D)  for PCs, Tablets, Phones, etc. endpoints.  
-      - Partner with industry-leading Engineers, Artists, Designers and Program Managers to turn concepts into wonderful, shipping experiences. 
+      - Engage in the development of a set of captivating, high-quality, and performant social experiences that span across 3D graphics, including AR and VR, as well as 2D graphics for endpoints such as PCs, Tablets, and Phones.  
+      - Partner with industry-leading engineers, artists, designers and program managers to turn concepts into wonderful, shipping experiences. 
       - Work with state-of-the-art next-generation Mixed Reality hardware, sensors, and software. 
 
   - company: "Holos"
@@ -40,7 +39,7 @@ work:
     highlights:
       - "Developed an AR/VR training system with advanced features like gesture recognition and hand tracking."
       - "Introduced multiplayer networking, 3D modeling processing, and other features."
-      - "Helped Holos to secure a $750K U.S. Air Force contract and get into the TechStars Program."
+      - "Contributed to Holos in securing a $750K U.S. Air Force contract and gaining entry into the TechStars Program."
   - company: "Kats Research Group"
     position: "AR/VR Researcher"
     website: "https://katsgroup.ece.wisc.edu/"
@@ -48,14 +47,14 @@ work:
     endDate: "2022-05-01"
     highlights:
       - "Formulated algorithms for simulating color blindness on hyperspectral images and designed VR simulations with a color-calibrated Oculus Rift."
-      - "Developed an AI mimicking human color vision behavior, achieving 90% chromatic adjustment accuracy."
+      - "Developed an AI that mimicks human color vision behavior, achieving 90% chromatic adjustment accuracy."
   - company: "UW Graphics Group"
     position: "Graphics Researcher"
     website: "https://pages.graphics.cs.wisc.edu/"
     startDate: "2020-09-01"
     endDate: "2022-05-01"
     highlights:
-      - "Developed a low-latency VR system for remote robot control via gestures."
+      - "Developed a low-latency VR system for remote robot control via hand gestures."
       - "Created a UI for replicating robot arm movements, analyzing data from 15+ lab experiments in Unity."
 education:
   - institution: "University of Wisconsin - Madison"
@@ -64,14 +63,14 @@ education:
     endDate: "2020-06-01"
     courses:
       - "Double majored in Computer Science and Communication Arts."
-      - "Teaching Assistant for CS 559 (Computer Graphics)."
+      - "Served as a Teaching Assistant for CS 559 (Computer Graphics)."
   - institution: "Carnegie Mellon University"
     studyType: "National Game Academy"
     startDate: "2015-05-01"
     endDate: "2015-09-01"
     courses:
       - "Studied game design at CMU Entertainment Technology Center."
-      - "Led and published a VR game with Oculus Rift DK2 called Kitchen Kraving."
+      - "Led and published a VR game titled Kitchen Kraving with Oculus Rift DK2."
 awards:
   - title: "Digital Compression Pioneer Award"
     date: "2014-11-01"
@@ -125,18 +124,18 @@ skills:
       - "Unity"
       - "Figma"
       - "Blender"
-  - name: "VisionOS"
+  - name: "WebXR"
     level: "25/3"
+    keywords:
+      - "Babylon.js"
+      - "Three.js"
+      - "A-Frame"
+  - name: "VisionOS"
+    level: "2/3"
     keywords:
       - "Swift"
       - "Xcode"
       - "Reality Composer"
-  - name: "WebXR"
-    level: "25/3"
-    keywords:
-      - "JavaScript"
-      - "WebGL"
-      - "A Frame"
   - name: "Unreal"
     level: "2/3"
     keywords:
