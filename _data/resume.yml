@@ -27,9 +27,9 @@ work:
     startDate: "2022-06-01"
     endDate: ""
     highlights:
-      - Engage in the development of a set of captivating, high-quality, and performant social experiences that span across 3D graphics, including AR and VR, as well as 2D graphics for endpoints such as PCs, Tablets, and Phones.  
-      - Partner with industry-leading engineers, artists, designers and program managers to turn concepts into wonderful, shipping experiences. 
-      - Work with state-of-the-art next-generation Mixed Reality hardware, sensors, and software. 
+      - Designed and delivered high-quality, performant social experiences across 3D (VR/AR) and 2D (PCs, tablets, phones), ensuring seamless functionality across platforms.
+      - Led cross-functional efforts to optimize performance, enhance accessibility, and implement advanced localization for interactive avatar customization tools.
+      - Developed scalable, data-driven solutions and streamlined workflows, enabling multi-platform integration across web, VR, and standalone environments.
 
   - company: "Holos"
     position: "AR/VR Interaction Engineer"
