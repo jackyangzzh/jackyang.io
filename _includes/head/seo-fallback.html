@@ -2,6 +2,12 @@
 {% capture title %}
   {% if page.url == "/" %}
     {{ site.title }}{% if site.tagline %} {{ strings.separator | default:"|" }} {{ site.tagline }}{% endif %}
+  {% elsif page.layout == "post" %}
+    {{ page.title }} {{ strings.separator | default:"|" }} Blog {{ strings.separator | default:"|" }} {{ site.title }}
+  {% elsif page.layout == "project" %}
+    {{ page.title }} {{ strings.separator | default:"|" }} Projects {{ strings.separator | default:"|" }} {{ site.title }}
+  {% elsif page.layout == "resume" %}
+    {{ page.title }} {{ strings.separator | default:"|" }} Resume {{ strings.separator | default:"|" }} {{ site.title }}
   {% elsif page.title.size > 0 %}
     {{ page.title }} {{ strings.separator | default:"|" }} {{ site.title }}
   {% else %}
