@@ -14,10 +14,25 @@ gem "jekyll", "~> 3.8"
 gem "webrick"
 
 group :jekyll_plugins do
-  gem "github-pages"
   gem "jekyll-include-cache"
   gem "jekyll-compose"
+
+  gem "jekyll-feed"
+  gem "jekyll-seo-tag"
+  gem "jekyll-sitemap"
+  gem "jekyll-paginate"
+  gem "jekyll-gist"
+  gem "jekyll-commonmark-ghpages"
+  gem "jekyll-relative-links"
+  gem "jekyll-optional-front-matter"
+  gem "jekyll-readme-index"
+  gem "jekyll-default-layout"
+  gem "jekyll-titles-from-headings"
+  gem "jekyll-redirect-from"
+  gem "jekyll-last-modified-at"
 end
 
 gem 'wdm' if Gem.win_platform?
 gem "tzinfo-data" if Gem.win_platform?
+
+gem "kramdown-parser-gfm"
