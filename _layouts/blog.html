@@ -1,34 +1,118 @@
 ---
-# Copyright (c) 2018 Florian Klampfer <https://qwtel.com/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-layout: base
+layout: default
 ---
 
-{% assign plugins = site.plugins | default:site.gems %}
+<style>
+  .page-intro {
+    margin-bottom: 2rem;
+    font-size: 1.125rem;
+    color: var(--text-primary);
+  }
+  .page-intro a {
+    color: var(--accent-color);
+    text-decoration: underline;
+  }
 
-{% if plugins contains 'jekyll-paginate' %}
-  {% assign posts = paginator.posts %}
-{% else %}
-  {% assign posts = site.categories[page.slug] | default:site.tags[page.slug] | default:site.posts %}
-{% endif %}
-  
-{% for post in posts %}
-  {% include_cached components/post.html post=post no_link_title=page.no_link_title no_excerpt=page.no_excerpt hide_image=page.hide_image %}
-{% endfor %}
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-{% if plugins contains 'jekyll-paginate' %}
-  {% include components/pagination.html %}
-{% endif %}
+  .post-card {
+    background: var(--color-background);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+  }
+  .post-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .post-card__thumb {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .post-card__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .post-card__body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .post-card__title {
+    margin: 0 0 0.5rem;
+    font-size: var(--fz-xl);
+  }
+
+  .post-card__date {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+  }
+
+  .post-card__excerpt {
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+
+  .post-card__read-more {
+    align-self: flex-start;
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--accent-color);
+  }
+</style>
+
+<p class="page-intro">
+  I write blogs on Medium, from book reviews to thoughts on the latest tech.
+  Check out
+  <a href="https://jackyangzzh.medium.com/" target="_blank">my Medium page</a>.
+</p>
+
+<ul class="posts-grid">
+  {% if site.data.medium_posts and site.data.medium_posts.size > 0 %} {% for
+  post in site.data.medium_posts %}
+  <li class="post-card">
+    {% if post.thumbnail %}
+    <div class="post-card__thumb">
+      <img src="{{ post.thumbnail }}" alt="{{ post.title }}" />
+    </div>
+    {% endif %}
+    <div class="post-card__body">
+      <h3 class="post-card__title">
+        <a href="{{ post.url }}" target="_blank">{{ post.title }}</a>
+      </h3>
+      <time
+        class="post-card__date"
+        datetime="{{ post.date | date_to_xmlschema }}"
+      >
+        {{ post.date | date: "%b %-d, %Y" }}
+      </time>
+      <div class="post-card__excerpt">
+        {{ post.description | markdownify | strip_html | truncatewords: 30 }}
+      </div>
+      <a href="{{ post.url }}" target="_blank" class="post-card__read-more">
+        Read more →
+      </a>
+    </div>
+  </li>
+  {% endfor %} {% else %}
+  <p>No Medium posts found.</p>
+  {% endif %}
+</ul>

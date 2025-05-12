@@ -3,13 +3,13 @@
 
 # Uncomment and set the URL of your site (with protocol, e.g. `https://`)
 # NOTE: You don't need to provide this property when hosting on GitHub Pages or Netlify.
-url:                   https://jackyang.io/
+url: https://jackyang.io/
 
 # Uncomment and set the "base URL" of your site.
 # When your site is in a subdirectory, set to `/<name of directory>`,
 # with a leading `/` but no trailing `/`. Use the empty string '' otherwise.
 # NOTE: You don't need to provide this property when hosting on GitHub Pages or Netlify.
-baseurl:               ''
+baseurl: ""
 
 # General settings
 # ---------------------------------------------------------------------------------------
@@ -44,6 +44,8 @@ author:
   email: jackyangzzh@gmail.com
   # # Used by `jekyll-seo-tag`:
   # twitter:             <username>
+
+medium_username: jackyangzzh
 
 # Add links to the sidebar.
 menu:
@@ -301,6 +303,9 @@ exclude:
 include:
   - .well-known
   - LICENSE.md
+sitemap:
+  exclude:
+    - "/medium_posts/"
 
 # Plugins
 # ----------------------------------------------------------------------------------------

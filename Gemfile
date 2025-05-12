@@ -13,10 +13,13 @@ gem "jekyll", "~> 3.8"
 # Fixes `jekyll serve` in ruby 3
 gem "webrick"
 
+# Required for Medium posts plugin
+gem "nokogiri"
+gem "faraday-retry"
+
 group :jekyll_plugins do
   gem "jekyll-include-cache"
   gem "jekyll-compose"
-
   gem "jekyll-feed"
   gem "jekyll-seo-tag"
   gem "jekyll-sitemap"
