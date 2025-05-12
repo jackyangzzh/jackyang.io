@@ -32,7 +32,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Blog" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2025-05-12T04:30:53+00:00","description":"The official Hydejack blog. Version updates, example content and how-to guides on how to blog with Jekyll.","headline":"Blog","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io//assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io//blog/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2025-05-12T13:36:55+00:00","description":"The official Hydejack blog. Version updates, example content and how-to guides on how to blog with Jekyll.","headline":"Blog","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io//assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io//blog/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -99,7 +99,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2025-05-12T04:31:28+00:00',
+    INDEX_KEY: 'index--2025-05-12T04:37:59+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -192,34 +192,368 @@ html{--accent-color: rgb(79,177,186);--accent-color-faded: rgba(79,177,186,0.5);
 </ul></nav>
   
 
+<article class="page" role="article">
+  <header>
+    <h1 class="page-title">Blog</h1>
+    
 
+
+
+  
+    <p class="note-sm" >
+      The official Hydejack blog. Version updates, example content and how-to guides on how to blog with Jekyll.
+
+    </p>
   
 
 
+  </header>
 
-  <h2 class="sr-only">Pagination</h2>
-<nav class="pagination heading clearfix" role="navigation">
-  <ul>
-    <li class="pagination-item older" >
-      
-      
-      
-  <span class=" ">Older</span>
+  <style>
+  .page-intro {
+    margin-bottom: 2rem;
+    font-size: 1.125rem;
+    color: var(--text-primary);
+  }
+  .page-intro a {
+    color: var(--accent-color);
+    text-decoration: underline;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .post-card {
+    background: var(--color-background);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+  }
+  .post-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .post-card__thumb {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .post-card__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .post-card__body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .post-card__title {
+    margin: 0 0 0.5rem;
+    font-size: var(--fz-xl);
+  }
+
+  .post-card__date {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+  }
+
+  .post-card__excerpt {
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+
+  .post-card__read-more {
+    align-self: flex-start;
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--accent-color);
+  }
+</style>
+
+<p class="page-intro">
+  I write blogs on Medium, from book reviews to thoughts on the latest tech.
+  Check out
+  <a href="https://jackyangzzh.medium.com/" target="_blank">my Medium page</a>.
+</p>
+
+<ul class="posts-grid">
+   
+  <li class="post-card">
+    
+    <div class="post-card__thumb">
+      <img src="https://cdn-images-1.medium.com/max/1024/0*HTUXSQ65rdHwA6QX" alt="The Spatial Computing Killer App is Finally Here" />
+    </div>
+    
+    <div class="post-card__body">
+      <h3 class="post-card__title">
+        <a href="https://medium.com/antaeus-ar/the-spatial-computing-killer-app-is-finally-here-171b745820e5?source=rss-2233f4f10df8------2" target="_blank">The Spatial Computing Killer App is Finally Here</a>
+      </h3>
+      <time
+        class="post-card__date"
+        datetime="2024-05-14T00:58:19+00:00"
+      >
+        May 14, 2024
+      </time>
+      <div class="post-card__excerpt">
+        This morning, OpenAI has just released GPT-4o, the latest upgrade to its renowned series of AI models. This new version introduces significant enhancements, bringing more advanced and versatile capabilities to...
+      </div>
+      <a href="https://medium.com/antaeus-ar/the-spatial-computing-killer-app-is-finally-here-171b745820e5?source=rss-2233f4f10df8------2" target="_blank" class="post-card__read-more">
+        Read more →
+      </a>
+    </div>
+  </li>
+  
+  <li class="post-card">
+    
+    <div class="post-card__thumb">
+      <img src="https://cdn-images-1.medium.com/max/1024/1*lcx4zmfWyC8lJy0lxjhUEA.jpeg" alt="A Week with Vision Pro: Insights and Impressions" />
+    </div>
+    
+    <div class="post-card__body">
+      <h3 class="post-card__title">
+        <a href="https://medium.com/antaeus-ar/a-week-with-vision-pro-insights-and-impressions-8ee86547eed5?source=rss-2233f4f10df8------2" target="_blank">A Week with Vision Pro: Insights and Impressions</a>
+      </h3>
+      <time
+        class="post-card__date"
+        datetime="2024-02-17T06:41:03+00:00"
+      >
+        Feb 17, 2024
+      </time>
+      <div class="post-card__excerpt">
+        After years of patiently waiting, I finally got my hands on the Apple Vision Pro. With nearly a decade of working with immersive technologies, it is always exciting to see...
+      </div>
+      <a href="https://medium.com/antaeus-ar/a-week-with-vision-pro-insights-and-impressions-8ee86547eed5?source=rss-2233f4f10df8------2" target="_blank" class="post-card__read-more">
+        Read more →
+      </a>
+    </div>
+  </li>
+  
+  <li class="post-card">
+    
+    <div class="post-card__thumb">
+      <img src="https://cdn-images-1.medium.com/max/1024/0*Wu75qqMvxDlukl4X" alt="My Top 5 Books of 2023" />
+    </div>
+    
+    <div class="post-card__body">
+      <h3 class="post-card__title">
+        <a href="https://jackyangzzh.medium.com/my-top-5-books-of-2023-1f1f29cf82e0?source=rss-2233f4f10df8------2" target="_blank">My Top 5 Books of 2023</a>
+      </h3>
+      <time
+        class="post-card__date"
+        datetime="2024-01-03T02:36:50+00:00"
+      >
+        Jan 3, 2024
+      </time>
+      <div class="post-card__excerpt">
+        Welcome to my year-end summary! As we embark on a new year, I’m thrilled to share with you the top 5 books that made my 2023 a remarkable journey in...
+      </div>
+      <a href="https://jackyangzzh.medium.com/my-top-5-books-of-2023-1f1f29cf82e0?source=rss-2233f4f10df8------2" target="_blank" class="post-card__read-more">
+        Read more →
+      </a>
+    </div>
+  </li>
+  
+  <li class="post-card">
+    
+    <div class="post-card__thumb">
+      <img src="https://cdn-images-1.medium.com/max/1024/1*sGb3GVOcBs_h8kN4cRo1ow.jpeg" alt="My Thoughts on XR: Apple vs. Meta" />
+    </div>
+    
+    <div class="post-card__body">
+      <h3 class="post-card__title">
+        <a href="https://medium.com/antaeus-ar/my-thoughts-on-xr-apple-vs-meta-bae73e867c0c?source=rss-2233f4f10df8------2" target="_blank">My Thoughts on XR: Apple vs. Meta</a>
+      </h3>
+      <time
+        class="post-card__date"
+        datetime="2023-06-09T22:59:20+00:00"
+      >
+        Jun 9, 2023
+      </time>
+      <div class="post-card__excerpt">
+        This week has undoubtedly been one of the most exciting in my seven years in the XR industry. With the release of Meta Quest 3 and Apple Vision Pro, XR...
+      </div>
+      <a href="https://medium.com/antaeus-ar/my-thoughts-on-xr-apple-vs-meta-bae73e867c0c?source=rss-2233f4f10df8------2" target="_blank" class="post-card__read-more">
+        Read more →
+      </a>
+    </div>
+  </li>
+  
+  <li class="post-card">
+    
+    <div class="post-card__thumb">
+      <img src="https://cdn-images-1.medium.com/max/1024/0*7BEwRiAXuPA_ogLL.jpg" alt="My Initial Thoughts on Vision Pro" />
+    </div>
+    
+    <div class="post-card__body">
+      <h3 class="post-card__title">
+        <a href="https://medium.com/antaeus-ar/my-initial-thoughts-on-vision-pro-c6b65ab7ad13?source=rss-2233f4f10df8------2" target="_blank">My Initial Thoughts on Vision Pro</a>
+      </h3>
+      <time
+        class="post-card__date"
+        datetime="2023-06-06T03:34:58+00:00"
+      >
+        Jun 6, 2023
+      </time>
+      <div class="post-card__excerpt">
+        After a long-awaited wait, Apple has finally unveiled its mixed reality headset, Apple Vision Pro. This unique device boasts innovative technologies like EyeSight and Reality Dial. There are already plenty...
+      </div>
+      <a href="https://medium.com/antaeus-ar/my-initial-thoughts-on-vision-pro-c6b65ab7ad13?source=rss-2233f4f10df8------2" target="_blank" class="post-card__read-more">
+        Read more →
+      </a>
+    </div>
+  </li>
+  
+  <li class="post-card">
+    
+    <div class="post-card__thumb">
+      <img src="https://cdn-images-1.medium.com/max/1024/1*j9qIZ4Y0-tVZVX_zrqlxYw.jpeg" alt="My Top 5 Books of 2022" />
+    </div>
+    
+    <div class="post-card__body">
+      <h3 class="post-card__title">
+        <a href="https://jackyangzzh.medium.com/my-top-5-books-of-2022-3d67174d9cae?source=rss-2233f4f10df8------2" target="_blank">My Top 5 Books of 2022</a>
+      </h3>
+      <time
+        class="post-card__date"
+        datetime="2022-12-30T00:42:25+00:00"
+      >
+        Dec 30, 2022
+      </time>
+      <div class="post-card__excerpt">
+        Welcome to my review of my favorite books of 2022! It has been an exciting year for literature. After much contemplation, I narrowed down my list to a selection of...
+      </div>
+      <a href="https://jackyangzzh.medium.com/my-top-5-books-of-2022-3d67174d9cae?source=rss-2233f4f10df8------2" target="_blank" class="post-card__read-more">
+        Read more →
+      </a>
+    </div>
+  </li>
+  
+  <li class="post-card">
+    
+    <div class="post-card__thumb">
+      <img src="https://cdn-images-1.medium.com/max/1024/0*bF8mh9tnjCy6ooJM" alt="The Making of Collect" />
+    </div>
+    
+    <div class="post-card__body">
+      <h3 class="post-card__title">
+        <a href="https://jackyangzzh.medium.com/the-making-of-collect-7b794d934cb4?source=rss-2233f4f10df8------2" target="_blank">The Making of Collect</a>
+      </h3>
+      <time
+        class="post-card__date"
+        datetime="2022-05-10T15:44:31+00:00"
+      >
+        May 10, 2022
+      </time>
+      <div class="post-card__excerpt">
+        With the rising popularity of mobile phones and the increasing availability of the Internet, people spend more and more time on social media apps and screen addiction has grown dramatically...
+      </div>
+      <a href="https://jackyangzzh.medium.com/the-making-of-collect-7b794d934cb4?source=rss-2233f4f10df8------2" target="_blank" class="post-card__read-more">
+        Read more →
+      </a>
+    </div>
+  </li>
+  
+  <li class="post-card">
+    
+    <div class="post-card__thumb">
+      <img src="https://cdn-images-1.medium.com/max/509/0*K4869frhLPbWctJ3" alt="My Top 5 Books for 2021" />
+    </div>
+    
+    <div class="post-card__body">
+      <h3 class="post-card__title">
+        <a href="https://jackyangzzh.medium.com/my-top-5-books-for-2021-71d892c1585c?source=rss-2233f4f10df8------2" target="_blank">My Top 5 Books for 2021</a>
+      </h3>
+      <time
+        class="post-card__date"
+        datetime="2021-12-31T13:46:57+00:00"
+      >
+        Dec 31, 2021
+      </time>
+      <div class="post-card__excerpt">
+        2021 has been an interesting year where people, including myself, are adapting to the pandemic lifestyle. While finding the right balance between cautious optimism and ever-changing variants, books gave me...
+      </div>
+      <a href="https://jackyangzzh.medium.com/my-top-5-books-for-2021-71d892c1585c?source=rss-2233f4f10df8------2" target="_blank" class="post-card__read-more">
+        Read more →
+      </a>
+    </div>
+  </li>
+  
+  <li class="post-card">
+    
+    <div class="post-card__thumb">
+      <img src="https://cdn-images-1.medium.com/max/350/1*AfBQ19N_1J0FV1yMIFeOOQ.jpeg" alt="4 Lessons from The Crowd | Gustave Le Bon" />
+    </div>
+    
+    <div class="post-card__body">
+      <h3 class="post-card__title">
+        <a href="https://jackyangzzh.medium.com/4-lessons-from-the-crowd-gustave-le-bon-bc087e6f81f1?source=rss-2233f4f10df8------2" target="_blank">4 Lessons from The Crowd | Gustave Le Bon</a>
+      </h3>
+      <time
+        class="post-card__date"
+        datetime="2021-08-23T20:44:00+00:00"
+      >
+        Aug 23, 2021
+      </time>
+      <div class="post-card__excerpt">
+        I’m impressed whenever I read centuries-old literature that is still applicable in this day and age. I’m especially in awe when I read The Crowd, written by French psychologist Le...
+      </div>
+      <a href="https://jackyangzzh.medium.com/4-lessons-from-the-crowd-gustave-le-bon-bc087e6f81f1?source=rss-2233f4f10df8------2" target="_blank" class="post-card__read-more">
+        Read more →
+      </a>
+    </div>
+  </li>
+  
+  <li class="post-card">
+    
+    <div class="post-card__thumb">
+      <img src="https://cdn-images-1.medium.com/max/500/1*BXwUfd9FcY6nClTbDqRJgw.jpeg" alt="2 Lessons from Stories That Stick | Kindra Hall" />
+    </div>
+    
+    <div class="post-card__body">
+      <h3 class="post-card__title">
+        <a href="https://jackyangzzh.medium.com/2-lessons-from-stories-that-stick-kindra-hall-6ab209b83f06?source=rss-2233f4f10df8------2" target="_blank">2 Lessons from Stories That Stick | Kindra Hall</a>
+      </h3>
+      <time
+        class="post-card__date"
+        datetime="2021-06-12T21:40:52+00:00"
+      >
+        Jun 12, 2021
+      </time>
+      <div class="post-card__excerpt">
+        Storytelling is one of the most underappreciated traits in the modern world. In a society where people are bombarded by tons of information each day, it becomes harder to make...
+      </div>
+      <a href="https://jackyangzzh.medium.com/2-lessons-from-stories-that-stick-kindra-hall-6ab209b83f06?source=rss-2233f4f10df8------2" target="_blank" class="post-card__read-more">
+        Read more →
+      </a>
+    </div>
+  </li>
+   
+</ul>
 
 
-    </li>
-    <li class="pagination-item newer" >
-      
-      
-      
-  <span class=" ">Newer</span>
+  <hr class="dingbat related"/>
 
+  
 
-    </li>
-  </ul>
-</nav>
-
-
+  
+  
+</article>
 
   
 <footer class="content" role="contentinfo">
