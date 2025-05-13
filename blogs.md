@@ -3,7 +3,7 @@ layout: blog
 title: Blogs
 description: >
 sitemap: false
-
+related_posts: []
 ---
 # Blogs
 

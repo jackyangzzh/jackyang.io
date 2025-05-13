@@ -15,7 +15,6 @@ module Jekyll
       end
 
       feed_url = "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@#{username}"
-      Jekyll.logger.info  "MediumPosts:", "fetching feed_url → #{feed_url}"
       raw       = Net::HTTP.get(URI(feed_url))
       json      = JSON.parse(raw)
       items     = json["items"] || []
