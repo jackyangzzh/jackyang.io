@@ -9,8 +9,8 @@ on:
     branches:
       - master
   schedule:
-    # every hour at minute 0 UTC
-    - cron: "0 * * * *"
+    # every night at midnight UTC
+    - cron: "0 0 * * *"
   workflow_dispatch:
 
 jobs:
