@@ -148,7 +148,7 @@ resume:
   download_pdf:        Resume
   download_vcf:        vCard
   download_json:       JSON
-  connect:             Book time with me
+  connect:             Book time
   icons:
     fallback:          icon-link
     location:          icon-location

@@ -6,7 +6,11 @@
   </button>
   {% endif %} {% if page.buttons.pdf %} {% assign pdf = page.buttons.pdf %} {%
   if pdf %}
-  <a href="{% include smart-url url=pdf %}" class="btn btn-sm btn-primary mt1" target="_blank">
+  <a
+    href="{% include smart-url url=pdf %}"
+    class="btn btn-sm btn-primary mt1"
+    target="_blank"
+  >
     <small class="icon-file-pdf"></small>
     {{ site.data.strings.resume.download_pdf | default: "PDF" }}
   </a>
@@ -47,7 +51,7 @@
     onclick="Calendly.initPopupWidget({url: 'https://calendly.com/jackyangzzh/30min'});return false;"
     class="btn btn-sm btn-primary mt1"
   >
-    <small class="content-connect"></small>
+    <small class="icon-user-plus"></small>
     {{ site.data.strings.resume.connect | default: "Connect" }}
   </a>
   {% endif %} {% endif %}
