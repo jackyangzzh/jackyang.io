@@ -3,13 +3,13 @@
 # See also: <https://jsonresume.org/>.
 basics:
   name: "Jack Yang"
-  label: "Reimagining Reality with XR"
+  label: "Reimagining Reality with AR/VR + AI"
   picture: "./assets/img/profile.webp"
   email: "jackyangzzh@gmail.com"
   phone: ""
   website: ""
   summary: >
-    Hi there! I’m Jack Yang—an XR engineer shaping the next wave of mixed‑reality social experiences at Microsoft. Since 2015 I’ve been building immersive products that blend the digital and physical to make everyday life more connected, accessible, and delightful.
+    Hi there! I’m Jack Yang—an AR/VR engineer shaping the next wave of mixed‑reality and AI experiences at Microsoft. Since 2015 I’ve been building immersive products that blend the digital and physical to make everyday life more connected, accessible, and delightful.
   location:
     city: "Seattle"
     countryCode: "US"
@@ -21,13 +21,13 @@ basics:
       username: "jackyangzzh"
       url: "https://www.linkedin.com/in/jackyangzzh/"
 work:
-  - company: "Microsoft Mesh"
+  - company: "Microsoft"
     position: "Mixed Reality Software Engineer"
     website: "https://www.microsoft.com/en-us/microsoft-teams/microsoft-mesh"
     startDate: "2022-06-01"
     endDate: ""
     highlights:
-      - Designed and delivered high-quality, performant social experiences across 3D (VR/AR) and 2D (PCs, tablets, phones), ensuring seamless functionality across platforms.
+      - Designed and delivered high-quality, performant social experiences across 3D (AR/VR) and 2D (PCs, tablets, phones), ensuring seamless functionality across platforms.
       - Led cross-functional efforts to optimize performance, enhance accessibility, and implement advanced localization for interactive avatar customization tools.
       - Developed scalable, data-driven solutions and streamlined workflows, enabling multi-platform integration across web, VR, and standalone environments.
 
@@ -113,7 +113,7 @@ publications:
     publisher: "SpiritCast Network "
     releaseDate: ""
     website: "https://www.strategically.com.au/effective-leaders-book/"
-    summary: "My article on critical conversation is featured in the book"
+    summary: "My article "Critical Conversation" is featured in the book"
 skills:
   - name: "Unity"
     level: "3/3"
