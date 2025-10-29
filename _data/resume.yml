@@ -3,13 +3,13 @@
 # See also: <https://jsonresume.org/>.
 basics:
   name: "Jack Yang"
-  label: "Reimagining Reality with AR/VR + AI"
+  label: "Reimagining Reality with XR + AI"
   picture: "./assets/img/profile.webp"
   email: "jackyangzzh@gmail.com"
   phone: ""
   website: ""
   summary: >
-    Hi there! I’m Jack Yang—an AR/VR engineer shaping the next wave of mixed‑reality and AI experiences at Microsoft. Since 2015 I’ve been building immersive products that blend the digital and physical to make everyday life more connected, accessible, and delightful.
+    Hi there! I’m Jack Yang—an XR engineer shaping the next wave of mixed‑reality and AI experiences at Microsoft. Since 2015 I’ve been building immersive products that blend the digital and physical to make everyday life more connected, accessible, and delightful.
   location:
     city: "Seattle"
     countryCode: "US"
@@ -27,7 +27,7 @@ work:
     startDate: "2022-06-01"
     endDate: ""
     highlights:
-      - Designed and delivered high-quality, performant social experiences across 3D (AR/VR) and 2D (PCs, tablets, phones), ensuring seamless functionality across platforms.
+      - Designed and delivered high-quality, performant social experiences across 3D (AR/VR/MR) and 2D (PCs, tablets, phones), ensuring seamless functionality across platforms.
       - Led cross-functional efforts to optimize performance, enhance accessibility, and implement advanced localization for interactive avatar customization tools.
       - Developed scalable, data-driven solutions and streamlined workflows, enabling multi-platform integration across web, VR, and standalone environments.
 
@@ -41,7 +41,7 @@ work:
       - "Introduced multiplayer networking, 3D modeling processing, and other features."
       - "Contributed to Holos in securing a $750K U.S. Air Force contract and gaining entry into the TechStars Program."
   - company: "Kats Research Group"
-    position: "AR/VR Researcher"
+    position: "XR Researcher"
     website: "https://katsgroup.ece.wisc.edu/"
     startDate: "2017-10-01"
     endDate: "2022-05-01"
@@ -99,11 +99,6 @@ certifications:
     publisher: "Udacity"
     website: "https://www.udacity.com/certificate/HREPUZSD"
 publications:
-  - name: “Breaking Binocular Redundancy Through Virtual Reality”
-    publisher: ""
-    releaseDate: ""
-    website: "../assets/files/Breaking Binocular Redundancy.pdf"
-    summary: ""
   - name: “Passive frequency conversion of ultraviolet images into the visible using perovskite nanocrystals”
     publisher: ""
     releaseDate: ""
