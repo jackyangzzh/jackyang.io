@@ -1,4 +1,22 @@
 {
+  "name": "jackyang-portfolio",
+  "version": "1.0.0",
+  "description": "Personal website and portfolio of Jack Yang - XR Developer",
+  "author": "Jack Yang <jackyangzzh@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://jackyang.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jackyangzzh/jackyang.io"
+  },
+  "keywords": [
+    "portfolio",
+    "xr",
+    "ar",
+    "vr",
+    "mixed-reality",
+    "jekyll"
+  ],
   "dependencies": {
     "re-template-tag": "^2.0.1"
   }

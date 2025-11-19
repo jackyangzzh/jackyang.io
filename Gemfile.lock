@@ -118,7 +118,12 @@ GEM
     sawyer (0.9.2)
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
+    tzinfo (2.0.6)
+      concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2025.2)
+      tzinfo (>= 1.0.0)
     uri (1.0.3)
+    wdm (0.2.0)
     webrick (1.8.1)
 
 PLATFORMS
@@ -147,6 +152,8 @@ DEPENDENCIES
   jekyll-titles-from-headings
   kramdown-parser-gfm
   nokogiri
+  tzinfo-data
+  wdm
   webrick
 
 BUNDLED WITH

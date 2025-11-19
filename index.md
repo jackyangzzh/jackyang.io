@@ -2,8 +2,8 @@
 layout: resume
 cover: true
 description: >
-  This is the `description` of your resume page, as it will be seen by search engines.
-  You'll probably want to modify it in `resume.md`, and maybe set `hide_description` to `true` in the front matter.
+  Portfolio and resume of Jack Yang, XR Software Engineer at Microsoft specializing 
+  in mixed reality, AR/VR development, and AI-powered immersive experiences.
 hide_description: true
 left_column:
   - work

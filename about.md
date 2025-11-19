@@ -2,8 +2,8 @@
 layout: resume
 title: About
 description: >
-  This is the `description` of your resume page, as it will be seen by search engines.
-  You'll probably want to modify it in `resume.md`, and maybe set `hide_description` to `true` in the front matter.
+  Learn about Jack Yang, an award-winning XR engineer with a decade of experience 
+  in building immersive mixed reality, augmented reality, and virtual reality experiences.
 hide_description: true
 left_column:
   - work

@@ -2,9 +2,10 @@
 layout: blog
 title: Blog
 description: >
+  Read Jack Yang's blog posts on Medium about XR development, technology trends, 
+  book reviews, and insights from building immersive experiences.
 sitemap: false
 related_posts: []
 ---
-# Blog
 
-I write blogs on Medium, from book reviews to thoughts on the latest tech. Check out <a href="https://jackyangzzh.medium.com/" target="_blank">My Medium Page</a>
+I write blogs from book reviews to thoughts on tech. Check out [My Medium page](https://jackyangzzh.medium.com/){:target="_blank" rel="noopener noreferrer"}

@@ -9,7 +9,7 @@ basics:
   phone: ""
   website: ""
   summary: >
-    Hi there! I’m Jack Yang—an XR engineer shaping the next wave of mixed‑reality and AI experiences at Microsoft. Since 2015 I’ve been building immersive products that blend the digital and physical to make everyday life more connected, accessible, and delightful.
+    Hi! I’m Jack, an XR engineer at Microsoft building social mixed reality experiences (Microsoft Mesh, avatars in Teams). Since 2015 I’ve been shipping products that blend XR and AI to make collaboration more human.
   location:
     city: "Seattle"
     countryCode: "US"
@@ -72,10 +72,8 @@ education:
       - "Studied game design at CMU Entertainment Technology Center."
       - "Led and published a VR game titled Kitchen Kraving with Oculus Rift DK2."
 awards:
-  - title: "Digital Compression Pioneer Award"
-    date: "2014-11-01"
-    awarder: "Techcrunch"
-    summary: "There is no spoon."
+  []
+  # Add your awards here when available
 certifications:
   - name: "VR Development Professional Certificate"
     publisher: "UC San Diego"
@@ -123,7 +121,7 @@ skills:
       - "Figma"
       - "Blender"
   - name: "WebXR"
-    level: "25/3"
+    level: "2/3"
     keywords:
       - "Babylon.js"
       - "Three.js"
