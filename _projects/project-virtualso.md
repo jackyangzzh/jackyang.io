@@ -15,16 +15,16 @@ Project Virtualso combines artificial intelligence (AI), natural language proces
 
 ## Inspiration
 
-This project attempts to combine my knowledge in communication arts and VR to create realistic human interaction within VR. Due to COVID, many do not have access to in-person interactions and cannot develop the soft skills necessary, so I created several simulations such as job interviews and public speaking.
+This project combines my expertise in communication arts and VR to create realistic human interactions in virtual reality. During COVID-19, many people lost access to in-person interactions and opportunities to develop essential soft skills. In response, I created several training simulations, including job interviews and public speaking scenarios.
 
 ## Virtual Interview
 
-The user is interviewed by a conversational humanoid agent. The virtual interviewer can hold basic conversations and engage in realistic emotion-driven interactions such as facial expressions, body gestures and much more thanks to Natural Language Processing (NLP) techniques.
+Users are interviewed by a conversational humanoid agent capable of holding natural conversations and engaging in realistic emotion-driven interactions, including facial expressions and body gestures, powered by Natural Language Processing (NLP) techniques.
 
 <style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/I1RIFirZeaQ' frameborder='0' allowfullscreen title="Virtual Interview AI Agent Demonstration"></iframe></div>{:loading="lazy"}
 
 ## Virtual Presentation
 
-The user presents their slides in front of a room of AI audiences capable of reacting to the speech in VR. This project aims to help those with fears in public speaking and has been tested by formal employees from several companies and received very positive feedback.
+Users present their slides in front of a virtual audience of AI agents capable of reacting realistically to the presentation. This simulation aims to help individuals overcome public speaking anxiety and has been tested by professionals from various companies with overwhelmingly positive feedback.
 
 <style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/3KgdJZlMepo' frameborder='0' allowfullscreen title="Virtual Public Speaking Training Demonstration"></iframe></div>{:loading="lazy"}

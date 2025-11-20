@@ -9,7 +9,7 @@ basics:
   phone: ""
   website: ""
   summary: >
-    Hi! I’m Jack, an XR engineer at Microsoft building social mixed reality experiences (Microsoft Mesh, avatars in Teams). Since 2015 I’ve been shipping products that blend XR and AI to make collaboration more human.
+    Hi! I'm Jack, an XR engineer at Microsoft building social mixed reality experiences (Microsoft Mesh, avatars in Teams). Since 2015, I've been shipping products that blend XR and AI to make collaboration more human.
   location:
     city: "Seattle"
     countryCode: "US"
@@ -37,9 +37,9 @@ work:
     startDate: "2019-02-01"
     endDate: "2022-05-01"
     highlights:
-      - "Developed an AR/VR training system with advanced features like gesture recognition and hand tracking."
-      - "Introduced multiplayer networking, 3D modeling processing, and other features."
-      - "Contributed to Holos in securing a $750K U.S. Air Force contract and gaining entry into the TechStars Program."
+      - "Developed an AR/VR training system with advanced features including gesture recognition and hand tracking."
+      - "Introduced multiplayer networking, 3D model processing, and enhanced user interaction capabilities."
+      - "Helped secure a $750K U.S. Air Force contract and gained acceptance into the TechStars Program."
   - company: "Kats Research Group"
     position: "XR Researcher"
     website: "https://katsgroup.ece.wisc.edu/"
@@ -47,7 +47,7 @@ work:
     endDate: "2022-05-01"
     highlights:
       - "Formulated algorithms for simulating color blindness on hyperspectral images and designed VR simulations with a color-calibrated Oculus Rift."
-      - "Developed an AI that mimicks human color vision behavior, achieving 90% chromatic adjustment accuracy."
+      - "Developed an AI that mimics human color vision behavior, achieving 90% chromatic adjustment accuracy."
   - company: "UW Graphics Group"
     position: "Graphics Researcher"
     website: "https://pages.graphics.cs.wisc.edu/"
@@ -62,15 +62,15 @@ education:
     startDate: "2016-09-01"
     endDate: "2020-06-01"
     courses:
-      - "Double majored in Computer Science and Communication Arts."
-      - "Served as a Teaching Assistant for CS 559 (Computer Graphics)."
+      - "Double major in Computer Science and Communication Arts."
+      - "Served as Teaching Assistant for CS 559 (Computer Graphics)."
   - institution: "Carnegie Mellon University"
     studyType: "National Game Academy"
     startDate: "2015-05-01"
     endDate: "2015-09-01"
     courses:
-      - "Studied game design at CMU Entertainment Technology Center."
-      - "Led and published a VR game titled Kitchen Kraving with Oculus Rift DK2."
+      - "Studied game design at the CMU Entertainment Technology Center."
+      - "Led development and published a VR game titled Kitchen Kraving for Oculus Rift DK2."
 awards:
   []
   # Add your awards here when available
@@ -106,7 +106,7 @@ publications:
     publisher: "SpiritCast Network "
     releaseDate: ""
     website: "https://www.strategically.com.au/effective-leaders-book/"
-    summary: "My article 'Critical Conversation' is featured in the book"
+    summary: "Featured article 'Critical Conversation' published in the book."
 skills:
   - name: "Unity"
     level: "3/3"

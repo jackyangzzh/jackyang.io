@@ -16,11 +16,11 @@ links:
 sitemap: false
 
 ---
-PolySpaceVR is a virtual reality social platform for customizability and small group gatherings.
+PolySpaceVR is a virtual reality social platform designed for customizable small group gatherings.
 
 ## Description
 
-Poly Space VR is a low poly, lightweight, open-source social platform where you can meet and chat with your friends in VR. You can create and share your own Poly Spaces by following the guidelines. Each month, an incredible version of Poly Space VR will be selected and uploaded to Meta Quest Store so everyone can join in on the fun!
+Poly Space VR is a low-poly, lightweight, open-source social platform where you can meet and chat with friends in VR. You can create and share your own Poly Spaces by following our guidelines. Each month, an outstanding community-created version of Poly Space VR is selected and published to the Meta Quest Store for everyone to enjoy!
 
 ![Polyspace on Meta Quest Store](/assets/img/projects/Screenshot Store.webp){:loading="lazy"}
 Available on Meta Quest Store
@@ -28,4 +28,4 @@ Available on Meta Quest Store
 
 ## Inspiration
 
-When I played VRChat, I noticed that the giant platform is great for meeting random people but not so much for intimate or customized experiences. After some research, I realized there is no VR social media platform targeted for small groups, so I created one myself. Due to the size of the project, I chose to make it open source and lightweight so that other developers who share the vision can contribute.
+While playing VRChat, I noticed that the platform excels at connecting strangers but lacks features for intimate, customized experiences. After researching the VR social landscape, I realized there was no platform specifically designed for small groups, so I created one. To make the project scalable and accessible, I made it open source and lightweight, enabling other developers who share this vision to contribute.

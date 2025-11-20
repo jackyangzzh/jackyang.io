@@ -16,20 +16,20 @@ links:
 sitemap: false
 
 ---
-This project explores and simulates the vision of several visual impairments such as colorblindness and binocular disparities.
+This project explores and simulates various visual impairments, including color blindness and binocular disparities.
 
 ## Color Vision Deficiency
 
 ![Color vision deficiency simulation](/assets/img/projects/colorDeficiencyCover.webp){:loading="lazy"}
 
-In the first phase, I devised chromatic adjustment algorithms using computer vision to simulate this condition. Next, I confirmed my hypothesis by combining optics with AI to develop a system to mimic human interactions during a colorblindness test with 90% accuracy. In the second phase, I programmed simulation models into VR environments to visualize my research findings.
+In the first phase, I developed chromatic adjustment algorithms using computer vision to simulate this condition. Next, I validated my hypothesis by combining optics with AI to create a system that mimics human behavior during color blindness tests with 90% accuracy. In the second phase, I implemented simulation models in VR environments to visualize the research findings.
 
 ## Binocular Rivalry
 
 ![Static rivalry demonstration](/assets/img/projects/staticRivalry.gif){:loading="lazy"}
 ![Dynamic rivalry demonstration](/assets/img/projects/dymamicRivalry.gif){:loading="lazy"}
 
-The human visual system perceives the world by combining information received from the convergence of two eyes and infer three-dimensional cues such as depth. In the second phase, we demonstrate a virtual reality system that breaks the inherent binocular redundancy by projecting two different dynamic and static contents to each eye.
+The human visual system perceives the world by combining information from both eyes to infer three-dimensional cues such as depth. In this phase, we demonstrate a virtual reality system that breaks inherent binocular redundancy by projecting different dynamic and static content to each eye.
 
 ## Application
 

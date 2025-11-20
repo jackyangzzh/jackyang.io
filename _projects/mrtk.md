@@ -16,8 +16,8 @@ links:
 sitemap: false
 
 ---
-MRTK is a Unity toolkit used for developing XR content.
+MRTK is a Unity toolkit for developing XR content.
 
 ## Description
 
-In this open source project, I work with Microsoft developers and other open-source contributors on MRTK for Unity. Some of the features I worked on are integrating Leap Motion Hand Tracking with MRTK (see demo video above) and adding new features for the upcoming MRTK 2.7.
+In this open-source project, I collaborate with Microsoft developers and other contributors on MRTK for Unity. Key features I developed include integrating Leap Motion hand tracking with MRTK and implementing new capabilities for MRTK 2.7.

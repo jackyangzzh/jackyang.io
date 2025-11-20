@@ -14,10 +14,10 @@ links:
 sitemap: false
 
 ---
-Collect is a social media startup I co-founded, aiming to enable people collect experiences through simple UI.
+Collect is a social media startup I co-founded, aiming to enable people to collect experiences through a simple UI.
 
 ## Description
 
-Collect is a platform that allows people to collect and store experiences in pictures. The saved images will be stored and sorted by collection type, making it easy for users to build unique collections, look back at their collections and share their photographs with users that have similar interests.
+Collect is a platform that allows people to capture and organize experiences through photos. Images are automatically stored and sorted by collection type, making it easy for users to build unique collections, revisit memories, and share photographs with others who have similar interests.
 
 <style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/KhcPTrxbY3s' frameborder='0' allowfullscreen title="Collect Social Media Platform Demo"></iframe></div>{:loading="lazy"}
