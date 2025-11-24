@@ -1,9 +1,9 @@
 ---
 layout: project
 title: 'Collect'
-caption: Minimalist social media platform for collecting visual experiences
+caption: Minimalist social platform for curating visual experiences
 description: >
-  Co-founded social media startup enabling users to organize and share photo collections through an intuitive interface
+  Co-founded and led product for a lightweight social platform that helps people organize and share curated photo collections through an intuitive interface
 date: '01-01-2019'
 image: 
   path: /assets/img/projects/collect.webp
@@ -14,10 +14,24 @@ links:
 sitemap: false
 
 ---
-Collect is a social media startup I co-founded, aiming to enable people to collect experiences through a simple UI.
+Collect is a social platform I co-founded to help people bookmark visual experiences with a minimalist UI. I owned the Unity + React front end, Firebase data model, and onboarding experiments that kept early retention strong throughout the beta.
 
-## Description
+## Product Highlights
 
-Collect is a platform that allows people to capture and organize experiences through photos. Images are automatically stored and sorted by collection type, making it easy for users to build unique collections, revisit memories, and share photographs with others who have similar interests.
+- Guided capture flow that automatically tags each upload with collection type, mood, and location metadata using lightweight ML models.
+- Collaborative boards so friends can co-curate travel mood boards or inspiration decks in real time.
+- Shareable public profiles with privacy presets that made it easy to show a subset of collections during portfolio reviews.
+
+## My Role
+
+- Designed the UX system, built the Unity-based prototype, and later ported the experience to React for faster iteration.
+- Implemented photo ingestion, collection sorting, and offline-first caching in Firebase/Firestore.
+- Led qualitative research sessions with photographers and designers to shape the roadmap and validate pricing experiments.
+
+## Outcomes
+
+- Built an invite-only beta community and referral loop that drove steady organic growth without paid spend.
+- Shared the beta with Product Hunt's AR/VR community and maker forums to gather structured qualitative feedback.
+- Captured qualitative signal that later informed my work on extending Microsoft Mesh avatar galleries.
 
 <style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/KhcPTrxbY3s' frameborder='0' allowfullscreen title="Collect Social Media Platform Demo"></iframe></div>{:loading="lazy"}

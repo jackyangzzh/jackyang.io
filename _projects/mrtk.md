@@ -1,9 +1,9 @@
 ---
 layout: project
 title: 'MRTK for Unity'
-caption: Open-source mixed reality development toolkit for Unity
+caption: Open-source toolkit by Microsoft powering mixed reality apps in Unity
 description: >
-  Contributing to Microsoft's Mixed Reality Toolkit with Leap Motion integration and new features
+  Contributed Leap Motion integration and feature upgrades to Microsoft's Mixed Reality Toolkit 2.7 release
 date: '01-01-2021'
 image: 
   path: /assets/img/projects/mrtk_unity.webp
@@ -16,8 +16,23 @@ links:
 sitemap: false
 
 ---
-MRTK is a Unity toolkit for developing XR content.
+MRTK is Microsoft's open-source toolkit for building XR experiences in Unity and powers much of what we ship across HoloLens, Microsoft Mesh, and partner applications.
 
-## Description
+## Scope
 
-In this open-source project, I collaborate with Microsoft developers and other contributors on MRTK for Unity. Key features I developed include integrating Leap Motion hand tracking with MRTK and implementing new capabilities for MRTK 2.7.
+- Cross-platform interaction system that abstracts controllers, articulated hands, and eye tracking into a single API surface.
+- UI components, spatialization helpers, and performance tooling tuned for both immersive (VR) and mixed reality (AR) runtimes.
+- Large open-source community that depends on predictable releases, documentation, and backwards compatibility.
+
+## My Contributions
+
+- Added official Leap Motion hand-tracking support for MRTK 2.7, covering joint poses, gesture events, and hand mesh visualization.
+- Hardened the input system for hybrid 2D/3D apps by profiling perf hotspots and rewriting allocation-heavy sections in C# jobs.
+- Authored migration guides and sample scenes that showed developers how to adopt the new capabilities without breaking existing scenes.
+- Coordinated with partner teams to verify the release against Microsoft Mesh and third-party experiences before shipping.
+
+## Impact
+
+- Expanded MRTK's controller support matrix, helping enterprise developers bring hand tracking to training and design reviews without rewriting input code.
+- Reduced regressions in partner builds by contributing automated tests around hand joints and interactable states.
+- Provided learnings that fed directly into my day job building avatar customization in Microsoft Mesh.

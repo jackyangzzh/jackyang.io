@@ -3,7 +3,7 @@ layout: projects
 title: Projects
 show_collection: projects
 description: >
-  Explore Jack Yang's portfolio of XR projects including AR/VR applications, 
-  interactive experiences, and immersive technology innovations.
+  Explore Jack Yang's XR portfolio spanning AR/VR applications, interactive
+  experiences, and other immersive technology experiments.
 no_groups: true
 ---

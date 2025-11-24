@@ -2,8 +2,8 @@
 layout: resume
 title: About
 description: >
-  Learn about Jack Yang, an award-winning XR engineer with a decade of experience 
-  in building immersive mixed reality, augmented reality, and virtual reality experiences.
+  Meet Jack Yang, an award-winning XR engineer with a decade of experience building AI-powered
+  immersive XR products.
 hide_description: true
 left_column:
   - work

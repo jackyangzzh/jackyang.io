@@ -8,6 +8,7 @@ layout: default
     font-size: 1.125rem;
     color: var(--text-primary);
   }
+
   .page-intro a {
     color: var(--accent-color);
     text-decoration: underline;
@@ -31,6 +32,7 @@ layout: default
     flex-direction: column;
     transition: transform 0.2s ease;
   }
+
   .post-card:hover {
     transform: translateY(-5px);
   }
@@ -79,10 +81,7 @@ layout: default
   }
 </style>
 
-<p class="page-intro">
-  I write blogs from book reviews to thoughts on tech. Check out
-  <a href="https://jackyangzzh.medium.com/" target="_blank">my Medium page</a>.
-</p>
+<br />
 
 <ul class="posts-grid">
   {% if site.data.medium_posts and site.data.medium_posts.size > 0 %} {% for
@@ -97,10 +96,7 @@ layout: default
       <h3 class="post-card__title">
         <a href="{{ post.url }}" target="_blank">{{ post.title }}</a>
       </h3>
-      <time
-        class="post-card__date"
-        datetime="{{ post.date | date_to_xmlschema }}"
-      >
+      <time class="post-card__date" datetime="{{ post.date | date_to_xmlschema }}">
         {{ post.date | date: "%b %-d, %Y" }}
       </time>
       <div class="post-card__excerpt">

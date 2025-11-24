@@ -2,8 +2,8 @@
 layout: resume
 cover: true
 description: >
-  Portfolio and resume of Jack Yang, XR Software Engineer at Microsoft specializing 
-  in mixed reality, AR/VR development, and AI-powered immersive experiences.
+  Portfolio and resume of Jack Yang, an XR software engineer at Microsoft crafting
+  cross-platform mixed reality experiences powered by AI and spatial computing.
 hide_description: true
 left_column:
   - work

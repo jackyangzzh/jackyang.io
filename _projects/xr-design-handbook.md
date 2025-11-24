@@ -1,9 +1,9 @@
 ---
 layout: project
 title: 'XR Design Handbook'
-caption: Comprehensive compilation of XR design guidelines from industry leaders
+caption: Centralized library of XR design guidelines from industry leaders
 description: >
-  Open-source repository consolidating XR design best practices from leading companies including Meta, Apple, Microsoft, and Google
+  Open-source repository I maintain that consolidates XR design best practices from companies such as Meta, Apple, Microsoft, and Google
 date: '01-01-2022'
 image: 
   path: /assets/img/projects/xrdesignhandbook.webp
@@ -16,12 +16,20 @@ links:
 sitemap: false
 
 ---
-XR Design Handbook is a compilation of XR design guidelines from numerous leading companies in the field.
+XR Design Handbook is an open-source compilation of XR design guidelines from leaders across the industry. It started as my personal notebook for Microsoft Mesh research and evolved into a living resource for the community.
 
-## Description
+## What’s inside
 
-The repository contains a comprehensive compilation of XR design guidelines from numerous leading companies in the field including Meta (Oculus), Apple (Vision Pro), Microsoft (HoloLens), Google (ARCore), and many others. This is a goldmine for both seasoned designers and newcomers to XR, ensuring we can create user-friendly and effective immersive experiences.
+- Side-by-side comparisons of locomotion, input, and comfort recommendations from Meta, Apple, Microsoft, Google, Niantic, and more.
+- Pattern write-ups distilled from internal Microsoft documentation plus public talks, all tagged so contributors can cross-reference scenarios quickly.
+- Links to canonical PDFs, WWDC/Build sessions, and academic papers so designers can go from inspiration to implementation without guesswork.
 
-## Inspiration
+## How I maintain it
 
-I've been noticing that while there are myriad XR design guidelines spread across various companies and platforms, there hasn't been a consolidated place where we can see them all together. Recognizing this gap, I took the initiative to start this open-source project to help the XR community access quality design resources in one centralized location.
+- Track vendor documentation changelogs and log issues whenever new guidelines drop so the repository stays current.
+- Curate community pull requests, ensuring citations are included and insights map to a consistent taxonomy.
+- Publish release notes that highlight major additions and tie them to real-world use cases (training, productivity, entertainment, accessibility).
+
+## Why it exists
+
+Guidelines are scattered across corporate wikis and PDFs, making them hard to compare. I created this project to centralize the best references so the XR community can design faster, learn from peers, and avoid reinventing patterns. The handbook also saves me time when I need to justify design decisions on Microsoft Mesh—every pattern links back to research or industry precedent.
