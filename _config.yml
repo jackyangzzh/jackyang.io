@@ -24,13 +24,13 @@ title: Jack Yang
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description: >
-  Award-winning XR developer with a decade of experience in building immersive experiences.
+  Award-winning XR engineer with a decade of experience building AI-powered immersive products at Microsoft and beyond.
 
 # A shorter description for the sidebar.
 tagline: Reimagining Reality with XR + AI
 
 # A list of keywords for your blog
-keywords: [ar, vr, xr, mr, ai]
+keywords: [ar, vr, xr, mr, ai, ml, mixed reality, spatial computing, unitymicrosoft]
 
 # A (square) logo for your site.
 # If provided, it will be shown at the top of the sidebar.

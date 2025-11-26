@@ -1,9 +1,9 @@
 ---
 layout: project
 title: 'XR Design Handbook'
-caption: Centralized library of XR design guidelines from industry leaders
+caption: Open-source library of XR design guidelines from Meta, Apple, Microsoft, and more
 description: >
-  Open-source repository I maintain that consolidates XR design best practices from companies such as Meta, Apple, Microsoft, and Google
+  Open-source repository I maintain that consolidates XR design best practices from companies like Meta, Apple, Microsoft, and Google.
 date: '01-01-2022'
 image: 
   path: /assets/img/projects/xrdesignhandbook.webp
@@ -11,25 +11,25 @@ image:
 links:
   - title: Website
     url: https://www.xrdesignhandbook.com/
-  - title: Github
+  - title: GitHub
     url: https://github.com/jackyangzzh/XR-Design-Handbook
 sitemap: false
 
 ---
-XR Design Handbook is an open-source compilation of XR design guidelines from leaders across the industry. It started as my personal notebook for Microsoft Mesh research and evolved into a living resource for the community.
+XR Design Handbook is an open-source compilation of XR design guidelines from industry leaders. What started as my personal notebook for Microsoft Mesh research has evolved into a living resource for the broader XR community.
 
-## What’s inside
+## What's Inside
 
 - Side-by-side comparisons of locomotion, input, and comfort recommendations from Meta, Apple, Microsoft, Google, Niantic, and more.
-- Pattern write-ups distilled from internal Microsoft documentation plus public talks, all tagged so contributors can cross-reference scenarios quickly.
+- Pattern write-ups distilled from internal Microsoft documentation plus public talks—all tagged so contributors can cross-reference scenarios quickly.
 - Links to canonical PDFs, WWDC/Build sessions, and academic papers so designers can go from inspiration to implementation without guesswork.
 
-## How I maintain it
+## How I Maintain It
 
 - Track vendor documentation changelogs and log issues whenever new guidelines drop so the repository stays current.
 - Curate community pull requests, ensuring citations are included and insights map to a consistent taxonomy.
 - Publish release notes that highlight major additions and tie them to real-world use cases (training, productivity, entertainment, accessibility).
 
-## Why it exists
+## Why It Exists
 
 Guidelines are scattered across corporate wikis and PDFs, making them hard to compare. I created this project to centralize the best references so the XR community can design faster, learn from peers, and avoid reinventing patterns. The handbook also saves me time when I need to justify design decisions on Microsoft Mesh—every pattern links back to research or industry precedent.

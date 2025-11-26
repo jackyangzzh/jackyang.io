@@ -9,7 +9,7 @@ basics:
   phone: ""
   website: ""
   summary: >
-    I'm Jack, an XR engineer at Microsoft focused on Microsoft Mesh and Teams avatars. Since 2015 I've been shipping XR + AI products that make remote collaboration feel natural and human.
+    I'm Jack, an XR engineer at Microsoft focused on Microsoft Mesh and Teams avatars. Since 2015, I've been shipping XR + AI products that make remote collaboration feel natural and human.
   location:
     city: "Seattle"
     countryCode: "US"
@@ -27,8 +27,8 @@ work:
     startDate: "2022-06-01"
     endDate: ""
     highlights:
-      - Shipped performant social experiences that behave consistently across headsets, desktops, and mobile devices.
-      - Led cross-functional pushes to improve performance, accessibility, and localization for avatar customization tools.
+      - Shipped performant social experiences that behave consistently across headsets, desktop, and mobile devices.
+      - Led cross-functional initiatives to improve performance, accessibility, and localization for avatar customization tools.
       - Built data-driven content pipelines and workflows that keep web, VR, and standalone clients in sync.
 
   - company: "Holos"
@@ -37,32 +37,32 @@ work:
     startDate: "2019-02-01"
     endDate: "2022-05-01"
     highlights:
-      - Developed an AR/VR training platform with gesture recognition, hand tracking, and contextual guidance.
-      - Added multiplayer networking, automated 3D model ingestion, and richer interaction mechanics.
-      - Partnered with leadership to secure a $750K U.S. Air Force contract and acceptance into TechStars.
+      - Developed an AR/VR training platform featuring gesture recognition, hand tracking, and contextual guidance.
+      - Implemented multiplayer networking, automated 3D model ingestion, and richer interaction mechanics.
+      - Partnered with leadership to secure a $750K U.S. Air Force contract and acceptance into Techstars.
   - company: "Kats Research Group"
     position: "XR Researcher"
     website: "https://katsgroup.ece.wisc.edu/"
     startDate: "2017-10-01"
     endDate: "2022-05-01"
     highlights:
-      - Created chromatic adjustment algorithms to simulate color blindness on hyperspectral imagery and ported them into a color-calibrated Oculus Rift demo.
-      - Built an AI model that mimics human color vision behavior, reaching 90% chromatic adjustment accuracy.
+      - Developed chromatic adjustment algorithms to simulate color blindness on hyperspectral imagery and ported them into a color-calibrated Oculus Rift demo.
+      - Built an AI model that mimics human color vision behavior, achieving 90% chromatic adjustment accuracy.
   - company: "UW Graphics Group"
     position: "Graphics Researcher"
     website: "https://pages.graphics.cs.wisc.edu/"
     startDate: "2020-09-01"
     endDate: "2022-05-01"
     highlights:
-      - Built a low-latency VR control loop that maps hand gestures to remote robot arms.
-      - Designed a Unity UI that replays robot arm motion from datasets spanning 15+ lab experiments.
+      - Built a low-latency VR control loop that maps hand gestures to remote robotic arms.
+      - Designed a Unity UI for replaying robotic arm motion from datasets spanning 15+ lab experiments.
 education:
-  - institution: "University of Wisconsin - Madison"
+  - institution: "University of Wisconsin–Madison"
     studyType: "Bachelor"
     startDate: "2016-09-01"
     endDate: "2020-06-01"
     courses:
-      - Double majored in Computer Science and Communication Arts.
+      - Double-majored in Computer Science and Communication Arts.
       - Served as a teaching assistant for CS 559 (Computer Graphics).
   - institution: "Carnegie Mellon University"
     studyType: "National Game Academy"
@@ -70,7 +70,7 @@ education:
     endDate: "2015-09-01"
     courses:
       - Studied game design at the CMU Entertainment Technology Center.
-      - Led development and release of Kitchen Kraving, a VR game for Oculus Rift DK2.
+      - Led development and release of Kitchen Kraving, a VR game for the Oculus Rift DK2.
 awards:
   []
   # Add your awards here when available
@@ -103,44 +103,32 @@ publications:
     website: "https://arxiv.org/abs/2101.02837"
     summary: ""
   - name: "Effective Leaders: Four Attributes That Underpin The Core Characteristics of Effective Leadership"
-    publisher: "SpiritCast Network "
+    publisher: "SpiritCast Network"
     releaseDate: ""
     website: "https://www.strategically.com.au/effective-leaders-book/"
     summary: "Featured article 'Critical Conversation' published in the book."
 skills:
-  - name: "Unity"
+  - name: "AR / VR / MR"
     level: "3/3"
     keywords:
-      - "C#"
-      - "ShaderLab"
-      - "XR development"
-  - name: "XR Interaction Design"
-    level: "3/3"
-    keywords:
-      - "Unity"
-      - "Figma"
-      - "Blender"
-  - name: "WebXR"
+      - "Unity / C#"
+      - "Unreal / C++"
+      - "visionOS / Swift"
+      - "Babylon.js / WebXR"
+      - "Vulkan / OpenGL"
+      - "Interaction Design"
+
+  - name: "AI / ML"
     level: "2/3"
     keywords:
-      - "Babylon.js"
-      - "Three.js"
-      - "A-Frame"
-  - name: "VisionOS"
+      - "Python / PyTorch"
+      - "LLMs / Agents"
+      - "OpenCV"
+      - "RAG / MCP / A2A"
+
+  - name: "Web / Frontend"
     level: "2/3"
     keywords:
-      - "Swift"
-      - "Xcode"
-      - "Reality Composer"
-  - name: "Unreal"
-    level: "2/3"
-    keywords:
-      - "C++"
-      - "Blueprint"
-      - "XR development"
-  - name: "React"
-    level: "2/3"
-    keywords:
-      - "TypeScript"
-      - "Vite"
-      - "Redux"
+      - "Three.js / JavaScript"
+      - "React / TypeScript"
+      - "Azure / Cloud Service"
