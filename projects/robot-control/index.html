@@ -39,7 +39,7 @@
 <meta name="twitter:image:alt" content="Robot arm being controlled through VR hand gestures" />
 <meta property="twitter:title" content="Robot Control Through VR" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2025-11-26T23:05:10+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"Low-latency VR control system I built to pipe hand gestures through ROS and drive industrial robotic arms.","headline":"Robot Control Through VR","image":{"alt":"Robot arm being controlled through VR hand gestures","url":"https://jackyang.io//assets/img/projects/mimicry.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io//assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io//projects/robot-control/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2025-12-17T02:17:34+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"Low-latency VR control system I built to pipe hand gestures through ROS and drive industrial robotic arms.","headline":"Robot Control Through VR","image":{"alt":"Robot arm being controlled through VR hand gestures","url":"https://jackyang.io//assets/img/projects/mimicry.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io//assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io//projects/robot-control/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -106,7 +106,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2025-12-17T01:43:57+00:00',
+    INDEX_KEY: 'index--2025-12-17T02:18:09+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -286,11 +286,11 @@ html{--accent-color: rgb(79,177,186);--accent-color-faded: rgba(79,177,186,0.5);
     <meta property="disambiguatingDescription" content="Low-latency VR system for remote robotic arm manipulation"/>
   </header>
 
-  <p>This project explores remote robot manipulation through virtual reality and inverse kinematics. It spans two tracks: real-time mimicry control and data-driven motion playback—both of which informed my later work on hand interaction fidelity in Microsoft Mesh.</p>
+  <p>This project explores remote robot manipulation through VR and inverse kinematics. It spans two tracks—real-time mimicry control and data-driven motion playback—both of which informed my later work on hand-interaction fidelity in Microsoft Mesh.</p>
 
 <h2 id="mimicry-control">Mimicry Control</h2>
 
-<p>In the first phase, I built a VR system that lets users drive robotic arms with natural hand and arm gestures. ROS data flows between Unity and the robot over lightweight sockets, keeping latency low enough for precise manipulation.</p>
+<p>In the first phase, I built a VR system that lets users drive robotic arms with natural hand and arm gestures. ROS data flows between Unity and the robot over a lightweight network bridge, keeping latency low enough for precise manipulation.</p>
 
 <p><strong>Key Details</strong></p>
 
@@ -303,15 +303,15 @@ html{--accent-color: rgb(79,177,186);--accent-color-faded: rgba(79,177,186,0.5);
 <style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style>
 <div class="embed-container" loading="lazy"><iframe src="https://www.youtube.com/embed/vwSFuWbTOUY" frameborder="0" allowfullscreen="" title="VR Robot Control Demonstration"></iframe></div>
 
-<h2 id="recreate-robot-movement">Recreate Robot Movement</h2>
+<h2 id="motion-replay">Motion Replay</h2>
 
-<p>When COVID-19 closed the lab, I pivoted to a data-replay pipeline. The interpreter ingests timestamped joint angles from spreadsheets and generates Unity animation clips that faithfully reproduce captured robot motion.</p>
+<p>When COVID-19 closed the lab, I pivoted to a data-replay pipeline. The interpreter ingests timestamped joint angles from spreadsheets and generates Unity animation clips that reproduce captured robot motion.</p>
 
 <p><strong>What It Unlocked</strong></p>
 
 <ul>
   <li>Researchers could review real-world experiments inside VR without needing lab access, making it easier to annotate mistakes and plan retries.</li>
-  <li>Demonstrated that low-bandwidth data exports are sufficient to recreate believable robot motion inside Unity—insights that later guided my remote collaboration prototypes at UW Graphics Group.</li>
+  <li>Demonstrated that low-bandwidth data exports are sufficient to recreate believable robot motion inside Unity—an insight that later guided my remote-collaboration prototypes at UW Graphics Group.</li>
 </ul>
 
 <style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style>
@@ -466,7 +466,7 @@ AI-powered immersive products at Microsoft and beyond.</p>
     
 
 
-  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">        <article  class="project-card"  vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/project-virtualso/#project"  >  <meta property="name" content="Project Virtualso"/>  <meta property="image" content="/assets/img/projects/virtualso.webp"/>  <a href="/projects/project-virtualso/" class="no-hover no-print-link flip-project" tabindex="-1">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">              <img      src="/assets/img/projects/virtualso.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Project Virtualso"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <h3 class="project-card-title flip-project-title">    <a href="/projects/project-virtualso/" class="flip-title" property="mainEntityOfPage">Project Virtualso</a>  </h3>      <p class="project-card-text fine" property="disambiguatingDescription">      AI-powered VR coach for conversational interviews and presentations    </p>      <a class="fill-card no-hover" href="/projects/project-virtualso/" tabindex="-1"><span class="sr-only">Continue reading Project Virtualso</span></a></article>      </div>                  <div class="column column-1-2">        <article  class="project-card"  vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/vision-disorder/#project"  >  <meta property="name" content="VR Vision Disorder Simulation"/>  <meta property="image" content="/assets/img/projects/kats.webp"/>  <a href="/projects/vision-disorder/" class="no-hover no-print-link flip-project" tabindex="-1">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">              <img      src="/assets/img/projects/kats.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="VR Vision Disorder Simulation"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <h3 class="project-card-title flip-project-title">    <a href="/projects/vision-disorder/" class="flip-title" property="mainEntityOfPage">VR Vision Disorder Simulation</a>  </h3>      <p class="project-card-text fine" property="disambiguatingDescription">      AI-powered VR system simulating color blindness and binocular rivalry    </p>      <a class="fill-card no-hover" href="/projects/vision-disorder/" tabindex="-1"><span class="sr-only">Continue reading VR Vision Disorder Simulation</span></a></article>      </div>      </div></aside>
+  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">        <article  class="project-card"  vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/project-virtualso/#project"  >  <meta property="name" content="Project Virtualso"/>  <meta property="image" content="/assets/img/projects/virtualso.webp"/>  <a href="/projects/project-virtualso/" class="no-hover no-print-link flip-project" tabindex="-1">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">              <img      src="/assets/img/projects/virtualso.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Project Virtualso"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <h3 class="project-card-title flip-project-title">    <a href="/projects/project-virtualso/" class="flip-title" property="mainEntityOfPage">Project Virtualso</a>  </h3>      <p class="project-card-text fine" property="disambiguatingDescription">      AI-powered VR coach for conversational interviews and presentations    </p>      <a class="fill-card no-hover" href="/projects/project-virtualso/" tabindex="-1"><span class="sr-only">Continue reading Project Virtualso</span></a></article>      </div>                  <div class="column column-1-2">        <article  class="project-card"  vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/vision-disorder/#project"  >  <meta property="name" content="VR Vision Disorder Simulation"/>  <meta property="image" content="/assets/img/projects/kats.webp"/>  <a href="/projects/vision-disorder/" class="no-hover no-print-link flip-project" tabindex="-1">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">              <img      src="/assets/img/projects/kats.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="VR Vision Disorder Simulation"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <h3 class="project-card-title flip-project-title">    <a href="/projects/vision-disorder/" class="flip-title" property="mainEntityOfPage">VR Vision Disorder Simulation</a>  </h3>      <p class="project-card-text fine" property="disambiguatingDescription">      AI-assisted VR simulations of color vision deficiency and binocular rivalry    </p>      <a class="fill-card no-hover" href="/projects/vision-disorder/" tabindex="-1"><span class="sr-only">Continue reading VR Vision Disorder Simulation</span></a></article>      </div>      </div></aside>
 
   
 
