@@ -16,7 +16,7 @@ links:
 sitemap: false
 
 ---
-PolySpaceVR is a virtual reality social platform purpose-built for intimate, customizable gatherings. I started the project to explore how lightweight networking, avatars, and spatial audio could make remote hangouts feel less like meetings and more like living-room conversations.
+PolySpaceVR is a VR social platform purpose-built for intimate, customizable gatherings. I started the project to explore how lightweight networking, avatars, and spatial audio can make remote hangouts feel less like meetings and more like living-room conversations.
 
 ## Product Pillars
 
@@ -26,18 +26,17 @@ PolySpaceVR is a virtual reality social platform purpose-built for intimate, cus
 
 ## Engineering Highlights
 
-- Implemented deterministic networking over Photon to keep voice chat, avatar poses, and interactables synchronized for up to eight participants.
+- Implemented Photon-based networking to keep voice chat, avatar poses, and interactables synchronized for up to eight participants.
 - Built an in-headset world builder that lets hosts adjust lighting, prop placement, and seating arrangements before guests arrive.
 - Added moderation hooks (mute, soft kick, invite lists) so facilitators can run workshops or study groups with minimal friction.
 
 ## Community Impact
 
 - Open-sourced the project so educators and hobbyists can host their own Poly Spaces without vendor lock-in.
-- Documented creator guidelines that inspired monthly community drops on the Meta Quest Store page.
+- Documented creator guidelines that supported monthly community drops on the store listing.
 - Used the platform for internal dogfooding sessions at Holos and later as inspiration for intimacy-focused spaces inside Microsoft Mesh.
 
 ![PolySpaceVR on Meta Quest Store](/assets/img/projects/screenshot-store.webp){:loading="lazy"}
-Available on Meta Quest Store
 {:.figcaption}
 
 ## Inspiration

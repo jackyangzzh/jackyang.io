@@ -11,21 +11,21 @@ image:
 sitemap: false
 
 ---
-Project Virtualso blends AI, natural language processing, and VR to create conversational humanoid agents that respond with believable facial expressions and body language. I treated it as a proving ground for combining my communication arts research with Unity engineering to help people rehearse high-stakes conversations.
+Project Virtualso blends AI, natural language processing, and VR to create conversational humanoid agents that respond with expressive facial animation and body language. I used it as a proving ground for combining my communication-arts research with Unity engineering to help people rehearse high-stakes conversations.
 
 ## Inspiration
 
-The build draws on my background in communication arts and VR to recreate nuanced human interactions. During the COVID-19 lockdowns, many people lost access to in-person mentorship, so I prototyped training simulations for job interviews and public speaking.
+The project draws on my background in communication arts and VR to recreate nuanced human interactions. During the COVID-19 lockdowns, many people lost access to in-person mentorship, so I prototyped training simulations for job interviews and public speaking.
 
 ## Virtual Interview
 
-Users practice interviews with a conversational humanoid that listens, asks follow-ups, and mirrors emotion through facial expressions and gestures—powered by NLP intent classifiers.
+Users practice interviews with a conversational agent that listens, asks follow-ups, and mirrors emotion through facial expressions and gestures—powered by intent classification and dialogue logic.
 
 <style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/I1RIFirZeaQ' frameborder='0' allowfullscreen title="Virtual Interview AI Agent Demonstration"></iframe></div>{:loading="lazy"}
 
 ## Virtual Presentation
 
-Presenters deliver slides in front of a virtual audience of AI agents that react in real time. The simulation helps people manage stage anxiety and has been tested by professionals across multiple companies, with consistently positive feedback.
+Presenters deliver slides in front of a virtual audience of agents that react in real time. The simulation helps people manage stage anxiety and was piloted with professionals across multiple companies, with positive qualitative feedback.
 
 ## Under the Hood
 

@@ -1,7 +1,7 @@
 ---
 layout: project
 title: 'VR Vision Disorder Simulation'
-caption: AI-powered VR system simulating color blindness and binocular rivalry
+caption: AI-assisted VR simulations of color vision deficiency and binocular rivalry
 description: >
   Research project I led that uses AI and computer vision to recreate vision impairments inside VR.
 date: '01-01-2020'
@@ -10,19 +10,19 @@ image:
   alt: VR vision disorder simulation interface showing colorblindness test
 links:
   - title: Technical Report
-    url: ../../assets/files/Breaking Binocular Redundancy.pdf
+    url: /assets/files/Breaking%20Binocular%20Redundancy.pdf
   - title: GitHub
     url: https://github.com/jackyangzzh/Monocular-Vision-VR-demo
 sitemap: false
 
 ---
-This research explores and simulates visual impairments—including color blindness and binocular rivalry—inside VR. It combined my optics coursework with Unity prototyping and directly influenced the accessibility tooling I build today.
+This research project simulates visual impairments—including color vision deficiency and binocular rivalry—inside VR. It combined my optics coursework with Unity prototyping and influenced how I think about accessibility tooling today.
 
 ## Color Vision Deficiency
 
 ![Color vision deficiency simulation](/assets/img/projects/colorDeficiencyCover.webp){:loading="lazy"}
 
-I first designed chromatic adjustment algorithms using computer vision to approximate how people with color vision deficiency perceive hyperspectral imagery. Combining optics with AI yielded a system that mimics human responses on clinical color tests with over 90% agreement in pilot studies—which I later visualized inside VR.
+I first designed chromatic adjustment algorithms using computer vision to approximate how people with color vision deficiency perceive hyperspectral imagery. Combining optics with AI yielded a system that matched clinical color-test outcomes with high agreement (~90%) in pilot evaluations, which I later visualized inside VR.
 
 ## Binocular Rivalry
 
@@ -33,7 +33,7 @@ The human visual system infers depth by blending signals from both eyes. This ph
 
 ## Application
 
-These techniques pair mathematical optical simulations with VR to create realistic representations of color vision deficiency. Beyond education, the work could be reversed to enhance color perception or improve accessibility tooling. The binocular rivalry experiments further demonstrate how VR can replicate lab setups such as mirror stereoscopes without specialized hardware, opening new avenues for studying binocular disparity and potential vision augmentation.
+These techniques pair optical simulation with VR to create more realistic representations of color vision deficiency. Beyond education, the work can inform accessibility tooling and potential vision-augmentation concepts. The binocular rivalry experiments also show how VR can replicate lab setups (for example, mirror stereoscopes) without specialized hardware.
 
 ## My Contributions
 

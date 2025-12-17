@@ -16,7 +16,7 @@ links:
 sitemap: false
 
 ---
-MRTK is Microsoft's open-source toolkit for building XR experiences in Unity. It powers much of what we ship across HoloLens, Microsoft Mesh, and partner applications.
+MRTK is Microsoft's open-source toolkit for building XR experiences in Unity. It underpins experiences across HoloLens, Microsoft Mesh, and partner applications.
 
 ## Scope
 

@@ -3,7 +3,7 @@ layout: project
 title: 'XR Design Handbook'
 caption: Open-source library of XR design guidelines from Meta, Apple, Microsoft, and more
 description: >
-  Open-source repository I maintain that consolidates XR design best practices from companies like Meta, Apple, Microsoft, and Google.
+  Open-source repository I maintain that consolidates XR design best practices from teams like Meta, Apple, Microsoft, and Google.
 date: '01-01-2022'
 image: 
   path: /assets/img/projects/xrdesignhandbook.webp
@@ -21,7 +21,7 @@ XR Design Handbook is an open-source compilation of XR design guidelines from in
 ## What's Inside
 
 - Side-by-side comparisons of locomotion, input, and comfort recommendations from Meta, Apple, Microsoft, Google, Niantic, and more.
-- Pattern write-ups distilled from internal Microsoft documentation plus public talks—all tagged so contributors can cross-reference scenarios quickly.
+- Pattern write-ups distilled from public docs, conference talks, and field notes from building on Microsoft Mesh—all tagged so contributors can cross-reference scenarios quickly.
 - Links to canonical PDFs, WWDC/Build sessions, and academic papers so designers can go from inspiration to implementation without guesswork.
 
 ## How I Maintain It
@@ -32,4 +32,4 @@ XR Design Handbook is an open-source compilation of XR design guidelines from in
 
 ## Why It Exists
 
-Guidelines are scattered across corporate wikis and PDFs, making them hard to compare. I created this project to centralize the best references so the XR community can design faster, learn from peers, and avoid reinventing patterns. The handbook also saves me time when I need to justify design decisions on Microsoft Mesh—every pattern links back to research or industry precedent.
+Guidelines are scattered across PDFs, web pages, and slide decks, which makes them hard to compare. I created this project to centralize the best references so the XR community can design faster, learn from peers, and avoid reinventing patterns. The handbook also saves me time when I need to justify design decisions on Microsoft Mesh—each pattern links back to research or industry precedent.
