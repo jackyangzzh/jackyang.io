@@ -13,7 +13,6 @@ links:
     url: /assets/files/Breaking%20Binocular%20Redundancy.pdf
   - title: GitHub
     url: https://github.com/jackyangzzh/Monocular-Vision-VR-demo
-sitemap: false
 
 ---
 This research project simulates visual impairments—including color vision deficiency and binocular rivalry—inside VR. It combined my optics coursework with Unity prototyping and influenced how I think about accessibility tooling today.

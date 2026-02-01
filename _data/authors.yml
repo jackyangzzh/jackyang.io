@@ -19,7 +19,7 @@ author1:
       1x: ../../assets/img/profile128.webp
       2x: ../../assets/img/profile256.webp
   # Social media icons in sidebar
-  # Comment/uncommet to show/hide
+  # Comment/uncomment to show/hide
   # Rearrange to change the order in which they appear
   social:
     github: jackyangzzh

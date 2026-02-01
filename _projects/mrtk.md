@@ -13,7 +13,6 @@ links:
     url: https://learn.microsoft.com/en-us/windows/mixed-reality/mrtk-unity/mrtk2/release-notes/mrtk-27-release-notes?view=mrtkunity-2021-05#added-support-for-leap-motion-unity-modules-version-460-470-471-and-480
   - title: GitHub
     url: https://github.com/microsoft/MixedRealityToolkit-Unity
-sitemap: false
 
 ---
 MRTK is Microsoft's open-source toolkit for building XR experiences in Unity. It underpins experiences across HoloLens, Microsoft Mesh, and partner applications.

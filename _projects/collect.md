@@ -11,7 +11,6 @@ image:
 links:
   - title: Blog Post
     url: https://jackyangzzh.medium.com/the-making-of-collect-7b794d934cb4
-sitemap: false
 
 ---
 Collect is a social platform I co-founded to help people curate and share visual experiences through a minimalist UI. I owned the Unity prototype and React front end, the Firebase/Firestore data model, and onboarding experiments that supported healthy early retention through the private beta.

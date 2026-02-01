@@ -2,8 +2,8 @@
 layout: resume
 title: About
 description: >
-  Meet Jack Yang, an award-winning XR engineer with a decade of experience building
-  AI-powered immersive products at Microsoft and beyond.
+  Meet Jack Yang, an XR + AR engineer at Microsoft building spatial computing experiences
+  powered by AI. Published researcher and open-source contributor.
 hide_description: true
 left_column:
   - work

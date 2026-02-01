@@ -8,7 +8,6 @@ date: '01-01-2020'
 image: 
   path: /assets/img/projects/mimicry.webp
   alt: Robot arm being controlled through VR hand gestures
-sitemap: false
 
 ---
 This project explores remote robot manipulation through VR and inverse kinematics. It spans two tracks—real-time mimicry control and data-driven motion playback—both of which informed my later work on hand-interaction fidelity in Microsoft Mesh.

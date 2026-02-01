@@ -13,7 +13,6 @@ links:
     url: https://www.xrdesignhandbook.com/
   - title: GitHub
     url: https://github.com/jackyangzzh/XR-Design-Handbook
-sitemap: false
 
 ---
 XR Design Handbook is an open-source compilation of XR design guidelines from industry leaders. What started as my personal notebook for Microsoft Mesh research has evolved into a living resource for the broader XR community.

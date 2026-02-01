@@ -8,7 +8,6 @@ date: '01-01-2020'
 image: 
   path: /assets/img/projects/virtualso.webp
   alt: Project Virtualso virtual interviewer with realistic facial expressions
-sitemap: false
 
 ---
 Project Virtualso blends AI, natural language processing, and VR to create conversational humanoid agents that respond with expressive facial animation and body language. I used it as a proving ground for combining my communication-arts research with Unity engineering to help people rehearse high-stakes conversations.

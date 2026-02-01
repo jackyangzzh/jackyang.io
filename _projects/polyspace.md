@@ -13,7 +13,6 @@ links:
     url: https://www.meta.com/experiences/pcvr/3258096647627881/?utm_source=yangjack.com&utm_medium=oculusredirect
   - title: GitHub
     url: https://github.com/jackyangzzh/Poly-Space-VR
-sitemap: false
 
 ---
 PolySpaceVR is a VR social platform purpose-built for intimate, customizable gatherings. I started the project to explore how lightweight networking, avatars, and spatial audio can make remote hangouts feel less like meetings and more like living-room conversations.

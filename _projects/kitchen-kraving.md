@@ -11,7 +11,6 @@ image:
 links:
   - title: GitHub
     url: https://github.com/jackyangzzh/KitchenKraving
-sitemap: false
 
 ---
 Kitchen Kraving is a frantic VR kitchen sim I built at Carnegie Mellon with a small team of artists, programmers, and sound designers. It was my first shipped title, and it helped shape my later UX work on XR training systems.

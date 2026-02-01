@@ -2,8 +2,8 @@
 layout: blog
 title: Blog
 description: >
-  Read Jack Yang's Medium essays covering XR development, technology trends,
-  book notes, and lessons learned from launching immersive products. For more, visit [Jack's Medium](https://jackyangzzh.medium.com/){:target="_blank" rel="noopener noreferrer"}.
+  Read Jack Yang's Medium essays covering XR + AI development, technology trends, and
+  book notes. For more, visit [Jack's Medium](https://jackyangzzh.medium.com/){:target="_blank" rel="noopener noreferrer"}.
 sitemap: false
 related_posts: []
 ---
