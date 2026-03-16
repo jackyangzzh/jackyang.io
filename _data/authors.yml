@@ -8,8 +8,9 @@ author1:
   # Used at the bottom of each page and at the top of the `about` layout
   # Markdown enabled, can use multiple paragraphs (enabled by `|`)
   about: |
-    Jack is an award-winning XR engineer with a decade of experience building
-    AI-powered immersive products at Microsoft and beyond.
+    Jack is an XR engineer at Microsoft shipping avatar and social experiences
+    for Microsoft Mesh and Teams, with a decade of work across XR, AI, and
+    immersive product design.
 
   # This photo will be used in the about section
   picture:
@@ -24,7 +25,7 @@ author1:
   social:
     github: jackyangzzh
     linkedin: jackyangzzh
-    medium: https://jackyangzzh.medium.com/
+    medium: https://medium.com/@jackyangzzh
     #twitter:         <username>
     # email:           <mail@domain.tld>
     # facebook:        <username>

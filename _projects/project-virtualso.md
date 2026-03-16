@@ -3,7 +3,7 @@ layout: project
 title: 'Project Virtualso'
 caption: AI-powered VR coach for conversational interviews and presentations
 description: >
-  Training platform I prototyped that blends AI, NLP, and expressive virtual agents to rehearse interviews and public speaking.
+  AI-powered VR rehearsal tool for interviews and presentations, combining reactive virtual agents, speech analysis, and expressive character animation.
 date: '01-01-2020'
 image: 
   path: /assets/img/projects/virtualso.webp
@@ -12,29 +12,40 @@ image:
 ---
 Project Virtualso blends AI, natural language processing, and VR to create conversational humanoid agents that respond with expressive facial animation and body language. I used it as a proving ground for combining my communication-arts research with Unity engineering to help people rehearse high-stakes conversations.
 
-## Inspiration
+## Problem
 
-The project draws on my background in communication arts and VR to recreate nuanced human interactions. During the COVID-19 lockdowns, many people lost access to in-person mentorship, so I prototyped training simulations for job interviews and public speaking.
+The project draws on my background in communication arts and VR to recreate the parts of practice that static scripts and webcam drills usually miss: timing, emotional cues, follow-up questions, and the pressure of responding in the moment.
 
-## Virtual Interview
+During the COVID-19 lockdowns, many people lost access to in-person mentorship and rehearsal environments. I wanted to see whether VR agents could make interview and presentation practice feel more like a live exchange and less like a solo exercise.
+
+## Training Modes
+
+### Virtual Interview
 
 Users practice interviews with a conversational agent that listens, asks follow-ups, and mirrors emotion through facial expressions and gestures—powered by intent classification and dialogue logic.
 
-<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/I1RIFirZeaQ' frameborder='0' allowfullscreen title="Virtual Interview AI Agent Demonstration"></iframe></div>{:loading="lazy"}
+{% include pro/project-video.html id="I1RIFirZeaQ" title="Virtual Interview AI Agent Demonstration" %}
 
-## Virtual Presentation
+### Virtual Presentation
 
 Presenters deliver slides in front of a virtual audience of agents that react in real time. The simulation helps people manage stage anxiety and was piloted with professionals across multiple companies, with positive qualitative feedback.
 
-## Under the Hood
+## My Role
 
-- Real-time speech-to-text through Azure Cognitive Services feeds a lightweight NLP pipeline that classifies tone, confidence, and topic changes.
-- Custom blendshape rig drives nuanced facial expressions and gaze behavior based on detected emotions, creating a feedback loop users can respond to.
-- Scenario editor lets coaches script question banks, difficulty curves, and success criteria without editing code.
+- Designed and built the Unity experience, including scenario flow, dialogue logic, telemetry capture, and character behavior.
+- Integrated Azure Cognitive Services for speech-to-text and connected it to a lightweight NLP pipeline that tracks confidence, pacing, tone, and topic shifts.
+- Built the facial animation and gaze system so the agents could respond with enough expressiveness to feel useful without drifting into obviously canned behavior.
 
-## Results
+## Key Design Decisions
+
+- Used intent classification and guided dialogue branches instead of fully open-ended generation so the interviewer could stay responsive, coachable, and easier to evaluate.
+- Treated facial animation as feedback, not decoration. The agents needed to communicate attention, confusion, or encouragement clearly enough to shape user behavior.
+- Built a scenario editor so coaches could script question banks, difficulty curves, and success criteria without touching code, which made the prototype more useful for real training conversations.
+
+## Validation
 
 - Shared prototypes with career-coaching nonprofits to explore how mixed reality role-play could shorten prep time for job seekers.
-- Captured telemetry on pacing, filler-word frequency, and confidence markers that later influenced how I approach analytics in Microsoft Mesh onboarding flows.
+- Piloted the presentation mode with professionals across multiple companies and used the sessions to refine what kinds of audience reactions actually helped rather than distracted.
+- Captured telemetry on pacing, filler-word frequency, and confidence markers that later influenced how I think about coaching analytics and onboarding feedback loops more broadly.
 
-<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/3KgdJZlMepo' frameborder='0' allowfullscreen title="Virtual Public Speaking Training Demonstration"></iframe></div>{:loading="lazy"}
+{% include pro/project-video.html id="3KgdJZlMepo" title="Virtual Public Speaking Training Demonstration" %}

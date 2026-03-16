@@ -1,13 +1,13 @@
 {% if include.href.size > 0 %}
-  <a
-    class="{{ include.class }} {{ include.a_class }}"
-    href="{{ include.href }}"
-    target="_blank"
-    {% if include.rel %}rel="{{ include.rel }}"{% endif %}
-    {% if include.property %}property="{{ include.property }}"{% endif %}
-  >
-    {{- include.title -}}
-  </a>
+{% assign is_external = false %}
+{% if include.href contains '://' or include.href contains 'mailto:' %}
+{% assign is_external = true %}
+{% endif %}
+<a class="{{ include.class }} {{ include.a_class }}" href="{{ include.href }}" {% if is_external %}target="_blank" {% endif %} {% if include.rel
+  %}rel="{{ include.rel }}" {% elsif is_external %}rel="noopener noreferrer" {% endif %} {% if include.property %}property="{{ include.property }}" {%
+  endif %}>
+  {{- include.title -}}
+</a>
 {% else %}
-  <span class="{{ include.class }} {{ include.span_class }}">{{ include.title }}</span>
+<span class="{{ include.class }} {{ include.span_class }}">{{ include.title }}</span>
 {% endif %}

@@ -1,5 +1,6 @@
 ---
-# Copyright (c) 2018 Florian Klampfer <https://qwtel.com/>
+# Copyright (c) 2018 Florian Klampfer
+<https: //qwtel.com />
 layout: base
 ---
 
@@ -13,67 +14,88 @@ layout: base
 {% assign nsd = site.hydejack.no_structured_data | default:site.no_structured_data %}
 {% assign proj_format = site.data.strings.date_formats.project | default:"%Y" %}
 {% assign from_to_separator = strings.from_to_separator | default:strings.resume.from_to_separator | default:"–" %}
+{% assign screenshot = project.screenshot | default:project.image %}
+{% assign has_links = false %}
+{% if project.links and project.links.size > 0 %}{% assign has_links = true %}{% endif %}
 
-<article
-  id="project"
-  class="page mb6"
-  role="article"
-  {% unless nsd %}vocab="http://schema.org/" typeof="CreativeWork" resource="#project"{% endunless %}
-  >
-  <header>
-    <h1 class="page-title" property="name">{{ project.title }}</h1>
+{% capture project_period %}
+<time datetime="{{ project.date | date_to_xmlschema }}">{{ project.date | date:proj_format }}</time>
+{% if project.end_date.size > 0 %}
+{{ from_to_separator }}
+<time datetime="{{ project.end_date | date_to_xmlschema }}">{{ project.end_date | date:proj_format }}</time>
+{% endif %}
+{% endcapture %}
 
-    <p class="post-date heading">
-      <span class="ellipsis mr1">
-        {% if major >= 4 and minor >= 1 %}
-          {% assign parent = site.pages | find:"show_collection",project.collection %}
-        {% else %}
-          {% assign parent = site.pages | where:"show_collection",project.collection | first %}
-        {% endif %}
+{% capture project_description %}
+{{ project.description | markdownify | replace:'<p>','' | replace:'</p>','' }}
+{% endcapture %}
 
+<article id="project" class="page mb6 project-page" role="article" {% unless nsd %}vocab="http://schema.org/" typeof="CreativeWork"
+  resource="#project" {% endunless %}>
+  <header class="project-header">
+    <div class="project-header-copy">
+      {% if major >= 4 and minor >= 1 %}
+      {% assign parent = site.pages | find:"show_collection",project.collection %}
+      {% else %}
+      {% assign parent = site.pages | where:"show_collection",project.collection | first %}
+      {% endif %}
+
+      <p class="project-kicker heading">
         {% if parent %}
-          <a href="{{ parent.url | relative_url }}" class="flip-title" property="genre">{{ parent.title }}</a>
+        <a href="{{ parent.url | relative_url }}" class="flip-title" property="genre">{{ parent.title }}</a>
         {% endif %}
 
         {% unless site.hydejack.hide_dates %}
-          {% if parent %}{{ separator }}{% endif %}
-          <time datetime="{{ project.date | date_to_xmlschema }}">{{ project.date | date:proj_format }}</time>
-          {% if project.end_date.size > 0 %}
-            {{ from_to_separator }}
-            <time datetime="{{ project.end_date | date_to_xmlschema }}">{{ project.end_date | date:proj_format }}</time>
-          {% endif %}
+        {% if parent %}<span class="project-header-separator">{{ separator }}</span>{% endif %}
+        <span class="project-period">{{ project_period | strip }}</span>
         {% endunless %}
-      </span>
+      </p>
 
-      <span class="ellipsis ml1">
-        <span class="sr-only">{{ separator }} {{ site.data.strings.links | default:"Links" }}{{ site.data.strings.colon }}</span>
-        <span class="{{ site.data.strings.links_icon | default:'icon-link' }}" title="{{ site.data.strings.links | default:'Links' }}"></span>
+      <h1 class="page-title" property="name">{{ project.title }}</h1>
+
+      {% if project.description %}
+      {% if page.hide_description %}
+      <meta property="description" content="{{ project.description | markdownify | strip_html | strip_newlines | escape_once }}" />
+      {% else %}
+      <p class="project-summary" property="description">{{ project_description | strip }}</p>
+      {% endif %}
+      {% endif %}
+
+      {% if has_links %}
+      <ul class="project-link-list" aria-label="{{ site.data.strings.links | default:'Project links' }}">
         {% for link in project.links %}
-          <a class="external" href="{{ link.url }}" property="sameAs" target="_blank">{{ link.title }}</a>
-          {% unless forloop.last %}{{ separator }}{% endunless %}
+        <li>
+          <a class="project-link no-mark-external" href="{{ link.url }}" property="sameAs" target="_blank" rel="noopener noreferrer">{{ link.title
+            }}</a>
+        </li>
         {% endfor %}
-      </span>
-    </p>
+      </ul>
+      {% endif %}
 
-    {% assign screenshot = project.screenshot | default:project.image %}
-    <div class="img-wrapper lead aspect-ratio sixteen-nine {% unless screenshot %}fallback-img{% endunless %}">
-      {% if screenshot %}
-        {% include_cached components/hy-img.html
-          img=screenshot
-          sizes="(min-width: 90em) 48rem, (min-width: 54em) 42rem, (min-width: 42em) 38rem, 100vw"
-          alt=project.title
-          property="image"
-          width=864
-          height=486
-        %}
+      {% if project.caption %}
+      <p class="project-caption fine" property="disambiguatingDescription">{{ project.caption }}</p>
       {% endif %}
     </div>
 
-    {% include components/message.html text=project.description hide=page.hide_description property="description" alt="" %}
-    {% if project.caption %}<meta property="disambiguatingDescription" content="{{ project.caption }}"/>{% endif %}
+    <div class="project-header-media">
+      <div class="img-wrapper lead aspect-ratio sixteen-nine project-hero {% unless screenshot %}fallback-img{% endunless %}">
+        {% if screenshot %}
+        {% include_cached components/hy-img.html
+        img=screenshot
+        sizes="(min-width: 90em) 48rem, (min-width: 54em) 42rem, (min-width: 42em) 38rem, 100vw"
+        alt=project.title
+        property="image"
+        width=864
+        height=486
+        %}
+        {% endif %}
+      </div>
+    </div>
   </header>
 
-  {{ content }}
+  <div class="project-body">
+    {{ content }}
+  </div>
 </article>
 
 {% include components/dingbat.html %}
@@ -81,15 +103,15 @@ layout: base
 {% assign addons = page.addons | default:site.hydejack.project_addons %}
 {% unless addons %}{% assign addons = "about,newsletter,other" | split:"," %}{% endunless %}
 {% for addon in addons %}
-  {% case addon %}
-  {% when 'about' %}
-     {% include_cached components/about.html author=page.author %}
-  {% when 'newsletter' %}
-    {% include if-non-null try="pro/newsletter.html" %}
-  {% when 'other' %}
-    {% include if-non-null try="pro/other-projects.html" %}
-  {% when 'comments' %}
-    {% include body/comments.html %}
-  {% else %}
-  {% endcase %}
+{% case addon %}
+{% when 'about' %}
+{% include_cached components/about.html author=page.author %}
+{% when 'newsletter' %}
+{% include if-non-null try="pro/newsletter.html" %}
+{% when 'other' %}
+{% include if-non-null try="pro/other-projects.html" %}
+{% when 'comments' %}
+{% include body/comments.html %}
+{% else %}
+{% endcase %}
 {% endfor %}

@@ -7,13 +7,16 @@ basics:
   picture: "./assets/img/profile.webp"
   email: "jackyangzzh@gmail.com"
   phone: ""
-  website: ""
+  website: "https://jackyang.io"
   summary: >
-    I'm Jack, an XR engineer at Microsoft focused on Microsoft Mesh and Teams avatars. Since 2015, I've been shipping XR + AI products that make remote collaboration feel natural and human.
+    I'm Jack, an XR engineer at Microsoft shipping avatar and social experiences for Microsoft Mesh and Teams. Since 2015, I've built XR + AI products across research, startups, and enterprise platforms with a focus on making remote collaboration feel more natural, expressive, and human.
   location:
     city: "Seattle"
     countryCode: "US"
   profiles:
+    - network: "GitHub"
+      username: "jackyangzzh"
+      url: "https://github.com/jackyangzzh"
     - network: "Medium"
       username: "jackyangzzh"
       url: "https://medium.com/@jackyangzzh"

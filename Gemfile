@@ -16,6 +16,9 @@ gem "webrick"
 # Required for Medium posts plugin
 gem "nokogiri"
 gem "faraday-retry"
+gem "base64"
+gem "bigdecimal"
+gem "csv"
 
 group :jekyll_plugins do
   gem "jekyll-include-cache"

@@ -1,0 +1,22 @@
+{% assign video_id = include.id | default:include.youtube_id %}
+{% assign video_title = include.title | default:"Project video" %}
+{% assign video_src = include.src %}
+
+{% unless video_src %}
+{% if video_id %}
+{% assign video_src = "https://www.youtube.com/embed/" | append:video_id %}
+{% endif %}
+{% endunless %}
+
+{% if video_src %}
+<figure class="project-video">
+    <div class="project-video-frame">
+        <iframe src="{{ video_src }}" title="{{ video_title }}" loading="lazy" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    {% if include.caption %}
+    <figcaption class="figcaption">{{ include.caption }}</figcaption>
+    {% endif %}
+</figure>
+{% endif %}

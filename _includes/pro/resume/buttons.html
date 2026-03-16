@@ -6,51 +6,32 @@
   </button>
   {% endif %} {% if page.buttons.pdf %} {% assign pdf = page.buttons.pdf %} {%
   if pdf %}
-  <a
-    href="{% include smart-url url=pdf %}"
-    class="btn btn-sm btn-primary mt1"
-    target="_blank"
-  >
+  <a href="{% include smart-url url=pdf %}" class="btn btn-sm btn-primary mt1" target="_blank" rel="noopener noreferrer">
     <small class="icon-file-pdf"></small>
     {{ site.data.strings.resume.download_pdf | default: "PDF" }}
   </a>
   {% endif %} {% endif %} {% if page.buttons.vcf %} {% assign abs_url = page.url
   | absolute_url %} {% assign vcf = page.buttons.vcf | replace:"<!--url-->",abs_url
   %}
-  <a
-    type="text/directory"
-    href="{% include smart-url url=vcf %}"
-    class="btn btn-sm btn-primary no-mark-external mt1"
-  >
+  <a type="text/directory" href="{% include smart-url url=vcf %}" class="btn btn-sm btn-primary no-mark-external mt1">
     <small class="icon-user-plus"></small>
     {{ site.data.strings.resume.download_vcf | default: "vCard" }}
   </a>
   {% endif %} {% if page.buttons.json %} {% assign json = page.buttons.json %}
   {% if json %}
-  <a
-    href="{% include smart-url url=json %}"
-    class="btn btn-sm btn-primary mt1"
-    download
-  >
+  <a href="{% include smart-url url=json %}" class="btn btn-sm btn-primary mt1" download>
     <small class="content-json"></small>
     {{ site.data.strings.resume.download_json | default: "JSON" }}
   </a>
-  {% endif %} {% endif %} {% if page.buttons.connect %} {% assign json =
-  page.buttons.connect %} {% if json %}
-  <link
-    href="https://assets.calendly.com/assets/external/widget.css"
-    rel="stylesheet"
-  />
-  <script
-    src="https://assets.calendly.com/assets/external/widget.js"
-    type="text/javascript"
-    async
-  ></script>
-  <a
-    href=""
-    onclick="Calendly.initPopupWidget({url: 'https://calendly.com/jackyangzzh/30min'});return false;"
-    class="btn btn-sm btn-primary mt1"
-  >
+  {% endif %} {% endif %} {% if page.buttons.connect %} {% assign connect =
+  page.buttons.connect %} {% if connect %} {% assign calendly_host =
+  'calendly.com' %} {% assign connect_is_calendly = false %} {% if connect
+  contains calendly_host %} {% assign connect_is_calendly = true %}
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+  {% endif %}
+  <a href="{% include smart-url url=connect %}" {% if connect_is_calendly %}onclick="Calendly.initPopupWidget({url: '{{ connect }}'});return false;"
+    {% else %}target="_blank" rel="noopener noreferrer" {% endif %} class="btn btn-sm btn-primary mt1">
     <small class="icon-user-plus"></small>
     {{ site.data.strings.resume.connect | default: "Connect" }}
   </a>

@@ -1,7 +1,6 @@
 ---
 layout: project
 title: 'Kitchen Kraving'
-caption: Frantic VR cooking sim with playful chaos
 description: >
   Fast-paced VR kitchen sim developed at Carnegie Mellon ETC where I led interactions and shipped on the Oculus Store.
 date: '01-01-2015'
@@ -13,9 +12,15 @@ links:
     url: https://github.com/jackyangzzh/KitchenKraving
 
 ---
-Kitchen Kraving is a frantic VR kitchen sim I built at Carnegie Mellon with a small team of artists, programmers, and sound designers. It was my first shipped title, and it helped shape my later UX work on XR training systems.
+Kitchen Kraving is a frantic VR kitchen sim I built at Carnegie Mellon with a small team of artists, programmers, and sound designers. It was my first shipped title and an early lesson in how to make fast, physical interactions feel readable and fun inside VR.
 
-## Gameplay Loop
+## Problem
+
+Cooking games are naturally tactile and chaotic, which makes them a good fit for VR, but that same chaos can also make them hard to read. Our challenge was to build a fast-paced kitchen game where players could juggle orders, tools, and movement under pressure without the interaction model turning into noise.
+
+Because we were targeting Oculus Rift DK2-era hardware, the design also had to stay performance-conscious. The game needed to feel playful and reactive while still holding framerate and keeping interactions clear.
+
+## Core Loop
 
 - Players juggle multiple recipes, prep stations, and plating timers under constant time pressure.
 - A mischievous twist lets you sneak bites of food to keep stamina up, but you risk getting caught by the boss during surprise inspections.
@@ -23,13 +28,20 @@ Kitchen Kraving is a frantic VR kitchen sim I built at Carnegie Mellon with a sm
 
 ## My Role
 
+- Led interaction design and gameplay implementation as part of a small interdisciplinary ETC team.
 - Programmed VR interactions, tactile feedback, and gesture recognizers that determine whether food is being prepped or secretly eaten.
 - Built the kitchen state machine that orchestrates orders, timers, boss check-ins, and scoring—ensuring the pace scales with the player's proficiency.
 - Collaborated with artists on shader tuning and lighting passes to maintain 90 FPS on Oculus Rift DK2 hardware.
 
-## Outcomes
+## Key Design Decisions
+
+- Used exaggerated feedback, strong audio cues, and clear object affordances so players could recover quickly when the kitchen got hectic.
+- Treated gesture recognition as a gameplay tool rather than a tech demo; the important thing was not realism, but whether actions felt fair, fast, and legible under pressure.
+- Tuned the pacing system so difficulty came from overlapping tasks and surprise interruptions, not from imprecise controls.
+
+## Outcome
 
 - Demoed during Carnegie Mellon ETC showcases and later published on the Oculus Store as a free download for Rift DK2 owners.
-- Gained hands-on experience with co-located VR ergonomics that I later reused when prototyping shared experiences at Holos and Microsoft.
+- Gave me hands-on experience designing for VR ergonomics, feedback timing, and performance budgets long before those constraints became part of my day-to-day professional work.
 
-<style>.embed-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; } .embed-container iframe, .embed-container object, .embed-container embed { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }</style><div class='embed-container'><iframe src='https://www.youtube.com/embed/Gw54KtgTQhQ' frameborder='0' allowfullscreen title="Kitchen Kraving VR Game Gameplay Trailer"></iframe></div>{:loading="lazy"}
+{% include pro/project-video.html id="Gw54KtgTQhQ" title="Kitchen Kraving VR Game Gameplay Trailer" %}

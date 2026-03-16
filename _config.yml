@@ -3,7 +3,7 @@
 
 # Uncomment and set the URL of your site (with protocol, e.g. `https://`)
 # NOTE: You don't need to provide this property when hosting on GitHub Pages or Netlify.
-url: https://jackyang.io/
+url: https://jackyang.io
 
 # Uncomment and set the "base URL" of your site.
 # When your site is in a subdirectory, set to `/<name of directory>`,
@@ -24,7 +24,8 @@ title: Jack Yang
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description: >
-  XR + AI engineer at Microsoft with 10+ years building AI-powered immersive products. Published researcher. Open-source contributor. And many more.
+  XR engineer at Microsoft building Microsoft Mesh and Teams avatar experiences,
+  AI-powered spatial computing products, and collaborative immersive systems.
 
 # A shorter description for the sidebar.
 tagline: Reimagining Reality with XR + AI
@@ -366,6 +367,13 @@ plugins:
 #   links:
 #     - https://twitter.com/<username>
 #     - https://github.com/<username>
+social:
+  name: Jack Yang
+  links:
+    - https://jackyang.io/
+    - https://github.com/jackyangzzh
+    - https://www.linkedin.com/in/jackyangzzh/
+    - https://medium.com/@jackyangzzh
 
 # Plugin Configs
 # ---------------------------------------------------------------------------------------
