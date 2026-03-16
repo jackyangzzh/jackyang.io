@@ -1,1 +1,1 @@
-Sitemap: https://jackyang.io//sitemap.xml
+Sitemap: https://jackyang.io/sitemap.xml
