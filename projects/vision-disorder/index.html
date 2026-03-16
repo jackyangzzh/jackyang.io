@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="VR vision disorder simulation interface showing colorblindness test" />
 <meta property="twitter:title" content="VR Vision Disorder Simulation" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-03-16T07:31:57+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"Research project I led that uses AI and computer vision to recreate vision impairments inside VR.","headline":"VR Vision Disorder Simulation","image":{"alt":"VR vision disorder simulation interface showing colorblindness test","url":"https://jackyang.io/assets/img/projects/kats.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/vision-disorder/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-03-16T22:57:50+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"Research project I led that uses AI and computer vision to recreate vision impairments inside VR.","headline":"VR Vision Disorder Simulation","image":{"alt":"VR vision disorder simulation interface showing colorblindness test","url":"https://jackyang.io/assets/img/projects/kats.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/vision-disorder/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -104,7 +104,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-03-16T07:32:41+00:00',
+    INDEX_KEY: 'index--2026-03-16T22:58:31+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -519,7 +519,9 @@ immersive product design.</p>
 
 
 
-<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(25,55,71);background-image:url(/assets/img/bg-image.webp)"></div>
+<div class="sidebar-bg sidebar-overlay" style="background-color:rgb(25,55,71);background-image:url(/assets/img/bg-image.webp)">
+  <canvas id="procedural-bg" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
+</div>
 
     <div class="sidebar-sticky">
   <div class="sidebar-about">
@@ -690,7 +692,7 @@ immersive product design.</p>
     }
   </script>
 <!--<![endif]-->
-  
+  <script src="/assets/js/procedural-bg.js" defer></script>
 
 
 
