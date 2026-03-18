@@ -16,3 +16,11 @@ hy-drawer:not(.loaded) {
 .sidebar-about > a.sidebar-title::after {
   will-change: border-color;
 }
+
+// On mobile, the sidebar stays in normal flow, so forcing .content to 100vh
+// adds an extra viewport of scroll on short pages.
+@media screen and (max-width: 63.99em) {
+  .content {
+    min-height: 0;
+  }
+}
