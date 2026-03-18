@@ -383,6 +383,20 @@ main:not(.layout-resume) {
     > .post-card__body > .post-card__excerpt + .post-card__cta {
       margin-top: auto;
     }
+
+    a {
+      position: relative;
+      z-index: 1;
+
+      &.fill-card {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 0;
+      }
+    }
   }
 
   .project-card > .project-card-body > .project-card-title,

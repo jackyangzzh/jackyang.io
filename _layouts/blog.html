@@ -14,9 +14,9 @@ layout: default
   {% for post in site.data.medium_posts %}
   <li class="post-card">
     {% if post.thumbnail %}
-    <div class="post-card__thumb">
+    <a href="{{ post.url }}" target="_blank" rel="noopener noreferrer" class="no-hover no-print-link no-mark-external post-card__thumb" tabindex="-1">
       <img src="{{ post.thumbnail }}" alt="{{ post.title }}" />
-    </div>
+    </a>
     {% endif %}
     <div class="post-card__body">
       <p class="post-card__meta">
@@ -28,10 +28,9 @@ layout: default
       <p class="post-card__excerpt fine">
         {{ post.description | markdownify | strip_html | truncatewords: 30 }}
       </p>
-      <a href="{{ post.url }}" target="_blank" rel="noopener noreferrer" class="post-card__cta no-mark-external">
-        Read article
-      </a>
+      <p class="post-card__cta">Read article</p>
     </div>
+    <a class="fill-card no-hover no-mark-external" href="{{ post.url }}" target="_blank" rel="noopener noreferrer" tabindex="-1"><span class="sr-only">{{ post.title }}</span></a>
   </li>
   {% endfor %}
 </ul>
