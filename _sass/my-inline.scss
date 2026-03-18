@@ -23,4 +23,14 @@ hy-drawer:not(.loaded) {
   .content {
     min-height: 0;
   }
+
+  // Hide resume content below the cover hero on mobile
+  hy-drawer.cover ~ #_main {
+    display: none;
+  }
+
+  // Prevent iOS elastic overscroll on cover pages
+  body:has(hy-drawer.cover) {
+    overflow-y: hidden;
+  }
 }
