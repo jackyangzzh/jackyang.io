@@ -9,7 +9,7 @@ basics:
   phone: ""
   website: ""
   summary: >
-    I'm Jack, an XR engineer at Microsoft shipping avatar and social experiences for Microsoft Mesh and Teams. Since 2015, I've built XR + AI products across research, startups, and enterprise platforms with a focus on making remote collaboration feel more natural, expressive, and human.
+    I'm Jack, an XR engineer at Microsoft shipping avatar and social experiences for Microsoft Mesh and Teams. For over a decade, I've built XR + AI products across research, startups, and enterprise platforms with a focus on making remote collaboration feel more natural, expressive, and human.
   location:
     city: "Seattle"
     countryCode: "US"
@@ -75,7 +75,6 @@ education:
       - Studied game design at the CMU Entertainment Technology Center.
       - Led development and release of Kitchen Kraving, a VR game for the Oculus Rift DK2.
 awards: []
-  # Add your awards here when available
 certifications:
   - name: "VR Development Professional Certificate"
     publisher: "UC San Diego"

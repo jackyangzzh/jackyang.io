@@ -1,2 +1,18 @@
 // Uncomment to disable dingbat icons below posts
 // hr.dingbat { display: none }
+
+// Reduce CLS from Google Fonts loading by setting size-adjust on fallback
+// This prevents large layout shifts when Roboto Slab / Noto Sans swap in
+body {
+  font-family: Noto Sans, Helvetica, Arial, sans-serif;
+}
+
+// Reserve space for sidebar on mobile to prevent CLS when drawer JS initializes
+hy-drawer:not(.loaded) {
+  contain: layout style;
+}
+
+// Prevent CLS from non-composited animations
+.sidebar-about > a.sidebar-title::after {
+  will-change: border-color;
+}

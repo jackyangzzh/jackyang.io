@@ -133,7 +133,7 @@ PLATFORMS
 
 DEPENDENCIES
   base64
-  bigdecimal (= 3.1.5)
+  bigdecimal
   csv
   faraday-retry
   jekyll (~> 3.8)
