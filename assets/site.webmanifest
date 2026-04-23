@@ -4,7 +4,7 @@
   "short_name": "Jack Yang",
   "description": "XR engineer at Microsoft building Microsoft Mesh and Teams avatar experiences, AI-powered spatial computing products, and collaborative immersive systems.",
   "start_url": "/?utm_source=homescreen",
-  "theme_color": "rgb(25,55,71)",
+  "theme_color": "rgb(32,28,58)",
   "background_color": "#fff",
   "orientation": "portrait",
   "display": "minimal-ui",
