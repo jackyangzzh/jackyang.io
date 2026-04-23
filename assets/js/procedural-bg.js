@@ -1,11 +1,13 @@
 (function () {
-  'use strict';
+  "use strict";
 
-  var canvas = document.getElementById('procedural-bg');
+  var canvas = document.getElementById("procedural-bg");
   if (!canvas) return;
 
-  var ctx = canvas.getContext('2d');
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ctx = canvas.getContext("2d");
+  var reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
 
   var w, h, dpr;
   var time = 0;
@@ -13,15 +15,76 @@
   var animId = null;
   var isVisible = true;
 
-  // Color palette — dark navy base with teal/blue/purple accents
-  var BG = { r: 18, g: 42, b: 56 };
+  // Color palette — Twilight Glow: deep indigo/plum base with warm rose,
+  // peach, lavender, and soft mint-teal accents for an inviting feel.
+  var BG = { r: 32, g: 28, b: 58 };
 
   var orbs = [
-    { r: 79,  g: 177, b: 186, a: 0.15, radius: 0.55, xSpd: 0.00028, ySpd: 0.00019, xPh: 0.0, yPh: 0.0, xAmp: 0.38, yAmp: 0.30 },
-    { r: 50,  g: 120, b: 170, a: 0.12, radius: 0.45, xSpd: 0.00020, ySpd: 0.00028, xPh: 2.1, yPh: 1.0, xAmp: 0.32, yAmp: 0.35 },
-    { r: 90,  g: 65,  b: 140, a: 0.09, radius: 0.40, xSpd: 0.00024, ySpd: 0.00016, xPh: 4.2, yPh: 2.8, xAmp: 0.28, yAmp: 0.38 },
-    { r: 45,  g: 165, b: 185, a: 0.10, radius: 0.38, xSpd: 0.00032, ySpd: 0.00022, xPh: 1.1, yPh: 4.5, xAmp: 0.42, yAmp: 0.25 },
-    { r: 65,  g: 100, b: 155, a: 0.08, radius: 0.50, xSpd: 0.00015, ySpd: 0.00025, xPh: 3.3, yPh: 1.7, xAmp: 0.35, yAmp: 0.32 },
+    {
+      r: 235,
+      g: 145,
+      b: 160,
+      a: 0.14,
+      radius: 0.55,
+      xSpd: 0.00028,
+      ySpd: 0.00019,
+      xPh: 0.0,
+      yPh: 0.0,
+      xAmp: 0.38,
+      yAmp: 0.3,
+    }, // warm rose
+    {
+      r: 245,
+      g: 180,
+      b: 135,
+      a: 0.11,
+      radius: 0.45,
+      xSpd: 0.0002,
+      ySpd: 0.00028,
+      xPh: 2.1,
+      yPh: 1.0,
+      xAmp: 0.32,
+      yAmp: 0.35,
+    }, // peach
+    {
+      r: 160,
+      g: 130,
+      b: 215,
+      a: 0.1,
+      radius: 0.4,
+      xSpd: 0.00024,
+      ySpd: 0.00016,
+      xPh: 4.2,
+      yPh: 2.8,
+      xAmp: 0.28,
+      yAmp: 0.38,
+    }, // lavender
+    {
+      r: 120,
+      g: 200,
+      b: 190,
+      a: 0.1,
+      radius: 0.38,
+      xSpd: 0.00032,
+      ySpd: 0.00022,
+      xPh: 1.1,
+      yPh: 4.5,
+      xAmp: 0.42,
+      yAmp: 0.25,
+    }, // mint teal
+    {
+      r: 220,
+      g: 150,
+      b: 200,
+      a: 0.08,
+      radius: 0.5,
+      xSpd: 0.00015,
+      ySpd: 0.00025,
+      xPh: 3.3,
+      yPh: 1.7,
+      xAmp: 0.35,
+      yAmp: 0.32,
+    }, // dusty pink
   ];
 
   function resize() {
@@ -56,7 +119,7 @@
   }
 
   function drawOrbs() {
-    ctx.globalCompositeOperation = 'screen';
+    ctx.globalCompositeOperation = "screen";
 
     for (var i = 0; i < orbs.length; i++) {
       var o = orbs[i];
@@ -68,14 +131,20 @@
       r *= 1 + 0.06 * Math.sin(time * 0.001 + i * 1.5);
 
       var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
-      grad.addColorStop(0, 'rgba(' + o.r + ',' + o.g + ',' + o.b + ',' + o.a + ')');
-      grad.addColorStop(0.4, 'rgba(' + o.r + ',' + o.g + ',' + o.b + ',' + (o.a * 0.35) + ')');
-      grad.addColorStop(1, 'rgba(' + o.r + ',' + o.g + ',' + o.b + ',0)');
+      grad.addColorStop(
+        0,
+        "rgba(" + o.r + "," + o.g + "," + o.b + "," + o.a + ")",
+      );
+      grad.addColorStop(
+        0.4,
+        "rgba(" + o.r + "," + o.g + "," + o.b + "," + o.a * 0.35 + ")",
+      );
+      grad.addColorStop(1, "rgba(" + o.r + "," + o.g + "," + o.b + ",0)");
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, w, h);
     }
 
-    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalCompositeOperation = "source-over";
   }
 
   function drawParticles() {
@@ -105,7 +174,7 @@
 
         if (distSq < maxDistSq) {
           alpha = (1 - distSq / maxDistSq) * 0.15;
-          ctx.strokeStyle = 'rgba(79,177,186,' + alpha + ')';
+          ctx.strokeStyle = "rgba(235,220,230," + alpha + ")";
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
@@ -122,19 +191,40 @@
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(210,235,245,' + alpha + ')';
+      ctx.fillStyle = "rgba(250,240,235," + alpha + ")";
       ctx.fill();
     }
   }
 
   // Draw subtle flowing wave lines for an aurora feel
   function drawWaves() {
-    ctx.globalCompositeOperation = 'screen';
+    ctx.globalCompositeOperation = "screen";
 
     var configs = [
-      { baseY: 0.3, amp: 0.08, freq: 0.003, speed: 0.0004, color: '79,177,186', alpha: 0.04 },
-      { baseY: 0.5, amp: 0.11, freq: 0.0025, speed: 0.00055, color: '60,130,170', alpha: 0.03 },
-      { baseY: 0.7, amp: 0.14, freq: 0.002, speed: 0.0007, color: '85,70,140', alpha: 0.025 },
+      {
+        baseY: 0.3,
+        amp: 0.08,
+        freq: 0.003,
+        speed: 0.0004,
+        color: "235,160,175",
+        alpha: 0.04,
+      }, // rose
+      {
+        baseY: 0.5,
+        amp: 0.11,
+        freq: 0.0025,
+        speed: 0.00055,
+        color: "245,190,145",
+        alpha: 0.03,
+      }, // peach
+      {
+        baseY: 0.7,
+        amp: 0.14,
+        freq: 0.002,
+        speed: 0.0007,
+        color: "165,135,215",
+        alpha: 0.03,
+      }, // lavender
     ];
 
     for (var n = 0; n < configs.length; n++) {
@@ -145,24 +235,25 @@
       ctx.beginPath();
       ctx.moveTo(0, by);
       for (var x = 0; x <= w; x += 4) {
-        var y = by
-          + amp * Math.sin(x * c.freq + time * c.speed + n * 2)
-          + amp * 0.5 * Math.sin(x * c.freq * 1.8 + time * c.speed * 0.7 + n);
+        var y =
+          by +
+          amp * Math.sin(x * c.freq + time * c.speed + n * 2) +
+          amp * 0.5 * Math.sin(x * c.freq * 1.8 + time * c.speed * 0.7 + n);
         ctx.lineTo(x, y);
       }
 
       // Soft glow pass (wide, lower opacity)
-      ctx.strokeStyle = 'rgba(' + c.color + ',' + (c.alpha * 0.5) + ')';
+      ctx.strokeStyle = "rgba(" + c.color + "," + c.alpha * 0.5 + ")";
       ctx.lineWidth = 6 + n * 3;
       ctx.stroke();
 
       // Core line pass (thin, full opacity)
-      ctx.strokeStyle = 'rgba(' + c.color + ',' + c.alpha + ')';
+      ctx.strokeStyle = "rgba(" + c.color + "," + c.alpha + ")";
       ctx.lineWidth = 1.5;
       ctx.stroke();
     }
 
-    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalCompositeOperation = "source-over";
   }
 
   function frame() {
@@ -174,7 +265,7 @@
     time++;
 
     // Clear
-    ctx.fillStyle = 'rgb(' + BG.r + ',' + BG.g + ',' + BG.b + ')';
+    ctx.fillStyle = "rgb(" + BG.r + "," + BG.g + "," + BG.b + ")";
     ctx.fillRect(0, 0, w, h);
 
     drawOrbs();
@@ -187,19 +278,22 @@
   }
 
   // Pause when not visible for performance
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      isVisible = entry.isIntersecting;
-      if (isVisible && !animId && !reducedMotion) {
-        animId = requestAnimationFrame(frame);
-      }
-    });
-  }, { threshold: 0 });
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !animId && !reducedMotion) {
+          animId = requestAnimationFrame(frame);
+        }
+      });
+    },
+    { threshold: 0 },
+  );
   observer.observe(canvas);
 
   // Debounced resize
   var resizeTimer;
-  window.addEventListener('resize', function () {
+  window.addEventListener("resize", function () {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(resize, 150);
   });

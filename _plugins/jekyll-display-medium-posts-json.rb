@@ -1,6 +1,4 @@
-require "net/http"
 require "nokogiri"
-require "openssl"
 require "open3"
 
 module Jekyll
@@ -24,9 +22,8 @@ module Jekyll
       end
 
       feed_url = "https://medium.com/feed/@#{username}"
-      uri = URI(feed_url)
 
-      feed = Nokogiri::XML(fetch_feed(uri))
+      feed = Nokogiri::XML(fetch_feed(feed_url))
       feed.remove_namespaces!
       items = feed.xpath("//item")
 
@@ -71,24 +68,9 @@ module Jekyll
       }
     end
 
-    def fetch_feed(uri)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      http.open_timeout = 5
-      http.read_timeout = 10
-      http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-
-      request = Net::HTTP::Get.new(uri.request_uri)
-      request["User-Agent"] = "Jekyll Medium Posts Generator"
-      response = http.request(request)
-
-      unless response.is_a?(Net::HTTPSuccess)
-        raise "feed request failed with #{response.code} #{response.message}"
-      end
-
-      response.body
-    rescue OpenSSL::SSL::SSLError, Net::OpenTimeout, Net::ReadTimeout, SocketError => e
-      Jekyll.logger.warn "MediumPosts:", "Ruby fetch failed (#{e.message}); retrying with curl."
+    # Use curl directly: macOS/Linux ship with a working CA bundle, while Ruby's
+    # OpenSSL on some macOS setups fails CRL checks against Medium's CDN.
+    def fetch_feed(url)
       stdout, stderr, status = Open3.capture3(
         "curl",
         "-fsSL",
@@ -96,7 +78,9 @@ module Jekyll
         "5",
         "--max-time",
         "15",
-        uri.to_s,
+        "-A",
+        "Jekyll Medium Posts Generator",
+        url,
       )
 
       raise "curl feed request failed: #{stderr.strip}" unless status.success?

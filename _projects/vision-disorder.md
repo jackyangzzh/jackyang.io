@@ -30,8 +30,8 @@ I first designed chromatic adjustment algorithms using computer vision to approx
 
 ## Binocular Rivalry
 
-![Static rivalry demonstration](/assets/img/projects/staticRivalry.gif){:loading="lazy"}
-![Dynamic rivalry demonstration](/assets/img/projects/dynamicRivalry.gif){:loading="lazy"}
+<video src="/assets/img/projects/staticRivalry.webm" autoplay loop muted playsinline preload="metadata" aria-label="Static rivalry demonstration"></video>
+<video src="/assets/img/projects/dynamicRivalry.webm" autoplay loop muted playsinline preload="metadata" aria-label="Dynamic rivalry demonstration"></video>
 
 The human visual system infers depth by blending signals from both eyes. This phase demonstrates a VR system that deliberately breaks binocular redundancy by projecting different dynamic and static content to each eye, creating controllable rivalry effects.
 
