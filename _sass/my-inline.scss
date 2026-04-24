@@ -23,4 +23,14 @@ hy-drawer:not(.loaded) {
   .content {
     min-height: 0;
   }
+
+  // Scope this to the cover drawer so it overrides Hydejack's
+  // `hy-drawer.loaded .sidebar { min-height: 100% }` rule on the home page
+  // without changing the narrow mobile drawer used by non-cover pages.
+  // `dvh` tracks the visible viewport height, while unsupported browsers
+  // fall back to `vh`.
+  hy-drawer.cover .sidebar {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
 }
