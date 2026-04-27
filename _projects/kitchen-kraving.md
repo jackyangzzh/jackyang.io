@@ -14,6 +14,8 @@ links:
 ---
 Kitchen Kraving is a frantic VR kitchen sim I built at Carnegie Mellon with a small team of artists, programmers, and sound designers. It was my first shipped title and an early lesson in how to make fast, physical interactions feel readable and fun inside VR.
 
+{% include pro/project-video.html id="Gw54KtgTQhQ" title="Kitchen Kraving VR Game Gameplay Trailer" %}
+
 ## Problem
 
 Cooking games are naturally tactile and chaotic, which makes them a good fit for VR, but that same chaos can also make them hard to read. Our challenge was to build a fast-paced kitchen game where players could juggle orders, tools, and movement under pressure without the interaction model turning into noise.
@@ -44,4 +46,3 @@ Because we were targeting Oculus Rift DK2-era hardware, the design also had to s
 - Demoed during Carnegie Mellon ETC showcases and later published on the Oculus Store as a free download for Rift DK2 owners.
 - Gave me hands-on experience designing for VR ergonomics, feedback timing, and performance budgets long before those constraints became part of my day-to-day professional work.
 
-{% include pro/project-video.html id="Gw54KtgTQhQ" title="Kitchen Kraving VR Game Gameplay Trailer" %}

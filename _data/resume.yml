@@ -25,14 +25,15 @@ basics:
       url: "https://www.linkedin.com/in/jackyangzzh/"
 work:
   - company: "Microsoft"
-    position: "Mixed Reality Software Engineer"
+    position: "XR + AI Software Engineer"
     website: "https://www.microsoft.com/en-us/microsoft-teams/microsoft-mesh"
     startDate: "2022-06-01"
     endDate: ""
     highlights:
-      - Ship cross-platform avatar and social features in Microsoft Mesh, reaching millions of Teams users across HoloLens, Quest, and desktop.
-      - Lead performance, accessibility, and localization initiatives for avatar customization—reducing load times and expanding language support.
-      - Build data-driven content pipelines that keep web, VR, and standalone clients synchronized across weekly releases.
+      - <i>Currently working on tented project that I can't talk about publicly yet. Stay tuned!</i>
+      - Build the cross-platform UI system (UXTools) powering Mesh and Avatar surfaces across Teams desktop, web, and immersive (Quest) clients.
+      - Ship the avatar customization experience and contribute to the core avatar stack used by Avatars in Teams and Microsoft Mesh immersive events.
+      - Drive performance, accessibility, and localization work across the avatar pipeline so the same identity renders consistently from 2D meeting tiles to crowded 3D venues.
 
   - company: "Holos"
     position: "AR/VR Interaction Engineer"
@@ -61,7 +62,7 @@ work:
       - Designed Unity UI for replaying robotic arm motion from datasets spanning 15+ lab experiments.
 education:
   - institution: "University of Wisconsin–Madison"
-    studyType: "Bachelor"
+    studyType: "Bachelor of Science"
     startDate: "2016-09-01"
     endDate: "2020-06-01"
     courses:
