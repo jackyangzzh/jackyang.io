@@ -32,7 +32,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Projects" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-04-27T15:09:30+00:00","description":"Explore my portfolio featuring XR + AI applications, interactive experiences, and immersive technology experiments.","headline":"Projects","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-04-30T03:11:11+00:00","description":"Explore my portfolio featuring XR + AI applications, interactive experiences, and immersive technology experiments.","headline":"Projects","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -99,7 +99,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-04-27T15:10:22+00:00',
+    INDEX_KEY: 'index--2026-04-27T15:11:56+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -113,8 +113,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1777302622" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1777302622" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1777302716" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1777302716" id="_iconsPreload">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
 
 
@@ -206,6 +206,144 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   </header>
 
   
+      
+
+<style>
+  .project-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    list-style: none;
+    align-items: center;
+  }
+  .project-filters li {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .project-filter-btn {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    padding: 0 0.9rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.7;
+    transition:
+      opacity 0.15s ease,
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .project-filter-btn:hover {
+    opacity: 1;
+  }
+  .project-filter-btn.is-active {
+    opacity: 1;
+    background: currentColor;
+  }
+  .project-filter-btn.is-active span {
+    color: #fff;
+    mix-blend-mode: difference;
+  }
+  .project-tag {
+    display: inline-block;
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    line-height: 1.4;
+    color: #fff;
+  }
+  .project-tag-professional {
+    background: #2563eb;
+  }
+  .project-tag-personal {
+    background: #16a34a;
+  }
+  .project-tag-research {
+    background: #9333ea;
+  }
+  .project-tag-other {
+    background: #6b7280;
+  }
+  .project-card-category {
+    margin: 0 0 0.35rem;
+  }
+  .project-hidden {
+    display: none !important;
+  }
+</style>
+
+<ul
+  class="project-filters"
+  role="tablist"
+  aria-label="Filter projects by category"
+>
+  <li>
+    <button
+      type="button"
+      class="project-filter-btn is-active"
+      data-filter="all"
+      aria-pressed="true"
+    >
+      <span>All</span>
+    </button>
+  </li>
+  <li>
+    <button
+      type="button"
+      class="project-filter-btn"
+      data-filter="professional"
+      aria-pressed="false"
+    >
+      <span>Professional</span>
+    </button>
+  </li>
+  <li>
+    <button
+      type="button"
+      class="project-filter-btn"
+      data-filter="personal"
+      aria-pressed="false"
+    >
+      <span>Personal</span>
+    </button>
+  </li>
+  <li>
+    <button
+      type="button"
+      class="project-filter-btn"
+      data-filter="research"
+      aria-pressed="false"
+    >
+      <span>Research</span>
+    </button>
+  </li>
+</ul>
+
+<div class="project-list">
+   
+  <div class="columns columns-break">
+         
+    <div
+      class="column column-1-2 project-column"
+      data-category="personal"
+    >
+      
 
 
 
@@ -217,15 +355,6 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-<div class="columns columns-break">
-
-  
-
-  
-
-  
-  <div class="column column-1-2">
-    
 
 
 
@@ -235,15 +364,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-
-
-
-
-
-
-
-
-<article class="project-card" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/dishvue/#project" >
+<article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/dishvue/#project" >
   <meta property="name" content="DishVue" />
   
   <meta property="image" content="/assets/img/projects/DishVue.webp" />
@@ -275,6 +396,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     <p class="project-card-meta">
       
+      <span class="project-tag project-tag-personal">Personal</span>
+      
+      
+      <span class="project-card-meta-separator">|</span>
       <time datetime="2024-01-01T00:00:00+00:00">2024</time>
       
       
@@ -298,17 +423,14 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <a class="fill-card no-hover" href="/projects/dishvue/" tabindex="-1"><span class="sr-only">Continue reading DishVue
 </span></a>
 </article>
-  </div>
+    </div>
 
-  
-
-  
-
-  
-
-  
-  <div class="column column-1-2">
-    
+         
+    <div
+      class="column column-1-2 project-column"
+      data-category="professional"
+    >
+      
 
 
 
@@ -326,7 +448,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-<article class="project-card" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/mesh-avatars/#project" >
+
+
+
+<article class="project-card" data-category="professional" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/mesh-avatars/#project" >
   <meta property="name" content="Microsoft Mesh & Avatars for Teams" />
   
   <meta property="image" content="/assets/img/projects/mesh-avatars.webp" />
@@ -358,6 +483,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     <p class="project-card-meta">
       
+      <span class="project-tag project-tag-professional">Professional</span>
+      
+      
+      <span class="project-card-meta-separator">|</span>
       <time datetime="2023-01-01T00:00:00+00:00">2023</time>
       
       
@@ -381,17 +510,14 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <a class="fill-card no-hover" href="/projects/mesh-avatars/" tabindex="-1"><span class="sr-only">Continue reading Microsoft Mesh & Avatars for Teams
 </span></a>
 </article>
-  </div>
+    </div>
 
-  
-
-  
-
-  
-
-  
-  <div class="column column-1-2">
-    
+         
+    <div
+      class="column column-1-2 project-column"
+      data-category="personal"
+    >
+      
 
 
 
@@ -409,7 +535,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-<article class="project-card" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/xr-design-handbook/#project" >
+
+
+
+<article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/xr-design-handbook/#project" >
   <meta property="name" content="XR Design Handbook" />
   
   <meta property="image" content="/assets/img/projects/xrdesignhandbook.webp" />
@@ -441,6 +570,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     <p class="project-card-meta">
       
+      <span class="project-tag project-tag-personal">Personal</span>
+      
+      
+      <span class="project-card-meta-separator">|</span>
       <time datetime="2022-01-01T00:00:00+00:00">2022</time>
       
       
@@ -464,17 +597,14 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <a class="fill-card no-hover" href="/projects/xr-design-handbook/" tabindex="-1"><span class="sr-only">Continue reading XR Design Handbook
 </span></a>
 </article>
-  </div>
+    </div>
 
-  
-
-  
-
-  
-
-  
-  <div class="column column-1-2">
-    
+         
+    <div
+      class="column column-1-2 project-column"
+      data-category="professional"
+    >
+      
 
 
 
@@ -492,7 +622,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-<article class="project-card" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/holos/#project" >
+
+
+
+<article class="project-card" data-category="professional" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/holos/#project" >
   <meta property="name" content="Holos" />
   
   <meta property="image" content="/assets/img/projects/holos.webp" />
@@ -524,6 +657,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     <p class="project-card-meta">
       
+      <span class="project-tag project-tag-professional">Professional</span>
+      
+      
+      <span class="project-card-meta-separator">|</span>
       <time datetime="2022-01-01T00:00:00+00:00">2022</time>
       
       
@@ -547,17 +684,14 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <a class="fill-card no-hover" href="/projects/holos/" tabindex="-1"><span class="sr-only">Continue reading Holos
 </span></a>
 </article>
-  </div>
+    </div>
 
-  
-
-  
-
-  
-
-  
-  <div class="column column-1-2">
-    
+         
+    <div
+      class="column column-1-2 project-column"
+      data-category="personal"
+    >
+      
 
 
 
@@ -575,7 +709,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-<article class="project-card" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/polyspace/#project" >
+
+
+
+<article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/polyspace/#project" >
   <meta property="name" content="PolySpaceVR" />
   
   <meta property="image" content="/assets/img/projects/PolySpaceLogo.webp" />
@@ -607,6 +744,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     <p class="project-card-meta">
       
+      <span class="project-tag project-tag-personal">Personal</span>
+      
+      
+      <span class="project-card-meta-separator">|</span>
       <time datetime="2021-01-01T00:00:00+00:00">2021</time>
       
       
@@ -630,17 +771,14 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <a class="fill-card no-hover" href="/projects/polyspace/" tabindex="-1"><span class="sr-only">Continue reading PolySpaceVR
 </span></a>
 </article>
-  </div>
+    </div>
 
-  
-
-  
-
-  
-
-  
-  <div class="column column-1-2">
-    
+         
+    <div
+      class="column column-1-2 project-column"
+      data-category="personal"
+    >
+      
 
 
 
@@ -658,7 +796,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-<article class="project-card" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/mrtk/#project" >
+
+
+
+<article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/mrtk/#project" >
   <meta property="name" content="MRTK for Unity" />
   
   <meta property="image" content="/assets/img/projects/mrtk_unity.webp" />
@@ -690,6 +831,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     <p class="project-card-meta">
       
+      <span class="project-tag project-tag-personal">Personal</span>
+      
+      
+      <span class="project-card-meta-separator">|</span>
       <time datetime="2021-01-01T00:00:00+00:00">2021</time>
       
       
@@ -713,17 +858,14 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <a class="fill-card no-hover" href="/projects/mrtk/" tabindex="-1"><span class="sr-only">Continue reading MRTK for Unity
 </span></a>
 </article>
-  </div>
+    </div>
 
-  
-
-  
-
-  
-
-  
-  <div class="column column-1-2">
-    
+         
+    <div
+      class="column column-1-2 project-column"
+      data-category="research"
+    >
+      
 
 
 
@@ -741,7 +883,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-<article class="project-card" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/vision-disorder/#project" >
+
+
+
+<article class="project-card" data-category="research" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/vision-disorder/#project" >
   <meta property="name" content="VR Vision Disorder Simulation" />
   
   <meta property="image" content="/assets/img/projects/kats.webp" />
@@ -773,6 +918,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     <p class="project-card-meta">
       
+      <span class="project-tag project-tag-research">Research</span>
+      
+      
+      <span class="project-card-meta-separator">|</span>
       <time datetime="2020-01-01T00:00:00+00:00">2020</time>
       
       
@@ -796,17 +945,14 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <a class="fill-card no-hover" href="/projects/vision-disorder/" tabindex="-1"><span class="sr-only">Continue reading VR Vision Disorder Simulation
 </span></a>
 </article>
-  </div>
+    </div>
 
-  
-
-  
-
-  
-
-  
-  <div class="column column-1-2">
-    
+         
+    <div
+      class="column column-1-2 project-column"
+      data-category="research"
+    >
+      
 
 
 
@@ -824,7 +970,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-<article class="project-card" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/robot-control/#project" >
+
+
+
+<article class="project-card" data-category="research" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/robot-control/#project" >
   <meta property="name" content="Robot Control Through VR" />
   
   <meta property="image" content="/assets/img/projects/mimicry.webp" />
@@ -856,6 +1005,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     <p class="project-card-meta">
       
+      <span class="project-tag project-tag-research">Research</span>
+      
+      
+      <span class="project-card-meta-separator">|</span>
       <time datetime="2020-01-01T00:00:00+00:00">2020</time>
       
       
@@ -876,17 +1029,14 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <a class="fill-card no-hover" href="/projects/robot-control/" tabindex="-1"><span class="sr-only">Continue reading Robot Control Through VR
 </span></a>
 </article>
-  </div>
+    </div>
 
-  
-
-  
-
-  
-
-  
-  <div class="column column-1-2">
-    
+         
+    <div
+      class="column column-1-2 project-column"
+      data-category="personal"
+    >
+      
 
 
 
@@ -904,7 +1054,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-<article class="project-card" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/project-virtualso/#project" >
+
+
+
+<article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/project-virtualso/#project" >
   <meta property="name" content="Project Virtualso" />
   
   <meta property="image" content="/assets/img/projects/virtualso.webp" />
@@ -936,6 +1089,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     <p class="project-card-meta">
       
+      <span class="project-tag project-tag-personal">Personal</span>
+      
+      
+      <span class="project-card-meta-separator">|</span>
       <time datetime="2020-01-01T00:00:00+00:00">2020</time>
       
       
@@ -956,17 +1113,14 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <a class="fill-card no-hover" href="/projects/project-virtualso/" tabindex="-1"><span class="sr-only">Continue reading Project Virtualso
 </span></a>
 </article>
-  </div>
+    </div>
 
-  
-
-  
-
-  
-
-  
-  <div class="column column-1-2">
-    
+         
+    <div
+      class="column column-1-2 project-column"
+      data-category="research"
+    >
+      
 
 
 
@@ -984,7 +1138,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-<article class="project-card" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/kitchen-kraving/#project" >
+
+
+
+<article class="project-card" data-category="research" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/kitchen-kraving/#project" >
   <meta property="name" content="Kitchen Kraving" />
   
   <meta property="image" content="/assets/img/projects/kitchen.webp" />
@@ -1016,6 +1173,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     <p class="project-card-meta">
       
+      <span class="project-tag project-tag-research">Research</span>
+      
+      
+      <span class="project-card-meta-separator">|</span>
       <time datetime="2015-01-01T00:00:00+00:00">2015</time>
       
       
@@ -1039,10 +1200,34 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <a class="fill-card no-hover" href="/projects/kitchen-kraving/" tabindex="-1"><span class="sr-only">Continue reading Kitchen Kraving
 </span></a>
 </article>
-  </div>
+    </div>
 
+    
   </div>
+   
+</div>
 
+<script>
+  (function () {
+    var buttons = document.querySelectorAll(".project-filter-btn");
+    var items = document.querySelectorAll(".project-list .project-column");
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var filter = btn.getAttribute("data-filter");
+        buttons.forEach(function (b) {
+          var active = b === btn;
+          b.classList.toggle("is-active", active);
+          b.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+        items.forEach(function (item) {
+          var match =
+            filter === "all" || item.getAttribute("data-category") === filter;
+          item.classList.toggle("project-hidden", !match);
+        });
+      });
+    });
+  })();
+</script>
 
 </article>
 
