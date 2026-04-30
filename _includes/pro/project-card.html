@@ -28,7 +28,15 @@
 {% assign image_base = screenshot.src | default:screenshot.path | default:screenshot %}
 {% assign proj_format = site.data.strings.date_formats.project | default:"%Y" %}
 
-<article class="project-card" {% unless nsd %}vocab="http://schema.org/" typeof="CreativeWork" resource="{{ project.url | relative_url }}#project" {%
+{% assign project_category = project.category | default:'other' | downcase %}
+{% case project_category %}
+  {% when 'professional' %}{% assign project_category_label = 'Professional' %}
+  {% when 'personal' %}{% assign project_category_label = 'Personal' %}
+  {% when 'research' %}{% assign project_category_label = 'Research' %}
+  {% else %}{% assign project_category_label = project.category %}
+{% endcase %}
+
+<article class="project-card" data-category="{{ project_category }}" {% unless nsd %}vocab="http://schema.org/" typeof="CreativeWork" resource="{{ project.url | relative_url }}#project" {%
   endunless %}>
   <meta property="name" content="{{ project.title }}" />
   {% if image_base %}
@@ -42,13 +50,17 @@
     </div>
   </a>
   <div class="project-card-body">
-    {% if project.date or project.links %}
+    {% if project.date or project.links or project.category %}
     <p class="project-card-meta">
+      {% if project.category %}
+      <span class="project-tag project-tag-{{ project_category }}">{{ project_category_label }}</span>
+      {% endif %}
       {% if project.date %}
+      {% if project.category %}<span class="project-card-meta-separator">{{ site.data.strings.separator | default:'|' }}</span>{% endif %}
       <time datetime="{{ project.date | date_to_xmlschema }}">{{ project.date | date:proj_format }}</time>
       {% endif %}
       {% if project.links and project.links.size > 0 %}
-      {% if project.date %}<span class="project-card-meta-separator">{{ site.data.strings.separator | default:'|' }}</span>{% endif %}
+      {% if project.date or project.category %}<span class="project-card-meta-separator">{{ site.data.strings.separator | default:'|' }}</span>{% endif %}
       <span>{{ project.links.size }} {% if project.links.size == 1 %}link{% else %}links{% endif %}</span>
       {% endif %}
     </p>

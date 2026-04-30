@@ -4,6 +4,7 @@ title: 'Kitchen Kraving'
 description: >
   Fast-paced VR kitchen sim developed at Carnegie Mellon ETC where I led interactions and shipped on the Oculus Store.
 date: '01-01-2015'
+category: research
 image: 
   path: /assets/img/projects/kitchen.webp
   alt: Kitchen Kraving VR game screenshot showing virtual kitchen environment

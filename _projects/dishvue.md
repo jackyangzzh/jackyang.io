@@ -4,6 +4,7 @@ title: 'DishVue'
 description: >
   Multi-platform digital menu that captures real dishes as 3D models on iOS and lets diners explore them in volumetric space on Apple Vision Pro.
 date: '01-01-2024'
+category: personal
 image: 
   path: /assets/img/projects/DishVue.webp
   alt: DishVue product hero showing a 3D-scanned otoro nigiri inside a liquid-glass volumetric window with the DishVue wordmark

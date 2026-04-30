@@ -4,6 +4,7 @@ title: 'PolySpaceVR'
 description: >
   Lightweight, customizable VR social hub for small groups that I designed, engineered, and shipped on the Meta Quest Store.
 date: '01-01-2021'
+category: personal
 image: 
   path: /assets/img/projects/PolySpaceLogo.webp
   alt: PolySpaceVR logo featuring low-poly 3D environment design

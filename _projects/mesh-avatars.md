@@ -4,6 +4,7 @@ title: 'Microsoft Mesh & Avatars for Teams'
 description: >
   Built the cross-platform UI system (UXTools), avatar customization, and core avatar stack behind Microsoft Mesh and Avatars for Microsoft Teams.
 date: '01-01-2023'
+category: professional
 image:
   path: /assets/img/projects/mesh-avatars.webp
   alt: Avatars gathered around a presentation in a Microsoft Mesh immersive space inside Microsoft Teams

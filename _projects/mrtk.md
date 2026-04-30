@@ -4,6 +4,7 @@ title: 'MRTK for Unity'
 description: >
   Contributed Leap Motion integration and feature upgrades to Microsoft's Mixed Reality Toolkit 2.7 release.
 date: '01-01-2021'
+category: personal
 image: 
   path: /assets/img/projects/mrtk_unity.webp
   alt: Mixed Reality Toolkit Unity development interface

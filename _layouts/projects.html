@@ -3,33 +3,190 @@
 layout: page
 ---
 
-{{ content }}
+{{ content }} {% assign show_collection = page.show_collection |
+default:"projects" %} {% assign empty_col = '' | split:'.' %} {% assign
+ordered_projects = site[show_collection] | default:empty_col | sort:"date" |
+reverse %} {% assign nsd = site.hydejack.no_structured_data |
+default:site.no_structured_data %} {% assign projects_group_by =
+site.data.strings.date_formats.projects_group_by | default:"%Y" %} {% assign
+no_third_column = page.no_third_column | default:site.hydejack.no_third_column |
+default:false %}
 
-{% assign show_collection = page.show_collection | default:"projects" %}
-{% assign empty_col = '' | split:'.' %}
-{% assign ordered_projects = site[show_collection] | default:empty_col | sort:"date" | reverse %}
-{% assign nsd = site.hydejack.no_structured_data | default:site.no_structured_data %}
+<style>
+  .project-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    list-style: none;
+    align-items: center;
+  }
+  .project-filters li {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .project-filter-btn {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    padding: 0 0.9rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.7;
+    transition:
+      opacity 0.15s ease,
+      background-color 0.15s ease,
+      color 0.15s ease;
+  }
+  .project-filter-btn:hover {
+    opacity: 1;
+  }
+  .project-filter-btn.is-active {
+    opacity: 1;
+    background: currentColor;
+  }
+  .project-filter-btn.is-active span {
+    color: #fff;
+    mix-blend-mode: difference;
+  }
+  .project-tag {
+    display: inline-block;
+    padding: 0.18rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    line-height: 1.4;
+    color: #fff;
+  }
+  .project-tag-professional {
+    background: #2563eb;
+  }
+  .project-tag-personal {
+    background: #16a34a;
+  }
+  .project-tag-research {
+    background: #9333ea;
+  }
+  .project-tag-other {
+    background: #6b7280;
+  }
+  .project-card-category {
+    margin: 0 0 0.35rem;
+  }
+  .project-hidden {
+    display: none !important;
+  }
+</style>
 
-{% assign projects_group_by = site.data.strings.date_formats.projects_group_by | default:"%Y" %}
-{% assign no_third_column = page.no_third_column | default:site.hydejack.no_third_column | default:false %}
+<ul
+  class="project-filters"
+  role="tablist"
+  aria-label="Filter projects by category"
+>
+  <li>
+    <button
+      type="button"
+      class="project-filter-btn is-active"
+      data-filter="all"
+      aria-pressed="true"
+    >
+      <span>All</span>
+    </button>
+  </li>
+  <li>
+    <button
+      type="button"
+      class="project-filter-btn"
+      data-filter="professional"
+      aria-pressed="false"
+    >
+      <span>Professional</span>
+    </button>
+  </li>
+  <li>
+    <button
+      type="button"
+      class="project-filter-btn"
+      data-filter="personal"
+      aria-pressed="false"
+    >
+      <span>Personal</span>
+    </button>
+  </li>
+  <li>
+    <button
+      type="button"
+      class="project-filter-btn"
+      data-filter="research"
+      aria-pressed="false"
+    >
+      <span>Research</span>
+    </button>
+  </li>
+</ul>
 
-{% assign prev_date = 0 %}
-{% if page.no_groups %}<div class="columns {% unless no_third_column %}columns-break{% endunless %}">{% endif %}
-{% for project in ordered_projects %}
-  {% assign current_date = project.date | date:projects_group_by %}
-
-  {% unless page.no_groups %}{% if current_date != prev_date %}
-    {% unless forloop.first %}</div>{% endunless %}
-
-    <h2 id="{{ projects_group_by | slugify }}-{{ current_date | slugify }}">{{ current_date }}</h2>
-    <div class="columns {% unless no_third_column %}columns-break{% endunless %}">
-    {% assign prev_date = current_date %}
-  {% endif %}{% endunless %}
-
-  {% assign featured = page.featured | default:project.featured | default:page.big_project | default:project.big_project %}
-  <div class="column {% if featured %}column-1{% else %}column-1-2{% endif %}">
-    {% include_cached pro/project-card.html project=project featured=featured %}
+<div class="project-list">
+  {% assign prev_date = 0 %} {% if page.no_groups %}
+  <div class="columns {% unless no_third_column %}columns-break{% endunless %}">
+    {% endif %} {% for project in ordered_projects %} {% assign current_date =
+    project.date | date:projects_group_by %} {% unless page.no_groups %}{% if
+    current_date != prev_date %} {% unless forloop.first %}
   </div>
+  {% endunless %}
 
-  {% if forloop.last %}</div>{% endif %}
-{% endfor %}
+  <h2 id="{{ projects_group_by | slugify }}-{{ current_date | slugify }}">
+    {{ current_date }}
+  </h2>
+  <div class="columns {% unless no_third_column %}columns-break{% endunless %}">
+    {% assign prev_date = current_date %} {% endif %}{% endunless %} {% assign
+    featured = page.featured | default:project.featured |
+    default:page.big_project | default:project.big_project %} {% assign
+    card_category = project.category | default:'other' | downcase %}
+    <div
+      class="column {% if featured %}column-1{% else %}column-1-2{% endif %} project-column"
+      data-category="{{ card_category }}"
+    >
+      {% include_cached pro/project-card.html project=project featured=featured
+      %}
+    </div>
+
+    {% if forloop.last %}
+  </div>
+  {% endif %} {% endfor %}
+</div>
+
+<script>
+  (function () {
+    var buttons = document.querySelectorAll(".project-filter-btn");
+    var items = document.querySelectorAll(".project-list .project-column");
+    buttons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var filter = btn.getAttribute("data-filter");
+        buttons.forEach(function (b) {
+          var active = b === btn;
+          b.classList.toggle("is-active", active);
+          b.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+        items.forEach(function (item) {
+          var match =
+            filter === "all" || item.getAttribute("data-category") === filter;
+          item.classList.toggle("project-hidden", !match);
+        });
+      });
+    });
+  })();
+</script>

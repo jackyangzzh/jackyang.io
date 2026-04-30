@@ -4,6 +4,7 @@ title: 'Robot Control Through VR'
 description: >
   Low-latency VR control system I built to pipe hand gestures through ROS and drive industrial robotic arms.
 date: '01-01-2020'
+category: research
 image: 
   path: /assets/img/projects/mimicry.webp
   alt: Robot arm being controlled through VR hand gestures

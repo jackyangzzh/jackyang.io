@@ -4,6 +4,7 @@ title: 'XR Design Handbook'
 description: >
   Open-source repository I maintain that consolidates XR design best practices from teams like Meta, Apple, Microsoft, and Google.
 date: '01-01-2022'
+category: personal
 image: 
   path: /assets/img/projects/xrdesignhandbook.webp
   alt: XR Design Handbook cover image showing extended reality design patterns

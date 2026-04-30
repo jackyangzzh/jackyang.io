@@ -5,6 +5,7 @@ caption: AI-powered VR coach for conversational interviews and presentations
 description: >
   AI-powered VR rehearsal tool for interviews and presentations, combining reactive virtual agents, speech analysis, and expressive character animation.
 date: '01-01-2020'
+category: personal
 image: 
   path: /assets/img/projects/virtualso.webp
   alt: Project Virtualso virtual interviewer with realistic facial expressions

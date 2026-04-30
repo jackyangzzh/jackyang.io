@@ -4,6 +4,7 @@ title: 'VR Vision Disorder Simulation'
 description: >
   Research project I led that uses AI and computer vision to recreate vision impairments inside VR.
 date: '01-01-2020'
+category: research
 image: 
   path: /assets/img/projects/kats.webp
   alt: VR vision disorder simulation interface showing colorblindness test
