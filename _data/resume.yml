@@ -9,7 +9,7 @@ basics:
   phone: ""
   website: ""
   summary: >
-    I'm Jack, an XR engineer at Microsoft shipping avatar and social experiences for Microsoft Mesh and Teams. For over a decade, I've built XR + AI products across research, startups, and enterprise platforms with a focus on making remote collaboration feel more natural, expressive, and human.
+    I'm Jack, an engineer at Microsoft shipping avatar and social experiences for Microsoft Mesh and Teams. For over a decade, I've built interactive XR + AI products across research, startups, and enterprise platforms with a focus on making remote collaboration feel more natural, expressive, and human.
   location:
     city: "Seattle"
     countryCode: "US"
@@ -67,7 +67,7 @@ education:
     endDate: "2020-06-01"
     courses:
       - Double-majored in Computer Science and Communication Arts.
-      - Served as a teaching assistant for CS 559 (Computer Graphics).
+      - Served as a teaching assistant for CS 559 (Computer Graphics) for 2 semesters.
   - institution: "Carnegie Mellon University"
     studyType: "National Game Academy"
     startDate: "2015-05-01"
