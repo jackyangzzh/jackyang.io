@@ -114,3 +114,23 @@ hy-drawer.cover:not(.loaded) {
     min-height: 100dvh;
   }
 }
+
+// Accessibility (WCAG AA contrast): the theme's primary button renders white
+// text on the light brand accent (#aa82e6 ≈ 2.98:1, below the 4.5:1 minimum for
+// normal text). Deepen ONLY the primary buttons to a compliant purple
+// (#875acd ≈ 4.8:1, hover #6f48b0); links and other accents keep the brand
+// color. The extra `.btn` makes this win over the theme's `.btn-primary` rule
+// that loads later in the main stylesheet.
+.btn.btn-primary,
+.btn.btn-primary:disabled,
+.btn.btn-primary.disabled {
+  background-color: #875acd;
+  border-color: #875acd;
+}
+.btn.btn-primary:hover,
+.btn.btn-primary.hover,
+.btn.btn-primary:active,
+.btn.btn-primary.active {
+  background-color: #6f48b0;
+  border-color: #6f48b0;
+}
