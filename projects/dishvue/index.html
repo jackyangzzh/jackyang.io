@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="DishVue product hero showing a 3D-scanned otoro nigiri inside a liquid-glass volumetric window with the DishVue wordmark" />
 <meta property="twitter:title" content="DishVue" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-05-01T06:04:20+00:00","datePublished":"2024-01-01T00:00:00+00:00","description":"Multi-platform digital menu that captures real dishes as 3D models on iOS and lets diners explore them in volumetric space on Apple Vision Pro.","headline":"DishVue","image":{"alt":"DishVue product hero showing a 3D-scanned otoro nigiri inside a liquid-glass volumetric window with the DishVue wordmark","url":"https://jackyang.io/assets/img/projects/DishVue.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/dishvue/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-06-30T03:14:25+00:00","datePublished":"2024-01-01T00:00:00+00:00","description":"Multi-platform digital menu that captures real dishes as 3D models on iOS and lets diners explore them in volumetric space on Apple Vision Pro.","headline":"DishVue","image":{"alt":"DishVue product hero showing a 3D-scanned otoro nigiri inside a liquid-glass volumetric window with the DishVue wordmark","url":"https://jackyang.io/assets/img/projects/DishVue.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/dishvue/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -104,7 +104,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-04-28T06:05:21+00:00',
+    INDEX_KEY: 'index--2026-06-30T03:15:01+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -118,8 +118,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1777356321" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1777356321" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1782789301" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1782789301" id="_iconsPreload">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
 
 
@@ -297,7 +297,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <p>Menu photography is the lowest-fidelity part of most dining experiences. Static 2D images undersell texture, portion size, and plating, while existing AR menu tools tend to be heavy, vendor-locked, or disconnected from how restaurants actually update their menus.</p>
 
-<p>I wanted to see how far I could push a small team workflow: a single content pipeline where a restaurant scans a dish on their phone, the model immediately syncs to a shared backend, and customers see it on whatever device they happen to be on—including a Vision Pro headset placed at the table.</p>
+<p>I wanted to see how far I could push a small team workflow: a single content pipeline where a restaurant scans a dish on their phone, the model immediately syncs to a shared backend, and customers see it on whatever device they happen to be on, including a Vision Pro headset placed at the table.</p>
 
 <h2 id="what-i-built">What I Built</h2>
 
@@ -313,14 +313,14 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <ul>
   <li><strong>Treat 3D capture as part of the content workflow, not a separate tool.</strong> Admins scan a dish in the same screen where they edit its name, price, and course. The scanner is just another input next to the text fields.</li>
-  <li><strong>One schema, three clients, no custom server.</strong> Sticking to Firestore + Storage meant I could ship a real spatial app without standing up a backend—every client subscribes to the same data and renders it natively.</li>
+  <li><strong>One schema, three clients, no custom server.</strong> Sticking to Firestore + Storage meant I could ship a real spatial app without standing up a backend. Every client subscribes to the same data and renders it natively.</li>
   <li><strong>Volumetric windows over full immersion on Vision Pro.</strong> A spatial menu only works if it sits next to the rest of your environment. Using volumetric <code class="language-plaintext highlighter-rouge">WindowGroup</code>s instead of an <code class="language-plaintext highlighter-rouge">ImmersiveSpace</code> keeps DishVue feeling like a tabletop menu rather than a takeover experience.</li>
   <li><strong>Gesture grammar matched to the object.</strong> Rotation is locked to the Y axis so diners can spin a plate without flipping their food upside down, and scaling is capped at 1.5× to prevent the model from blowing past the volume bounds.</li>
 </ul>
 
 <h2 id="reflection">Reflection</h2>
 
-<p>DishVue pushed me through the parts of spatial computing that don’t show up in demos: shared data models across SwiftUI targets, Object Capture’s content quirks, and the discipline of designing for restraint on visionOS. The biggest takeaway was how much spatial UX benefits from <em>less</em>—a calm volumetric window with two well-tuned gestures reads as far more polished than an immersive scene fighting for attention.</p>
+<p>DishVue pushed me through the parts of spatial computing that don’t show up in demos: shared data models across SwiftUI targets, Object Capture’s content quirks, and the discipline of designing for restraint on visionOS. The biggest takeaway was how much spatial UX benefits from <em>less</em>. A calm volumetric window with two well-tuned gestures reads as far more polished than an immersive scene fighting for attention.</p>
 
   </div>
 </article>
