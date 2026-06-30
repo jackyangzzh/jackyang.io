@@ -277,11 +277,14 @@
     }
   }
 
+  var initialized = false;
+
   // Pause when not visible for performance
   var observer = new IntersectionObserver(
     function (entries) {
       entries.forEach(function (entry) {
         isVisible = entry.isIntersecting;
+        if (!initialized) return;
         if (isVisible && !animId && !reducedMotion) {
           animId = requestAnimationFrame(frame);
         }
@@ -298,13 +301,27 @@
     resizeTimer = setTimeout(resize, 150);
   });
 
-  // Init
-  resize();
+  // Init. Defer the first layout read (resize() reads offsetWidth/Height) off
+  // the critical rendering path so this deferred script doesn't force a
+  // synchronous reflow during the initial paint. Runs on idle (matching the
+  // desktop-only, start-on-idle design), falling back to rAF.
+  function start() {
+    if (initialized) return;
+    initialized = true;
+    resize();
+    if (reducedMotion) {
+      time = 1200;
+      frame();
+    } else if (isVisible && !animId) {
+      animId = requestAnimationFrame(frame);
+    }
+  }
 
-  if (reducedMotion) {
-    time = 1200;
-    frame();
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(start, { timeout: 1000 });
   } else {
-    animId = requestAnimationFrame(frame);
+    requestAnimationFrame(function () {
+      requestAnimationFrame(start);
+    });
   }
 })();
