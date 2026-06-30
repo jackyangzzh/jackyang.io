@@ -1,1 +1,11 @@
 // This is deprecated. Modify CSS Custom Properties instead.
+
+// Accessibility (WCAG AA): the theme's muted text color $gray (#777) feeds
+// --gray (light mode), used for dates, skill tags, `.faded` sublines and the
+// footer. On white that's only 4.47:1 — just under the 4.5:1 minimum, which
+// Lighthouse 13 / PageSpeed (newer axe-core) flags. Darken to #6f6f6f (~5:1).
+// Light-mode only: dark mode sets --gray separately in _sass/pro/_dark-mode.scss.
+// Overriding the SCSS var here (imported before _mixins.scss, which emits
+// `--gray: #{$gray}` inside the light-mode mixin) keeps the change scoped to
+// light mode and avoids dark-mode cascade issues.
+$gray: #6f6f6f;
