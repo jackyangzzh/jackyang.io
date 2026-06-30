@@ -33,7 +33,7 @@ Because we were targeting Oculus Rift DK2-era hardware, the design also had to s
 
 - Led interaction design and gameplay implementation as part of a small interdisciplinary ETC team.
 - Programmed VR interactions, tactile feedback, and gesture recognizers that determine whether food is being prepped or secretly eaten.
-- Built the kitchen state machine that orchestrates orders, timers, boss check-ins, and scoring—ensuring the pace scales with the player's proficiency.
+- Built the kitchen state machine that orchestrates orders, timers, boss check-ins, and scoring so the pace scales with the player's proficiency.
 - Collaborated with artists on shader tuning and lighting passes to maintain 90 FPS on Oculus Rift DK2 hardware.
 
 ## Key Design Decisions

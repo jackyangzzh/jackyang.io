@@ -26,7 +26,7 @@ I built XR Design Handbook to reduce that research overhead and turn scattered g
 ## What's Inside
 
 - Side-by-side comparisons of locomotion, input, and comfort recommendations from Meta, Apple, Microsoft, Google, Niantic, and more.
-- Pattern write-ups distilled from public docs, conference talks, and field notes from real XR product work—all tagged so contributors can cross-reference scenarios quickly.
+- Pattern write-ups distilled from public docs, conference talks, and field notes from real XR product work, all tagged so contributors can cross-reference scenarios quickly.
 - Links to canonical PDFs, WWDC/Build sessions, and academic papers so designers can go from inspiration to implementation without guesswork.
 
 ## My Role

@@ -22,7 +22,7 @@ DishVue is a digital-menu system I built to replace flat food photos with scanne
 
 Menu photography is the lowest-fidelity part of most dining experiences. Static 2D images undersell texture, portion size, and plating, while existing AR menu tools tend to be heavy, vendor-locked, or disconnected from how restaurants actually update their menus.
 
-I wanted to see how far I could push a small team workflow: a single content pipeline where a restaurant scans a dish on their phone, the model immediately syncs to a shared backend, and customers see it on whatever device they happen to be on—including a Vision Pro headset placed at the table.
+I wanted to see how far I could push a small team workflow: a single content pipeline where a restaurant scans a dish on their phone, the model immediately syncs to a shared backend, and customers see it on whatever device they happen to be on, including a Vision Pro headset placed at the table.
 
 ## What I Built
 
@@ -35,10 +35,10 @@ DishVue ships as three clients tied to one Firebase backend:
 ## Key Decisions
 
 - **Treat 3D capture as part of the content workflow, not a separate tool.** Admins scan a dish in the same screen where they edit its name, price, and course. The scanner is just another input next to the text fields.
-- **One schema, three clients, no custom server.** Sticking to Firestore + Storage meant I could ship a real spatial app without standing up a backend—every client subscribes to the same data and renders it natively.
+- **One schema, three clients, no custom server.** Sticking to Firestore + Storage meant I could ship a real spatial app without standing up a backend. Every client subscribes to the same data and renders it natively.
 - **Volumetric windows over full immersion on Vision Pro.** A spatial menu only works if it sits next to the rest of your environment. Using volumetric `WindowGroup`s instead of an `ImmersiveSpace` keeps DishVue feeling like a tabletop menu rather than a takeover experience.
 - **Gesture grammar matched to the object.** Rotation is locked to the Y axis so diners can spin a plate without flipping their food upside down, and scaling is capped at 1.5× to prevent the model from blowing past the volume bounds.
 
 ## Reflection
 
-DishVue pushed me through the parts of spatial computing that don't show up in demos: shared data models across SwiftUI targets, Object Capture's content quirks, and the discipline of designing for restraint on visionOS. The biggest takeaway was how much spatial UX benefits from *less*—a calm volumetric window with two well-tuned gestures reads as far more polished than an immersive scene fighting for attention.
+DishVue pushed me through the parts of spatial computing that don't show up in demos: shared data models across SwiftUI targets, Object Capture's content quirks, and the discipline of designing for restraint on visionOS. The biggest takeaway was how much spatial UX benefits from *less*. A calm volumetric window with two well-tuned gestures reads as far more polished than an immersive scene fighting for attention.

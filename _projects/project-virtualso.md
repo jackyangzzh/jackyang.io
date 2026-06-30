@@ -23,7 +23,7 @@ During the COVID-19 lockdowns, many people lost access to in-person mentorship a
 
 ### Virtual Interview
 
-Users practice interviews with a conversational agent that listens, asks follow-ups, and mirrors emotion through facial expressions and gestures—powered by intent classification and dialogue logic.
+Users practice interviews with a conversational agent that listens, asks follow-ups, and mirrors emotion through facial expressions and gestures. Intent classification and dialogue logic drive what it says.
 
 {% include pro/project-video.html id="I1RIFirZeaQ" title="Virtual Interview AI Agent Demonstration" %}
 

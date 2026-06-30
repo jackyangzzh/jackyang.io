@@ -22,16 +22,16 @@ Microsoft Mesh brings shared 3D spaces into Teams, where attendees can gather as
 
 ## Problem
 
-Remote work made meetings efficient but flat. Video grids strip out spatial awareness, body language, and the small social cues that make group conversations feel human. Mesh and Avatars for Teams set out to add a layer of presence on top of the meeting stack — without forcing every participant into a headset and without breaking the reliability bar that Teams customers expect.
+Remote work made meetings efficient but flat. Video grids strip out spatial awareness, body language, and the small social cues that make group conversations feel human. Mesh and Avatars for Teams set out to add a layer of presence on top of the meeting stack, without forcing every participant into a headset and without breaking the reliability bar that Teams customers expect.
 
 Hitting that target meant building one avatar system that could render and animate consistently across very different runtimes: a Teams meeting tile on a laptop, a fully immersive Quest session, and an immersive event where many avatars share the same 3D scene.
 
 ## What We Shipped
 
-- **Avatars for Teams meetings** — users can opt in to represent themselves with a personalized avatar instead of a camera feed, with reactions, lip sync, and gestures driven from existing meeting controls.
-- **Immersive events in Teams** — large-scale, customizable 3D venues for all-hands, training, product showcases, and recruiting, joinable from desktop or Meta Quest.
-- **Cross-device identity** — one avatar identity and wardrobe that follows the user across 2D Teams, immersive events, and VR.
-- **Customization studio** — a wardrobe-style editor that lets people compose body shapes, faces, hair, clothing, and accessories at the fidelity needed for close-up meeting portraits and crowded 3D venues.
+- **Avatars for Teams meetings:** users can opt in to represent themselves with a personalized avatar instead of a camera feed, with reactions, lip sync, and gestures driven from existing meeting controls.
+- **Immersive events in Teams:** large-scale, customizable 3D venues for all-hands, training, product showcases, and recruiting, joinable from desktop or Meta Quest.
+- **Cross-device identity:** one avatar identity and wardrobe that follows the user across 2D Teams, immersive events, and VR.
+- **Customization studio:** a wardrobe-style editor that lets people compose body shapes, faces, hair, clothing, and accessories at the fidelity needed for close-up meeting portraits and crowded 3D venues.
 
 ## My Contributions
 
@@ -41,7 +41,7 @@ Hitting that target meant building one avatar system that could render and anima
 - Established patterns for theming, accessibility, focus, and input routing that became defaults for Mesh-era surfaces.
 
 ### Avatar customization
-- Built the customization experience that lets users assemble and personalize their avatar — body, face, hair, outfits, and accessories — with live preview.
+- Built the customization experience that lets users assemble and personalize their avatar (body, face, hair, outfits, and accessories) with live preview.
 - Worked across design, art, and platform teams to land an editor that was approachable for first-time users while still exposing the depth needed for self-representation.
 - Tuned loading, asset swapping, and pipeline behavior so edits in the customization flow felt immediate without blowing past memory budgets on lower-end devices.
 
@@ -54,7 +54,7 @@ Hitting that target meant building one avatar system that could render and anima
 
 Mesh and Avatars sit inside Teams, which means every change is measured against the reliability and performance bar of an enterprise communications product used at massive scale. A few constraints shaped the work:
 
-- **One system, many runtimes.** The avatar that appears in a meeting tile, in an immersive event, and on Quest had to be the same avatar — not three lookalikes — which forced the UI and avatar stack to be platform-agnostic by default.
+- **One system, many runtimes.** The avatar that appears in a meeting tile, in an immersive event, and on Quest had to be the same avatar, not three lookalikes, which forced the UI and avatar stack to be platform-agnostic by default.
 - **Identity is personal.** Customization had to feel respectful and inclusive, not gamified. That changed how we shaped defaults, inclusivity of options, and the editor flow.
 - **Scale is the feature.** Immersive events can fill a room with avatars, so every byte of asset weight and every animation update mattered for keeping framerate and join times in range.
 
@@ -62,4 +62,4 @@ Mesh and Avatars sit inside Teams, which means every change is measured against 
 
 - Avatars for Teams and immersive events shipped into the modern Teams meeting experience, giving customers a video-off way to stay present and a 3D format for events where presence matters most.
 - The cross-platform UI system became a shared foundation for Mesh-era surfaces, reducing duplicated UI work between desktop and immersive clients.
-- Gave me deep experience shipping platform-level systems — UI frameworks, avatar pipelines, and customization tooling — inside a product where stability, accessibility, and cross-device consistency are non-negotiable.
+- Gave me deep experience shipping platform-level systems (UI frameworks, avatar pipelines, and customization tooling) inside a product where stability, accessibility, and cross-device consistency are non-negotiable.

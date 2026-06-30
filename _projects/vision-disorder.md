@@ -15,7 +15,7 @@ links:
     url: https://github.com/jackyangzzh/Monocular-Vision-VR-demo
 
 ---
-This research project simulates visual impairments—including color vision deficiency and binocular rivalry—inside VR. It combined my optics coursework with Unity prototyping and pushed me to think about accessibility simulations as both technical and communication tools.
+This research project simulates visual impairments (including color vision deficiency and binocular rivalry) inside VR. It combined my optics coursework with Unity prototyping and pushed me to think about accessibility simulations as both technical and communication tools.
 
 ## Research Question
 

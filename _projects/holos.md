@@ -32,7 +32,7 @@ Holos's product bet was that immersive training should be authored close to the 
 - **3D-model processing pipeline.** Worked on import and preparation workflows for customer 3D models, including the practical cleanup needed for scale, pivots, colliders, and runtime interaction.
 - **Content management workflows.** Helped connect the authoring side of the product to the simulation runtime, so training content could be assembled, tested, revised, and deployed without treating every scenario as a custom app.
 
-## Product And Design Work
+## Product and Design Work
 
 I moved between prototype design, implementation, user testing, and feature deployment. That loop mattered because a training platform only works when the interaction model survives contact with real instructors and trainees.
 

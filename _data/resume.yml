@@ -9,7 +9,7 @@ basics:
   phone: ""
   website: ""
   summary: >
-    I'm Jack, an engineer at Microsoft shipping avatar and social experiences for Microsoft Mesh and Teams. For over a decade, I've built interactive XR + AI products across research, startups, and enterprise platforms with a focus on making remote collaboration feel more natural, expressive, and human.
+    I'm Jack, an engineer at Microsoft shipping avatar and social experiences for Microsoft Mesh and Teams. For over a decade, I've built interactive XR + AI products across research, startups, and enterprise platforms, with a focus on making remote collaboration feel more natural and human.
   location:
     city: "Seattle"
     countryCode: "US"
@@ -99,7 +99,7 @@ certifications:
     publisher: "Udacity"
     website: "https://www.udacity.com/certificate/HREPUZSD"
 publications:
-  - name: “Passive frequency conversion of ultraviolet images into the visible using perovskite nanocrystals”
+  - name: "Passive frequency conversion of ultraviolet images into the visible using perovskite nanocrystals"
     publisher: ""
     releaseDate: ""
     website: "https://arxiv.org/abs/2101.02837"

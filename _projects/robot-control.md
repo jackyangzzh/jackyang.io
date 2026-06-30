@@ -10,7 +10,7 @@ image:
   alt: Robot arm being controlled through VR hand gestures
 
 ---
-This project explores remote robot manipulation through VR and inverse kinematics. It spans two tracks—real-time mimicry control and data-driven motion playback—to test both direct teleoperation and remote experiment review.
+This project explores remote robot manipulation through VR and inverse kinematics. It spans two tracks (real-time mimicry control and data-driven motion playback) to test both direct teleoperation and remote experiment review.
 
 ## Problem
 
@@ -43,7 +43,7 @@ When COVID-19 closed the lab, I pivoted to a data-replay pipeline. The interpret
 ## What It Proved
 
 - Researchers could review real-world experiments inside VR without needing lab access, making it easier to annotate mistakes and plan retries.
-- Demonstrated that low-bandwidth data exports are sufficient to recreate believable robot motion inside Unity—an insight that later guided my remote-collaboration prototypes at UW Graphics Group.
+- Demonstrated that low-bandwidth data exports are sufficient to recreate believable robot motion inside Unity. That insight later guided my remote-collaboration prototypes at UW Graphics Group.
 - Helped me think more rigorously about the relationship between embodiment, safety, and observability in XR systems that control things outside the headset.
 
 {% include pro/project-video.html id="LLw-ksfGENA" title="Robot Movement Recreation from Data" %}
