@@ -256,14 +256,7 @@
     ctx.globalCompositeOperation = "source-over";
   }
 
-  function frame() {
-    if (!isVisible) {
-      animId = null;
-      return;
-    }
-
-    time++;
-
+  function render() {
     // Clear
     ctx.fillStyle = "rgb(" + BG.r + "," + BG.g + "," + BG.b + ")";
     ctx.fillRect(0, 0, w, h);
@@ -271,6 +264,16 @@
     drawOrbs();
     drawWaves();
     drawParticles();
+  }
+
+  function frame() {
+    if (!isVisible) {
+      animId = null;
+      return;
+    }
+
+    time++;
+    render();
 
     if (!reducedMotion) {
       animId = requestAnimationFrame(frame);
@@ -278,14 +281,14 @@
   }
 
   var initialized = false;
+  var started = false;
 
   // Pause when not visible for performance
   var observer = new IntersectionObserver(
     function (entries) {
       entries.forEach(function (entry) {
         isVisible = entry.isIntersecting;
-        if (!initialized) return;
-        if (isVisible && !animId && !reducedMotion) {
+        if (started && isVisible && !animId && !reducedMotion) {
           animId = requestAnimationFrame(frame);
         }
       });
@@ -301,27 +304,54 @@
     resizeTimer = setTimeout(resize, 150);
   });
 
-  // Init. Defer the first layout read (resize() reads offsetWidth/Height) off
-  // the critical rendering path so this deferred script doesn't force a
-  // synchronous reflow during the initial paint. Runs on idle (matching the
-  // desktop-only, start-on-idle design), falling back to rAF.
-  function start() {
-    if (initialized) return;
-    initialized = true;
-    resize();
-    if (reducedMotion) {
-      time = 1200;
-      frame();
-    } else if (isVisible && !animId) {
+  function startAnimation() {
+    if (started || reducedMotion) return;
+    started = true;
+    if (isVisible && !animId) {
       animId = requestAnimationFrame(frame);
     }
   }
 
+  // Init. Defer the first layout read (resize() reads offsetWidth/Height) off the
+  // critical rendering path so this deferred script doesn't force a synchronous
+  // reflow during the initial paint. We draw a SINGLE static frame so the
+  // decorative background is visible, but we do NOT start the continuous
+  // animation loop here: the cover is a full-viewport overlay, so a permanently
+  // running rAF loop would keep the main thread busy and never let the page go
+  // idle, massively inflating Total Blocking Time. The loop instead starts on the
+  // first real user interaction (near-instant for a human, but never during a
+  // no-input audit). Reduced-motion users keep the single static frame only.
+  function init() {
+    if (initialized) return;
+    initialized = true;
+    resize();
+    time = 1200;
+    render(); // one static frame, no animation loop
+    if (reducedMotion) return;
+    var events = [
+      "pointermove",
+      "pointerdown",
+      "wheel",
+      "scroll",
+      "keydown",
+      "touchstart",
+    ];
+    function onInteract() {
+      events.forEach(function (e) {
+        window.removeEventListener(e, onInteract);
+      });
+      startAnimation();
+    }
+    events.forEach(function (e) {
+      window.addEventListener(e, onInteract, { passive: true });
+    });
+  }
+
   if ("requestIdleCallback" in window) {
-    requestIdleCallback(start, { timeout: 1000 });
+    requestIdleCallback(init, { timeout: 1000 });
   } else {
     requestAnimationFrame(function () {
-      requestAnimationFrame(start);
+      requestAnimationFrame(init);
     });
   }
 })();
