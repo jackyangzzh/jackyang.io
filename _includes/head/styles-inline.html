@@ -5,6 +5,17 @@
   {% capture fonts_url %}{{ site.google_fonts_url | default:'https://fonts.googleapis.com' }}/css?family={{ google_fonts | uri_escape }}&display=swap{% endcapture %}
 {% endif %}
 
-<link rel="stylesheet" href="{{ style_url }}">
+{%- comment -%}
+The main stylesheet is large and non-critical (critical CSS is inlined above), so
+it is loaded non-render-blocking via the rel=preload swap pattern (the
+loadCSS/cssrelpreload polyfill is inlined earlier in head/scripts.html). The
+icon-font CSS is kept render-blocking on purpose: it is small, and deferring it
+makes icon glyphs pop in after first paint and shift content (CLS).
+{%- endcomment -%}
+<link rel="preload" href="{{ style_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <link rel="stylesheet" href="{{ icons_url }}">
-{% if google_fonts %}<link rel="stylesheet" href="{{ fonts_url }}">{% endif %}
+{% if google_fonts %}<link rel="preload" href="{{ fonts_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">{% endif %}
+<noscript>
+  <link rel="stylesheet" href="{{ style_url }}">
+  {% if google_fonts %}<link rel="stylesheet" href="{{ fonts_url }}">{% endif %}
+</noscript>

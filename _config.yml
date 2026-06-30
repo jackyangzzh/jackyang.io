@@ -101,17 +101,20 @@ accent_color: rgb(170,130,230)
 # Defaults to `accent_color`.
 theme_color: rgb(32,28,58)
 
-# The string encoding which fonts to fetch from Google Fonts.
+# Fonts are self-hosted (woff2 in assets/fonts/, @font-face in _sass/my-inline.scss).
+# Leaving google_fonts unset disables Hydejack's render-blocking Google Fonts <link>.
 # See: <https://hydejack.com/docs/configuration/>
-google_fonts: Roboto+Slab:700|Noto+Sans:400,400i,700,700i
+# google_fonts: Roboto+Slab:700|Noto+Sans:400,400i,700,700i
 
 # The text font. Expects a string that is a valid CSS font-family value.
+# "Noto Sans Fallback" is a metric-adjusted local fallback (see _sass/my-inline.scss)
+# that eliminates layout shift (CLS) while the web font loads.
 # To change font-weight, see _sass/variables.scss
-font: Noto Sans, Helvetica, Arial, sans-serif
+font: 'Noto Sans, "Noto Sans Fallback", Helvetica, Arial, sans-serif'
 
 # The font used for headings. Expects a string that is a valid CSS font-family value.
 # To change font-weight, see _sass/variables.scss
-font_heading: Roboto Slab, Helvetica, Arial, sans-serif
+font_heading: 'Roboto Slab, "Roboto Slab Fallback", Helvetica, Arial, sans-serif'
 
 # The font used for code blocks. Expects a string that is a valid CSS font-family value.
 font_code: Fira Code, Menlo, Monaco, Consolas, monospace;
@@ -311,6 +314,10 @@ collections:
 exclude:
   - ./#jekyll-theme-hydejack/node_modules
   - ./#jekyll-theme-hydejack/.git
+  - node_modules
+  - package.json
+  - package-lock.json
+  - .lighthouse
   - .jekyll-cache
   - .sass-cache
   - "*.toml"

@@ -1,15 +1,95 @@
 // Uncomment to disable dingbat icons below posts
 // hr.dingbat { display: none }
 
-// Reduce CLS from Google Fonts loading by setting size-adjust on fallback
-// This prevents large layout shifts when Roboto Slab / Noto Sans swap in
+// --- Self-hosted fonts (latin subset). Files in assets/fonts/. ---
+// Declared here (inlined critical CSS) so @font-face is discovered without an
+// extra render-blocking request. The critical faces (Noto Sans 400, Roboto
+// Slab 700) are also <link rel=preload>ed in _includes/head/links-static.html.
+@font-face {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/assets/fonts/noto-sans-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans";
+  font-style: italic;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/assets/fonts/noto-sans-400-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-display: optional;
+  src: url("/assets/fonts/noto-sans-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Noto Sans";
+  font-style: italic;
+  font-weight: 700;
+  font-display: optional;
+  src: url("/assets/fonts/noto-sans-700-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Roboto Slab";
+  font-style: normal;
+  font-weight: 700;
+  font-display: optional;
+  src: url("/assets/fonts/roboto-slab-700.woff2") format("woff2");
+}
+
+// Metric-adjusted fallbacks: make local Arial occupy the exact same space as
+// the web fonts so there is no layout shift (CLS) when they swap in. Values
+// computed from the real font metrics vs. Arial.
+@font-face {
+  font-family: "Noto Sans Fallback";
+  src: local("Arial");
+  size-adjust: 117.13%;
+  ascent-override: 91.27%;
+  descent-override: 25.02%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Roboto Slab Fallback";
+  src: local("Arial");
+  size-adjust: 122.68%;
+  ascent-override: 85.42%;
+  descent-override: 22.09%;
+  line-gap-override: 0%;
+}
+
+// Keep body in sync with the metric-adjusted fallback so it is used (instead of
+// bare Arial) while "Noto Sans" loads. Headings use $font-family-heading.
 body {
-  font-family: Noto Sans, Helvetica, Arial, sans-serif;
+  font-family: "Noto Sans", "Noto Sans Fallback", Helvetica, Arial, sans-serif;
 }
 
 // Reserve space for sidebar on mobile to prevent CLS when drawer JS initializes
 hy-drawer:not(.loaded) {
   contain: layout style;
+}
+
+// Prevent a large layout shift (CLS) on cover pages (e.g. the home page).
+// Before the hy-drawer web component upgrades, Hydejack styles the cover drawer as
+// `position: relative; width: 100%` — a full-screen cover in normal flow that
+// places #_main a whole viewport (~100vh) below it. When the component JS upgrades,
+// the cover becomes an overlay and #_main jumps to the top (~100vh), producing a
+// large CLS whenever the content paints before the upgrade. On the original site
+// this only bit desktop (fast FCP paints before the upgrade); slow mobile FCP
+// painted after the upgrade, hiding it. Since we now make first paint much faster
+// on mobile too (no render-blocking CSS), guard against it at every breakpoint.
+// Match the upgraded state from first paint: render the cover as a full-screen
+// fixed overlay so it is out of flow and #_main starts at its final position.
+// Scoped to `.cover` (so non-cover mobile drawers are untouched) and to the
+// pre-`.loaded` state only (the component JS takes over after it initializes).
+hy-drawer.cover:not(.loaded) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 
 // Prevent CLS from non-composited animations

@@ -5,6 +5,10 @@
 
 <link rel="manifest" href="{{ '/assets/site.webmanifest' | relative_url }}">
 
+{% comment %}Preload the two above-the-fold self-hosted fonts (body + headings).{% endcomment %}
+<link rel="preload" href="{{ '/assets/fonts/noto-sans-400.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ '/assets/fonts/roboto-slab-700.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+
 {% if site.google_fonts %}
   {%- capture google_fonts_url %}{{ site.google_fonts_url | default:'https://fonts.googleapis.com' }}{%- endcapture -%}
   <link rel="dns-prefetch" href="{{ google_fonts_url }}">

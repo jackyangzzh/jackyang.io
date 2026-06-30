@@ -11,3 +11,6 @@ Fill in `href`. You may have to adjust `rel`.
 -->
 <noscript><link href="<path/to/content.css>" rel="stylesheet"></noscript>
 {% endcomment %}
+
+{% comment %}Preload the home cover avatar — the LCP candidate on mobile. Matches the sidebar <img src> so the fetch is reused (no double download).{% endcomment %}
+{% if page.cover and site.logo %}<link rel="preload" href="{% include smart-url url=site.logo %}" as="image" type="image/webp" fetchpriority="high">{% endif %}
