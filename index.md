@@ -3,8 +3,8 @@ layout: resume
 cover: true
 title: Home
 description: >
-  Jack Yang is an XR engineer at Microsoft building avatar and social experiences
-  for Microsoft Mesh and Teams across HoloLens, Quest, and desktop.
+  Jack Yang is an XR engineer at Microsoft working on avatars and shared
+  experiences for Mesh and Teams across HoloLens, Quest, and desktop.
 hide_description: true
 left_column:
   - work
