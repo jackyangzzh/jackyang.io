@@ -1,8 +1,9 @@
 ---
 layout: project
+weight: 5
 title: 'Robot Control Through VR'
 description: >
-  Low-latency VR control system I built to pipe hand gestures through ROS and drive industrial robotic arms.
+  Low-latency, real-time system mapping hand gestures to industrial robotic arms through ROS — an early experiment in embodied human-machine interaction.
 date: '01-01-2020'
 category: research
 image: 

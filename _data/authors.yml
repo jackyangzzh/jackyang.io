@@ -8,9 +8,10 @@ author1:
   # Used at the bottom of each page and at the top of the `about` layout
   # Markdown enabled, can use multiple paragraphs (enabled by `|`)
   about: |
-    Jack Yang is a Microsoft XR engineer working on avatars and shared
-    experiences for Mesh and Teams. He has spent more than a decade building XR
-    and AI products across research, startups, and product teams.
+    Jack Yang is a software engineer at Microsoft Teams AI, where he builds
+    Facilitator — an agent that participates in live meetings. He works on
+    real-time, multimodal human-AI interaction, drawing on seven years shipping
+    avatars and XR at Microsoft Mesh to millions of users.
 
   # This photo will be used in the about section
   picture:

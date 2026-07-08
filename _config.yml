@@ -24,27 +24,28 @@ title: Jack Yang
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description: >
-  XR engineer at Microsoft building Microsoft Mesh and Teams avatar experiences,
-  AI-powered spatial computing products, and collaborative immersive systems.
+  Jack Yang is a software engineer at Microsoft Teams AI building Facilitator —
+  real-time, multimodal human-AI interaction, with a background shipping avatars
+  and XR at Microsoft Mesh.
 
 # A shorter description for the sidebar.
-tagline: Reimagining Reality with XR + AI
+tagline: Building Real-Time Multimodal Human-AI Interaction
 
 # A list of keywords for your blog
 keywords:
   [
-    ar,
-    vr,
-    xr,
-    mr,
     ai,
-    ml,
+    agents,
+    agentic ai,
     llm,
-    agent,
-    mixed reality,
-    spatial computing,
-    unity,
+    multimodal ai,
+    human-ai interaction,
+    conversational ai,
+    real-time,
+    hci,
     microsoft,
+    xr,
+    unity,
   ]
 
 # A (square) logo for your site.

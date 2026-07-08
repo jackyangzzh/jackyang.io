@@ -1,5 +1,6 @@
 ---
 layout: project
+weight: 7
 title: 'MRTK for Unity'
 description: >
   Contributed Leap Motion integration and feature upgrades to Microsoft's Mixed Reality Toolkit 2.7 release.

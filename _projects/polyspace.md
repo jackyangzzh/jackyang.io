@@ -1,5 +1,6 @@
 ---
 layout: project
+weight: 8
 title: 'PolySpaceVR'
 description: >
   Lightweight, customizable VR social hub for small groups that I designed, engineered, and shipped on the Meta Quest Store.

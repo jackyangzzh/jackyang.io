@@ -1,5 +1,6 @@
 ---
 layout: project
+weight: 2
 title: 'DishVue'
 description: >
   Multi-platform digital menu that captures real dishes as 3D models on iOS and lets diners explore them in volumetric space on Apple Vision Pro.

@@ -1,8 +1,9 @@
 ---
 layout: project
+weight: 1
 title: 'Microsoft Mesh & Avatars for Teams'
 description: >
-  Built the cross-platform UI system (UXTools), avatar customization, and core avatar stack behind Microsoft Mesh and Avatars for Microsoft Teams.
+  Built the real-time avatar embodiment stack and cross-platform UI system behind Microsoft Mesh and Avatars in Teams — expressive identity and social presence for millions of users.
 date: '01-01-2023'
 category: professional
 image:

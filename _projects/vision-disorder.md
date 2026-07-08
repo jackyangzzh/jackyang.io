@@ -1,5 +1,6 @@
 ---
 layout: project
+weight: 6
 title: 'VR Vision Disorder Simulation'
 description: >
   Research project I led that uses AI and computer vision to recreate vision impairments inside VR.

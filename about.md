@@ -2,9 +2,9 @@
 layout: resume
 title: About
 description: >
-  Jack Yang is an XR engineer at Microsoft working on avatar and social
-  experiences for Mesh and Teams, with experience across research, startups,
-  and product teams.
+  Jack Yang is a software engineer at Microsoft Teams AI building Facilitator
+  and real-time, multimodal human-AI interaction, drawing on years shipping
+  avatars and XR at Microsoft Mesh.
 hide_description: true
 left_column:
   - work

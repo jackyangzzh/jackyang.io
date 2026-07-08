@@ -3,7 +3,7 @@ layout: projects
 title: Projects
 show_collection: projects
 description: >
-  XR and AI projects, prototypes, and product work across spatial computing,
-  avatars, training, and research.
+  AI and interaction projects across agents, avatars, real-time multimodal
+  systems, and XR research.
 no_groups: true
 ---

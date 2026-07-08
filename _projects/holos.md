@@ -1,8 +1,9 @@
 ---
 layout: project
+weight: 4
 title: 'Holos'
 description: >
-  Built interaction, networking, and content-pipeline foundations for Holos's AR/VR training platform.
+  Built the interaction, hand-tracking, and multiplayer-networking foundations of Holos's enterprise AR/VR training platform.
 date: '01-01-2022'
 category: professional
 image:

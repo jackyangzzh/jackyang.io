@@ -1,9 +1,10 @@
 ---
 layout: project
+weight: 3
 title: 'Project Virtualso'
-caption: AI-powered VR coach for conversational interviews and presentations
+caption: Conversational AI coach for interviews and presentations
 description: >
-  AI-powered VR rehearsal tool for interviews and presentations, combining reactive virtual agents, speech analysis, and expressive character animation.
+  Conversational AI agents for rehearsing high-stakes interviews and presentations — real-time speech understanding, reactive dialogue, and expressive character animation.
 date: '01-01-2020'
 category: personal
 image: 
