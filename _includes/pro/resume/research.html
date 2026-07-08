@@ -1,0 +1,52 @@
+{% if resume.research.size > 0 %}
+<section>
+  <div class="npb">
+    <h2 id="research" class="h3 hr-bottom">
+      {{ strings.resume.research | default:"Research" }}
+      <span class="symbol {{ icons.research | default:'icon-search' }}"></span>
+    </h2>
+    {% for research in resume.research %}
+    <section>
+      <header
+        class="{% unless forloop.first %}mt2{% endunless %}"
+        property="{% if research.endDate.size > 0 %}alumniOf{% else %}worksFor{% endif %}"
+        typeof="Organization"
+      >
+        {% if research.startDate.size > 0 %}
+        <p class="faded">
+          {% include components/from-to.html from=research.startDate
+          to=research.endDate format=from_to_format %}
+        </p>
+        {% endif %}
+        <h3 class="h4 faded">
+          <meta property="name" content="{{ research.company }}" />
+          {% capture position %}<span class="bc">{{ research.position }}</span
+          >{% endcapture %} {% capture company_class %}{% if
+          research.endDate.size > 0 %}{% else %}org p-org h-card{% endif %}{%
+          endcapture %} {% capture company %}{% include components/link.html
+          title=research.company href=research.website class=company_class
+          span_class="bc" property="sameAs" %}{% endcapture %} {{
+          strings.resume.work_title | default:"<!--position-->
+          at
+          <!--company-->" | replace:"<!--position-->", position | replace:"<!--company-->",
+          company }}
+        </h3>
+      </header>
+
+      {% include components/message.html class="note" text=research.summary
+      alt="" %} {% if research.highlights.size > 0 %}
+      <h4 class="sr-only">
+        {{ strings.resume.highlights | default:"Highlights" }}
+      </h4>
+      <ul>
+        {% for highlight in research.highlights %}
+        <li>{{ highlight }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </section>
+    {% if forloop.first %}
+  </div>
+  {% endif %} {% endfor %}
+</section>
+{% endif %}

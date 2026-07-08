@@ -51,22 +51,28 @@ work:
       - Developed AR/VR training platform featuring gesture recognition, hand tracking, and contextual guidance.
       - Implemented multiplayer networking, automated 3D model ingestion, and advanced interaction mechanics.
       - Partnered with leadership to secure $750K U.S. Air Force contract and acceptance into Techstars accelerator.
+research:
   - company: "Kats Research Group"
     position: "XR Researcher"
     website: "https://katsgroup.ece.wisc.edu/"
     startDate: "2017-10-01"
     endDate: "2022-05-01"
     highlights:
-      - Developed chromatic adjustment algorithms to simulate color vision deficiency on hyperspectral imagery, deployed in color-calibrated Oculus Rift demonstration.
-      - Built AI model that mimics human color vision behavior, achieving 90% chromatic adjustment accuracy.
+      - Built an AI model that mimics human color vision to simulate color vision deficiency on hyperspectral imagery with 90% chromatic-adjustment accuracy, deployed in a color-calibrated Oculus Rift demonstration.
   - company: "UW Graphics Group"
     position: "Graphics Researcher"
     website: "https://pages.graphics.cs.wisc.edu/"
     startDate: "2020-09-01"
     endDate: "2022-05-01"
     highlights:
-      - Built low-latency VR control loop mapping hand gestures to remote robotic arm manipulation.
-      - Designed Unity UI for replaying robotic arm motion from datasets spanning 15+ lab experiments.
+      - Built a real-time VR control loop mapping hand gestures to remote robotic-arm manipulation, plus a Unity UI for replaying arm motion from 15+ lab-experiment datasets.
+  - company: "UW HCI Group, People and Robots Lab"
+    position: "AR/VR Researcher"
+    website: ""
+    startDate: "2017-04-01"
+    endDate: "2017-12-01"
+    highlights:
+      - Added speech recognition and NLP-driven interaction to children's reading-companion robots; validated in an eight-family trial.
 education:
   - institution: "Georgia Institute of Technology"
     studyType: "M.S. Computer Science (HCI)"
@@ -98,9 +104,6 @@ certifications:
   - name: "Interaction Design Specialization Certificate"
     publisher: "UC San Diego"
     website: "https://www.coursera.org/account/accomplishments/specialization/certificate/WRB5BFC3DYGD"
-  - name: "Project Management Certificate"
-    publisher: "Google"
-    website: "https://www.credly.com/badges/4563a4d5-c106-4edf-a6de-16b7c2bdb131"
   - name: "Computer Vision Nanodegree"
     publisher: "Udacity"
     website: "https://www.udacity.com/certificate/HREPUZSD"

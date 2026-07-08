@@ -9,6 +9,7 @@ description: >
 hide_description: true
 left_column:
   - work
+  - research
   - education
   - publications
 right_column:

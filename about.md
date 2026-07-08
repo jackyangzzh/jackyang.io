@@ -8,6 +8,7 @@ description: >
 hide_description: true
 left_column:
   - work
+  - research
   - education
 right_column:
   - skills
