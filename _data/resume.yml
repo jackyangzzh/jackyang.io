@@ -68,6 +68,12 @@ work:
       - Built low-latency VR control loop mapping hand gestures to remote robotic arm manipulation.
       - Designed Unity UI for replaying robotic arm motion from datasets spanning 15+ lab experiments.
 education:
+  - institution: "Georgia Institute of Technology"
+    studyType: "M.S. Computer Science (HCI)"
+    startDate: "2025-09-01"
+    endDate: "2027-05-01"
+    courses:
+      - Human-Computer Interaction specialization. Expected Spring 2027.
   - institution: "University of Wisconsin–Madison"
     studyType: "Bachelor of Science"
     startDate: "2016-09-01"
@@ -75,13 +81,6 @@ education:
     courses:
       - Double-majored in Computer Science and Communication Arts.
       - Served as a teaching assistant for CS 559 (Computer Graphics) for 2 semesters.
-  - institution: "Carnegie Mellon University"
-    studyType: "National Game Academy"
-    startDate: "2015-05-01"
-    endDate: "2015-09-01"
-    courses:
-      - Studied game design at the CMU Entertainment Technology Center.
-      - Led development and release of Kitchen Kraving, a VR game for the Oculus Rift DK2.
 awards: []
 certifications:
   - name: "VR Development Professional Certificate"
