@@ -18,34 +18,33 @@ baseurl: ""
 # You may also provide a location, e.g.: en-us, de_AT.
 lang: en
 
-# The title of your blog. Used in the sidebar and the browser tab.
+# The title of the site. Used in the sidebar and the browser tab.
 title: Jack Yang
 
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description: >
-  Jack Yang is a software engineer at Microsoft Teams AI building Facilitator —
-  real-time, multimodal human-AI interaction, with a background shipping avatars
-  and XR at Microsoft Mesh.
+  Jack Yang builds real-time human-AI systems at Microsoft Teams AI. Before
+  that, he shipped avatars and XR systems for Microsoft Mesh.
 
 # A shorter description for the sidebar.
-tagline: Building Real-Time Multimodal Human-AI Interaction
+tagline: Building real-time AI agents and multimodal systems
 
-# A list of keywords for your blog
+# A list of keywords for the site
 keywords:
   [
     ai,
-    agents,
-    agentic ai,
-    llm,
+    ai agents,
     multimodal ai,
     human-ai interaction,
     conversational ai,
-    real-time,
     hci,
-    microsoft,
+    real-time systems,
+    microsoft teams,
+    microsoft mesh,
     xr,
-    unity,
+    spatial computing,
+    product engineering,
   ]
 
 # A (square) logo for your site.
@@ -55,7 +54,7 @@ logo: /assets/img/profile.webp
 
 # This should be the same author as first entry in `_data/authors.yml`.
 author:
-  # Used by `jekyll-feed`:
+  # Used in site metadata:
   name: Jack Yang
   email: jackyangzzh@gmail.com
   # # Used by `jekyll-seo-tag`:
@@ -66,21 +65,17 @@ medium_username: jackyangzzh
 # Add links to the sidebar.
 menu:
   - title: About
-    url: /about/
+    url: /
   - title: Projects
     url: /projects/
-  - title: Blog
-    url: /blogs/
+  - title: Writing
+    url: /writing/
 
 # This text will appear in a `<small>` tag in the footer of every page.
-copyright: © made with ❤️ by Jack
+copyright: © Jack Yang
 
-# Format of the permalinks
-permalink: /blog/:categories/:year-:month-:day-:title/
-
-# Pagination configuration (used by the `blog` layout)
-paginate: 10
-paginate_path: /blog/:num/
+# Format of any future local writing permalinks
+permalink: /writing/:categories/:year-:month-:day-:title/
 
 # Theme
 # ---------------------------------------------------------------------------------------
@@ -158,17 +153,6 @@ defaults:
     values:
       seo:
         type: WebPage
-  - scope:
-      type: featured_categories
-    values:
-      seo:
-        type: WebPage
-  - scope:
-      type: featured_tags
-    values:
-      seo:
-        type: WebPage
-
 kramdown:
   math_engine: null
   math_engine_opts: {}
@@ -297,14 +281,6 @@ hydejack:
 # ----------------------------------------------------------------------------------------
 
 collections:
-  featured_categories:
-    permalink: /blog/:name/
-    output: true
-
-  featured_tags:
-    permalink: /tag-:name/
-    output: true
-
   projects:
     permalink: /projects/:path/
     output: true
@@ -328,18 +304,12 @@ exclude:
 include:
   - .well-known
   - LICENSE.md
-sitemap:
-  exclude:
-    - "/medium_posts/"
-
 # Plugins
 # ----------------------------------------------------------------------------------------
 
 plugins:
   - jekyll-default-layout
-  - jekyll-feed
   - jekyll-optional-front-matter
-  - jekyll-paginate
   - jekyll-readme-index
   - jekyll-redirect-from
   - jekyll-relative-links

@@ -1,4 +1,10 @@
 <div class="screen-only">
+  {% if page.buttons.email %} {% assign email = page.buttons.email %}
+  <a href="{{ email }}" class="btn btn-sm btn-primary mt1">
+    <small class="icon-envelop"></small>
+    {{ site.data.strings.resume.email_me | default: "Email Me" }}
+  </a>
+  {% endif %}
   {% if page.buttons.print %}
   <button class="btn btn-sm btn-primary mt1" onclick="window.print()">
     <small class="icon-printer"></small>
@@ -23,17 +29,20 @@
     <small class="content-json"></small>
     {{ site.data.strings.resume.download_json | default: "JSON" }}
   </a>
-  {% endif %} {% endif %} {% if page.buttons.connect %} {% assign connect =
-  page.buttons.connect %} {% if connect %} {% assign calendly_host =
-  'calendly.com' %} {% assign connect_is_calendly = false %} {% if connect
-  contains calendly_host %} {% assign connect_is_calendly = true %}
+  {% endif %} {% endif %} {% assign connect = page.buttons.schedule | default:page.buttons.connect %}
+  {% if connect %} {% assign calendly_host = 'calendly.com' %} {% assign connect_is_calendly = false %}
+  {% if connect contains calendly_host %} {% assign connect_is_calendly = true %}
   <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
   <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
   {% endif %}
   <a href="{% include smart-url url=connect %}" {% if connect_is_calendly %}onclick="Calendly.initPopupWidget({url: '{{ connect }}'});return false;"
     {% else %}target="_blank" rel="noopener noreferrer" {% endif %} class="btn btn-sm btn-primary mt1">
     <small class="icon-user-plus"></small>
+    {% if page.buttons.schedule %}
+    {{ site.data.strings.resume.schedule_call | default: "Schedule a Call" }}
+    {% else %}
     {{ site.data.strings.resume.connect | default: "Connect" }}
+    {% endif %}
   </a>
-  {% endif %} {% endif %}
+  {% endif %}
 </div>

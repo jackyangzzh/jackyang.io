@@ -1,1 +1,3 @@
-{% feed_meta %}
+{% if site.medium_username %}
+<link rel="alternate" type="application/rss+xml" title="{{ site.title }} on Medium" href="https://medium.com/feed/@{{ site.medium_username }}">
+{% endif %}

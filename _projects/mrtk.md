@@ -1,50 +1,57 @@
 ---
 layout: project
-weight: 7
+weight: 5
 title: 'MRTK for Unity'
 description: >
-  Contributed Leap Motion integration and feature upgrades to Microsoft's Mixed Reality Toolkit 2.7 release.
+  Contributed Leap Motion support and an orientation example to Microsoft's Mixed Reality Toolkit 2.7.
 date: '01-01-2021'
 category: personal
 image: 
   path: /assets/img/projects/mrtk_unity.webp
-  alt: Mixed Reality Toolkit Unity development interface
+  alt: Mixed Reality Toolkit for Unity logo
 links:
+  - title: Merged contribution
+    url: https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726
   - title: Release Notes
     url: https://learn.microsoft.com/en-us/windows/mixed-reality/mrtk-unity/mrtk2/release-notes/mrtk-27-release-notes?view=mrtkunity-2021-05#added-support-for-leap-motion-unity-modules-version-460-470-471-and-480
   - title: GitHub
     url: https://github.com/microsoft/MixedRealityToolkit-Unity
 
 ---
-MRTK is Microsoft's open-source toolkit for building XR experiences in Unity. It underpins experiences across HoloLens, Microsoft Mesh, and partner applications.
+MRTK is Microsoft's open-source Unity toolkit for XR. It gives developers common APIs for input, interaction, UI, and spatial behavior across different headsets and controllers.
 
 {% include pro/project-video.html id="-E4QYB3zIm0" title="MRTK for Unity" %}
 
-## Problem
+## Contribution in MRTK 2.7
 
-MRTK succeeds only if developers can rely on it as shared infrastructure rather than a moving target. By the time of the 2.7 release, one of the important gaps was broader hand-tracking support and better performance hygiene for teams building hybrid 2D and 3D experiences across multiple devices.
+My public contribution is [PR #9726](https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726), which added an example scene for Leap Motion orientation modes. The [MRTK 2.7 release notes](https://learn.microsoft.com/en-us/windows/mixed-reality/mrtk-unity/mrtk2/release-notes/mrtk-27-release-notes?view=mrtkunity-2021-05#added-support-for-leap-motion-unity-modules-version-460-470-471-and-480) credit `@jackyangzzh` for the `LeapMotionOrientationExample` scene.
 
-## What MRTK Covers
+The scene shows how MRTK interprets a tracked hand under each orientation setting.
 
-- Cross-platform interaction system that abstracts controllers, articulated hands, and eye tracking into a unified API surface.
-- UI components, spatialization helpers, and performance tooling tuned for both immersive (VR) and mixed reality (AR) runtimes.
-- Large open-source community that depends on predictable releases, documentation, and backward compatibility.
+- Built the orientation display and example scene, then revised them through maintainer review.
+- Removed a hard dependency so the display could load before the Leap Motion Unity module was installed.
+- Kept the sample consistent with existing MRTK patterns rather than adding a separate setup path.
 
-## My Contributions
+## Additional work
 
-- Added official Leap Motion hand-tracking support for MRTK 2.7, covering joint poses, gesture events, and hand mesh visualization.
-- Hardened the input system for hybrid 2D/3D apps by profiling performance hotspots and rewriting allocation-heavy sections using C# Jobs.
-- Authored migration guides and sample scenes showing developers how to adopt new capabilities without breaking existing scenes.
-- Coordinated with partner teams to verify the release against Microsoft Mesh and third-party experiences before shipping.
+I also worked on the surrounding Leap Motion integration and release quality:
 
-## Shipping Constraints
+- Profiled input system hotspots and moved allocation-heavy work to C# Jobs.
+- Added tests around hand-joint data and interactable states to reduce regressions.
+- Wrote migration notes and samples for teams adopting the changes.
+- Tested the changes against partner scenarios before release.
 
-Working on toolkit code is different from product code: the target is not one polished experience, but a stable foundation that many teams can build on. That meant every feature had to be evaluated against compatibility, documentation burden, and regression risk, not just whether it worked in one app.
+## Open-source constraints
 
-The Leap Motion integration was especially important because it extended MRTK's input coverage without asking developers to re-architect their scenes around a one-off custom path. Making the feature real meant not only adding support, but making it feel native to the toolkit.
+Toolkit code has to work outside the app it was written for. A change that worked in my sample could still break another team's project, so compatibility and regression risk shaped the implementation. The documentation had to explain the same constraints.
+
+The Leap Motion path also needed to behave like the rest of MRTK. Developers should be able to find it in the samples, and a missing optional package should not stop the project from loading. Upgrade notes covered the changes that existing projects needed to make.
 
 ## Impact
 
-- Expanded MRTK's controller support matrix, helping enterprise developers bring hand tracking to training and design review scenarios without rewriting input code.
-- Reduced regressions in partner builds by contributing automated tests around hand joints and interactable states.
-- Gave me direct experience shipping platform-level XR infrastructure where API stability, samples, and release quality matter as much as the feature itself.
+- The public example made MRTK 2.7's Leap Motion settings easier to understand and configure.
+- Performance work, tests, and migration notes reduced the work required by teams adopting the changes.
+
+The work made the less visible parts of an open-source release concrete for me.
+A useful example was only one part of the contribution. Optional packages and
+maintainer review had just as much influence on the final code.

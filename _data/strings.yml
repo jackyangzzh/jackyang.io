@@ -49,18 +49,18 @@ cookies_banner:
   okay:                Okay
 
 not_found:
-  title:               '404: Page Not Found'
+  title:               'Page not found'
   message:             |
-    Sorry, we've misplaced that URL or it's pointing to something that doesn't exist.
-    <!--home_link--> to try finding it again.
-  home_link:           Head back home
+    That page is not here or the link is out of date.
+    <!--home_link--> to keep exploring.
+  home_link:           Return home
 
 offline:
-  title:               'You are Offline'
+  title:               'You are offline'
   message:             |
-    Sorry, but you appear to be offline and this page has not been prepared for offline viewing.
-    <!--home_link--> to try finding another page.
-  home_link:           Head back home
+    This page is not available without a connection.
+    <!--home_link--> once you are back online.
+  home_link:           Return home
 
 error:
   title:               Error
@@ -148,7 +148,9 @@ resume:
   download_pdf:        Resume
   download_vcf:        vCard
   download_json:       JSON
-  connect:             Let's Chat!
+  email_me:            Email Me
+  schedule_call:       Schedule a Call
+  connect:             Connect
   icons:
     fallback:          icon-link
     location:          icon-location

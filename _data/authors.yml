@@ -9,9 +9,9 @@ author1:
   # Markdown enabled, can use multiple paragraphs (enabled by `|`)
   about: |
     Jack Yang is a software engineer at Microsoft Teams AI, where he builds
-    Facilitator — an agent that participates in live meetings. He works on
-    real-time, multimodal human-AI interaction, drawing on seven years shipping
-    avatars and XR at Microsoft Mesh to millions of users.
+    Facilitator, an agent that joins live meetings. His earlier work covered
+    avatars and XR at Microsoft Mesh. Across both, he focuses on how people and
+    computers communicate.
 
   # This photo will be used in the about section
   picture:

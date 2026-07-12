@@ -1,54 +1,53 @@
 ---
 layout: project
 weight: 8
-title: 'PolySpaceVR'
+title: 'Poly Space VR'
 description: >
-  Lightweight, customizable VR social hub for small groups that I designed, engineered, and shipped on the Meta Quest Store.
+  Built and open-sourced a social VR app for small groups, then released it on the Oculus PC VR store.
 date: '01-01-2021'
 category: personal
 image: 
   path: /assets/img/projects/PolySpaceLogo.webp
-  alt: PolySpaceVR logo featuring low-poly 3D environment design
+  alt: Poly Space VR logo
 links:
-  - title: Meta Quest Store
-    url: https://www.meta.com/experiences/pcvr/3258096647627881/?utm_source=yangjack.com&utm_medium=oculusredirect
+  - title: Meta PC VR Store
+    url: https://www.meta.com/experiences/pcvr/poly-space-vr/3258096647627881/
   - title: GitHub
     url: https://github.com/jackyangzzh/Poly-Space-VR
 
 ---
-PolySpaceVR is a VR social platform purpose-built for intimate, customizable gatherings. I started the project to explore how lightweight networking, avatars, and spatial audio can make remote hangouts feel less like meetings and more like living-room conversations.
+Poly Space VR is an open-source app for small social VR rooms. I built it because large public worlds felt noisy and enterprise tools felt too much like work. The app was released on the Oculus PC VR store, now part of the Meta store.
 
 ## Problem
 
-Most social VR products sit at one of two extremes: large public worlds that are great for serendipity but noisy for small groups, or enterprise collaboration tools that feel efficient but sterile. PolySpaceVR was my attempt to design a middle ground for friend groups, study sessions, and lightweight community events.
+I wanted a place for a few friends to talk, study, or host a small event without entering a huge public world. The room still needed enough tools and personality to feel like a place, not another video meeting.
 
-The goal was not to win on scale. It was to make small-group presence feel warm, customizable, and technically reliable on commodity VR hardware.
+I capped the scope around small groups so I could focus on reliable synchronization and rooms that hosts could customize.
 
-## Product Strategy
+## Product strategy
 
-- **Comfortable performance:** Low-poly art direction, baked lighting, and GPU instancing keep framerate high on standalone Meta Quest devices.
-- **Modular spaces:** Environment templates use ScriptableObjects so creators can remix layouts, props, and lighting without touching core code.
-- **Social presence:** Customizable avatars, spatial audio falloff, and shared interactables (whiteboards, card tables, media surfaces) make small gatherings playful.
+I used low-poly models and baked lighting to keep scene costs down. GPU instancing handled repeated objects without dragging down the framerate on Oculus PC VR hardware. ScriptableObject templates let creators rearrange a room and swap its contents without touching networking code. Avatars and spatial audio made people feel present, while shared objects gave them something to do together.
 
-## My Role
+## My role
 
-- Owned the product concept, core engineering, and shipping path from prototype through store release.
+- Took the project from the first concept through its store release.
 - Implemented Photon networking to keep voice chat, avatar poses, and interactables synchronized for up to eight participants.
-- Built the in-headset world builder, creator tooling, and moderation hooks needed to make the product usable by hosts rather than just developers.
+- Built the in-headset world editor, creator tools, and basic moderation controls for hosts.
 
-## Key Tradeoffs
+## Key tradeoffs
 
-- Prioritized stable framerate and comfort over higher-fidelity visuals, which is why the product leans into low-poly art direction and tightly controlled scene complexity.
-- Capped the experience around small groups because intimacy and reliable synchronization mattered more to the concept than maximizing room size.
-- Open-sourced the codebase to encourage community extension, while still adding moderation primitives like mute, soft kick, and invite lists so hosts could keep spaces usable.
+I chose stable framerate over visual detail and kept scene complexity low. Rooms supported small groups because reliable synchronization mattered more than a high participant count. I also open-sourced the code while keeping simple host controls such as mute, soft kick, and invite lists.
 
 ## Outcomes
 
-- Open-sourced the project so educators and hobbyists can host their own Poly Spaces without vendor lock-in.
-- Documented creator guidelines that supported monthly community drops on the store listing.
-- Used the platform for internal dogfooding sessions at Holos and as an early reference point for the kind of intimacy-focused social spaces I wanted to design professionally.
+- Educators and hobbyists could fork the project and host their own Poly Spaces.
+- I published creator guidelines and a monthly submission process for choosing a community room for the store build.
+- We used the app for internal sessions at Holos, which gave me a place to test networking and social interaction ideas before applying them to professional work.
 
-![PolySpaceVR on Meta Quest Store](/assets/img/projects/screenshot-store.webp){:loading="lazy"}
+![Poly Space VR listing on the Oculus PC VR store](/assets/img/projects/screenshot-store.webp){:loading="lazy"}
 {:.figcaption}
 
-PolySpaceVR started as a response to a gap I felt in the market, but it became equally valuable as a sandbox for testing how networking, world-building tools, moderation, and social presence need to fit together. That systems-level thinking has carried into the more structured social spaces I have designed professionally.
+Poly Space VR became my test bed for networking, room-building tools, moderation,
+and social presence. It was small enough that I could change the whole stack and
+see how one decision affected the rest of the room. I carried that experience
+into the larger social products I worked on later.

@@ -1,53 +1,62 @@
 ---
 layout: project
-weight: 3
+weight: 4
 title: 'Project Virtualso'
-caption: Conversational AI coach for interviews and presentations
 description: >
-  Conversational AI agents for rehearsing high-stakes interviews and presentations — real-time speech understanding, reactive dialogue, and expressive character animation.
+  Built VR coaches for interview and presentation practice using speech recognition, guided dialogue, facial animation, and gaze.
 date: '01-01-2020'
 category: personal
 image: 
   path: /assets/img/projects/virtualso.webp
-  alt: Project Virtualso virtual interviewer with realistic facial expressions
+  alt: Project Virtualso interview simulation with a virtual interviewer in an office
+links:
+  - title: Interview demo
+    url: https://www.youtube.com/watch?v=I1RIFirZeaQ
+  - title: Presentation demo
+    url: https://www.youtube.com/watch?v=3KgdJZlMepo
 
 ---
-Project Virtualso blends AI, natural language processing, and VR to create conversational humanoid agents that respond with expressive facial animation and body language. I used it as a proving ground for combining my communication-arts research with Unity engineering to help people rehearse high-stakes conversations.
+Project Virtualso is a set of VR coaches for interview and presentation practice. The characters listen and respond through dialogue, facial animation, gaze, and body language. It was one of my first attempts to combine what I studied in Communication with what I was building in Unity.
 
 ## Problem
 
-The project draws on my background in communication arts and VR to recreate the parts of practice that static scripts and webcam drills usually miss: timing, emotional cues, follow-up questions, and the pressure of responding in the moment.
+Scripts and webcam drills miss the uncomfortable parts of live practice: timing, follow-up questions, emotional reactions, and the pressure to answer on the spot. I wanted to see whether a virtual character could bring some of that pressure into a repeatable exercise.
 
-During the COVID-19 lockdowns, many people lost access to in-person mentorship and rehearsal environments. I wanted to see whether VR agents could make interview and presentation practice feel more like a live exchange and less like a solo exercise.
+During the COVID-19 lockdowns, in-person coaching and rehearsal became harder to access. That made the experiment more relevant, especially for people preparing alone.
 
-## Training Modes
+## Training modes
 
-### Virtual Interview
+### Virtual interview
 
-Users practice interviews with a conversational agent that listens, asks follow-ups, and mirrors emotion through facial expressions and gestures. Intent classification and dialogue logic drive what it says.
+The interview coach listens, asks follow-up questions, and reacts with facial expressions and gestures. Intent classification and dialogue rules decide what it says next.
 
 {% include pro/project-video.html id="I1RIFirZeaQ" title="Virtual Interview AI Agent Demonstration" %}
 
-### Virtual Presentation
+### Virtual presentation
 
-Presenters deliver slides in front of a virtual audience of agents that react in real time. The simulation helps people manage stage anxiety and was piloted with professionals across multiple companies, with positive qualitative feedback.
+The presentation mode puts the speaker in front of a virtual audience that reacts during the talk. I tested it with professionals from several companies. Their feedback led me to tone down distracting reactions, make attention and confusion easier to read, and improve the feedback shown after a session.
 
-## My Role
+## What I built
 
-- Designed and built the Unity experience, including scenario flow, dialogue logic, telemetry capture, and character behavior.
-- Integrated Azure Cognitive Services for speech-to-text and connected it to a lightweight NLP pipeline that tracks confidence, pacing, tone, and topic shifts.
-- Built the facial animation and gaze system so the agents could respond with enough expressiveness to feel useful without drifting into obviously canned behavior.
+- Built the Unity experience, scenario flow, dialogue rules, telemetry, and character behavior.
+- Connected Azure Cognitive Services speech recognition to an NLP pipeline that tracks confidence, pacing, tone, and topic changes.
+- Built facial animation and gaze responses. The goal was enough expression to communicate attention without making every reaction feel canned.
 
-## Key Design Decisions
+## Key design decisions
 
-- Used intent classification and guided dialogue branches instead of fully open-ended generation so the interviewer could stay responsive, coachable, and easier to evaluate.
-- Treated facial animation as feedback, not decoration. The agents needed to communicate attention, confusion, or encouragement clearly enough to shape user behavior.
-- Built a scenario editor so coaches could script question banks, difficulty curves, and success criteria without touching code, which made the prototype more useful for real training conversations.
+I used intent classification and guided branches rather than open-ended generation. That kept the interviewer responsive and made each session easier to evaluate. Facial animation carried feedback, so attention or confusion had to be readable without becoming theatrical. I also built a scenario editor for question banks, difficulty, and success criteria so a coach could change an exercise without editing code.
 
 ## Validation
 
-- Shared prototypes with career-coaching nonprofits to explore how mixed reality role-play could shorten prep time for job seekers.
-- Piloted the presentation mode with professionals across multiple companies and used the sessions to refine what kinds of audience reactions actually helped rather than distracted.
-- Captured telemetry on pacing, filler-word frequency, and confidence markers that later influenced how I think about coaching analytics and onboarding feedback loops more broadly.
+- Shared prototypes with career coaching nonprofits to see whether role-play could give job seekers more practice.
+- Tested the presentation mode with professionals from several companies, then adjusted audience behavior and session pacing from their feedback.
+- Captured pacing, filler word frequency, and confidence signals. I treated that data as an aid to human coaching, not a replacement for it.
+
+These were exploratory pilots, not a controlled outcome study. Subtle reactions
+worked best. Anything too theatrical felt fake and quickly pulled attention
+away from the speaker.
 
 {% include pro/project-video.html id="3KgdJZlMepo" title="Virtual Public Speaking Training Demonstration" %}
+
+Virtualso was my first serious attempt at a problem I still work on: how can an
+AI join a live conversation without taking it over?

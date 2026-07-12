@@ -1,0 +1,416 @@
+// Portfolio polish. These rules load after the theme so they can refine the
+// presentation without changing Hydejack's underlying layout system.
+
+// Resume --------------------------------------------------------------------
+
+.layout-resume {
+	.page-title {
+		letter-spacing: -.025em;
+	}
+
+	.h4 {
+		font-size: 1.05rem;
+		line-height: 1.45;
+		letter-spacing: .005em;
+	}
+
+	.avatar {
+		border: 3px solid var(--body-bg);
+		box-shadow:
+			0 0 0 2px var(--accent-color-faded),
+			0 .5rem 1.5rem rgba(0, 0, 0, .14);
+	}
+
+	article > .note {
+		margin: 1.25rem 0 0;
+		padding: 1rem 1.15rem;
+		border-left: .25rem solid #875acd;
+		border-radius: 0 .65rem .65rem 0;
+		background: var(--gray-bg);
+		line-height: 1.75;
+	}
+
+	#resume > .screen-only {
+		display: flex;
+		flex-wrap: wrap;
+		gap: .55rem;
+		margin-top: 1.15rem;
+
+		.btn {
+			margin-top: 0;
+			border-radius: 999px;
+			box-shadow: 0 .25rem .75rem rgba(66, 38, 112, .18);
+			transition:
+				transform 160ms ease,
+				background-color 160ms ease,
+				border-color 160ms ease,
+				box-shadow 160ms ease;
+
+			&:hover {
+				transform: translateY(-1px);
+				box-shadow: 0 .4rem 1rem rgba(66, 38, 112, .24);
+			}
+		}
+	}
+
+	.contact {
+		margin-top: 1.5rem;
+		padding: 1rem 0 .5rem;
+		border-top: 1px solid var(--border-color);
+		border-bottom: 1px solid var(--border-color);
+	}
+
+	.column > section + section {
+		margin-top: 2.25rem;
+	}
+
+	.h3.hr-bottom {
+		margin-bottom: 1.15rem;
+		padding-bottom: .55rem;
+		letter-spacing: -.01em;
+	}
+
+	section section > header > p.faded {
+		margin-bottom: .25rem;
+		font-size: .78rem;
+		letter-spacing: .045em;
+		text-transform: uppercase;
+	}
+
+	section section > ul {
+		padding-left: 1.15rem;
+
+		li {
+			margin-bottom: .55rem;
+			padding-left: .15rem;
+			line-height: 1.65;
+		}
+
+		li::marker {
+			color: #875acd;
+		}
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: .4rem;
+		margin: .45rem 0 1.35rem;
+	}
+
+	.tag {
+		margin: 0;
+		padding: .25rem .55rem;
+		border-color: var(--border-color);
+		border-radius: 999px;
+		background: var(--gray-bg);
+		color: var(--gray-text);
+		line-height: 1.35;
+	}
+}
+
+// Collection pages ---------------------------------------------------------
+
+.layout-projects,
+.layout-blog {
+	.page > header {
+		margin-bottom: 1.75rem;
+	}
+
+	.page-title {
+		letter-spacing: -.025em;
+	}
+
+	.note-sm {
+		max-width: 43rem;
+		line-height: 1.7;
+	}
+}
+
+.project-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .6rem;
+	margin: 0 0 2rem;
+	padding: 0;
+	list-style: none;
+	align-items: center;
+}
+
+.project-filters li {
+	display: flex;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.project-filter-btn {
+	box-sizing: border-box;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.35rem;
+	padding: .45rem .95rem;
+	border: 1px solid var(--border-color);
+	border-radius: 999px;
+	background: var(--gray-bg);
+	color: var(--gray-text);
+	font: inherit;
+	font-size: .82rem;
+	font-weight: 600;
+	line-height: 1;
+	cursor: pointer;
+	box-shadow: 0 .125rem .35rem rgba(0, 0, 0, .05);
+	transition:
+		transform 160ms ease,
+		color 160ms ease,
+		background-color 160ms ease,
+		border-color 160ms ease,
+		box-shadow 160ms ease;
+}
+
+.project-filter-btn:hover {
+	transform: translateY(-1px);
+	border-color: var(--accent-color-faded);
+	color: var(--body-color);
+}
+
+.project-filter-btn:focus {
+	outline: 3px solid #875acd;
+	outline-offset: 3px;
+}
+
+.project-filter-btn.is-active {
+	border-color: #875acd;
+	background: #875acd;
+	color: #fff;
+	box-shadow: 0 .25rem .75rem rgba(66, 38, 112, .2);
+}
+
+.project-filter-btn.is-active span {
+	color: inherit;
+}
+
+.project-tag {
+	display: inline-block;
+	padding: .2rem .58rem;
+	border-radius: 999px;
+	color: #fff;
+	font-size: .68rem;
+	font-weight: 700;
+	letter-spacing: .045em;
+	line-height: 1.4;
+	text-transform: uppercase;
+}
+
+.project-tag-professional { background: #2563eb; }
+.project-tag-personal { background: #168b4b; }
+.project-tag-research { background: #8236b2; }
+.project-tag-other { background: #626b78; }
+.project-hidden { display: none !important; }
+
+.project-card,
+.post-card {
+	border-radius: .8rem !important;
+	box-shadow:
+		0 .125rem .35rem rgba(0, 0, 0, .08),
+		0 .75rem 1.75rem rgba(0, 0, 0, .08) !important;
+	transition:
+		transform 180ms ease,
+		border-color 180ms ease,
+		box-shadow 180ms ease !important;
+
+	&:hover,
+	&:focus-within {
+		transform: translateY(-.2rem);
+		border-color: var(--accent-color-faded);
+		box-shadow:
+			0 .25rem .6rem rgba(0, 0, 0, .1),
+			0 1rem 2.25rem rgba(0, 0, 0, .12) !important;
+	}
+}
+
+.project-card-img img,
+.post-card__thumb img {
+	transition: transform 260ms ease;
+}
+
+.project-card:hover .project-card-img img,
+.project-card:focus-within .project-card-img img,
+.post-card:hover .post-card__thumb img,
+.post-card:focus-within .post-card__thumb img {
+	transform: scale(1.025);
+}
+
+.project-card > .project-card-body,
+.post-card > .post-card__body {
+	padding: 1.15rem !important;
+}
+
+.project-card > .project-card-body > .project-card-title,
+.post-card > .post-card__body > .post-card__title {
+	margin-bottom: .55rem !important;
+	color: var(--body-color) !important;
+	font-size: 1.12rem !important;
+	line-height: 1.35;
+}
+
+.project-card > .project-card-body > .project-card-text,
+.post-card > .post-card__body > .post-card__excerpt {
+	color: var(--gray-text);
+	line-height: 1.65;
+}
+
+.project-card-cta a,
+.post-card__cta a {
+	display: inline-flex;
+	align-items: center;
+	gap: .35rem;
+	border-bottom: 0 !important;
+	color: #875acd !important;
+	font-weight: 700;
+	text-decoration: none !important;
+}
+
+.project-card-cta a::after {
+	content: "→";
+	transition: transform 160ms ease;
+}
+
+.project-card-cta a:hover::after,
+.project-card-cta a:focus-visible::after {
+	transform: translateX(.2rem);
+}
+
+// Project detail pages -----------------------------------------------------
+
+.layout-project {
+	.project-header {
+		padding-bottom: 2.25rem;
+		border-bottom: 1px solid var(--border-color);
+	}
+
+	.project-summary {
+		max-width: 42rem;
+		font-size: 1.08rem;
+	}
+
+	.project-link {
+		transition:
+			transform 160ms ease,
+			color 160ms ease,
+			background-color 160ms ease,
+			border-color 160ms ease,
+			box-shadow 160ms ease;
+
+		&:hover,
+		&:focus-visible {
+			transform: translateY(-1px);
+			background: var(--gray-bg);
+			box-shadow: 0 .25rem .65rem rgba(0, 0, 0, .09);
+		}
+	}
+
+	.project-body {
+		> h2 {
+			margin-top: 2.75rem;
+			padding-bottom: .45rem;
+			border-bottom: 1px solid var(--border-color);
+			letter-spacing: -.015em;
+		}
+
+		> h3 {
+			margin-top: 2rem;
+			letter-spacing: -.01em;
+		}
+
+		li {
+			margin-bottom: .45rem;
+			line-height: 1.65;
+		}
+
+		img:not(.avatar) {
+			border-radius: .5rem;
+		}
+	}
+}
+
+body.dark-mode {
+	a:focus-visible,
+	button:focus-visible,
+	[tabindex]:focus-visible,
+	.project-filter-btn:focus {
+		outline-color: var(--accent-color);
+	}
+
+	.project-card,
+	.post-card {
+		box-shadow:
+			0 .125rem .35rem rgba(0, 0, 0, .24),
+			0 .75rem 1.75rem rgba(0, 0, 0, .2) !important;
+	}
+
+	.project-card-cta a,
+	.post-card__cta a {
+		color: var(--accent-color) !important;
+	}
+}
+
+.layout-not-found .page,
+.layout-offline .page {
+	max-width: 42rem;
+	padding-top: clamp(1rem, 5vw, 3rem);
+
+	.page-title {
+		letter-spacing: -.025em;
+	}
+
+	p {
+		max-width: 38rem;
+		line-height: 1.75;
+	}
+}
+
+@media screen and (min-width: $break-point-2) {
+	.project-card > .project-card-body,
+	.post-card > .post-card__body {
+		padding: 1.3rem !important;
+	}
+}
+
+@media screen and (max-width: 25em) {
+	.posts-grid {
+		grid-template-columns: 1fr !important;
+	}
+
+	.project-filters li {
+		flex: 1 1 calc(50% - .6rem);
+	}
+
+	.project-filter-btn {
+		width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.btn,
+	.project-card,
+	.post-card,
+	.project-card-img img,
+	.post-card__thumb img,
+	.project-filter-btn,
+	.project-link,
+	.project-card-cta a::after {
+		transition: none !important;
+	}
+
+	.project-card:hover,
+	.project-card:focus-within,
+	.post-card:hover,
+	.post-card:focus-within,
+	.project-filter-btn:hover,
+	.project-link:hover,
+	.project-link:focus-visible {
+		transform: none;
+	}
+}

@@ -126,6 +126,7 @@ hy-drawer.cover:not(.loaded) {
 .btn.btn-primary.disabled {
   background-color: #875acd;
   border-color: #875acd;
+  color: #fff;
 }
 .btn.btn-primary:hover,
 .btn.btn-primary.hover,
@@ -133,4 +134,13 @@ hy-drawer.cover:not(.loaded) {
 .btn.btn-primary.active {
   background-color: #6f48b0;
   border-color: #6f48b0;
+  color: #fff;
+}
+
+// Make keyboard navigation visible without adding outlines for mouse clicks.
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid #875acd;
+  outline-offset: 3px;
 }

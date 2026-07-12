@@ -1,45 +1,47 @@
 ---
 layout: project
-weight: 2
+weight: 3
 title: 'DishVue'
 description: >
-  Multi-platform digital menu that captures real dishes as 3D models on iOS and lets diners explore them in volumetric space on Apple Vision Pro.
+  Built a 3D menu for iPhone, iPad, Apple Vision Pro, and the web. Restaurants scan a dish once, and diners can inspect it at table scale.
 date: '01-01-2024'
 category: personal
 image: 
   path: /assets/img/projects/DishVue.webp
-  alt: DishVue product hero showing a 3D-scanned otoro nigiri inside a liquid-glass volumetric window with the DishVue wordmark
+  alt: DishVue wordmark over a scanned 3D dish displayed in translucent spatial menu panels
 links:
   - title: Demo
     url: https://youtu.be/7XZIU8AK3w0
 
 ---
-DishVue is a digital-menu system I built to replace flat food photos with scanned 3D dishes that travel across iPhone, iPad, Apple Vision Pro, and the web. Restaurants capture each dish once with their phone, and diners pick it up, rotate it, and place it on the table in front of them.
+DishVue is a 3D menu I built for iPhone, iPad, Apple Vision Pro, and the web. A restaurant scans a dish with an iPhone and adds it to the menu. Diners can then rotate the model or place it on the table at a believable scale.
 
 
 {% include pro/project-video.html id="7XZIU8AK3w0" title="DishVue Spatial Menu Demo" %}
 
 ## Problem
 
-Menu photography is the lowest-fidelity part of most dining experiences. Static 2D images undersell texture, portion size, and plating, while existing AR menu tools tend to be heavy, vendor-locked, or disconnected from how restaurants actually update their menus.
+Menu photos do a poor job of showing texture, portion size, or plating. Many AR menu tools also use a separate publishing workflow, which gives restaurant staff another system to keep in sync.
 
-I wanted to see how far I could push a small team workflow: a single content pipeline where a restaurant scans a dish on their phone, the model immediately syncs to a shared backend, and customers see it on whatever device they happen to be on, including a Vision Pro headset placed at the table.
+I wanted one small system to handle the whole path. Staff scan a dish on a phone, the model syncs to the menu, and diners open it on whatever device they have. On Vision Pro, they can put it on the table in front of them.
 
-## What I Built
+## Product workflow
 
 DishVue ships as three clients tied to one Firebase backend:
 
-- **iOS / iPadOS (admin + customer).** A SwiftUI app with an admin toggle that swaps a read-only menu for a CRUD form. Admins capture dishes in-app via Apple's Object Capture (wrapped in the `USDZScanner` Swift Package), watch USDZ + thumbnail uploads stream into Firebase Storage with live progress, and preview the result through AR Quick Look via `SFSafariViewController`.
-- **visionOS.** A volumetric experience that opens each dish in its own `WindowGroup(id: "item")` with `.windowStyle(.volumetric)` and a 0.6 m default volume. A `RealityView` loads the remote USDZ; a drag gesture rotates the dish on the Y axis, a magnify gesture scales it between 1.0× and 1.5×. Diners can also drag a dish straight out of the menu list into their space using `NSItemProvider` with an on-device USDZ cache so the same model never re-downloads.
-- **Web (React).** A lightweight browse client for diners on non-Apple devices, reading from the same Firestore collection.
+On iPhone and iPad, restaurant staff manage the menu and scan dishes in the same app. Diners can browse that menu and preview a dish in AR. The visionOS app opens each dish in a volumetric window, with controls for rotation, scale, and drag-and-drop placement. A React client gives people on other devices access to the same menu data.
 
-## Key Decisions
+## Technical implementation
 
-- **Treat 3D capture as part of the content workflow, not a separate tool.** Admins scan a dish in the same screen where they edit its name, price, and course. The scanner is just another input next to the text fields.
-- **One schema, three clients, no custom server.** Sticking to Firestore + Storage meant I could ship a real spatial app without standing up a backend. Every client subscribes to the same data and renders it natively.
-- **Volumetric windows over full immersion on Vision Pro.** A spatial menu only works if it sits next to the rest of your environment. Using volumetric `WindowGroup`s instead of an `ImmersiveSpace` keeps DishVue feeling like a tabletop menu rather than a takeover experience.
-- **Gesture grammar matched to the object.** Rotation is locked to the Y axis so diners can spin a plate without flipping their food upside down, and scaling is capped at 1.5× to prevent the model from blowing past the volume bounds.
+- Built the Apple clients in SwiftUI. Object Capture, wrapped in the `USDZScanner` Swift Package, generates USDZ models and thumbnails.
+- Stored menu records in Firestore and model files in Firebase Storage. The app shows upload progress and keeps a local cache.
+- Used `RealityView` and volumetric `WindowGroup`s on visionOS. Drag rotates a dish only around its vertical axis; magnification is capped to keep the model within useful bounds.
+- Built the React client against the same schema, so the web version did not need a separate content system or custom server.
+
+## Key decisions
+
+I kept scanning beside the ordinary menu fields for name, price, and course. Staff should not need a separate capture tool. Firestore and Storage gave all three clients one schema without requiring a custom server. On Vision Pro, I chose volumetric windows over full immersion because the menu belongs beside the table, not around the diner. Rotation stays on the vertical axis so a plate cannot flip upside down, and scale stops at 1.5x before the model leaves the window bounds.
 
 ## Reflection
 
-DishVue pushed me through the parts of spatial computing that don't show up in demos: shared data models across SwiftUI targets, Object Capture's content quirks, and the discipline of designing for restraint on visionOS. The biggest takeaway was how much spatial UX benefits from *less*. A calm volumetric window with two well-tuned gestures reads as far more polished than an immersive scene fighting for attention.
+The hard parts were not the demo moments. They were shared state across SwiftUI targets, the quirks in Object Capture output, and deciding what to leave out on visionOS. DishVue works better as a small window with a couple of predictable gestures than as a full immersive scene. I like spatial interfaces most when they know when to get out of the way.

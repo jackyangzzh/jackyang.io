@@ -1,50 +1,58 @@
 ---
 layout: project
-weight: 5
+weight: 6
 title: 'Robot Control Through VR'
 description: >
-  Low-latency, real-time system mapping hand gestures to industrial robotic arms through ROS — an early experiment in embodied human-machine interaction.
+  Built a VR teleoperation and motion replay system for a robotic arm using Unity, ROS, hand tracking, and inverse kinematics.
 date: '01-01-2020'
 category: research
 image: 
   path: /assets/img/projects/mimicry.webp
-  alt: Robot arm being controlled through VR hand gestures
+  alt: VR simulation of an industrial robotic arm moving objects between worktables
+links:
+  - title: Teleoperation demo
+    url: https://www.youtube.com/watch?v=vwSFuWbTOUY
+  - title: Motion replay demo
+    url: https://www.youtube.com/watch?v=LLw-ksfGENA
 
 ---
-This project explores remote robot manipulation through VR and inverse kinematics. It spans two tracks (real-time mimicry control and data-driven motion playback) to test both direct teleoperation and remote experiment review.
+This project tested two ways to work with a robotic arm in VR. The first mapped hand and arm movement to the robot. The second replayed recorded experiments when the lab was unavailable.
 
 ## Problem
 
-Industrial robot control is powerful but often intimidating to prototype, especially when operators need both precision and spatial intuition. I wanted to test whether VR could make robot manipulation feel more natural by letting people drive a robotic arm with their own hand and arm movement, without losing the safety and predictability required for real hardware.
+Robot control tools are precise, but they can be hard to learn. I wanted to see whether moving your own hand in VR could make the robot easier to understand without sacrificing the constraints needed for real hardware.
 
-## My Role
+## My role
 
-- Built the Unity application, ROS bridge, interaction model, and inverse-kinematics pipeline for VR-based teleoperation.
+- Built the Unity application, ROS bridge, interaction model, and inverse kinematics pipeline.
 - Integrated Leap Motion hand tracking, robot joint constraints, and visual overlays so operators could understand what the robot was about to do before committing a motion.
-- Later pivoted the project into a motion-replay workflow when physical lab access was restricted during COVID-19.
+- Built a motion replay workflow after COVID-19 restricted access to the physical lab.
 
-## Live Teleoperation
+## Live teleoperation
 
-In the first phase, I built a VR system that lets users drive robotic arms with natural hand and arm gestures. ROS data flows between Unity and the robot over a lightweight network bridge, keeping latency low enough for precise manipulation.
+The first version let a user drive the robot with hand and arm movement. A small network bridge passed ROS data between Unity and the robot with low enough latency for precise manipulation.
 
-## Key Engineering Decisions
+## Key engineering decisions
 
-- Custom inverse-kinematics solver blends Leap Motion hand poses with robot joint limits to avoid singularities.
+- A custom inverse kinematics solver combines Leap Motion hand poses with robot joint limits to avoid singularities.
 - Safety interlocks monitor joint velocity, collision volumes, and operator intent before commands leave the VR client.
 - Visual overlays show reachable space and predicted joint poses so users can plan motions before committing.
 
-The core tradeoff was realism versus safety. A one-to-one hand mapping feels intuitive, but physical robots cannot mirror human movement blindly. I treated prediction, constraint visualization, and intent filtering as part of the user experience, not just backend safety logic.
+A one-to-one hand mapping feels intuitive, but a robot cannot copy human motion blindly. Predicted poses and visible constraints were part of the interface because users needed to understand why the robot would reject or alter a movement.
 
 {% include pro/project-video.html id="vwSFuWbTOUY" title="VR Robot Control Demonstration" %}
 
-## Motion Replay Pivot
+## Motion-replay pivot
 
-When COVID-19 closed the lab, I pivoted to a data-replay pipeline. The interpreter ingests timestamped joint angles from spreadsheets and generates Unity animation clips that reproduce captured robot motion.
+When COVID-19 closed the lab, I built a replay pipeline instead. It read timestamped joint angles from more than 15 experiment datasets and generated Unity animation clips of the recorded motion.
 
-## What It Proved
+## What it demonstrated
 
-- Researchers could review real-world experiments inside VR without needing lab access, making it easier to annotate mistakes and plan retries.
-- Demonstrated that low-bandwidth data exports are sufficient to recreate believable robot motion inside Unity. That insight later guided my remote-collaboration prototypes at UW Graphics Group.
-- Helped me think more rigorously about the relationship between embodiment, safety, and observability in XR systems that control things outside the headset.
+- Researchers could review experiments in VR, annotate mistakes, and plan another run without entering the lab.
+- Joint angle data was enough to recreate useful robot motion in Unity; the replay did not need a video stream or the original hardware.
+
+The project made safety and observability feel like interface problems as well
+as robotics problems. When a system controls something outside the headset, the
+user needs to see what it plans to do before it does it.
 
 {% include pro/project-video.html id="LLw-ksfGENA" title="Robot Movement Recreation from Data" %}

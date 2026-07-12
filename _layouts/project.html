@@ -1,6 +1,5 @@
 ---
-# Copyright (c) 2018 Florian Klampfer
-<https: //qwtel.com />
+# Copyright (c) 2018 Florian Klampfer <https://qwtel.com/>
 layout: base
 ---
 
@@ -15,12 +14,13 @@ layout: base
 {% assign proj_format = site.data.strings.date_formats.project | default:"%Y" %}
 {% assign from_to_separator = strings.from_to_separator | default:strings.resume.from_to_separator | default:"–" %}
 {% assign screenshot = project.screenshot | default:project.image %}
+{% assign screenshot_alt = screenshot.alt | default:project.title %}
 {% assign has_links = false %}
 {% if project.links and project.links.size > 0 %}{% assign has_links = true %}{% endif %}
 
 {% capture project_period %}
 <time datetime="{{ project.date | date_to_xmlschema }}">{{ project.date | date:proj_format }}</time>
-{% if project.end_date.size > 0 %}
+{% if project.end_date and project.end_date.size > 0 %}
 {{ from_to_separator }}
 <time datetime="{{ project.end_date | date_to_xmlschema }}">{{ project.end_date | date:proj_format }}</time>
 {% endif %}
@@ -83,7 +83,7 @@ layout: base
         {% include_cached components/hy-img.html
         img=screenshot
         sizes="(min-width: 90em) 48rem, (min-width: 54em) 42rem, (min-width: 42em) 38rem, 100vw"
-        alt=project.title
+        alt=screenshot_alt
         property="image"
         width=864
         height=486

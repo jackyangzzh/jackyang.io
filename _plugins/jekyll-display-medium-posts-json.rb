@@ -57,10 +57,11 @@ module Jekyll
       html = Nokogiri::HTML.fragment(content_html)
       description = html.search("p").map(&:to_html).join
       description = html.text if description.empty?
+      canonical_url = item.at_xpath("link")&.text.to_s.split("?").first.to_s
 
       {
         "title"       => item.at_xpath("title")&.text.to_s,
-        "url"         => item.at_xpath("link")&.text.to_s,
+        "url"         => canonical_url,
         "date"        => item.at_xpath("pubDate")&.text.to_s,
         "thumbnail"   => html.at_css("img")&.[]("src"),
         "description" => description,

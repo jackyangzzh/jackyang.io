@@ -6,6 +6,25 @@
   JEKYLL_ENV = "production"
   RUBY_VERSION = "3.1.4"
 
+# Consolidate legacy writing indexes at the canonical Writing page.
+[[redirects]]
+  from = "/blogs/*"
+  to = "/writing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/blog/*"
+  to = "/writing/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/posts/*"
+  to = "/writing/"
+  status = 301
+  force = true
+
 # Security headers
 [[headers]]
   for = "/*"

@@ -3,7 +3,8 @@ layout: projects
 title: Projects
 show_collection: projects
 description: >
-  AI and interaction projects across agents, avatars, real-time multimodal
-  systems, and XR research.
+  Selected work in XR research, avatars, spatial products, and AI agents for
+  live conversation.
 no_groups: true
 ---
+

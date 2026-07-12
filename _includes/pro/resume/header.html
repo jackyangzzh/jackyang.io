@@ -2,7 +2,7 @@
   <h1 class="page-title fn p-name" property="name">{{ basics.name }}</h1>
 
   {% if basics.picture.size > 0 %}
-    <img src="{{ basics.picture | absolute_url }}" class="avatar photo u-photo" alt="{{ basics.name }}" property="image" width="120" height="120" loading="eager" decoding="async" />
+    <img src="{{ basics.picture | relative_url }}" class="avatar photo u-photo" alt="{{ basics.name }}" property="image" width="120" height="120" loading="eager" decoding="async" />
   {% endif %}
 
   {% if basics.label %}

@@ -1,9 +1,14 @@
 ---
 layout: blog
-title: Blog
+title: Writing
+permalink: /writing/
 description: >
-  I write about AI, human-AI interaction, technology trends, and books. For more, visit
-  [my Medium](https://medium.com/@jackyangzzh){:target="_blank" rel="noopener noreferrer"}.
+  Essays and notes on AI agents, human-AI interaction, spatial computing,
+  product craft, technology, and books. Read more on
+  [Medium](https://medium.com/@jackyangzzh){:target="_blank" rel="noopener noreferrer"}.
 sitemap: true
-related_posts: []
+redirect_from:
+  - /blogs/
+  - /blog/
+  - /posts/
 ---

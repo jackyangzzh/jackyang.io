@@ -1,7 +1,7 @@
 {
   "name": "jackyang-portfolio",
   "version": "1.0.0",
-  "description": "Personal website and portfolio of Jack Yang - XR Developer",
+  "description": "Personal site and portfolio for Jack Yang, a software engineer working on multimodal AI, HCI, and real-time systems.",
   "author": "Jack Yang <jackyangzzh@gmail.com>",
   "license": "MIT",
   "homepage": "https://jackyang.io",
@@ -11,10 +11,14 @@
   },
   "keywords": [
     "portfolio",
+    "ai-agents",
+    "multimodal-ai",
+    "human-computer-interaction",
     "xr",
     "ar",
     "vr",
     "mixed-reality",
+    "spatial-computing",
     "jekyll"
   ],
   "dependencies": {
