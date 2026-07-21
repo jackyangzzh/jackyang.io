@@ -43,7 +43,7 @@
   {% if image_base %}
   <meta property="image" content="{% include_cached smart-url url=image_base %}" />{% endif %}
 
-  <a href="{{ project.url | relative_url }}" class="no-hover no-print-link flip-project">
+  <a href="{{ project.url | relative_url }}" class="no-hover no-print-link project-transition">
     <div class="project-card-img aspect-ratio sixteen-nine flip-project-img {% unless screenshot %}fallback-img{% endunless %}">
       {% if screenshot %}
       {% include_cached components/hy-img.html img=screenshot alt=image_alt sizes=sizes width=864 height=486 %}
@@ -66,8 +66,8 @@
       {% endif %}
     </p>
     {% endif %}
-    <h3 class="project-card-title flip-project-title">
-      <a href="{{ project.url | relative_url }}" class="flip-title" property="mainEntityOfPage">{{ project.title }}</a>
+    <h3 class="project-card-title">
+      <a href="{{ project.url | relative_url }}" class="project-transition" property="mainEntityOfPage">{{ project.title }}</a>
     </h3>
     {% if project.description or project.tagline or project.caption %}
     {% capture card_description %}{{ project.tagline | default:project.caption | default:project.description | markdownify | strip_html | strip }}{% endcapture %}
@@ -75,6 +75,6 @@
       {{ card_description }}
     </p>
     {% endif %}
-    <p class="project-card-cta"><a href="{{ project.url | relative_url }}">View project</a></p>
+    <p class="project-card-cta"><a href="{{ project.url | relative_url }}" class="project-transition">View project</a></p>
   </div>
 </article>

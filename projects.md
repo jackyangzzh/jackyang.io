@@ -3,8 +3,8 @@ layout: projects
 title: Projects
 show_collection: projects
 description: >
-  Selected work in XR research, avatars, spatial products, and AI agents for
-  live conversation.
+  Selected work across AI agents, real-time systems, spatial computing, and
+  independent product experiments.
 no_groups: true
 ---
 

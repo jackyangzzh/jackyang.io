@@ -242,6 +242,35 @@
 	transform: scale(1.025);
 }
 
+.project-transition-clone {
+	position: fixed !important;
+	z-index: 5;
+	margin: 0 !important;
+	overflow: hidden;
+	pointer-events: none;
+	transform-origin: left top;
+	will-change: transform, opacity, border-radius, box-shadow;
+	backface-visibility: hidden;
+	background: var(--gray-bg);
+
+	img {
+		position: absolute !important;
+		inset: 0;
+		display: block;
+		width: 100% !important;
+		height: 100% !important;
+		margin: 0 !important;
+		object-fit: cover;
+		object-position: center;
+		opacity: 1 !important;
+		transition: none !important;
+	}
+}
+
+.project-transition-target {
+	opacity: 0 !important;
+}
+
 .project-card > .project-card-body,
 .post-card > .post-card__body {
 	padding: 1.15rem !important;
@@ -398,6 +427,7 @@ body.dark-mode {
 	.post-card,
 	.project-card-img img,
 	.post-card__thumb img,
+	.project-transition-clone,
 	.project-filter-btn,
 	.project-link,
 	.project-card-cta a::after {
