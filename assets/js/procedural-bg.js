@@ -40,15 +40,29 @@
   var welcomeActive = false;
   var welcomeStart = 0;
   var currentWelcomeProgress = -1;
-  var interactionUntil = 0;
   var pauseStarted = 0;
   var pointerTargetX = 0;
   var pointerTargetY = 0;
   var pointerX = 0;
   var pointerY = 0;
 
-  // Deep indigo with warm rose, peach, lavender, and soft mint accents.
-  var BG = { r: 32, g: 28, b: 58 };
+  // The orb and wave layers are expensive (five full-screen radial-gradient
+  // fills plus three stroked wave paths). Drawing them every frame is what put
+  // 20 long tasks on the main thread and cost ~2.2s of TBT. They are now baked
+  // once into an offscreen canvas and blitted each frame instead, which leaves
+  // only the node network to animate per-frame and keeps every frame short.
+  var ambientCanvas = document.createElement("canvas");
+  var ambientCtx = ambientCanvas.getContext("2d");
+  var ambientReady = false;
+  // Bleed so the layer can drift without exposing an edge.
+  var AMBIENT_MARGIN = 48;
+  var AMBIENT_TIME = 1200;
+
+  // Deeper indigo base so the accent orbs read as light against it. ORB_GAIN
+  // lifts the orb alphas together — they were tuned so low that the background
+  // was nearly flat.
+  var BG = { r: 18, g: 15, b: 38 };
+  var ORB_GAIN = 2.1;
   var orbs = [
     {
       r: 235,
@@ -172,14 +186,15 @@
     }
 
     initParticles();
+    buildAmbient();
     if (initialized) render(false, currentWelcomeProgress);
   }
 
   function initParticles() {
     var area = w * h;
-    var minCount = lowPower ? 18 : 24;
-    var maxCount = lowPower ? 36 : isCover ? 58 : 44;
-    var count = clamp(Math.floor(area / 16500), minCount, maxCount);
+    var minCount = lowPower ? 18 : 26;
+    var maxCount = lowPower ? 36 : isCover ? 82 : 44;
+    var count = clamp(Math.floor(area / 13000), minCount, maxCount);
 
     while (particles.length > count) particles.pop();
     while (particles.length < count) {
@@ -211,24 +226,19 @@
     return Math.exp(-distance * distance * 2.2);
   }
 
-  function drawOrbs(ambientAlpha) {
-    ctx.globalCompositeOperation = "screen";
+  function drawOrbs(c, t) {
+    c.globalCompositeOperation = "screen";
 
     for (var i = 0; i < orbs.length; i++) {
       var orb = orbs[i];
-      var offset = 4 + i * 1.4;
-      var cx =
-        w * (0.5 + orb.xAmp * Math.sin(time * orb.xSpd + orb.xPh)) +
-        pointerX * offset;
-      var cy =
-        h * (0.5 + orb.yAmp * Math.cos(time * orb.ySpd + orb.yPh)) +
-        pointerY * offset * 0.7;
+      var cx = w * (0.5 + orb.xAmp * Math.sin(t * orb.xSpd + orb.xPh));
+      var cy = h * (0.5 + orb.yAmp * Math.cos(t * orb.ySpd + orb.yPh));
       var radius = Math.max(w, h) * orb.radius;
-      var alpha = orb.a * ambientAlpha;
+      var alpha = Math.min(orb.a * ORB_GAIN, 1);
 
-      radius *= 1 + 0.045 * Math.sin(time * 0.001 + i * 1.5);
+      radius *= 1 + 0.045 * Math.sin(t * 0.001 + i * 1.5);
 
-      var gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+      var gradient = c.createRadialGradient(cx, cy, 0, cx, cy, radius);
       gradient.addColorStop(
         0,
         "rgba(" + orb.r + "," + orb.g + "," + orb.b + "," + alpha + ")",
@@ -249,15 +259,22 @@
         1,
         "rgba(" + orb.r + "," + orb.g + "," + orb.b + ",0)",
       );
-      ctx.fillStyle = gradient;
-      ctx.fillRect(-16, -16, w + 32, h + 32);
+      c.fillStyle = gradient;
+      c.fillRect(
+        -AMBIENT_MARGIN,
+        -AMBIENT_MARGIN,
+        w + AMBIENT_MARGIN * 2,
+        h + AMBIENT_MARGIN * 2,
+      );
     }
 
-    ctx.globalCompositeOperation = "source-over";
+    c.globalCompositeOperation = "source-over";
   }
 
   function drawParticles(advance, ambientAlpha, welcomeProgress) {
-    var maxDist = Math.min(132, Math.max(w, h) * 0.1);
+    // Wide reach and a high link alpha are what make this read as a connected
+    // graph rather than a scattering of dots.
+    var maxDist = Math.min(168, Math.max(w, h) * 0.125);
     var maxDistSq = maxDist * maxDist;
     var i;
     var j;
@@ -296,7 +313,7 @@
           );
           alpha =
             (1 - distSq / maxDistSq) *
-            0.105 *
+            0.46 *
             ambientAlpha *
             (1 + sweep * 0.32);
           ctx.strokeStyle = "rgba(235,220,230," + alpha + ")";
@@ -326,24 +343,29 @@
           ambientAlpha *
           (1 + sweep * 0.58),
         0,
-        0.72,
+        0.88,
       );
 
+      var px = particle.x + pointerX * particle.depth * 4;
+      var py = particle.y + pointerY * particle.depth * 3;
+      var nodeRadius = particle.size + sweep * 0.22;
+
+      // Soft halo behind each node. Cheaper than canvas shadowBlur, and it is
+      // what makes the nodes read as lit points rather than flat dots.
       ctx.beginPath();
-      ctx.arc(
-        particle.x + pointerX * particle.depth * 4,
-        particle.y + pointerY * particle.depth * 3,
-        particle.size + sweep * 0.22,
-        0,
-        Math.PI * 2,
-      );
+      ctx.arc(px, py, nodeRadius * 3.2, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(235,220,230," + alpha * 0.16 + ")";
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(px, py, nodeRadius, 0, Math.PI * 2);
       ctx.fillStyle = "rgba(250,240,235," + alpha + ")";
       ctx.fill();
     }
   }
 
-  function drawWaves(ambientAlpha) {
-    ctx.globalCompositeOperation = "screen";
+  function drawWaves(c, t) {
+    c.globalCompositeOperation = "screen";
 
     var configs = [
       {
@@ -352,7 +374,7 @@
         freq: 0.003,
         speed: 0.0004,
         color: "235,160,175",
-        alpha: 0.036,
+        alpha: 0.075,
       },
       {
         baseY: 0.5,
@@ -360,7 +382,7 @@
         freq: 0.0025,
         speed: 0.00055,
         color: "245,190,145",
-        alpha: 0.028,
+        alpha: 0.06,
       },
       {
         baseY: 0.7,
@@ -368,41 +390,69 @@
         freq: 0.002,
         speed: 0.0007,
         color: "165,135,215",
-        alpha: 0.03,
+        alpha: 0.065,
       },
     ];
 
     for (var n = 0; n < configs.length; n++) {
       var config = configs[n];
-      var baseY = h * config.baseY + pointerY * (2 + n);
+      var baseY = h * config.baseY;
       var amplitude = h * config.amp;
-      var alpha = config.alpha * ambientAlpha;
+      var alpha = config.alpha;
 
-      ctx.beginPath();
-      ctx.moveTo(-8, baseY);
-      for (var x = -8; x <= w + 8; x += 4) {
+      c.beginPath();
+      c.moveTo(-AMBIENT_MARGIN, baseY);
+      for (
+        var x = -AMBIENT_MARGIN;
+        x <= w + AMBIENT_MARGIN;
+        x += 4
+      ) {
         var y =
           baseY +
-          amplitude *
-            Math.sin(x * config.freq + time * config.speed + n * 2) +
+          amplitude * Math.sin(x * config.freq + t * config.speed + n * 2) +
           amplitude *
             0.5 *
-            Math.sin(
-              x * config.freq * 1.8 + time * config.speed * 0.7 + n,
-            );
-        ctx.lineTo(x, y);
+            Math.sin(x * config.freq * 1.8 + t * config.speed * 0.7 + n);
+        c.lineTo(x, y);
       }
 
-      ctx.strokeStyle = "rgba(" + config.color + "," + alpha * 0.46 + ")";
-      ctx.lineWidth = 6 + n * 3;
-      ctx.stroke();
+      c.strokeStyle = "rgba(" + config.color + "," + alpha * 0.46 + ")";
+      c.lineWidth = 6 + n * 3;
+      c.stroke();
 
-      ctx.strokeStyle = "rgba(" + config.color + "," + alpha + ")";
-      ctx.lineWidth = 1.25;
-      ctx.stroke();
+      c.strokeStyle = "rgba(" + config.color + "," + alpha + ")";
+      c.lineWidth = 1.25;
+      c.stroke();
     }
 
-    ctx.globalCompositeOperation = "source-over";
+    c.globalCompositeOperation = "source-over";
+  }
+
+  // Bake the base colour, orbs and waves once. Called on resize only.
+  function buildAmbient() {
+    if (!w || !h) return;
+
+    var aw = w + AMBIENT_MARGIN * 2;
+    var ah = h + AMBIENT_MARGIN * 2;
+    ambientCanvas.width = Math.round(aw * dpr);
+    ambientCanvas.height = Math.round(ah * dpr);
+    ambientCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ambientCtx.clearRect(0, 0, aw, ah);
+    // Shift into the margin so the existing 0..w / 0..h drawing code lands in
+    // the middle of the oversized layer.
+    ambientCtx.translate(AMBIENT_MARGIN, AMBIENT_MARGIN);
+
+    ambientCtx.fillStyle = "rgb(" + BG.r + "," + BG.g + "," + BG.b + ")";
+    ambientCtx.fillRect(
+      -AMBIENT_MARGIN,
+      -AMBIENT_MARGIN,
+      aw,
+      ah,
+    );
+
+    drawOrbs(ambientCtx, AMBIENT_TIME);
+    drawWaves(ambientCtx, AMBIENT_TIME);
+    ambientReady = true;
   }
 
   function render(advance, welcomeProgress) {
@@ -411,20 +461,28 @@
         ? 0.58 + easeOutCubic(welcomeProgress) * 0.42
         : 1;
 
-    ctx.fillStyle = "rgb(" + BG.r + "," + BG.g + "," + BG.b + ")";
-    ctx.fillRect(0, 0, w, h);
-
     if (advance) updateParallax();
-    drawOrbs(ambientAlpha);
-    drawWaves(ambientAlpha);
-    drawParticles(advance, ambientAlpha, welcomeProgress);
-  }
 
-  function pointerIsSettled() {
-    return (
-      Math.abs(pointerTargetX - pointerX) < 0.008 &&
-      Math.abs(pointerTargetY - pointerY) < 0.008
-    );
+    if (ambientReady) {
+      // Slow sinusoidal drift plus pointer parallax. Blitting a pre-rendered
+      // layer costs one drawImage instead of eight gradient/path fills.
+      var driftX = Math.sin(time * 0.00012) * 14 + pointerX * 10;
+      var driftY = Math.cos(time * 0.00009) * 10 + pointerY * 7;
+      ctx.globalAlpha = ambientAlpha;
+      ctx.drawImage(
+        ambientCanvas,
+        -AMBIENT_MARGIN + driftX,
+        -AMBIENT_MARGIN + driftY,
+        w + AMBIENT_MARGIN * 2,
+        h + AMBIENT_MARGIN * 2,
+      );
+      ctx.globalAlpha = 1;
+    } else {
+      ctx.fillStyle = "rgb(" + BG.r + "," + BG.g + "," + BG.b + ")";
+      ctx.fillRect(0, 0, w, h);
+    }
+
+    drawParticles(advance, ambientAlpha, welcomeProgress);
   }
 
   function requestNextFrame() {
@@ -471,36 +529,30 @@
 
     render(true, welcomeProgress);
 
-    if (
-      welcomeActive ||
-      now < interactionUntil ||
-      !pointerIsSettled()
-    ) {
-      animId = requestAnimationFrame(frame);
-    } else {
-      lastFrameTime = 0;
-    }
+    // Keep going. Frames are cheap now that the orb and wave layers are baked,
+    // so the network can drift continuously instead of freezing until the
+    // visitor happens to interact. Visibility and reduced-motion checks at the
+    // top of this function still park the loop when it isn't wanted.
+    animId = requestAnimationFrame(frame);
   }
 
-  function wakeForInteraction(duration) {
+  // The loop no longer stops on its own, so this just makes sure it is running
+  // (for example after the tab was backgrounded).
+  function wakeForInteraction() {
     if (!initialized || reducedMotion) return;
-    interactionUntil = Math.max(
-      interactionUntil,
-      performance.now() + (duration || 1200),
-    );
     requestNextFrame();
   }
 
   function updatePointer(event) {
     pointerTargetX = clamp((event.clientX / window.innerWidth) * 2 - 1, -1, 1);
     pointerTargetY = clamp((event.clientY / window.innerHeight) * 2 - 1, -1, 1);
-    wakeForInteraction(1000);
+    wakeForInteraction();
   }
 
   function resetPointer() {
     pointerTargetX = 0;
     pointerTargetY = 0;
-    wakeForInteraction(1200);
+    wakeForInteraction();
   }
 
   function setupInteraction() {
@@ -509,7 +561,7 @@
 
     var events = ["pointerdown", "wheel", "scroll", "keydown", "touchstart"];
     function onInteraction() {
-      wakeForInteraction(1400);
+      wakeForInteraction();
     }
 
     for (var i = 0; i < events.length; i++) {
@@ -549,6 +601,9 @@
 
     startWelcome();
     if (!welcomeActive) render(false, -1);
+    // Start the ambient loop. Previously this waited for the first pointer or
+    // scroll event, which meant most visitors only ever saw a frozen frame.
+    requestNextFrame();
   }
 
   if ("IntersectionObserver" in window) {

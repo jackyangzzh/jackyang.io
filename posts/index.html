@@ -83,7 +83,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-07-21T05:45:47+00:00',
+    INDEX_KEY: 'index--2026-07-25T04:40:19+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -97,8 +97,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1784612747" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1784612747" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1784954419" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1784954419" id="_iconsPreload">
 
 
 
@@ -117,6 +117,19 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
+
+
+<script>
+  (function (d, w) {
+    var mq = w.matchMedia && w.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq && mq.matches) return;
+    if (!('IntersectionObserver' in w)) return;
+    d.documentElement.classList.add('reveal-on');
+    w.__revealFailsafe = setTimeout(function () {
+      d.documentElement.classList.remove('reveal-on');
+    }, 3000);
+  })(document, window);
+</script>
 
 
 </head>
