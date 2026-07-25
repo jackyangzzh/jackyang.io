@@ -14,3 +14,22 @@ Fill in `href`. You may have to adjust `rel`.
 
 {% comment %}Preload the home cover avatar — the LCP candidate on mobile. Matches the sidebar <img src> so the fetch is reused (no double download).{% endcomment %}
 {% if page.cover and site.logo %}<link rel="preload" href="{% include smart-url url=site.logo %}" as="image" type="image/webp" fetchpriority="high">{% endif %}
+
+{% comment %}
+Scroll-reveal gate. Runs before first paint so revealed elements never flash in
+at full opacity and then hide. Only opts in when motion is allowed and
+IntersectionObserver exists; site-polish.js does the actual revealing.
+The failsafe un-hides everything if that script fails to load, so content can
+never be left permanently invisible.
+{% endcomment %}
+<script>
+  (function (d, w) {
+    var mq = w.matchMedia && w.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mq && mq.matches) return;
+    if (!('IntersectionObserver' in w)) return;
+    d.documentElement.classList.add('reveal-on');
+    w.__revealFailsafe = setTimeout(function () {
+      d.documentElement.classList.remove('reveal-on');
+    }, 3000);
+  })(document, window);
+</script>

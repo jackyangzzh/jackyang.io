@@ -115,32 +115,137 @@ hy-drawer.cover:not(.loaded) {
   }
 }
 
-// Accessibility (WCAG AA contrast): the theme's primary button renders white
-// text on the light brand accent (#aa82e6 ≈ 2.98:1, below the 4.5:1 minimum for
-// normal text). Deepen ONLY the primary buttons to a compliant purple
-// (#875acd ≈ 4.8:1, hover #6f48b0); links and other accents keep the brand
-// color. The extra `.btn` makes this win over the theme's `.btn-primary` rule
-// that loads later in the main stylesheet.
+// Accent token (WCAG AA contrast) ------------------------------------------
+//
+// The brand accent (#aa82e6) can't carry white text on a light background
+// (2.98:1, below the 4.5:1 minimum), so accent-bearing UI uses a deepened
+// purple instead. That deepened purple then fails in the other direction: on
+// the dark-mode background it drops to ~2.9:1. Neither value works for both
+// modes, so define one token per mode and let every accent rule consume it.
+//
+// Dark mode reaches the page two ways and BOTH need the token:
+//   1. `prefers-color-scheme: dark` styles a bare `body` — the theme's
+//      dark-mode-fix.js deliberately returns early on any browser that
+//      supports the query, so no `.dark-mode` class is ever added.
+//   2. The manual toggle adds `.dark-mode` (and `.light-mode` to opt back out,
+//      which has to win against the media query above).
+// Scoping accent overrides to `body.dark-mode` alone silently misses case 1,
+// which is the common path for visitors who never touch the toggle.
+:root {
+  --accent-strong: #875acd;          // 4.8:1 on white
+  --accent-strong-hover: #6f48b0;
+  --accent-strong-contrast: #fff;
+  --card-shadow:
+    0 .125rem .35rem rgba(0, 0, 0, .08),
+    0 .75rem 1.75rem rgba(0, 0, 0, .08);
+  --card-shadow-hover:
+    0 .25rem .6rem rgba(0, 0, 0, .1),
+    0 1rem 2.25rem rgba(0, 0, 0, .12);
+}
+
+@mixin accent-strong-dark() {
+  --accent-strong: #aa82e6;          // 4.7:1 on the dark-mode background
+  --accent-strong-hover: #bfa0ee;
+  --accent-strong-contrast: var(--dark-mode-body-bg);
+  --card-shadow:
+    0 .125rem .35rem rgba(0, 0, 0, .24),
+    0 .75rem 1.75rem rgba(0, 0, 0, .2);
+  --card-shadow-hover:
+    0 .25rem .6rem rgba(0, 0, 0, .32),
+    0 1rem 2.25rem rgba(0, 0, 0, .28);
+}
+
+@mixin accent-strong-light() {
+  --accent-strong: #875acd;
+  --accent-strong-hover: #6f48b0;
+  --accent-strong-contrast: #fff;
+  --card-shadow:
+    0 .125rem .35rem rgba(0, 0, 0, .08),
+    0 .75rem 1.75rem rgba(0, 0, 0, .08);
+  --card-shadow-hover:
+    0 .25rem .6rem rgba(0, 0, 0, .1),
+    0 1rem 2.25rem rgba(0, 0, 0, .12);
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  body { @include accent-strong-dark(); }
+}
+
+@media screen {
+  body.dark-mode { @include accent-strong-dark(); }
+  body.light-mode { @include accent-strong-light(); }
+}
+
+// The extra `.btn` makes this win over the theme's `.btn-primary` rule that
+// loads later in the main stylesheet.
 .btn.btn-primary,
 .btn.btn-primary:disabled,
 .btn.btn-primary.disabled {
-  background-color: #875acd;
-  border-color: #875acd;
-  color: #fff;
+  background-color: var(--accent-strong);
+  border-color: var(--accent-strong);
+  color: var(--accent-strong-contrast);
 }
 .btn.btn-primary:hover,
 .btn.btn-primary.hover,
 .btn.btn-primary:active,
 .btn.btn-primary.active {
-  background-color: #6f48b0;
-  border-color: #6f48b0;
-  color: #fff;
+  background-color: var(--accent-strong-hover);
+  border-color: var(--accent-strong-hover);
+  color: var(--accent-strong-contrast);
 }
 
 // Make keyboard navigation visible without adding outlines for mouse clicks.
 a:focus-visible,
 button:focus-visible,
 [tabindex]:focus-visible {
-  outline: 3px solid #875acd;
+  outline: 3px solid var(--accent-strong);
   outline-offset: 3px;
+}
+
+// Scroll reveal -------------------------------------------------------------
+//
+// Gated on `html.reveal-on`, which the inline script in <head> adds only when
+// motion is allowed and IntersectionObserver exists. site-polish.js adds `is-in`
+// as each element scrolls into view and sets `--reveal-delay` for the stagger.
+//
+// This uses an animation rather than a transition on purpose. Cards already
+// transition `transform` for their hover lift, and a competing transition on the
+// same property would fight it. `animation-fill-mode: backwards` holds the
+// pre-animation state through the stagger delay, then stops applying once the
+// animation finishes, which leaves the hover transform free afterwards.
+$reveal-targets: ".project-card", ".post-card", ".layout-resume .column > section";
+
+@keyframes reveal-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+html.reveal-on {
+  @each $sel in $reveal-targets {
+    #{$sel} { opacity: 0; }
+
+    #{$sel}.is-in {
+      opacity: 1;
+      animation: reveal-rise 450ms cubic-bezier(.2, .6, .2, 1) backwards;
+      animation-delay: var(--reveal-delay, 0ms);
+    }
+  }
+}
+
+// The reveal must never be able to hide content on paper or for anyone who has
+// asked for reduced motion.
+@media print {
+  html.reveal-on {
+    @each $sel in $reveal-targets {
+      #{$sel} { opacity: 1; animation: none; }
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.reveal-on {
+    @each $sel in $reveal-targets {
+      #{$sel} { opacity: 1; animation: none; }
+    }
+  }
 }

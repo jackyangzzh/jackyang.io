@@ -10,7 +10,7 @@ basics:
   website: ""
   summary: >
     I'm a builder interested in how people and computers talk to each other. Currently at Microsoft Teams AI, I build Facilitator, an agent that joins live, multi-person meetings. <br><br>
-    In undergrad, I double-majored in Computer Science and Communication at UW–Madison, then built XR products at Holos and worked on cross-platform UI, avatar customization, rendering, and performance at Microsoft Mesh. I am also pursuing an M.S. in Computer Science at Georgia Tech with a specialization in human-computer interaction.
+    I double-majored in Computer Science and Communication at UW–Madison, then built XR products at Holos. At Microsoft Mesh I worked on cross-platform UI, avatar customization, rendering, and performance. I'm also pursuing an M.S. in Computer Science at Georgia Tech, specializing in human-computer interaction.
   location:
     city: "Seattle"
     countryCode: "US"
@@ -88,7 +88,6 @@ education:
     courses:
       - Double-majored in Computer Science and Communication.
       - TA for CS 559 (Computer Graphics) for 2 semesters.
-awards: []
 certifications:
   - name: "Machine Learning Specialization"
     publisher: "Stanford University"
@@ -102,7 +101,7 @@ certifications:
   - name: "VR Development Professional Certificate"
     publisher: "UC San Diego"
     website: "https://credentials.edx.org/credentials/b38cc9e4dbbd4c6cbe6a69798701913a/"
-  - name: "Virtual Reality Specialisation"
+  - name: "Virtual Reality Specialization"
     publisher: "University of London"
     website: "https://www.coursera.org/account/accomplishments/specialization/certificate/TBPBQMPQRVQM"
   - name: "Interaction Design Specialization Certificate"
@@ -128,7 +127,9 @@ skills:
   - name: "AI & Agents"
     keywords:
       - "LLMs / Agents"
-      - "RAG / MCP / A2A"
+      - "Retrieval-Augmented Generation (RAG)"
+      - "Model Context Protocol (MCP)"
+      - "Agent-to-Agent (A2A)"
       - "Python / PyTorch"
       - "OpenCV"
 

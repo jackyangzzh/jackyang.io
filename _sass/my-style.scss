@@ -24,7 +24,7 @@
 	article > .note {
 		margin: 1.25rem 0 0;
 		padding: 1rem 1.15rem;
-		border-left: .25rem solid #875acd;
+		border-left: .25rem solid var(--accent-strong);
 		border-radius: 0 .65rem .65rem 0;
 		background: var(--gray-bg);
 		line-height: 1.75;
@@ -87,7 +87,7 @@
 		}
 
 		li::marker {
-			color: #875acd;
+			color: var(--accent-strong);
 		}
 	}
 
@@ -106,6 +106,66 @@
 		background: var(--gray-bg);
 		color: var(--gray-text);
 		line-height: 1.35;
+		transition:
+			color 160ms ease,
+			border-color 160ms ease,
+			background-color 160ms ease;
+	}
+
+	// These pills are plain <li> elements, not links. The hover stays a quiet
+	// border and text shift on purpose — no lift and no pointer cursor, so it
+	// reads as a responsive surface rather than something clickable.
+	.tag:hover {
+		border-color: var(--accent-strong);
+		color: var(--body-color);
+	}
+
+	// Timeline rail -----------------------------------------------------------
+	//
+	// Scoped with :has() to the Experience and Research blocks only, so Education,
+	// Publications and Certifications keep their plain list treatment. Browsers
+	// without :has() simply get the existing layout.
+	//
+	// Structure is `section > .npb > section` for the first role and
+	// `section > section` for the rest, so both need the rail. The line overshoots
+	// its own box to bridge the gap to the next role, and is hidden on whichever
+	// role ends the list.
+	.column > section:has(> .npb > h2#work),
+	.column > section:has(> .npb > h2#research) {
+		> .npb > section,
+		> section {
+			position: relative;
+			padding-left: 1.5rem;
+
+			&::before {
+				content: "";
+				position: absolute;
+				left: .29rem;
+				top: .5rem;
+				bottom: -2.6rem;
+				width: 2px;
+				background: var(--border-color);
+			}
+
+			&::after {
+				content: "";
+				position: absolute;
+				left: 0;
+				top: .4rem;
+				width: .68rem;
+				height: .68rem;
+				border-radius: 50%;
+				background: var(--accent-strong);
+				box-shadow: 0 0 0 3px var(--body-bg);
+			}
+		}
+
+		// Last role in the block: stop the rail. The `.npb:last-child` case covers a
+		// block that only ever renders one role.
+		> section:last-child::before,
+		> .npb:last-child > section::before {
+			display: none;
+		}
 	}
 }
 
@@ -176,14 +236,14 @@
 }
 
 .project-filter-btn:focus {
-	outline: 3px solid #875acd;
+	outline: 3px solid var(--accent-strong);
 	outline-offset: 3px;
 }
 
 .project-filter-btn.is-active {
-	border-color: #875acd;
-	background: #875acd;
-	color: #fff;
+	border-color: var(--accent-strong);
+	background: var(--accent-strong);
+	color: var(--accent-strong-contrast);
 	box-shadow: 0 .25rem .75rem rgba(66, 38, 112, .2);
 }
 
@@ -209,24 +269,33 @@
 .project-tag-other { background: #626b78; }
 .project-hidden { display: none !important; }
 
-.project-card,
-.post-card {
-	border-radius: .8rem !important;
-	box-shadow:
-		0 .125rem .35rem rgba(0, 0, 0, .08),
-		0 .75rem 1.75rem rgba(0, 0, 0, .08) !important;
-	transition:
-		transform 180ms ease,
-		border-color 180ms ease,
-		box-shadow 180ms ease !important;
+// The theme scopes card styling to `main:not(.layout-resume) .project-card`,
+// which outranks a bare `.project-card` selector. Matching that specificity
+// here removes the need for `!important` on every declaration, and lets the
+// hover rule below actually replace the theme's 500ms/250ms transition pair
+// instead of fighting it. Shadows come from mode-aware tokens (my-inline.scss)
+// so dark mode never has to re-declare them at a higher specificity, which
+// previously let the dark base shadow beat this hover shadow.
+main:not(.layout-resume) {
+	.project-card,
+	.post-card {
+		border-radius: .8rem;
+		box-shadow: var(--card-shadow);
+		transition:
+			transform 180ms ease,
+			border-color 180ms ease,
+			box-shadow 180ms ease;
 
-	&:hover,
-	&:focus-within {
-		transform: translateY(-.2rem);
-		border-color: var(--accent-color-faded);
-		box-shadow:
-			0 .25rem .6rem rgba(0, 0, 0, .1),
-			0 1rem 2.25rem rgba(0, 0, 0, .12) !important;
+		&:hover,
+		&:focus-within {
+			transform: translateY(-.2rem);
+			border-color: var(--accent-color-faded);
+			box-shadow: var(--card-shadow-hover);
+			transition:
+				transform 180ms ease,
+				border-color 180ms ease,
+				box-shadow 180ms ease;
+		}
 	}
 }
 
@@ -271,17 +340,19 @@
 	opacity: 0 !important;
 }
 
-.project-card > .project-card-body,
-.post-card > .post-card__body {
-	padding: 1.15rem !important;
-}
+main:not(.layout-resume) {
+	.project-card > .project-card-body,
+	.post-card > .post-card__body {
+		padding: 1.15rem;
+	}
 
-.project-card > .project-card-body > .project-card-title,
-.post-card > .post-card__body > .post-card__title {
-	margin-bottom: .55rem !important;
-	color: var(--body-color) !important;
-	font-size: 1.12rem !important;
-	line-height: 1.35;
+	.project-card > .project-card-body > .project-card-title,
+	.post-card > .post-card__body > .post-card__title {
+		margin-bottom: .55rem;
+		color: var(--body-color);
+		font-size: 1.12rem;
+		line-height: 1.35;
+	}
 }
 
 .project-card > .project-card-body > .project-card-text,
@@ -296,18 +367,23 @@
 	align-items: center;
 	gap: .35rem;
 	border-bottom: 0 !important;
-	color: #875acd !important;
+	color: var(--accent-strong) !important;
 	font-weight: 700;
 	text-decoration: none !important;
 }
 
-.project-card-cta a::after {
+// The arrow is decorative and lives in CSS so the markup stays free of loose
+// glyphs; post cards get the same treatment as project cards.
+.project-card-cta a::after,
+.post-card__cta a::after {
 	content: "→";
 	transition: transform 160ms ease;
 }
 
 .project-card-cta a:hover::after,
-.project-card-cta a:focus-visible::after {
+.project-card-cta a:focus-visible::after,
+.post-card__cta a:hover::after,
+.post-card__cta a:focus-visible::after {
 	transform: translateX(.2rem);
 }
 
@@ -321,7 +397,6 @@
 
 	.project-summary {
 		max-width: 42rem;
-		font-size: 1.08rem;
 	}
 
 	.project-link {
@@ -364,25 +439,53 @@
 	}
 }
 
-body.dark-mode {
-	a:focus-visible,
-	button:focus-visible,
-	[tabindex]:focus-visible,
-	.project-filter-btn:focus {
-		outline-color: var(--accent-color);
-	}
+// Body links ---------------------------------------------------------------
+//
+// The theme underlines content links in the faded accent. Give that colour a
+// transition so it deepens to the full accent on hover instead of snapping.
+.content a:not(.btn):not(.no-hover) {
+	transition:
+		color 180ms ease,
+		border-color 180ms ease,
+		text-decoration-color 180ms ease;
 
-	.project-card,
-	.post-card {
-		box-shadow:
-			0 .125rem .35rem rgba(0, 0, 0, .24),
-			0 .75rem 1.75rem rgba(0, 0, 0, .2) !important;
-	}
+	&:hover,
+	&:focus-visible {
+		border-color: var(--accent-strong);
 
-	.project-card-cta a,
-	.post-card__cta a {
-		color: var(--accent-color) !important;
+		@supports ((text-decoration-thickness: initial) and (text-underline-offset: initial)) {
+			text-decoration-color: var(--accent-strong);
+		}
 	}
+}
+
+// Clipboard confirmation ----------------------------------------------------
+
+.site-toast {
+	position: fixed;
+	left: 50%;
+	bottom: 1.5rem;
+	z-index: 30;
+	max-width: calc(100vw - 2rem);
+	padding: .6rem 1.05rem;
+	border-radius: 999px;
+	background: var(--inv-body-bg);
+	color: var(--inv-body-color);
+	font-size: .85rem;
+	line-height: 1.3;
+	text-align: center;
+	box-shadow: var(--card-shadow-hover);
+	opacity: 0;
+	transform: translate(-50%, .5rem);
+	transition:
+		opacity 200ms ease,
+		transform 200ms ease;
+	pointer-events: none;
+}
+
+.site-toast.is-visible {
+	opacity: 1;
+	transform: translate(-50%, 0);
 }
 
 .layout-not-found .page,
@@ -401,9 +504,11 @@ body.dark-mode {
 }
 
 @media screen and (min-width: $break-point-2) {
-	.project-card > .project-card-body,
-	.post-card > .post-card__body {
-		padding: 1.3rem !important;
+	main:not(.layout-resume) {
+		.project-card > .project-card-body,
+		.post-card > .post-card__body {
+			padding: 1.3rem;
+		}
 	}
 }
 
@@ -430,7 +535,11 @@ body.dark-mode {
 	.project-transition-clone,
 	.project-filter-btn,
 	.project-link,
-	.project-card-cta a::after {
+	.project-card-cta a::after,
+	.post-card__cta a::after,
+	.layout-resume .tag,
+	.content a:not(.btn):not(.no-hover),
+	.site-toast {
 		transition: none !important;
 	}
 
@@ -440,7 +549,11 @@ body.dark-mode {
 	.post-card:focus-within,
 	.project-filter-btn:hover,
 	.project-link:hover,
-	.project-link:focus-visible {
+	.project-link:focus-visible,
+	.project-card-cta a:hover::after,
+	.project-card-cta a:focus-visible::after,
+	.post-card__cta a:hover::after,
+	.post-card__cta a:focus-visible::after {
 		transform: none;
 	}
 }

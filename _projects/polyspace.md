@@ -3,7 +3,7 @@ layout: project
 weight: 8
 title: 'Poly Space VR'
 description: >
-  Built and open-sourced a social VR app for small groups, then released it on the Oculus PC VR store.
+  Built and open-sourced a social VR app that caps rooms at eight people to keep voice and avatar sync reliable, with an in-headset editor for hosts. Released on the Oculus PC VR store.
 date: '01-01-2021'
 category: personal
 image: 
