@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="FakeHaul checkout graphic showing a $1,248.50 cart reduced to $0.00" />
 <meta property="twitter:title" content="FakeHaul" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-07-25T04:39:42+00:00","datePublished":"2026-01-07T00:00:00+00:00","description":"A fake shopping marketplace where every checkout totals $0.00 and nothing ships. The full dopamine loop of online shopping, minus the purchase.","headline":"FakeHaul","image":{"alt":"FakeHaul checkout graphic showing a $1,248.50 cart reduced to $0.00","url":"https://jackyang.io/assets/img/projects/fakehaul.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/fakehaul/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-07-26T00:19:02+00:00","datePublished":"2026-01-07T00:00:00+00:00","description":"A fake shopping marketplace where every checkout totals $0.00 and nothing ships. The full dopamine loop of online shopping, minus the purchase.","headline":"FakeHaul","image":{"alt":"FakeHaul checkout graphic showing a $1,248.50 cart reduced to $0.00","url":"https://jackyang.io/assets/img/projects/fakehaul.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/fakehaul/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -110,7 +110,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-07-25T04:40:19+00:00',
+    INDEX_KEY: 'index--2026-07-26T00:19:42+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -124,8 +124,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1784954419" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1784954419" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1785025182" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1785025182" id="_iconsPreload">
 
 
 
@@ -317,6 +317,8 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <div class="project-body">
     <p>FakeHaul is a fake shopping marketplace I launched in July 2026. It keeps the full online-shopping ritual: you browse, hunt for deals, fill a cart, check out, track an order, and open a package. Every checkout totals $0.00, and nothing ships.</p>
 
+<p class="note" title="In the press"><a href="https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction">Fast Company</a>, <a href="https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html">Newser</a>, and <a href="https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/">t3n</a> covered FakeHaul in July 2026. More on what each wrote is <a href="#press">below</a>.</p>
+
 <h2 id="the-idea">The idea</h2>
 
 <p>The satisfying part of online shopping is usually the ritual, not the package: browsing, finding a deal, watching a timer, and feeling the checkout spark. The box arriving is often the anticlimax.</p>
@@ -380,11 +382,21 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <p>The app is hosted on Vercel with Vercel Analytics. Catalog content is generated offline with Azure OpenAI, and the image pipeline uses Vercel Blob while preparing static assets for the deployed marketplace. No model or commerce service is called during ordinary browsing or checkout.</p>
 
+<h2 id="press">Press</h2>
+
+<p>FakeHaul was picked up in July 2026 as part of a wider run of coverage on “dopamine sites,” the small group of apps that simulate consumption without selling anything.</p>
+
+<ul>
+  <li><a href="https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction">Fast Company</a>, reported by Jude Cramer, covered the site and pressed on the part I had not resolved. FakeHaul removes the spending but keeps habit-forming mechanics like the once-a-day coupon spin.</li>
+  <li><a href="https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html">Newser</a> carried the story to a general audience, focusing on how completely the catalog is invented, down to the brands, ratings, and discounts.</li>
+  <li><a href="https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/">t3n</a>, in Germany, grouped FakeHaul with Food Never Comes and similar sites and read the category as a parody of the mechanics online retailers use to make buying feel effortless.</li>
+</ul>
+
 <h2 id="reflection">Reflection</h2>
 
 <p>The central question is still open. The person FakeHaul was first built for says it helps. A moderator of a shopping-addiction community told me that rehearsing the ritual could reinforce the habit instead. Neither anecdote is evidence, and I can make a plausible argument in both directions.</p>
 
-<p>FakeHaul may let someone complete an impulse without making a purchase, or it may keep the loop warm. I built it as an entertainment product carrying that unresolved behavioral hypothesis, not as therapy or treatment.</p>
+<p>FakeHaul may let someone complete an impulse without making a purchase, or it may keep the loop warm. I built it as an entertainment product carrying that unresolved behavioral hypothesis, not as therapy or treatment. If the people using it tell me it makes the habit worse, I will take it down.</p>
 
 <p>That uncertainty belongs in the project. The interface was an exercise in catalog systems, client-side state, motion timing, and product restraint. The harder part was building a faithful parody without pretending I already knew what effect it would have.</p>
 
