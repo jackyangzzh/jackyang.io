@@ -21,6 +21,9 @@ links:
 ---
 FakeHaul is a fake shopping marketplace I launched in July 2026. It keeps the full online-shopping ritual: you browse, hunt for deals, fill a cart, check out, track an order, and open a package. Every checkout totals $0.00, and nothing ships.
 
+[Fast Company](https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction), [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html), and [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/) covered FakeHaul in July 2026. More on what each wrote is [below](#press).
+{:.note title="In the press"}
+
 ## The idea
 
 The satisfying part of online shopping is usually the ritual, not the package: browsing, finding a deal, watching a timer, and feeling the checkout spark. The box arriving is often the anticlimax.
@@ -82,10 +85,18 @@ I built FakeHaul with Next.js 16's App Router, React 19, TypeScript, and Tailwin
 
 The app is hosted on Vercel with Vercel Analytics. Catalog content is generated offline with Azure OpenAI, and the image pipeline uses Vercel Blob while preparing static assets for the deployed marketplace. No model or commerce service is called during ordinary browsing or checkout.
 
+## Press
+
+FakeHaul was picked up in July 2026 as part of a wider run of coverage on "dopamine sites," the small group of apps that simulate consumption without selling anything.
+
+- [Fast Company](https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction), reported by Jude Cramer, covered the site and pressed on the part I had not resolved. FakeHaul removes the spending but keeps habit-forming mechanics like the once-a-day coupon spin.
+- [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html) carried the story to a general audience, focusing on how completely the catalog is invented, down to the brands, ratings, and discounts.
+- [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/), in Germany, grouped FakeHaul with Food Never Comes and similar sites and read the category as a parody of the mechanics online retailers use to make buying feel effortless.
+
 ## Reflection
 
 The central question is still open. The person FakeHaul was first built for says it helps. A moderator of a shopping-addiction community told me that rehearsing the ritual could reinforce the habit instead. Neither anecdote is evidence, and I can make a plausible argument in both directions.
 
-FakeHaul may let someone complete an impulse without making a purchase, or it may keep the loop warm. I built it as an entertainment product carrying that unresolved behavioral hypothesis, not as therapy or treatment.
+FakeHaul may let someone complete an impulse without making a purchase, or it may keep the loop warm. I built it as an entertainment product carrying that unresolved behavioral hypothesis, not as therapy or treatment. If the people using it tell me it makes the habit worse, I will take it down.
 
 That uncertainty belongs in the project. The interface was an exercise in catalog systems, client-side state, motion timing, and product restraint. The harder part was building a faithful parody without pretending I already knew what effect it would have.
