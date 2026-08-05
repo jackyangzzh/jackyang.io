@@ -21,7 +21,7 @@ links:
 ---
 FakeHaul is a fake shopping marketplace I launched in July 2026. It keeps the full online-shopping ritual: you browse, hunt for deals, fill a cart, check out, track an order, and open a package. Every checkout totals $0.00, and nothing ships.
 
-[Fast Company](https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction), [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html), and [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/) covered FakeHaul in July 2026. More on what each wrote is [below](#press).
+[Fast Company](https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction), [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html), [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/), and [Cybernews](https://cybernews.com/tech/digital-diy-ai-projects/) have covered FakeHaul since July 2026. More on what each wrote is [below](#press).
 {:.note title="In the press"}
 
 ## The idea
@@ -92,6 +92,7 @@ FakeHaul was picked up in July 2026 as part of a wider run of coverage on "dopam
 - [Fast Company](https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction), reported by Jude Cramer, covered the site and pressed on the part I had not resolved. FakeHaul removes the spending but keeps habit-forming mechanics like the once-a-day coupon spin.
 - [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html) carried the story to a general audience, focusing on how completely the catalog is invented, down to the brands, ratings, and discounts.
 - [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/), in Germany, grouped FakeHaul with Food Never Comes and similar sites and read the category as a parody of the mechanics online retailers use to make buying feel effortless.
+- [Cybernews](https://cybernews.com/tech/digital-diy-ai-projects/), reported by Konstancija Gasaitytė in August 2026, took a different angle and asked what AI makes possible for personal projects. I told her that almost 2,000 products' worth of assets would have been out of reach for me by hand. The piece also raised the data question that follows dopamine sites around, so I said plainly that FakeHaul collects nothing: no accounts, no email, no IP tracking, no monetization. That costs me any way of knowing whether people come back, and I would rather not know.
 
 ## Reflection
 
