@@ -19,85 +19,46 @@ links:
     url: https://jackyangzzh.medium.com/i-built-a-fake-shopping-app-nothing-ships-it-might-be-the-most-useful-thing-ive-made-220919e6b6ce
 
 ---
-FakeHaul is a fake shopping marketplace I launched in July 2026. It keeps the full online-shopping ritual: you browse, hunt for deals, fill a cart, check out, track an order, and open a package. Every checkout totals $0.00, and nothing ships.
+FakeHaul is an e-commerce marketplace I launched in July 2026 where you can browse, hunt for deals, check out, track an order, and open a package, even though every checkout totals $0.00 and nothing ever ships.
 
-[Fast Company](https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction), [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html), [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/), and [Cybernews](https://cybernews.com/tech/digital-diy-ai-projects/) have covered FakeHaul since July 2026. More on what each wrote is [below](#press).
+[Fast Company](https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction), [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html), [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/), and [Cybernews](https://cybernews.com/tech/digital-diy-ai-projects/) have written about FakeHaul since its launch. More details on their coverage can be found [below](#press).
 {:.note title="In the press"}
 
 ## The idea
 
-The satisfying part of online shopping is usually the ritual, not the package: browsing, finding a deal, watching a timer, and feeling the checkout spark. The box arriving is often the anticlimax.
+I originally thought that blocking shopping sites or unsubscribing from deal emails would help a friend who struggles with impulse shopping. However, those barriers rarely work because they fight against the urge itself.
 
-I first built FakeHaul for someone close to me who struggles with impulse shopping. Blocking sites, unsubscribing from deal emails, and waiting before a purchase had not changed the urge. The experiment was to remove the money and clutter instead of blocking the ritual.
+Since the actual box arriving is often an anticlimax, I hypothesized that the most satisfying part of online shopping is actually the ritual. I wanted to see if completing the loop of finding a deal and clicking checkout could feel satisfying on its own as long as we remove the money and the physical clutter instead of blocking the habit perfectly.
 
-That was a behavioral hypothesis, not a result. I wanted to see whether completing the loop with nothing at stake felt satisfying on its own.
+## Building the illusion
 
-## What it is
+FakeHaul is a mobile-first marketplace with about 1,500 fictional products across eight categories. I kept the familiar pressure mechanics like low-stock warnings, live viewer counts, a daily spin wheel, and coupons that expire after five minutes.
 
-FakeHaul is a mobile-first marketplace with about 1,500 fictional products across eight categories. Each listing has original copy, a price, ratings, reviews, a seller, stock counts, and variants. Seller pages, search, category browsing, and product recommendations make it behave like a real catalog.
+Because the interface cannot look like a joke while keeping the ritual immersive, the challenge was to create convincing fake commerce without deceiving anyone. While product cards might say "only 6 left," the header makes it explicitly clear that checkout never charges a cent. The cart and wishlist stay in your local browser, meaning there are no accounts required.
 
-The familiar pressure mechanics are there too, rebuilt as parody: low-stock warnings, live viewer counts, lightning-deal timers, a daily spin wheel, and coupons that expire after five minutes. The cart and wishlist stay in the browser, so there are no accounts. Checkout uses a slide-to-confirm interaction and always reduces the total to $0.00.
+After checkout, the interface simulates an order moving through its packed, shipped, and delivered states. The virtual package then shakes until you tap it, which triggers a confetti burst and reveals the retail value you "scored" for free. I tuned the timing of this unboxing payoff using Framer Motion because if the confetti arrives before the lid moves, the satisfaction of the reveal is ruined.
 
-After checkout, a simulated order moves through packed, shipped, out for delivery, and delivered states. The package then shakes until it is tapped, opens with confetti, and reveals the retail value "scored" for free. The session ends with a shareable receipt for the money kept.
+## Generating the catalog
 
-![FakeHaul marketplace showing fictional products, lightning deals, ratings, and a $0.00 cart](/assets/img/projects/fakehaul-browse.webp){:loading="lazy"}
+Because lorem ipsum would have broken the illusion immediately, the catalog required as much writing as engineering.
 
-## Engineering the illusion
+While I generated records using Azure OpenAI to build a typed product model covering names, prices, ratings, and variants, I treated the generated output largely as a draft. I went through and edited the listings manually until they sounded like real product pages because I did not want people exploring the site to see the same handful of AI jokes repeated.
 
-The hard part was making fake commerce feel convincing without deceiving anyone. If the interface looked like a joke, the ritual did not work. If it copied its source material too closely without a clear frame, the parody just became another manipulative store.
+The live marketplace reads static catalog data and pre-compressed WebP images, so browsing never feels slow or waits on a model call.
 
-### Convincing without deception
+## The constraints
 
-I kept the interaction language recognizable while making the premise explicit. Product cards can say "only 6 left," but the header says checkout never charges a cent. Coupons change the fictional subtotal, but the final total is always $0.00. The site asks for no card, account, shipping address, or payment information, and it labels the products, prices, reviews, sellers, and orders as invented.
+Throughout the process, I had to ensure that I was not just building another manipulative store. Even though a countdown still had to create urgency, the surrounding copy had to turn that urgency into something the user could consciously acknowledge. Scarcity never leads to a payment on FakeHaul, and the tracking timeline ends in a tap-to-open animation instead of a commercial product.
 
-The tension was useful. A countdown still had to create urgency, but the surrounding copy had to turn that urgency into something the user could notice rather than obey.
+I built the app with Next.js 16's App Router, React 19, TypeScript, and Tailwind CSS 4. Zustand handles local persistence for the cart and orders, while Vercel provides hosting and Vercel Blob manages the static asset pipeline.
 
-![FakeHaul daily spin, expiring coupon, and lightning-deal countdown](/assets/img/projects/fakehaul-mechanics.webp){:loading="lazy"}
+## Press and uncertainty
 
-### Building a catalog that could carry the joke
+FakeHaul was picked up in July 2026 during a wider run of coverage on "dopamine sites" that simulate consumption without selling anything.
 
-Lorem ipsum would have broken the illusion immediately, so the catalog needed as much writing as engineering.
+- [Fast Company](https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction) covered the site and questioned the very part I had not resolved. Due to the fact that FakeHaul keeps habit-forming mechanics like the once-a-day coupon spin, it remains an open question whether it actually helps.
+- [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html) focused on how completely the catalog is invented.
+- [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/) viewed it as a parody of the mechanics online retailers use.
+- [Cybernews](https://cybernews.com/tech/digital-diy-ai-projects/) asked what AI makes possible for personal projects. In my conversation with them, I confirmed that FakeHaul collects no accounts, no email, and no IP tracking. While this costs me any way of knowing whether people come back, I personally would rather not collect that data in the first place.
 
-- A curated base catalog and generated records are assembled into one typed product model covering names, prices, ratings, review counts, sellers, stock, tags, variants, and descriptions.
-- An offline generation pipeline creates products in balanced category batches, skips duplicate slugs, rejects real trademarks, and constrains numerical fields to plausible ranges.
-- Separate editing and repair passes expand thin descriptions and fix weak variant sets. I treated generated output as a draft, then wrote or edited listings until they read like product pages instead of filler.
-- Product images are generated and compressed to WebP before deployment. The live marketplace reads static catalog data and image manifests, so browsing never waits on a model call.
-
-The result is large enough to browse without seeing the same handful of jokes repeated, while still being inspectable as a finite dataset.
-
-### Timing the unboxing payoff
-
-The unboxing sequence is only a little code, but the timing turned out to be the fussy part. A sealed package rattles until the shopper taps it. That tap changes the state, triggers sound and haptic feedback, throws the lid, starts the glow and sparks, and launches a canvas-confetti burst from the package's position.
-
-I coordinated the box, lid, rays, and text reveal with Framer Motion, then tuned the transitions as one beat. If the confetti arrived before the lid moved, it spoiled the reveal. If it landed too late, it felt disconnected. Reduced-motion handling removes the repeating shake and confetti while preserving the state change and value reveal.
-
-![FakeHaul unboxing payoff showing an opened package and $114.98 in fictional value delivered](/assets/img/projects/fakehaul-unboxing.webp){:loading="lazy"}
-
-### Satire as a design constraint
-
-Every feature got the same check: was I exposing the machinery or just using it? I kept the mechanics that make the ritual legible and removed the commercial destination. Scarcity never leads to a payment. Coupons discount a total that is already zero. The tracking timeline ends in a tap-to-open animation, not a product. The receipt closes on money kept, not merchandise.
-
-This did not make every choice harmless on its own. It kept the open question in front of me instead of letting me hide it.
-
-## Stack
-
-I built FakeHaul with Next.js 16's App Router, React 19, TypeScript, and Tailwind CSS 4. Zustand persists the cart, wishlist, profile, and orders locally in the browser. Framer Motion handles the interaction sequences, and canvas-confetti handles the larger payoffs.
-
-The app is hosted on Vercel with Vercel Analytics. Catalog content is generated offline with Azure OpenAI, and the image pipeline uses Vercel Blob while preparing static assets for the deployed marketplace. No model or commerce service is called during ordinary browsing or checkout.
-
-## Press
-
-FakeHaul was picked up in July 2026 as part of a wider run of coverage on "dopamine sites," the small group of apps that simulate consumption without selling anything.
-
-- [Fast Company](https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction), reported by Jude Cramer, covered the site and pressed on the part I had not resolved. FakeHaul removes the spending but keeps habit-forming mechanics like the once-a-day coupon spin.
-- [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html) carried the story to a general audience, focusing on how completely the catalog is invented, down to the brands, ratings, and discounts.
-- [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/), in Germany, grouped FakeHaul with Food Never Comes and similar sites and read the category as a parody of the mechanics online retailers use to make buying feel effortless.
-- [Cybernews](https://cybernews.com/tech/digital-diy-ai-projects/), reported by Konstancija Gasaitytė in August 2026, took a different angle and asked what AI makes possible for personal projects. I told her that almost 2,000 products' worth of assets would have been out of reach for me by hand. The piece also raised the data question that follows dopamine sites around, so I said plainly that FakeHaul collects nothing: no accounts, no email, no IP tracking, no monetization. That costs me any way of knowing whether people come back, and I would rather not know.
-
-## Reflection
-
-The central question is still open. The person FakeHaul was first built for says it helps. A moderator of a shopping-addiction community told me that rehearsing the ritual could reinforce the habit instead. Neither anecdote is evidence, and I can make a plausible argument in both directions.
-
-FakeHaul may let someone complete an impulse without making a purchase, or it may keep the loop warm. I built it as an entertainment product carrying that unresolved behavioral hypothesis, not as therapy or treatment. If the people using it tell me it makes the habit worse, I will take it down.
-
-That uncertainty belongs in the project. The interface was an exercise in catalog systems, client-side state, motion timing, and product restraint. The harder part was building a faithful parody without pretending I already knew what effect it would have.
+I am still not completely sure about the behavioral outcome of this project. While the person FakeHaul was first built for says it helps, a moderator of a shopping-addiction community told me that rehearsing the ritual could unfortunately reinforce the habit instead. I built this as an entertainment product exploring a behavioral hypothesis, and if the people using it ever tell me it makes the habit worse, I am fully prepared to take it down.

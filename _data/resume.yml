@@ -9,8 +9,8 @@ basics:
   phone: ""
   website: ""
   summary: >
-    I'm a builder interested in how people and computers talk to each other. Currently at Microsoft Teams AI, I build Facilitator, an agent that joins live, multi-person meetings. <br><br>
-    I double-majored in Computer Science and Communication at UW–Madison, then built XR products at Holos. At Microsoft Mesh I worked on cross-platform UI, avatar customization, rendering, and performance. I'm also pursuing an M.S. in Computer Science at Georgia Tech, specializing in human-computer interaction.
+    I build systems that have to hold up inside a live conversation. At Microsoft Teams AI I work on Facilitator, an agent that joins real multi-person meetings, which means it has to judge when to speak and when to stay out of the way. <br><br>
+    I double-majored in Computer Science and Communication at UW–Madison, built XR products at Holos, then worked on cross-platform UI, avatar customization, rendering, and performance for Microsoft Mesh. I am also part-way through an M.S. in Computer Science at Georgia Tech, specializing in human-computer interaction. In brief, it is all the same question I first ran into building VR interview coaches in 2020: how does a computer take part in a conversation without taking it over?
   location:
     city: "Seattle"
     countryCode: "US"

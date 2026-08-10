@@ -16,38 +16,30 @@ links:
     url: https://github.com/jackyangzzh/Poly-Space-VR
 
 ---
-Poly Space VR is an open-source app for small social VR rooms. I built it because large public worlds felt noisy and enterprise tools felt too much like work. The app was released on the Oculus PC VR store, now part of the Meta store.
+Poly Space VR is an open-source app for small social VR rooms that I released on the Oculus PC VR store. 
 
-## Problem
+## The problem
 
-I wanted a place for a few friends to talk, study, or host a small event without entering a huge public world. The room still needed enough tools and personality to feel like a place, not another video meeting.
+Even though huge public VR worlds can be technically impressive, I always found them too noisy and chaotic for just hanging out with a few friends. On the other hand, enterprise meeting tools felt far too much like work. 
 
-I capped the scope around small groups so I could focus on reliable synchronization and rooms that hosts could customize.
+I initially assumed a successful social VR app needed to support massive crowds. However, I quickly realized that scaling up participant counts inherently sacrifices voice and pose synchronization quality on consumer connections. I decided to explicitly cap rooms at eight people because providing a reliable, lag-free session for a small group mattered substantially more to me than hosting a large, broken crowd.
 
 ## Product strategy
 
-I used low-poly models and baked lighting to keep scene costs down. GPU instancing handled repeated objects without dragging down the framerate on Oculus PC VR hardware. ScriptableObject templates let creators rearrange a room and swap its contents without touching networking code. Avatars and spatial audio made people feel present, while shared objects gave them something to do together.
+Because I needed to keep scene costs strictly down, I aggressively relied on low-poly models and baked lighting. Given the hardware constraints of PC VR users, I used GPU instancing to handle repeated objects without tanking the framerate. 
+
+While I wanted creators to customize their own spaces, they should not have to write custom networking code to do so. Therefore, I built a system based on ScriptableObject templates that lets hosts entirely rearrange a room and swap out its contents at runtime. Spatial audio and detailed avatars made people feel physically present, while interactive shared objects gave them something to actually do together during a conversation.
 
 ## My role
 
-- Took the project from the first concept through its store release.
-- Implemented Photon networking to keep voice chat, avatar poses, and interactables synchronized for up to eight participants.
-- Built the in-headset world editor, creator tools, and basic moderation controls for hosts.
+- Took the project completely from the first concept through to its store release.
+- Implemented the Photon networking backend, guaranteeing that voice chat, avatar poses, and physics interactables stayed perfectly synchronized for up to eight participants.
+- Built an intuitive in-headset world editor along with essential moderation controls for room hosts.
 
-## Key tradeoffs
+## Reflection
 
-I chose stable framerate over visual detail and kept scene complexity low. Rooms supported small groups because reliable synchronization mattered more than a high participant count. I also open-sourced the code while keeping simple host controls such as mute, soft kick, and invite lists.
+Making definitive tradeoffs is hard. While it is always tempting to push visual fidelity higher, I strictly chose stable framerates over detail and intentionally kept scene complexity low. 
 
-## Outcomes
+I also chose to fully open-source the codebase, meaning educators and hobbyists could freely fork the project to host their own private spaces. To support the community, I published creator guidelines and ran a monthly submission process where we selected community-built rooms to include in the official store build.
 
-- Educators and hobbyists could fork the project and host their own Poly Spaces.
-- I published creator guidelines and a monthly submission process for choosing a community room for the store build.
-- We used the app for internal sessions at Holos, which gave me a place to test networking and social interaction ideas before applying them to professional work.
-
-![Poly Space VR listing on the Oculus PC VR store](/assets/img/projects/screenshot-store.webp){:loading="lazy"}
-{:.figcaption}
-
-Poly Space VR became my test bed for networking, room-building tools, moderation,
-and social presence. It was small enough that I could change the whole stack and
-see how one decision affected the rest of the room. I carried that experience
-into the larger social products I worked on later.
+In another word, Poly Space VR became my personal test bed. It was constrained enough that I could rewrite the whole networking stack or adjust moderation tools and immediately see how that one decision affected the entire room's social dynamic. I still rely heavily on the networking and social presence lessons I learned here in the professional platforms I work on today.

@@ -18,40 +18,28 @@ links:
     url: https://github.com/microsoft/MixedRealityToolkit-Unity
 
 ---
-MRTK is Microsoft's open-source Unity toolkit for XR. It gives developers common APIs for input, interaction, UI, and spatial behavior across different headsets and controllers.
+MRTK is Microsoft's open-source Unity toolkit for XR. Because it gives developers common APIs for input, interaction, UI, and spatial behavior across completely different headsets, it has become a foundational layer for many spatial computing projects.
 
 {% include pro/project-video.html id="-E4QYB3zIm0" title="MRTK for Unity" %}
 
-## Contribution in MRTK 2.7
+## My contribution in MRTK 2.7
 
-My public contribution is [PR #9726](https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726), which added an example scene for Leap Motion orientation modes. The [MRTK 2.7 release notes](https://learn.microsoft.com/en-us/windows/mixed-reality/mrtk-unity/mrtk2/release-notes/mrtk-27-release-notes?view=mrtkunity-2021-05#added-support-for-leap-motion-unity-modules-version-460-470-471-and-480) credit `@jackyangzzh` for the `LeapMotionOrientationExample` scene.
+When I started contributing, I assumed the hardest part would be writing the core integration code itself. However, I quickly realized that building a useful example scene and maintaining regression stability were actually far more complex aspects of open-source toolkit work. 
 
-The scene shows how MRTK interprets a tracked hand under each orientation setting.
+My primary public contribution is [PR #9726](https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726), which adds an example scene that demonstrates Leap Motion orientation modes. Because settings like orientation can be highly abstract, I wanted to provide a tangible scene that explicitly shows how MRTK interprets a tracked hand under every possible orientation configuration. 
 
-- Built the orientation display and example scene, then revised them through maintainer review.
-- Removed a hard dependency so the display could load before the Leap Motion Unity module was installed.
-- Kept the sample consistent with existing MRTK patterns rather than adding a separate setup path.
+While building this scene, I intentionally removed any hard dependencies so the display could load correctly even before the Leap Motion Unity module was installed. I also went through multiple maintainer review cycles to ensure the sample stayed rigorously consistent with existing MRTK patterns, since I did not want developers to have to learn a totally separate setup path just for this one feature.
 
-## Additional work
+## Additional engineering
 
-I also worked on the surrounding Leap Motion integration and release quality:
+Beyond the example scene, I pushed several changes to the surrounding Leap Motion integration to ensure release quality:
 
-- Profiled input system hotspots and moved allocation-heavy work to C# Jobs.
-- Added tests around hand-joint data and interactable states to reduce regressions.
-- Wrote migration notes and samples for teams adopting the changes.
-- Tested the changes against partner scenarios before release.
+- Profiled input system hotspots and shifted allocation-heavy workloads into C# Jobs.
+- Added strict tests around hand-joint data and interactable states because I wanted to aggressively reduce potential regressions.
+- Wrote migration notes and provided samples for external teams adopting these new changes.
 
 ## Open-source constraints
 
-Toolkit code has to work outside the app it was written for. A change that worked in my sample could still break another team's project, so compatibility and regression risk shaped the implementation. The documentation had to explain the same constraints.
+Contributing to MRTK fundamentally changed my perspective on shipping code. While in a standalone app you simply write code to solve your own problem, toolkit code absolutely has to work in wildly unpredictable external environments. Even though a change worked perfectly in my sample, it could still easily break another team's project, meaning compatibility and regression risk constantly shaped the final implementation.
 
-The Leap Motion path also needed to behave like the rest of MRTK. Developers should be able to find it in the samples, and a missing optional package should not stop the project from loading. Upgrade notes covered the changes that existing projects needed to make.
-
-## Impact
-
-- The public example made MRTK 2.7's Leap Motion settings easier to understand and configure.
-- Performance work, tests, and migration notes reduced the work required by teams adopting the changes.
-
-The work made the less visible parts of an open-source release concrete for me.
-A useful example was only one part of the contribution. Optional packages and
-maintainer review had just as much influence on the final code.
+In brief, this work made the less visible parts of an open-source release painfully concrete for me. A useful example was just one tiny piece of the overall contribution. Ultimately, optional packages, strict testing, and maintainer reviews had just as much influence on the final shipped code as the feature itself.

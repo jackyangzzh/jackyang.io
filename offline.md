@@ -5,6 +5,6 @@ sitemap: false
 title: You are offline
 ---
 
-This page is not available without a connection. Once you are back online,
+Because you are currently offline, this page is not available. Once you have a connection again,
 return [home](/), explore my [projects](/projects/), or browse my
 [writing](/writing/).

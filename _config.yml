@@ -24,8 +24,8 @@ title: Jack Yang
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description: >
-  Jack Yang builds real-time human-AI systems at Microsoft Teams AI. Before
-  that, he shipped avatars and XR systems for Microsoft Mesh.
+  Jack Yang builds real-time human-AI systems at Microsoft Teams AI, where he
+  works on Facilitator. Before that, avatars and XR for Microsoft Mesh.
 
 # A shorter description for the sidebar.
 tagline: Building real-time AI agents and multimodal systems

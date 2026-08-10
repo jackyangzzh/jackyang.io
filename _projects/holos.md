@@ -14,45 +14,36 @@ links:
     url: https://www.holos.io/
 
 ---
-Holos is an immersive training company in Madison, Wisconsin. I worked there from February 2019 to May 2022 as the product grew from individual XR demos into a training platform that customers could reuse. The current product has changed since then and now focuses on capturing expert work and turning it into spatial training.
-
+Holos is an immersive training company in Madison, Wisconsin. I worked there from February 2019 to May 2022 as we grew the product from a series of individual XR demos into a reusable training platform. While the company's focus has evolved since then, at the time we were focused on capturing expert work for spatial training.
 
 {% include pro/project-video.html id="s3_ax616TCo" title="Holos AR/VR training platform demonstration" %}
 
-## Problem
+## The challenge
 
-Technical training often depends on details that are hard to write down. An instructor may point to one spot on a component, change the order of two steps, or demonstrate a motion that makes the procedure safer. Manuals and slides lose much of that. Custom VR training could capture it, but it usually took a long production cycle and outside developers.
+I always found it surprising how much technical training depends on tacit knowledge that is incredibly hard to write down. An instructor might point to a specific spot on a component or demonstrate a subtle hand motion that makes a procedure safer, and manuals or slides unfortunately lose almost all of that information.
 
-Holos wanted instructors and subject-matter experts to stay close to the authoring process. Reliable shared sessions and predictable hand input were basic requirements. New customer models also needed a path into training scenes that did not require engineering help every time.
+Even though custom VR training could theoretically capture those details, I realized it was not a practical solution because it usually took a long production cycle and required outside developers. We needed a way for subject-matter experts to stay close to the authoring process without having to become engineers themselves.
 
-## What I built (2019 to 2022)
+## What I built
 
-- Built the shared simulation layer and multiplayer networking for instructor and trainee sessions. Virtual objects stayed synchronized across connected headsets.
-- Developed hand tracking and gesture recognition for grabbing, placing, rotating, and operating training objects.
-- Added physics and object constraints so props behaved consistently when users assembled or handed them off.
-- Worked on import tools that cleaned up customer models for scale, pivots, colliders, and interaction.
-- Connected the authoring workflow to the simulation runtime so the team could revise and deploy training content without building a new app for every scenario.
+I focused heavily on the shared simulation layer and the multiplayer networking that powered instructor and trainee sessions. Because procedures change constantly, instructors needed a very short path from editing a scene to running it. 
 
-## Product and design work
+- Developed the multiplayer networking backend so that virtual objects stayed perfectly synchronized across connected headsets.
+- Built hand tracking and gesture recognition for grabbing, placing, rotating, and operating training objects.
+- Implemented object constraints and physics to ensure props behaved consistently, especially when users were assembling them or handing them off to each other.
+- Created import workflows that automatically cleaned up customer models for scale, pivots, colliders, and interaction.
+- Connected this authoring workflow directly to the simulation runtime so the team could deploy training content without building a brand new app for every single scenario.
 
-My role covered prototype design, implementation, user testing, and release work. Testing with instructors and trainees often exposed problems that looked fine in a headset demo.
+## Prototyping and testing
 
-- Prototyped new training interactions, tested them, and shipped the versions that people understood.
-- Used test sessions to simplify controls, adjust gesture thresholds, and improve object handling.
-- Traced failures across input, networking, assets, and UX instead of treating each symptom as an isolated bug.
-- Worked with engineering, design, leadership, and customer teams to meet product and partner deadlines.
+Testing interactions with actual instructors exposed so many problems that completely escaped my notice when I was just looking at them in a headset demo. 
 
-## Engineering decisions
+For instance, I initially assumed that imported models were just an afterthought compared to the core interaction logic. However, I was wrong. If we did not aggressively check collision data, origins, and scale before a model ever reached a training scene, everything broke. 
 
-Imported models were part of the product, not an afterthought. We checked collision, origins, scale, and interaction metadata before a model reached a training scene. Shared manipulation needed clear ownership rules so two users could not fight over the same object. Hand tracking also needed obvious feedback and recoverable mistakes; a clever gesture was useless if trainees could not repeat it. Because procedures change, instructors needed a short path from an edit to a tested release.
+Similarly, shared manipulation required very clear ownership rules because otherwise two users would constantly fight over the same object. When I prototyped new gestures, I quickly learned that a clever, complex gesture was practically useless, since trainees could never repeat it reliably under pressure.
 
-## Impact
+## Outcomes
 
-- Helped turn a set of XR prototypes into a reusable platform for networked training.
-- Shipped interaction, physics, networking, and asset pipeline features for enterprise and government customers.
-- Worked with leadership on the product and technical work that helped Holos secure a $750K U.S. Air Force contract and join Techstars.
+Over my time there, I helped turn those early prototypes into a robust platform that Holos used for networked training with enterprise and government customers. I worked closely with leadership on the technical side, which eventually helped the company secure a $750K U.S. Air Force contract and a spot in Techstars.
 
-Holos changed how I thought about XR. The headset gets the attention, but asset
-cleanup, network state, input reliability, and release speed decide whether a
-training tool survives outside a demo. Subject-matter experts should be able to
-teach with the software without learning to build software themselves.
+Personally, working at Holos changed how I evaluate XR altogether. While the headset itself always gets the vast majority of the attention, the less glamorous systems like asset cleanup, network state, and input reliability are ultimately the things that dictate whether a training tool survives outside of a controlled demo.

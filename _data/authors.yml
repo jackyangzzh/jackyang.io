@@ -8,10 +8,11 @@ author1:
   # Used at the bottom of each page and at the top of the `about` layout
   # Markdown enabled, can use multiple paragraphs (enabled by `|`)
   about: |
-    Jack Yang is a software engineer at Microsoft Teams AI, where he builds
-    Facilitator, an agent that joins live meetings. His earlier work covered
-    avatars and XR at Microsoft Mesh. Across both, he focuses on how people and
-    computers communicate.
+    Jack Yang is a software engineer at Microsoft Teams AI, where he works on
+    Facilitator, an agent that joins live multi-person meetings. Before that he
+    worked on avatars and XR at Microsoft Mesh, from 2022 to 2024. He has been
+    circling the same question since 2020: how a computer can take part in a
+    conversation without taking it over.
 
   # This photo will be used in the about section
   picture:

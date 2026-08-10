@@ -16,47 +16,44 @@ links:
     url: https://www.youtube.com/watch?v=3KgdJZlMepo
 
 ---
-Project Virtualso is a set of VR coaches for interview and presentation practice. The characters listen and respond through dialogue, facial animation, gaze, and body language. It was one of my first attempts to combine what I studied in Communication with what I was building in Unity.
+Project Virtualso is a set of VR coaches for interview and presentation practice. Because I was studying Communication while building in Unity, this was one of my first real attempts to practically combine the two fields.
 
-## Problem
+## The problem
 
-Scripts and webcam drills miss the uncomfortable parts of live practice: timing, follow-up questions, emotional reactions, and the pressure to answer on the spot. I wanted to see whether a virtual character could bring some of that pressure into a repeatable exercise.
+I have always found that standard scripts and webcam drills completely miss the most uncomfortable parts of live practice: dealing with timing, fielding unexpected follow-up questions, reading emotional reactions, and handling the raw pressure to answer on the spot. 
 
-During the COVID-19 lockdowns, in-person coaching and rehearsal became harder to access. That made the experiment more relevant, especially for people preparing alone.
+Even though standard video recordings let you check your posture, I suspected that only an interactive virtual character could actually simulate the psychological pressure of a real conversation. Since the COVID-19 lockdowns made in-person coaching much harder to access, I decided to test this hypothesis by building a repeatable VR exercise for people preparing alone.
 
 ## Training modes
 
 ### Virtual interview
 
-The interview coach listens, asks follow-up questions, and reacts with facial expressions and gestures. Intent classification and dialogue rules decide what it says next.
+The interview coach actually listens to your answer, parses intent, asks appropriate follow-up questions, and reacts with facial expressions. 
 
 {% include pro/project-video.html id="I1RIFirZeaQ" title="Virtual Interview AI Agent Demonstration" %}
 
 ### Virtual presentation
 
-The presentation mode puts the speaker in front of a virtual audience that reacts during the talk. I tested it with professionals from several companies. Their feedback led me to tone down distracting reactions, make attention and confusion easier to read, and improve the feedback shown after a session.
+In this mode, you stand in front of a virtual audience that dynamically reacts while you speak. When I first built this, I assumed that highly expressive audience reactions would be the best way to give the speaker feedback. However, when I tested it with actual professionals, they immediately pointed out that the reactions were far too distracting. Based on their feedback, I significantly toned down the overall body language so that attention and confusion were readable but not theatrical.
 
 ## What I built
 
-- Built the Unity experience, scenario flow, dialogue rules, telemetry, and character behavior.
-- Connected Azure Cognitive Services speech recognition to an NLP pipeline that tracks confidence, pacing, tone, and topic changes.
-- Built facial animation and gaze responses. The goal was enough expression to communicate attention without making every reaction feel canned.
+- Built the entire Unity experience, encompassing scenario flow, dialogue logic, telemetry, and character behaviors.
+- Connected Azure Cognitive Services speech recognition directly into a custom NLP pipeline that tracks the speaker's confidence, pacing, tone, and topical shifts in real time.
+- Implemented facial animation and gaze systems to give the virtual characters a sense of presence.
 
 ## Key design decisions
 
-I used intent classification and guided branches rather than open-ended generation. That kept the interviewer responsive and made each session easier to evaluate. Facial animation carried feedback, so attention or confusion had to be readable without becoming theatrical. I also built a scenario editor for question banks, difficulty, and success criteria so a coach could change an exercise without editing code.
+While open-ended generative AI was an option, I strictly used intent classification and guided dialogue branches instead. Because open generation often becomes unpredictable, using a guided model ensured that the interviewer remained responsive while keeping the evaluation criteria concrete and measurable. 
+
+Since I did not want coaches to have to edit code just to change an exercise, I also built a scenario editor that lets them easily modify question banks, difficulty curves, and success metrics.
 
 ## Validation
 
-- Shared prototypes with career coaching nonprofits to see whether role-play could give job seekers more practice.
-- Tested the presentation mode with professionals from several companies, then adjusted audience behavior and session pacing from their feedback.
-- Captured pacing, filler word frequency, and confidence signals. I treated that data as an aid to human coaching, not a replacement for it.
-
-These were exploratory pilots, not a controlled outcome study. Subtle reactions
-worked best. Anything too theatrical felt fake and quickly pulled attention
-away from the speaker.
+- I shared working prototypes with professional career coaching nonprofits to explore whether role-play could give job seekers more accessible practice.
+- After testing the presentation mode, I captured pacing, filler word frequency, and confidence signals.
+- Importantly, I purposely treated this data as an aid for human coaching instead of a replacement for it.
 
 {% include pro/project-video.html id="3KgdJZlMepo" title="Virtual Public Speaking Training Demonstration" %}
 
-Virtualso was my first serious attempt at a problem I still work on: how can an
-AI join a live conversation without taking it over?
+Personally, Virtualso was a massive learning experience. I learned the hard way that anything too dramatic or theatrical feels immediately fake and completely ruins the speaker's immersion. Ultimately, this project became my first serious attempt at a design problem I still grapple with today: how can an AI join a live conversation without completely taking it over?
