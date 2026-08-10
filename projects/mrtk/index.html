@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="Mixed Reality Toolkit for Unity logo" />
 <meta property="twitter:title" content="MRTK for Unity" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-05T14:34:14+00:00","datePublished":"2021-01-01T00:00:00+00:00","description":"Contributed Leap Motion support and an orientation example to Microsoft’s Mixed Reality Toolkit 2.7.","headline":"MRTK for Unity","image":{"alt":"Mixed Reality Toolkit for Unity logo","url":"https://jackyang.io/assets/img/projects/mrtk_unity.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/mrtk/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-10T13:38:32+00:00","datePublished":"2021-01-01T00:00:00+00:00","description":"Contributed Leap Motion support and an orientation example to Microsoft’s Mixed Reality Toolkit 2.7.","headline":"MRTK for Unity","image":{"alt":"Mixed Reality Toolkit for Unity logo","url":"https://jackyang.io/assets/img/projects/mrtk_unity.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/mrtk/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -110,7 +110,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-08-05T14:35:02+00:00',
+    INDEX_KEY: 'index--2026-08-10T13:39:14+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -124,8 +124,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1785940502" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1785940502" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1786369154" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1786369154" id="_iconsPreload">
 
 
 
@@ -315,7 +315,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   </header>
 
   <div class="project-body">
-    <p>MRTK is Microsoft’s open-source Unity toolkit for XR. It gives developers common APIs for input, interaction, UI, and spatial behavior across different headsets and controllers.</p>
+    <p>MRTK is Microsoft’s open-source Unity toolkit for XR. Because it gives developers common APIs for input, interaction, UI, and spatial behavior across completely different headsets, it has become a foundational layer for many spatial computing projects.</p>
 
 <figure class="project-video">
     <div class="project-video-frame">
@@ -324,45 +324,29 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
 </figure>
 
-<h2 id="contribution-in-mrtk-27">Contribution in MRTK 2.7</h2>
+<h2 id="my-contribution-in-mrtk-27">My contribution in MRTK 2.7</h2>
 
-<p>My public contribution is <a href="https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726">PR #9726</a>, which added an example scene for Leap Motion orientation modes. The <a href="https://learn.microsoft.com/en-us/windows/mixed-reality/mrtk-unity/mrtk2/release-notes/mrtk-27-release-notes?view=mrtkunity-2021-05#added-support-for-leap-motion-unity-modules-version-460-470-471-and-480">MRTK 2.7 release notes</a> credit <code class="language-plaintext highlighter-rouge">@jackyangzzh</code> for the <code class="language-plaintext highlighter-rouge">LeapMotionOrientationExample</code> scene.</p>
+<p>When I started contributing, I assumed the hardest part would be writing the core integration code itself. However, I quickly realized that building a useful example scene and maintaining regression stability were actually far more complex aspects of open-source toolkit work.</p>
 
-<p>The scene shows how MRTK interprets a tracked hand under each orientation setting.</p>
+<p>My primary public contribution is <a href="https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726">PR #9726</a>, which adds an example scene that demonstrates Leap Motion orientation modes. Because settings like orientation can be highly abstract, I wanted to provide a tangible scene that explicitly shows how MRTK interprets a tracked hand under every possible orientation configuration.</p>
 
-<ul>
-  <li>Built the orientation display and example scene, then revised them through maintainer review.</li>
-  <li>Removed a hard dependency so the display could load before the Leap Motion Unity module was installed.</li>
-  <li>Kept the sample consistent with existing MRTK patterns rather than adding a separate setup path.</li>
-</ul>
+<p>While building this scene, I intentionally removed any hard dependencies so the display could load correctly even before the Leap Motion Unity module was installed. I also went through multiple maintainer review cycles to ensure the sample stayed rigorously consistent with existing MRTK patterns, since I did not want developers to have to learn a totally separate setup path just for this one feature.</p>
 
-<h2 id="additional-work">Additional work</h2>
+<h2 id="additional-engineering">Additional engineering</h2>
 
-<p>I also worked on the surrounding Leap Motion integration and release quality:</p>
+<p>Beyond the example scene, I pushed several changes to the surrounding Leap Motion integration to ensure release quality:</p>
 
 <ul>
-  <li>Profiled input system hotspots and moved allocation-heavy work to C# Jobs.</li>
-  <li>Added tests around hand-joint data and interactable states to reduce regressions.</li>
-  <li>Wrote migration notes and samples for teams adopting the changes.</li>
-  <li>Tested the changes against partner scenarios before release.</li>
+  <li>Profiled input system hotspots and shifted allocation-heavy workloads into C# Jobs.</li>
+  <li>Added strict tests around hand-joint data and interactable states because I wanted to aggressively reduce potential regressions.</li>
+  <li>Wrote migration notes and provided samples for external teams adopting these new changes.</li>
 </ul>
 
 <h2 id="open-source-constraints">Open-source constraints</h2>
 
-<p>Toolkit code has to work outside the app it was written for. A change that worked in my sample could still break another team’s project, so compatibility and regression risk shaped the implementation. The documentation had to explain the same constraints.</p>
+<p>Contributing to MRTK fundamentally changed my perspective on shipping code. While in a standalone app you simply write code to solve your own problem, toolkit code absolutely has to work in wildly unpredictable external environments. Even though a change worked perfectly in my sample, it could still easily break another team’s project, meaning compatibility and regression risk constantly shaped the final implementation.</p>
 
-<p>The Leap Motion path also needed to behave like the rest of MRTK. Developers should be able to find it in the samples, and a missing optional package should not stop the project from loading. Upgrade notes covered the changes that existing projects needed to make.</p>
-
-<h2 id="impact">Impact</h2>
-
-<ul>
-  <li>The public example made MRTK 2.7’s Leap Motion settings easier to understand and configure.</li>
-  <li>Performance work, tests, and migration notes reduced the work required by teams adopting the changes.</li>
-</ul>
-
-<p>The work made the less visible parts of an open-source release concrete for me.
-A useful example was only one part of the contribution. Optional packages and
-maintainer review had just as much influence on the final code.</p>
+<p>In brief, this work made the less visible parts of an open-source release painfully concrete for me. A useful example was just one tiny piece of the overall contribution. Ultimately, optional packages, strict testing, and maintainer reviews had just as much influence on the final shipped code as the feature itself.</p>
 
   </div>
 </article>
@@ -412,10 +396,11 @@ maintainer review had just as much influence on the final code.</p>
     About
   </h2>
 
-  <p>Jack Yang is a software engineer at Microsoft Teams AI, where he builds
-Facilitator, an agent that joins live meetings. His earlier work covered
-avatars and XR at Microsoft Mesh. Across both, he focuses on how people and
-computers communicate.</p>
+  <p>Jack Yang is a software engineer at Microsoft Teams AI, where he works on
+Facilitator, an agent that joins live multi-person meetings. Before that he
+worked on avatars and XR at Microsoft Mesh, from 2022 to 2024. He has been
+circling the same question since 2020: how a computer can take part in a
+conversation without taking it over.</p>
 
 
   <div class="sidebar-social">

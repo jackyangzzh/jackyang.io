@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="DishVue wordmark over a scanned 3D dish displayed in translucent spatial menu panels" />
 <meta property="twitter:title" content="DishVue" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-05T14:34:14+00:00","datePublished":"2024-01-01T00:00:00+00:00","description":"Built a 3D menu for iPhone, iPad, Apple Vision Pro, and the web. Restaurants scan a dish once, and diners can inspect it at table scale.","headline":"DishVue","image":{"alt":"DishVue wordmark over a scanned 3D dish displayed in translucent spatial menu panels","url":"https://jackyang.io/assets/img/projects/DishVue.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/dishvue/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-10T13:38:32+00:00","datePublished":"2024-01-01T00:00:00+00:00","description":"Built a 3D menu for iPhone, iPad, Apple Vision Pro, and the web. Restaurants scan a dish once, and diners can inspect it at table scale.","headline":"DishVue","image":{"alt":"DishVue wordmark over a scanned 3D dish displayed in translucent spatial menu panels","url":"https://jackyang.io/assets/img/projects/DishVue.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/dishvue/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -110,7 +110,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-08-05T14:35:02+00:00',
+    INDEX_KEY: 'index--2026-08-10T13:39:14+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -124,8 +124,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1785940502" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1785940502" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1786369154" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1786369154" id="_iconsPreload">
 
 
 
@@ -307,7 +307,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   </header>
 
   <div class="project-body">
-    <p>DishVue is a 3D menu I built for iPhone, iPad, Apple Vision Pro, and the web. A restaurant scans a dish with an iPhone and adds it to the menu. Diners can then rotate the model or place it on the table at a believable scale.</p>
+    <p>DishVue is a 3D menu I built for iPhone, iPad, Apple Vision Pro, and the web. I wanted to see if I could build one system that handles the whole path from scanning a dish to displaying it on the table.</p>
 
 <figure class="project-video">
     <div class="project-video-frame">
@@ -316,34 +316,33 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
 </figure>
 
-<h2 id="problem">Problem</h2>
+<h2 id="the-problem">The problem</h2>
 
-<p>Menu photos do a poor job of showing texture, portion size, or plating. Many AR menu tools also use a separate publishing workflow, which gives restaurant staff another system to keep in sync.</p>
+<p>Even though menu photos are everywhere, they rarely show food texture well, and they almost completely fail to convey true portion size. Many AR menu tools already exist, but because they usually require a separate publishing workflow, restaurant staff end up with yet another system to keep in sync.</p>
 
-<p>I wanted one small system to handle the whole path. Staff scan a dish on a phone, the model syncs to the menu, and diners open it on whatever device they have. On Vision Pro, they can put it on the table in front of them.</p>
+<p>I wanted to consolidate this process. If staff scan a dish on a phone, the model should automatically sync to the menu, and diners should be able to open it on whatever device they have. And because Vision Pro allows for spatial computing, diners can actually put the dish on the table in front of them to see its true scale.</p>
 
-<h2 id="product-workflow">Product workflow</h2>
+<h2 id="how-it-works">How it works</h2>
 
-<p>DishVue ships as three clients tied to one Firebase backend:</p>
+<p>Because I wanted to keep the infrastructure simple, DishVue ships as three clients tied to one Firebase backend.</p>
 
-<p>On iPhone and iPad, restaurant staff manage the menu and scan dishes in the same app. Diners can browse that menu and preview a dish in AR. The visionOS app opens each dish in a volumetric window, with controls for rotation, scale, and drag-and-drop placement. A React client gives people on other devices access to the same menu data.</p>
+<p>On iPhone and iPad, restaurant staff manage the menu and scan dishes within the same app. Diners can browse that menu and preview a dish in AR. The visionOS app opens each dish in a volumetric window, where diners can rotate, scale, and drag-and-drop the plate. A React client gives people on other devices access to the same menu data.</p>
 
 <h2 id="technical-implementation">Technical implementation</h2>
 
 <ul>
-  <li>Built the Apple clients in SwiftUI. Object Capture, wrapped in the <code class="language-plaintext highlighter-rouge">USDZScanner</code> Swift Package, generates USDZ models and thumbnails.</li>
-  <li>Stored menu records in Firestore and model files in Firebase Storage. The app shows upload progress and keeps a local cache.</li>
-  <li>Used <code class="language-plaintext highlighter-rouge">RealityView</code> and volumetric <code class="language-plaintext highlighter-rouge">WindowGroup</code>s on visionOS. Drag rotates a dish only around its vertical axis; magnification is capped to keep the model within useful bounds.</li>
-  <li>Built the React client against the same schema, so the web version did not need a separate content system or custom server.</li>
+  <li>Built the Apple clients in SwiftUI. Because staff should not need a separate capture tool, I wrapped Object Capture in the <code class="language-plaintext highlighter-rouge">USDZScanner</code> Swift Package to generate USDZ models and thumbnails locally.</li>
+  <li>Stored menu records in Firestore and model files in Firebase Storage, which provides a single schema across all three clients without requiring a custom server. The app shows upload progress and keeps a local cache.</li>
+  <li>Built the visionOS app with <code class="language-plaintext highlighter-rouge">RealityView</code> and volumetric <code class="language-plaintext highlighter-rouge">WindowGroup</code>s. While it is tempting to use full immersion, I chose volumetric windows because the menu belongs beside the table rather than entirely around the diner.</li>
+  <li>Handled interactions on Vision Pro: drag rotates a dish only around its vertical axis so a plate cannot flip upside down, and scale stops at 1.5x before the model leaves the window bounds.</li>
+  <li>Developed the React client against the same schema, so the web version simply consumes the existing data without a separate content system.</li>
 </ul>
-
-<h2 id="key-decisions">Key decisions</h2>
-
-<p>I kept scanning beside the ordinary menu fields for name, price, and course. Staff should not need a separate capture tool. Firestore and Storage gave all three clients one schema without requiring a custom server. On Vision Pro, I chose volumetric windows over full immersion because the menu belongs beside the table, not around the diner. Rotation stays on the vertical axis so a plate cannot flip upside down, and scale stops at 1.5x before the model leaves the window bounds.</p>
 
 <h2 id="reflection">Reflection</h2>
 
-<p>The hard parts were not the demo moments. They were shared state across SwiftUI targets, the quirks in Object Capture output, and deciding what to leave out on visionOS. DishVue works better as a small window with a couple of predictable gestures than as a full immersive scene. I like spatial interfaces most when they know when to get out of the way.</p>
+<p>I initially thought the hard parts of this project would be the impressive spatial demo moments on Vision Pro. However, it turned out that managing shared state across SwiftUI targets and dealing with the quirks in Object Capture output were the actual challenges. Deciding what to leave out on visionOS was also much harder than I expected.</p>
+
+<p>DishVue works better as a small window with a couple of predictable gestures, even though it could have been a full immersive scene. Personally, I find spatial interfaces most compelling when they know when to get out of the way.</p>
 
   </div>
 </article>
@@ -393,10 +392,11 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     About
   </h2>
 
-  <p>Jack Yang is a software engineer at Microsoft Teams AI, where he builds
-Facilitator, an agent that joins live meetings. His earlier work covered
-avatars and XR at Microsoft Mesh. Across both, he focuses on how people and
-computers communicate.</p>
+  <p>Jack Yang is a software engineer at Microsoft Teams AI, where he works on
+Facilitator, an agent that joins live multi-person meetings. Before that he
+worked on avatars and XR at Microsoft Mesh, from 2022 to 2024. He has been
+circling the same question since 2020: how a computer can take part in a
+conversation without taking it over.</p>
 
 
   <div class="sidebar-social">

@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="VR simulation of an industrial robotic arm moving objects between worktables" />
 <meta property="twitter:title" content="Robot Control Through VR" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-05T14:34:14+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"Built a VR teleoperation and motion replay system for a robotic arm using Unity, ROS, hand tracking, and inverse kinematics.","headline":"Robot Control Through VR","image":{"alt":"VR simulation of an industrial robotic arm moving objects between worktables","url":"https://jackyang.io/assets/img/projects/mimicry.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/robot-control/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-10T13:38:32+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"Built a VR teleoperation and motion replay system for a robotic arm using Unity, ROS, hand tracking, and inverse kinematics.","headline":"Robot Control Through VR","image":{"alt":"VR simulation of an industrial robotic arm moving objects between worktables","url":"https://jackyang.io/assets/img/projects/mimicry.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/robot-control/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -110,7 +110,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-08-05T14:35:02+00:00',
+    INDEX_KEY: 'index--2026-08-10T13:39:14+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -124,8 +124,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1785940502" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1785940502" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1786369154" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1786369154" id="_iconsPreload">
 
 
 
@@ -311,33 +311,19 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   </header>
 
   <div class="project-body">
-    <p>This project tested two ways to work with a robotic arm in VR. The first mapped hand and arm movement to the robot. The second replayed recorded experiments when the lab was unavailable.</p>
+    <p>This project tested two different ways to interact with an industrial robotic arm in VR. The first mapped hand and arm movements directly to the robot in real time. The second replayed recorded experiment data visually for times when the physical lab was unavailable.</p>
 
-<h2 id="problem">Problem</h2>
+<h2 id="the-problem">The problem</h2>
 
-<p>Robot control tools are precise, but they can be hard to learn. I wanted to see whether moving your own hand in VR could make the robot easier to understand without sacrificing the constraints needed for real hardware.</p>
+<p>While traditional robot control tools are incredibly precise, I always found them exceptionally difficult to learn. Even though you are manipulating a physical object in 3D space, you usually control it through abstract interfaces.</p>
 
-<h2 id="my-role">My role</h2>
+<p>I hypothesized that directly moving your own hand in VR might make the robot’s kinematics vastly easier to intuit. However, I knew I could not just sacrifice the strict safety constraints required for real-world hardware. When COVID-19 abruptly closed the physical lab, I also had to pivot quickly to figure out how researchers could still review experiments without direct access.</p>
 
-<ul>
-  <li>Built the Unity application, ROS bridge, interaction model, and inverse kinematics pipeline.</li>
-  <li>Integrated Leap Motion hand tracking, robot joint constraints, and visual overlays so operators could understand what the robot was about to do before committing a motion.</li>
-  <li>Built a motion replay workflow after COVID-19 restricted access to the physical lab.</li>
-</ul>
+<h2 id="what-i-built">What I built</h2>
 
-<h2 id="live-teleoperation">Live teleoperation</h2>
+<p>I implemented the entire VR stack, which included building the core Unity application, writing the ROS bridge for network communication, and managing the inverse kinematics pipeline.</p>
 
-<p>The first version let a user drive the robot with hand and arm movement. A small network bridge passed ROS data between Unity and the robot with low enough latency for precise manipulation.</p>
-
-<h2 id="key-engineering-decisions">Key engineering decisions</h2>
-
-<ul>
-  <li>A custom inverse kinematics solver combines Leap Motion hand poses with robot joint limits to avoid singularities.</li>
-  <li>Safety interlocks monitor joint velocity, collision volumes, and operator intent before commands leave the VR client.</li>
-  <li>Visual overlays show reachable space and predicted joint poses so users can plan motions before committing.</li>
-</ul>
-
-<p>A one-to-one hand mapping feels intuitive, but a robot cannot copy human motion blindly. Predicted poses and visible constraints were part of the interface because users needed to understand why the robot would reject or alter a movement.</p>
+<p>For the live teleoperation, a user simply drove the robot by moving their hand. I built a lightweight network bridge that passed ROS data between Unity and the physical robot with low enough latency to actually support deliberate manipulation.</p>
 
 <figure class="project-video">
     <div class="project-video-frame">
@@ -346,20 +332,16 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
 </figure>
 
-<h2 id="motion-replay-pivot">Motion-replay pivot</h2>
-
-<p>When COVID-19 closed the lab, I built a replay pipeline instead. It read timestamped joint angles from more than 15 experiment datasets and generated Unity animation clips of the recorded motion.</p>
-
-<h2 id="what-it-demonstrated">What it demonstrated</h2>
-
+<p>Because I suspected users would blindly expect the hardware to match their hand motions perfectly, I built custom safety logic.</p>
 <ul>
-  <li>Researchers could review experiments in VR, annotate mistakes, and plan another run without entering the lab.</li>
-  <li>Joint angle data was enough to recreate useful robot motion in Unity; the replay did not need a video stream or the original hardware.</li>
+  <li>A custom inverse kinematics solver combines Leap Motion hand poses with the robot’s joint limits specifically to avoid mechanical singularities.</li>
+  <li>Safety interlocks heavily monitor joint velocity, collision volumes, and operator intent before any command ever leaves the VR client.</li>
+  <li>Visual overlays actively render the reachable space and predict joint poses so the user can literally see what the robot intends to do before committing to a motion.</li>
 </ul>
 
-<p>The project made safety and observability feel like interface problems as well
-as robotics problems. When a system controls something outside the headset, the
-user needs to see what it plans to do before it does it.</p>
+<h2 id="the-covid-19-pivot">The COVID-19 pivot</h2>
+
+<p>When lab access disappeared, I temporarily shelved the live controls and built a motion replay pipeline instead. By simply reading timestamped joint angles from over 15 existing experiment datasets, the system successfully generated exact Unity animation clips of the recorded motion.</p>
 
 <figure class="project-video">
     <div class="project-video-frame">
@@ -367,6 +349,14 @@ user needs to see what it plans to do before it does it.</p>
     </div>
     
 </figure>
+
+<h2 id="reflection">Reflection</h2>
+
+<p>I began this project assuming that a one-to-one hand mapping would just intuitively work. However, I was entirely wrong. Because a robot cannot safely copy human motion blindly, predicted poses and visible constraints had to become a fundamental part of the interface so the user could immediately understand why the robot rejected or altered their movement.</p>
+
+<p>In addition, the motion replay pivot proved that raw joint angle data was actually enough to recreate highly useful robot motion in Unity without requiring a video stream or the original hardware.</p>
+
+<p>Therefore, this whole project made safety and observability feel like pure interface problems rather than just robotics problems. Whenever a system controls something physical outside the headset, the user absolutely needs to see what it plans to do before it actually does it.</p>
 
   </div>
 </article>
@@ -416,10 +406,11 @@ user needs to see what it plans to do before it does it.</p>
     About
   </h2>
 
-  <p>Jack Yang is a software engineer at Microsoft Teams AI, where he builds
-Facilitator, an agent that joins live meetings. His earlier work covered
-avatars and XR at Microsoft Mesh. Across both, he focuses on how people and
-computers communicate.</p>
+  <p>Jack Yang is a software engineer at Microsoft Teams AI, where he works on
+Facilitator, an agent that joins live multi-person meetings. Before that he
+worked on avatars and XR at Microsoft Mesh, from 2022 to 2024. He has been
+circling the same question since 2020: how a computer can take part in a
+conversation without taking it over.</p>
 
 
   <div class="sidebar-social">

@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="Project Virtualso interview simulation with a virtual interviewer in an office" />
 <meta property="twitter:title" content="Project Virtualso" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-05T14:34:14+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"Built VR coaches for interview and presentation practice using speech recognition, guided dialogue, facial animation, and gaze.","headline":"Project Virtualso","image":{"alt":"Project Virtualso interview simulation with a virtual interviewer in an office","url":"https://jackyang.io/assets/img/projects/virtualso.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/project-virtualso/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-10T13:38:32+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"Built VR coaches for interview and presentation practice using speech recognition, guided dialogue, facial animation, and gaze.","headline":"Project Virtualso","image":{"alt":"Project Virtualso interview simulation with a virtual interviewer in an office","url":"https://jackyang.io/assets/img/projects/virtualso.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/project-virtualso/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -110,7 +110,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-08-05T14:35:02+00:00',
+    INDEX_KEY: 'index--2026-08-10T13:39:14+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -124,8 +124,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1785940502" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1785940502" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1786369154" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1786369154" id="_iconsPreload">
 
 
 
@@ -311,19 +311,19 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   </header>
 
   <div class="project-body">
-    <p>Project Virtualso is a set of VR coaches for interview and presentation practice. The characters listen and respond through dialogue, facial animation, gaze, and body language. It was one of my first attempts to combine what I studied in Communication with what I was building in Unity.</p>
+    <p>Project Virtualso is a set of VR coaches for interview and presentation practice. Because I was studying Communication while building in Unity, this was one of my first real attempts to practically combine the two fields.</p>
 
-<h2 id="problem">Problem</h2>
+<h2 id="the-problem">The problem</h2>
 
-<p>Scripts and webcam drills miss the uncomfortable parts of live practice: timing, follow-up questions, emotional reactions, and the pressure to answer on the spot. I wanted to see whether a virtual character could bring some of that pressure into a repeatable exercise.</p>
+<p>I have always found that standard scripts and webcam drills completely miss the most uncomfortable parts of live practice: dealing with timing, fielding unexpected follow-up questions, reading emotional reactions, and handling the raw pressure to answer on the spot.</p>
 
-<p>During the COVID-19 lockdowns, in-person coaching and rehearsal became harder to access. That made the experiment more relevant, especially for people preparing alone.</p>
+<p>Even though standard video recordings let you check your posture, I suspected that only an interactive virtual character could actually simulate the psychological pressure of a real conversation. Since the COVID-19 lockdowns made in-person coaching much harder to access, I decided to test this hypothesis by building a repeatable VR exercise for people preparing alone.</p>
 
 <h2 id="training-modes">Training modes</h2>
 
 <h3 id="virtual-interview">Virtual interview</h3>
 
-<p>The interview coach listens, asks follow-up questions, and reacts with facial expressions and gestures. Intent classification and dialogue rules decide what it says next.</p>
+<p>The interview coach actually listens to your answer, parses intent, asks appropriate follow-up questions, and reacts with facial expressions.</p>
 
 <figure class="project-video">
     <div class="project-video-frame">
@@ -334,31 +334,29 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <h3 id="virtual-presentation">Virtual presentation</h3>
 
-<p>The presentation mode puts the speaker in front of a virtual audience that reacts during the talk. I tested it with professionals from several companies. Their feedback led me to tone down distracting reactions, make attention and confusion easier to read, and improve the feedback shown after a session.</p>
+<p>In this mode, you stand in front of a virtual audience that dynamically reacts while you speak. When I first built this, I assumed that highly expressive audience reactions would be the best way to give the speaker feedback. However, when I tested it with actual professionals, they immediately pointed out that the reactions were far too distracting. Based on their feedback, I significantly toned down the overall body language so that attention and confusion were readable but not theatrical.</p>
 
 <h2 id="what-i-built">What I built</h2>
 
 <ul>
-  <li>Built the Unity experience, scenario flow, dialogue rules, telemetry, and character behavior.</li>
-  <li>Connected Azure Cognitive Services speech recognition to an NLP pipeline that tracks confidence, pacing, tone, and topic changes.</li>
-  <li>Built facial animation and gaze responses. The goal was enough expression to communicate attention without making every reaction feel canned.</li>
+  <li>Built the entire Unity experience, encompassing scenario flow, dialogue logic, telemetry, and character behaviors.</li>
+  <li>Connected Azure Cognitive Services speech recognition directly into a custom NLP pipeline that tracks the speaker’s confidence, pacing, tone, and topical shifts in real time.</li>
+  <li>Implemented facial animation and gaze systems to give the virtual characters a sense of presence.</li>
 </ul>
 
 <h2 id="key-design-decisions">Key design decisions</h2>
 
-<p>I used intent classification and guided branches rather than open-ended generation. That kept the interviewer responsive and made each session easier to evaluate. Facial animation carried feedback, so attention or confusion had to be readable without becoming theatrical. I also built a scenario editor for question banks, difficulty, and success criteria so a coach could change an exercise without editing code.</p>
+<p>While open-ended generative AI was an option, I strictly used intent classification and guided dialogue branches instead. Because open generation often becomes unpredictable, using a guided model ensured that the interviewer remained responsive while keeping the evaluation criteria concrete and measurable.</p>
+
+<p>Since I did not want coaches to have to edit code just to change an exercise, I also built a scenario editor that lets them easily modify question banks, difficulty curves, and success metrics.</p>
 
 <h2 id="validation">Validation</h2>
 
 <ul>
-  <li>Shared prototypes with career coaching nonprofits to see whether role-play could give job seekers more practice.</li>
-  <li>Tested the presentation mode with professionals from several companies, then adjusted audience behavior and session pacing from their feedback.</li>
-  <li>Captured pacing, filler word frequency, and confidence signals. I treated that data as an aid to human coaching, not a replacement for it.</li>
+  <li>I shared working prototypes with professional career coaching nonprofits to explore whether role-play could give job seekers more accessible practice.</li>
+  <li>After testing the presentation mode, I captured pacing, filler word frequency, and confidence signals.</li>
+  <li>Importantly, I purposely treated this data as an aid for human coaching instead of a replacement for it.</li>
 </ul>
-
-<p>These were exploratory pilots, not a controlled outcome study. Subtle reactions
-worked best. Anything too theatrical felt fake and quickly pulled attention
-away from the speaker.</p>
 
 <figure class="project-video">
     <div class="project-video-frame">
@@ -367,8 +365,7 @@ away from the speaker.</p>
     
 </figure>
 
-<p>Virtualso was my first serious attempt at a problem I still work on: how can an
-AI join a live conversation without taking it over?</p>
+<p>Personally, Virtualso was a massive learning experience. I learned the hard way that anything too dramatic or theatrical feels immediately fake and completely ruins the speaker’s immersion. Ultimately, this project became my first serious attempt at a design problem I still grapple with today: how can an AI join a live conversation without completely taking it over?</p>
 
   </div>
 </article>
@@ -418,10 +415,11 @@ AI join a live conversation without taking it over?</p>
     About
   </h2>
 
-  <p>Jack Yang is a software engineer at Microsoft Teams AI, where he builds
-Facilitator, an agent that joins live meetings. His earlier work covered
-avatars and XR at Microsoft Mesh. Across both, he focuses on how people and
-computers communicate.</p>
+  <p>Jack Yang is a software engineer at Microsoft Teams AI, where he works on
+Facilitator, an agent that joins live multi-person meetings. Before that he
+worked on avatars and XR at Microsoft Mesh, from 2022 to 2024. He has been
+circling the same question since 2020: how a computer can take part in a
+conversation without taking it over.</p>
 
 
   <div class="sidebar-social">
