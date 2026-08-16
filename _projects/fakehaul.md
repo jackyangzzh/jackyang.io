@@ -21,7 +21,7 @@ links:
 ---
 FakeHaul is an e-commerce marketplace I launched in July 2026 where you can browse, hunt for deals, check out, track an order, and open a package, even though every checkout totals $0.00 and nothing ever ships.
 
-[Fast Company](https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction), [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html), [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/), and [Cybernews](https://cybernews.com/tech/digital-diy-ai-projects/) have written about FakeHaul since its launch. More details on their coverage can be found [below](#press).
+[Fast Company](https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction), [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html), [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/), [Cybernews](https://cybernews.com/tech/digital-diy-ai-projects/), and [Digital Trends](https://www.digitaltrends.com/computing/i-tried-the-internets-weirdest-shopping-trend-and-my-brain-fell-for-it-more-than-i-expected/) have written about FakeHaul since its launch. More details on their coverage can be found [below](#press).
 {:.note title="In the press"}
 
 ## The idea
@@ -60,5 +60,6 @@ FakeHaul was picked up in July 2026 during a wider run of coverage on "dopamine 
 - [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html) focused on how completely the catalog is invented.
 - [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/) viewed it as a parody of the mechanics online retailers use.
 - [Cybernews](https://cybernews.com/tech/digital-diy-ai-projects/) asked what AI makes possible for personal projects. In my conversation with them, I confirmed that FakeHaul collects no accounts, no email, and no IP tracking. While this costs me any way of knowing whether people come back, I personally would rather not collect that data in the first place.
+- [Digital Trends](https://www.digitaltrends.com/computing/i-tried-the-internets-weirdest-shopping-trend-and-my-brain-fell-for-it-more-than-i-expected/) used FakeHaul instead of only summarizing it. The writer filled a cart, felt a flicker of urgency from a midnight countdown on a product that was never manufactured, and kept checking out at $0.00. She does not think sites like this cure impulse spending, because the browsing-and-checkout ritual is still being rehearsed.
 
 I am still not completely sure about the behavioral outcome of this project. While the person FakeHaul was first built for says it helps, a moderator of a shopping-addiction community told me that rehearsing the ritual could unfortunately reinforce the habit instead. I built this as an entertainment product exploring a behavioral hypothesis, and if the people using it ever tell me it makes the habit worse, I am fully prepared to take it down.
