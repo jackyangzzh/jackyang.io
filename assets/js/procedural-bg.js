@@ -46,88 +46,91 @@
   var pointerX = 0;
   var pointerY = 0;
 
-  // The orb and wave layers are expensive (five full-screen radial-gradient
-  // fills plus three stroked wave paths). Drawing them every frame is what put
-  // 20 long tasks on the main thread and cost ~2.2s of TBT. They are now baked
-  // once into an offscreen canvas and blitted each frame instead, which leaves
-  // only the node network to animate per-frame and keeps every frame short.
-  var ambientCanvas = document.createElement("canvas");
-  var ambientCtx = ambientCanvas.getContext("2d");
-  var ambientReady = false;
-  // Bleed so the layer can drift without exposing an edge.
-  var AMBIENT_MARGIN = 48;
-  var AMBIENT_TIME = 1200;
+  // Each colour blob is one radial gradient baked into a small sprite, then
+  // blitted per frame at its own drifting position. Baking is what keeps the
+  // frame short — drawing these gradients live is what once put 20 long tasks
+  // on the main thread and cost ~2.2s of TBT. Blitting them separately (rather
+  // than baking the whole field into one layer) is what lets the colours move
+  // past each other instead of sliding around as a rigid picture.
+  var SPRITE_SIZE = 256;
 
-  // Deeper indigo base so the accent orbs read as light against it. ORB_GAIN
-  // lifts the orb alphas together — they were tuned so low that the background
-  // was nearly flat.
   var BG = { r: 18, g: 15, b: 38 };
-  var ORB_GAIN = 2.1;
-  var orbs = [
+  // Every hue sits in the theme's purple family (accent is rgb(170,130,230)),
+  // spread just widely enough that the drift reads as colour change. Mixing
+  // broad washes with a few tighter pools is what keeps the field from
+  // flattening into one even tone.
+  var blobs = [
     {
-      r: 235,
-      g: 145,
-      b: 160,
-      a: 0.13,
+      color: [170, 130, 230],
+      alpha: 0.3,
       radius: 0.55,
-      xSpd: 0.00028,
-      ySpd: 0.00019,
-      xPh: 0,
-      yPh: 0,
-      xAmp: 0.38,
+      xAmp: 0.36,
       yAmp: 0.3,
+      xSpd: 0.00072,
+      ySpd: 0.00049,
+      xPh: 0,
+      yPh: 1.4,
+      depth: 1,
     },
     {
-      r: 245,
-      g: 180,
-      b: 135,
-      a: 0.1,
-      radius: 0.45,
-      xSpd: 0.0002,
-      ySpd: 0.00028,
-      xPh: 2.1,
-      yPh: 1,
-      xAmp: 0.32,
+      color: [214, 150, 240],
+      alpha: 0.24,
+      radius: 0.36,
+      xAmp: 0.42,
       yAmp: 0.35,
+      xSpd: 0.00056,
+      ySpd: 0.0008,
+      xPh: 2.1,
+      yPh: 0.3,
+      depth: 0.7,
     },
     {
-      r: 160,
-      g: 130,
-      b: 215,
-      a: 0.1,
-      radius: 0.4,
-      xSpd: 0.00024,
-      ySpd: 0.00016,
+      color: [116, 108, 222],
+      alpha: 0.3,
+      radius: 0.6,
+      xAmp: 0.32,
+      yAmp: 0.38,
+      xSpd: 0.00087,
+      ySpd: 0.00042,
       xPh: 4.2,
       yPh: 2.8,
-      xAmp: 0.28,
-      yAmp: 0.38,
+      depth: 1.3,
     },
     {
-      r: 120,
-      g: 200,
-      b: 190,
-      a: 0.09,
-      radius: 0.38,
-      xSpd: 0.00032,
-      ySpd: 0.00022,
+      color: [196, 122, 206],
+      alpha: 0.2,
+      radius: 0.32,
+      xAmp: 0.46,
+      yAmp: 0.26,
+      xSpd: 0.00045,
+      ySpd: 0.00094,
       xPh: 1.1,
       yPh: 4.5,
-      xAmp: 0.42,
-      yAmp: 0.25,
+      depth: 0.5,
     },
     {
-      r: 220,
-      g: 150,
-      b: 200,
-      a: 0.07,
-      radius: 0.5,
-      xSpd: 0.00015,
-      ySpd: 0.00025,
+      color: [140, 152, 244],
+      alpha: 0.22,
+      radius: 0.42,
+      xAmp: 0.28,
+      yAmp: 0.42,
+      xSpd: 0.00101,
+      ySpd: 0.00063,
       xPh: 3.3,
-      yPh: 1.7,
-      xAmp: 0.35,
+      yPh: 5.6,
+      depth: 1.6,
+    },
+    {
+      color: [226, 176, 240],
+      alpha: 0.14,
+      radius: 0.28,
+      xAmp: 0.4,
       yAmp: 0.32,
+      xSpd: 0.00038,
+      ySpd: 0.00108,
+      xPh: 5.4,
+      yPh: 3.1,
+      depth: 0.35,
     },
   ];
 
@@ -186,7 +189,7 @@
     }
 
     initParticles();
-    buildAmbient();
+    buildBlobs();
     if (initialized) render(false, currentWelcomeProgress);
   }
 
@@ -226,62 +229,73 @@
     return Math.exp(-distance * distance * 2.2);
   }
 
-  function drawOrbs(c, t) {
-    c.globalCompositeOperation = "screen";
+  // One sprite per blob, baked once at init. Size is fixed and small; every
+  // blob is drawn scaled up from it, and the upscale doubles as the blur.
+  function buildBlobs() {
+    for (var i = 0; i < blobs.length; i++) {
+      var blob = blobs[i];
+      if (blob.sprite) continue;
 
-    for (var i = 0; i < orbs.length; i++) {
-      var orb = orbs[i];
-      var cx = w * (0.5 + orb.xAmp * Math.sin(t * orb.xSpd + orb.xPh));
-      var cy = h * (0.5 + orb.yAmp * Math.cos(t * orb.ySpd + orb.yPh));
-      var radius = Math.max(w, h) * orb.radius;
-      var alpha = Math.min(orb.a * ORB_GAIN, 1);
+      var sprite = document.createElement("canvas");
+      sprite.width = SPRITE_SIZE;
+      sprite.height = SPRITE_SIZE;
+      var c = sprite.getContext("2d");
+      var mid = SPRITE_SIZE / 2;
 
-      radius *= 1 + 0.045 * Math.sin(t * 0.001 + i * 1.5);
-
-      var gradient = c.createRadialGradient(cx, cy, 0, cx, cy, radius);
-      gradient.addColorStop(
-        0,
-        "rgba(" + orb.r + "," + orb.g + "," + orb.b + "," + alpha + ")",
-      );
-      gradient.addColorStop(
-        0.42,
-        "rgba(" +
-          orb.r +
-          "," +
-          orb.g +
-          "," +
-          orb.b +
-          "," +
-          alpha * 0.34 +
-          ")",
-      );
-      gradient.addColorStop(
-        1,
-        "rgba(" + orb.r + "," + orb.g + "," + orb.b + ",0)",
-      );
+      var gradient = c.createRadialGradient(mid, mid, 0, mid, mid, mid);
+      gradient.addColorStop(0, rgba(blob.color, 1));
+      gradient.addColorStop(0.42, rgba(blob.color, 0.34));
+      gradient.addColorStop(1, rgba(blob.color, 0));
       c.fillStyle = gradient;
-      c.fillRect(
-        -AMBIENT_MARGIN,
-        -AMBIENT_MARGIN,
-        w + AMBIENT_MARGIN * 2,
-        h + AMBIENT_MARGIN * 2,
+      c.fillRect(0, 0, SPRITE_SIZE, SPRITE_SIZE);
+
+      blob.sprite = sprite;
+    }
+  }
+
+  function rgba(color, alpha) {
+    return (
+      "rgba(" + color[0] + "," + color[1] + "," + color[2] + "," + alpha + ")"
+    );
+  }
+
+  function drawColorField(fieldAlpha) {
+    ctx.fillStyle = "rgb(" + BG.r + "," + BG.g + "," + BG.b + ")";
+    ctx.fillRect(0, 0, w, h);
+
+    // `screen` clamps instead of blowing out to white where blobs pile up,
+    // which plain alpha and `lighter` both fail to do at these counts.
+    ctx.globalCompositeOperation = "screen";
+    var reach = Math.max(w, h);
+
+    for (var i = 0; i < blobs.length; i++) {
+      var blob = blobs[i];
+      var radius =
+        reach * blob.radius * (1 + 0.05 * Math.sin(time * 0.0008 + i * 1.5));
+      var cx =
+        w * (0.5 + blob.xAmp * Math.sin(time * blob.xSpd + blob.xPh)) +
+        pointerX * blob.depth * 18;
+      var cy =
+        h * (0.5 + blob.yAmp * Math.cos(time * blob.ySpd + blob.yPh)) +
+        pointerY * blob.depth * 14;
+
+      ctx.globalAlpha = blob.alpha * fieldAlpha;
+      ctx.drawImage(
+        blob.sprite,
+        cx - radius,
+        cy - radius,
+        radius * 2,
+        radius * 2,
       );
     }
 
-    c.globalCompositeOperation = "source-over";
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "source-over";
   }
 
   function drawParticles(advance, ambientAlpha, welcomeProgress) {
-    // Wide reach and a high link alpha are what make this read as a connected
-    // graph rather than a scattering of dots.
-    var maxDist = Math.min(168, Math.max(w, h) * 0.125);
-    var maxDistSq = maxDist * maxDist;
     var i;
-    var j;
     var particle;
-    var dx;
-    var dy;
-    var distSq;
     var alpha;
     var twinkle;
     var sweep;
@@ -296,38 +310,6 @@
         else if (particle.x > w + 20) particle.x -= w + 40;
         if (particle.y < -20) particle.y += h + 40;
         else if (particle.y > h + 20) particle.y -= h + 40;
-      }
-    }
-
-    ctx.lineWidth = 0.5;
-    for (i = 0; i < particles.length; i++) {
-      for (j = i + 1; j < particles.length; j++) {
-        dx = particles[i].x - particles[j].x;
-        dy = particles[i].y - particles[j].y;
-        distSq = dx * dx + dy * dy;
-
-        if (distSq < maxDistSq) {
-          sweep = sweepAt(
-            (particles[i].x + particles[j].x) * 0.5,
-            welcomeProgress,
-          );
-          alpha =
-            (1 - distSq / maxDistSq) *
-            0.46 *
-            ambientAlpha *
-            (1 + sweep * 0.32);
-          ctx.strokeStyle = "rgba(235,220,230," + alpha + ")";
-          ctx.beginPath();
-          ctx.moveTo(
-            particles[i].x + pointerX * particles[i].depth * 4,
-            particles[i].y + pointerY * particles[i].depth * 3,
-          );
-          ctx.lineTo(
-            particles[j].x + pointerX * particles[j].depth * 4,
-            particles[j].y + pointerY * particles[j].depth * 3,
-          );
-          ctx.stroke();
-        }
       }
     }
 
@@ -364,97 +346,6 @@
     }
   }
 
-  function drawWaves(c, t) {
-    c.globalCompositeOperation = "screen";
-
-    var configs = [
-      {
-        baseY: 0.3,
-        amp: 0.08,
-        freq: 0.003,
-        speed: 0.0004,
-        color: "235,160,175",
-        alpha: 0.075,
-      },
-      {
-        baseY: 0.5,
-        amp: 0.11,
-        freq: 0.0025,
-        speed: 0.00055,
-        color: "245,190,145",
-        alpha: 0.06,
-      },
-      {
-        baseY: 0.7,
-        amp: 0.14,
-        freq: 0.002,
-        speed: 0.0007,
-        color: "165,135,215",
-        alpha: 0.065,
-      },
-    ];
-
-    for (var n = 0; n < configs.length; n++) {
-      var config = configs[n];
-      var baseY = h * config.baseY;
-      var amplitude = h * config.amp;
-      var alpha = config.alpha;
-
-      c.beginPath();
-      c.moveTo(-AMBIENT_MARGIN, baseY);
-      for (
-        var x = -AMBIENT_MARGIN;
-        x <= w + AMBIENT_MARGIN;
-        x += 4
-      ) {
-        var y =
-          baseY +
-          amplitude * Math.sin(x * config.freq + t * config.speed + n * 2) +
-          amplitude *
-            0.5 *
-            Math.sin(x * config.freq * 1.8 + t * config.speed * 0.7 + n);
-        c.lineTo(x, y);
-      }
-
-      c.strokeStyle = "rgba(" + config.color + "," + alpha * 0.46 + ")";
-      c.lineWidth = 6 + n * 3;
-      c.stroke();
-
-      c.strokeStyle = "rgba(" + config.color + "," + alpha + ")";
-      c.lineWidth = 1.25;
-      c.stroke();
-    }
-
-    c.globalCompositeOperation = "source-over";
-  }
-
-  // Bake the base colour, orbs and waves once. Called on resize only.
-  function buildAmbient() {
-    if (!w || !h) return;
-
-    var aw = w + AMBIENT_MARGIN * 2;
-    var ah = h + AMBIENT_MARGIN * 2;
-    ambientCanvas.width = Math.round(aw * dpr);
-    ambientCanvas.height = Math.round(ah * dpr);
-    ambientCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ambientCtx.clearRect(0, 0, aw, ah);
-    // Shift into the margin so the existing 0..w / 0..h drawing code lands in
-    // the middle of the oversized layer.
-    ambientCtx.translate(AMBIENT_MARGIN, AMBIENT_MARGIN);
-
-    ambientCtx.fillStyle = "rgb(" + BG.r + "," + BG.g + "," + BG.b + ")";
-    ambientCtx.fillRect(
-      -AMBIENT_MARGIN,
-      -AMBIENT_MARGIN,
-      aw,
-      ah,
-    );
-
-    drawOrbs(ambientCtx, AMBIENT_TIME);
-    drawWaves(ambientCtx, AMBIENT_TIME);
-    ambientReady = true;
-  }
-
   function render(advance, welcomeProgress) {
     var ambientAlpha =
       welcomeProgress >= 0
@@ -463,25 +354,7 @@
 
     if (advance) updateParallax();
 
-    if (ambientReady) {
-      // Slow sinusoidal drift plus pointer parallax. Blitting a pre-rendered
-      // layer costs one drawImage instead of eight gradient/path fills.
-      var driftX = Math.sin(time * 0.00012) * 14 + pointerX * 10;
-      var driftY = Math.cos(time * 0.00009) * 10 + pointerY * 7;
-      ctx.globalAlpha = ambientAlpha;
-      ctx.drawImage(
-        ambientCanvas,
-        -AMBIENT_MARGIN + driftX,
-        -AMBIENT_MARGIN + driftY,
-        w + AMBIENT_MARGIN * 2,
-        h + AMBIENT_MARGIN * 2,
-      );
-      ctx.globalAlpha = 1;
-    } else {
-      ctx.fillStyle = "rgb(" + BG.r + "," + BG.g + "," + BG.b + ")";
-      ctx.fillRect(0, 0, w, h);
-    }
-
+    drawColorField(ambientAlpha);
     drawParticles(advance, ambientAlpha, welcomeProgress);
   }
 
