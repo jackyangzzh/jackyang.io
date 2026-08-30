@@ -212,6 +212,7 @@
         baseAlpha: 0.16 + Math.random() * 0.34,
         twinkleSpd: 0.011 + Math.random() * 0.019,
         twinklePh: Math.random() * Math.PI * 2,
+        sparkle: Math.random() < (isCover ? 0.18 : 0.08),
       });
     }
   }
@@ -267,19 +268,23 @@
     // which plain alpha and `lighter` both fail to do at these counts.
     ctx.globalCompositeOperation = "screen";
     var reach = Math.max(w, h);
+    var colorTime = time * (isCover ? 1.65 : 1);
 
     for (var i = 0; i < blobs.length; i++) {
       var blob = blobs[i];
       var radius =
-        reach * blob.radius * (1 + 0.05 * Math.sin(time * 0.0008 + i * 1.5));
+        reach *
+        blob.radius *
+        (1 + 0.05 * Math.sin(colorTime * 0.0018 + i * 1.5));
       var cx =
-        w * (0.5 + blob.xAmp * Math.sin(time * blob.xSpd + blob.xPh)) +
+        w * (0.5 + blob.xAmp * Math.sin(colorTime * blob.xSpd + blob.xPh)) +
         pointerX * blob.depth * 18;
       var cy =
-        h * (0.5 + blob.yAmp * Math.cos(time * blob.ySpd + blob.yPh)) +
+        h * (0.5 + blob.yAmp * Math.cos(colorTime * blob.ySpd + blob.yPh)) +
         pointerY * blob.depth * 14;
+      var glow = 0.92 + 0.08 * Math.sin(colorTime * 0.0026 + i * 1.2);
 
-      ctx.globalAlpha = blob.alpha * fieldAlpha;
+      ctx.globalAlpha = blob.alpha * fieldAlpha * glow;
       ctx.drawImage(
         blob.sprite,
         cx - radius,
@@ -298,6 +303,7 @@
     var particle;
     var alpha;
     var twinkle;
+    var blink;
     var sweep;
 
     if (advance) {
@@ -315,9 +321,12 @@
 
     for (i = 0; i < particles.length; i++) {
       particle = particles[i];
-      twinkle =
-        0.55 +
-        0.45 * Math.sin(time * particle.twinkleSpd + particle.twinklePh);
+      blink =
+        0.5 +
+        0.5 * Math.sin(time * particle.twinkleSpd + particle.twinklePh);
+      twinkle = particle.sparkle
+        ? 0.28 + 0.72 * Math.pow(blink, 5)
+        : 0.48 + 0.52 * blink;
       sweep = sweepAt(particle.x, welcomeProgress);
       alpha = clamp(
         particle.baseAlpha *
@@ -343,6 +352,27 @@
       ctx.arc(px, py, nodeRadius, 0, Math.PI * 2);
       ctx.fillStyle = "rgba(250,240,235," + alpha + ")";
       ctx.fill();
+
+      // A few stars flare into crisp four-point glints. The high power on the
+      // sine wave keeps each blink brief and gives the field an irregular,
+      // firefly-like rhythm instead of making every point pulse together.
+      if (particle.sparkle) {
+        var flare = Math.pow(blink, 9);
+        if (flare > 0.025) {
+          var flareRadius = nodeRadius * (2.2 + flare * 4.2);
+          ctx.beginPath();
+          ctx.moveTo(px - flareRadius, py);
+          ctx.lineTo(px + flareRadius, py);
+          ctx.moveTo(px, py - flareRadius);
+          ctx.lineTo(px, py + flareRadius);
+          ctx.lineWidth = 0.45 + flare * 0.55;
+          ctx.strokeStyle =
+            "rgba(255,246,238," +
+            clamp(alpha * flare * 1.55, 0, 0.9) +
+            ")";
+          ctx.stroke();
+        }
+      }
     }
   }
 
