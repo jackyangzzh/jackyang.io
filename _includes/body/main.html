@@ -2,6 +2,7 @@
   id="_main"
   class="content layout-{{ page.layout }}"
   role="main"
+  tabindex="-1"
 >
   {% unless site.hydejack.no_breadcrumbs %}{% include body/breadcrumbs.html url=page.url %}{% endunless %}
   {{ content }}

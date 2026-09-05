@@ -10,25 +10,29 @@ layout: default
 {% endif %}
 
 {% if site.data.medium_posts and site.data.medium_posts.size > 0 %}
+<div class="writing-toolbar">
+  <p>Latest on Medium <span aria-hidden="true">↗</span></p>
+  <a href="https://medium.com/feed/@jackyangzzh" class="no-mark-external">Subscribe via RSS <span aria-hidden="true">→</span></a>
+</div>
 <ul class="posts-grid" aria-label="Articles from Medium">
   {% for post in site.data.medium_posts %}
   <li class="post-card">
     {% if post.thumbnail %}
-    <div class="post-card__thumb">
-      <img src="{{ post.thumbnail }}" alt="Cover image for “{{ post.title | strip_html | escape }}”" loading="lazy" decoding="async" />
-    </div>
+    <a class="post-card__thumb no-hover no-mark-external" href="{{ post.url }}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+      <img src="{{ post.thumbnail }}" alt="" width="640" height="360" loading="lazy" decoding="async" />
+    </a>
     {% endif %}
     <div class="post-card__body">
       <p class="post-card__meta">
         <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
       </p>
-      <h3 class="post-card__title">
-        <a href="{{ post.url }}" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">{{ post.title }}</a>
-      </h3>
+      <h2 class="post-card__title">
+        <a href="{{ post.url }}" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">{{ post.title }}<span class="sr-only"> (opens on Medium in a new tab)</span></a>
+      </h2>
       <p class="post-card__excerpt fine">
         {{ post.description | markdownify | strip_html | truncatewords: 30 }}
       </p>
-      <p class="post-card__cta"><a class="no-mark-external" href="{{ post.url }}" target="_blank" rel="noopener noreferrer">Read on Medium</a></p>
+      <p class="post-card__cta" aria-hidden="true"><a class="no-mark-external" href="{{ post.url }}" target="_blank" rel="noopener noreferrer" tabindex="-1">Read on Medium <span>↗</span></a></p>
     </div>
   </li>
   {% endfor %}

@@ -15,6 +15,7 @@ default:false %}
 <ul
   class="project-filters"
   aria-label="Filter projects by category"
+  hidden
 >
   <li>
     <button
@@ -24,7 +25,7 @@ default:false %}
       aria-pressed="true"
       aria-controls="project-list"
     >
-      <span>All</span>
+      <span>All</span><span class="filter-count" aria-hidden="true">{{ ordered_projects.size }}</span>
     </button>
   </li>
   <li>
@@ -35,7 +36,7 @@ default:false %}
       aria-pressed="false"
       aria-controls="project-list"
     >
-      <span>Professional</span>
+      <span>Professional</span><span class="filter-count" aria-hidden="true">{{ ordered_projects | where:'category','professional' | size }}</span>
     </button>
   </li>
   <li>
@@ -46,7 +47,7 @@ default:false %}
       aria-pressed="false"
       aria-controls="project-list"
     >
-      <span>Personal</span>
+      <span>Personal</span><span class="filter-count" aria-hidden="true">{{ ordered_projects | where:'category','personal' | size }}</span>
     </button>
   </li>
   <li>
@@ -57,10 +58,12 @@ default:false %}
       aria-pressed="false"
       aria-controls="project-list"
     >
-      <span>Research</span>
+      <span>Research</span><span class="filter-count" aria-hidden="true">{{ ordered_projects | where:'category','research' | size }}</span>
     </button>
   </li>
 </ul>
+
+<p class="project-results" role="status" aria-live="polite" aria-atomic="true">Showing all {{ ordered_projects.size }} projects</p>
 
 <div class="project-list" id="project-list">
   {% assign prev_date = 0 %} {% if page.no_groups %}
@@ -91,25 +94,5 @@ default:false %}
   </div>
   {% endif %} {% endfor %}
 </div>
+{% comment %}Filtering is initialized by site-polish.js on page load and client-side navigation.{% endcomment %}
 
-<script>
-  (function () {
-    var buttons = document.querySelectorAll(".project-filter-btn");
-    var items = document.querySelectorAll(".project-list .project-column");
-    buttons.forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var filter = btn.getAttribute("data-filter");
-        buttons.forEach(function (b) {
-          var active = b === btn;
-          b.classList.toggle("is-active", active);
-          b.setAttribute("aria-pressed", active ? "true" : "false");
-        });
-        items.forEach(function (item) {
-          var match =
-            filter === "all" || item.getAttribute("data-category") === filter;
-          item.classList.toggle("project-hidden", !match);
-        });
-      });
-    });
-  })();
-</script>

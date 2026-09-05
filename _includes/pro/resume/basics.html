@@ -78,7 +78,8 @@
     </dt>
     <dd class="bold">
       <meta property="email" content="{{ basics.email }}"/>
-      <a href="mailto:{{ basics.email }}" class="external no-print-link email u-email">{{ basics.email }}</a>
+      <a href="mailto:{{ basics.email }}" class="external no-print-link no-mark-external email u-email">{{ basics.email }}</a>
+      <button type="button" class="copy-email screen-only" data-copy-email="{{ basics.email | escape }}" aria-label="Copy email address" hidden>Copy</button>
     </dd>
   {% endif %}
 

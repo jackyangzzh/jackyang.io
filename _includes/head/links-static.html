@@ -23,7 +23,8 @@
 
 <link rel="preload" href="{{ '/assets/img/swipe.svg' | relative_url }}" as="image" id="_hrefSwipeSVG">
 
-<link rel="dns-prefetch" href="{{ '/assets/js/search-worker-9.1.6.js' | relative_url }}" as="worker" id="_hrefSearch">
+{% comment %}The search module requires this element as its feature flag; keep its URL aligned with the bundled worker.{% endcomment %}
+<link rel="dns-prefetch" href="{{ '/assets/js/0-hydejack-9.1.6.worker.js' | relative_url }}" as="worker" id="_hrefSearch">
 {% if site.kramdown.math_engine == 'katex' %}
   {% capture katex_url %}{{ 'assets/bower_components/katex/dist/katex.min.css' | relative_url }}{% endcapture %}
   <link rel="dns-prefetch" href="{{ katex_url }}" id="_katexPreload">

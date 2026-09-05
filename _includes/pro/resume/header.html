@@ -1,19 +1,22 @@
-<header>
-  <h1 class="page-title fn p-name" property="name">{{ basics.name }}</h1>
-
+<header class="resume-hero">
+  <div class="resume-hero-copy">
+    <p class="resume-eyebrow">Software engineer{% if basics.location.city %}<span aria-hidden="true"> / </span>{{ basics.location.city }}{% endif %}</p>
+    <h1 class="page-title fn p-name" property="name">{{ basics.name }}</h1>
+    {% if basics.label %}
+      <p class="resume-headline title p-job-title" property="jobTitle">{{ basics.label }}</p>
+    {% endif %}
+  </div>
   {% if basics.picture.size > 0 %}
     <img src="{{ basics.picture | relative_url }}" class="avatar photo u-photo" alt="{{ basics.name }}" property="image" width="120" height="120" loading="eager" decoding="async" />
   {% endif %}
-
-  {% if basics.label %}
-    <p class="h3 faded subline title p-job-title" property="jobTitle">{{ basics.label }}</p>
-  {% endif %}
-
-  {% include components/message.html text=page.description hide=page.hide_description %}
 </header>
 
+{% include pro/resume/buttons.html %}
+{% include components/message.html text=page.description hide=page.hide_description %}
+
 {% if basics.summary.size > 0 %}
-  <p class="note p-note" property="description">
-    {{ basics.summary | markdownify | replace:'<p>','' | replace:'</p>','' }}
-  </p>
+  <div class="resume-intro p-note" property="description">
+    {% assign summary_paragraphs = basics.summary | split:'<br><br>' %}
+    {% for paragraph in summary_paragraphs %}{{ paragraph | markdownify }}{% endfor %}
+  </div>
 {% endif %}

@@ -3,8 +3,9 @@ layout: project
 weight: 1
 title: 'Microsoft Mesh & Avatars for Teams'
 description: >
-  Helped build the UI, avatar editor, and real-time embodiment systems for Microsoft Mesh and Avatars in Teams, used by millions of people.
-date: '01-01-2023'
+  My work on the shared UI, avatar editor, and rendering systems behind Microsoft Mesh and Avatars in Teams.
+date: '2022-06-01'
+end_date: '2024-09-01'
 category: professional
 image:
   path: /assets/img/projects/mesh-avatars.webp
@@ -16,28 +17,28 @@ links:
     url: https://support.microsoft.com/en-us/office/customize-your-avatar-in-microsoft-teams-be6a9703-f03d-4eb5-9908-995fdc5c91a8
 
 ---
-I worked on Microsoft Mesh and Avatars for Teams from June 2022 to September 2024. Because we wanted users to have a consistent identity, a person could use the exact same avatar in a regular Teams meeting, a desktop immersive event, or VR. I primarily focused on the UI, the avatar editor, and the rendering systems that maintained that consistency across so many different devices.
+I worked on Microsoft Mesh and Avatars for Teams from June 2022 to September 2024. My focus was the shared UI, avatar editor, and rendering systems. The goal was to let someone use the same avatar in a Teams meeting, a desktop immersive event, or VR without it feeling like a different character each time.
 
 {% include pro/project-video.html id="fSKBHOWOcSM" title="Microsoft Mesh" %}
 {% include pro/project-video.html id="Pk5BVxlKL5w" title="Avatars in Microsoft Teams" %}
 
-## The challenge
+## One avatar, several runtimes
 
-While video meetings clearly work, a grid of faces inevitably loses body language and any real feeling of being in a shared space. Even though we wanted to bring that sense of presence back into calls, the system still had to run reliably on ordinary laptops because of the steep performance expectations Teams customers have. 
+We wanted to bring more body language and a sense of shared space into meetings. That still had to work on an ordinary laptop, not just a dedicated headset.
 
-I initially assumed the hardest part would be the immersive 3D events themselves. However, I found that making the same avatar look and move consistently in a tiny laptop meeting tile, a crowded desktop event, and a high-framerate Quest session was far more demanding. Those runtimes have wildly different performance budgets and input models.
+A small meeting tile, a crowded desktop event, and a Quest session have very different performance budgets and input models. Getting the same avatar to look and move consistently across them was harder than any single 3D scene.
 
-## My specific contributions
+## What I worked on
 
 ### Cross-platform UI (UXTools)
-Because we could not afford to rebuild interaction patterns for every single endpoint, I contributed heavily to the shared UI toolkit used across Teams desktop, web-hosted surfaces, and immersive VR clients. I designed component primitives to handle both 2D pointer input and 3D hand controller input seamlessly, meaning other Mesh surfaces could easily reuse our theming, accessibility, focus, and input routing patterns.
+I contributed to the shared UI toolkit used across desktop, web-hosted surfaces, and VR clients. I designed components for both 2D pointer input and 3D hand and controller input, so other teams could reuse our theming, accessibility, focus, and input-routing patterns rather than rebuild them.
 
 ### Avatar customization
-I built the main avatar editor for bodies, faces, hair, outfits, and accessories. Even though it is tempting to expose every technical slider, I worked closely with design and art teams to ensure the editor was clear for first-time users without stripping away the options people genuinely needed to represent themselves. I spent significant time tuning loading logic and asset swaps so that changes appeared instantly in the live preview without blowing past the memory limits on lower-end hardware.
+I built the main editor for bodies, faces, hair, outfits, and accessories, working with design and art teams. We needed enough choice for people to represent themselves without making the first visit overwhelming. I also tuned loading and asset swaps to keep the live preview responsive within the memory limits of lower-end hardware.
 
-### The avatar stack and delivery
-I also worked deep in the stack to define how the system actually describes an avatar, assembles its modular assets, updates its animations, and synchronizes its state across completely different clients. Since these avatars run inside Teams meetings, I extensively profiled CPU and GPU frametimes across HoloLens, Quest, web, and desktop. Using LOD switching and aggressive GPU instancing, I helped maintain smooth framerates even on highly constrained devices. 
+### Rendering and delivery
+My work also covered avatar definitions, modular asset assembly, animation updates, and state synchronization between clients. I profiled CPU and GPU frame times across HoloLens, Quest, web, and desktop, then used level-of-detail switching and GPU instancing to stay within their different frame budgets.
 
-## The takeaway
+## What stayed with me
 
-Working on Mesh fundamentally changed my engineering priorities. I went in caring about graphics, but I came out realizing that the parts users rarely notice until they break, such as input routing, asset budgets, localization, and accessibility, are the actual product. Because small costs add up incredibly fast in crowded events, the core challenge was always optimization rather than feature sprawl. Personally, I still carry that intense focus on cross-device consistency and performance into the AI systems I build today.
+I came to Mesh interested in graphics. I left with much more respect for the things people only notice when they break: input routing, asset budgets, localization, and accessibility. In a crowded event, small costs add up. That attention to reliability still shapes the AI systems I work on today.

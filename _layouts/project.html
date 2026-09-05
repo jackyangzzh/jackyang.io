@@ -32,6 +32,7 @@ layout: base
 
 <article id="project" class="page mb6 project-page" role="article" {% unless nsd %}vocab="http://schema.org/" typeof="CreativeWork"
   resource="#project" {% endunless %}>
+  <a class="project-back" href="{{ '/projects/' | relative_url }}"><span aria-hidden="true">←</span> All projects</a>
   <header class="project-header">
     <div class="project-header-copy">
       {% if major >= 4 and minor >= 1 %}

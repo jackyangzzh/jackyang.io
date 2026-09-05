@@ -43,7 +43,7 @@
   {% if image_base %}
   <meta property="image" content="{% include_cached smart-url url=image_base %}" />{% endif %}
 
-  <a href="{{ project.url | relative_url }}" class="no-hover no-print-link project-transition">
+  <a href="{{ project.url | relative_url }}" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">
     <div class="project-card-img aspect-ratio sixteen-nine flip-project-img {% unless screenshot %}fallback-img{% endunless %}">
       {% if screenshot %}
       {% include_cached components/hy-img.html img=screenshot alt=image_alt sizes=sizes width=864 height=486 %}
@@ -59,22 +59,21 @@
       {% if project.date %}
       {% if project.category %}<span class="project-card-meta-separator">{{ site.data.strings.separator | default:'|' }}</span>{% endif %}
       <time datetime="{{ project.date | date_to_xmlschema }}">{{ project.date | date:proj_format }}</time>
+      {% if project.end_date and project.end_date.size > 0 %}
+      – <time datetime="{{ project.end_date | date_to_xmlschema }}">{{ project.end_date | date:proj_format }}</time>
       {% endif %}
-      {% if project.links and project.links.size > 0 %}
-      {% if project.date or project.category %}<span class="project-card-meta-separator">{{ site.data.strings.separator | default:'|' }}</span>{% endif %}
-      <span>{{ project.links.size }} {% if project.links.size == 1 %}link{% else %}links{% endif %}</span>
       {% endif %}
     </p>
     {% endif %}
-    <h3 class="project-card-title">
+    <h2 class="project-card-title">
       <a href="{{ project.url | relative_url }}" class="project-transition" property="mainEntityOfPage">{{ project.title }}</a>
-    </h3>
+    </h2>
     {% if project.description or project.tagline or project.caption %}
     {% capture card_description %}{{ project.tagline | default:project.caption | default:project.description | markdownify | strip_html | strip }}{% endcapture %}
     <p class="project-card-text fine" property="disambiguatingDescription">
       {{ card_description }}
     </p>
     {% endif %}
-    <p class="project-card-cta"><a href="{{ project.url | relative_url }}" class="project-transition">View project</a></p>
+    <p class="project-card-cta" aria-hidden="true"><a href="{{ project.url | relative_url }}" class="project-transition" tabindex="-1">View project</a></p>
   </div>
 </article>

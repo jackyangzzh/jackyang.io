@@ -136,16 +136,16 @@ hy-drawer.cover:not(.loaded) {
   --accent-strong-hover: #6f48b0;
   --accent-strong-contrast: #fff;
   --card-shadow:
-    0 .125rem .35rem rgba(0, 0, 0, .08),
-    0 .75rem 1.75rem rgba(0, 0, 0, .08);
+    0 .125rem .25rem rgba(32, 20, 48, .025),
+    0 .5rem 1.25rem rgba(32, 20, 48, .045);
   --card-shadow-hover:
-    0 .25rem .6rem rgba(0, 0, 0, .1),
-    0 1rem 2.25rem rgba(0, 0, 0, .12);
+    0 .25rem .5rem rgba(32, 20, 48, .04),
+    0 .8rem 1.75rem rgba(32, 20, 48, .08);
 }
 
 @mixin accent-strong-dark() {
-  --accent-strong: #aa82e6;          // 4.7:1 on the dark-mode background
-  --accent-strong-hover: #bfa0ee;
+  --accent-strong: #b99aec;          // AA contrast on both dark page and raised surfaces
+  --accent-strong-hover: #cbb3f2;
   --accent-strong-contrast: var(--dark-mode-body-bg);
   --card-shadow:
     0 .125rem .35rem rgba(0, 0, 0, .24),
@@ -160,11 +160,11 @@ hy-drawer.cover:not(.loaded) {
   --accent-strong-hover: #6f48b0;
   --accent-strong-contrast: #fff;
   --card-shadow:
-    0 .125rem .35rem rgba(0, 0, 0, .08),
-    0 .75rem 1.75rem rgba(0, 0, 0, .08);
+    0 .125rem .25rem rgba(32, 20, 48, .025),
+    0 .5rem 1.25rem rgba(32, 20, 48, .045);
   --card-shadow-hover:
-    0 .25rem .6rem rgba(0, 0, 0, .1),
-    0 1rem 2.25rem rgba(0, 0, 0, .12);
+    0 .25rem .5rem rgba(32, 20, 48, .04),
+    0 .8rem 1.75rem rgba(32, 20, 48, .08);
 }
 
 @media screen and (prefers-color-scheme: dark) {

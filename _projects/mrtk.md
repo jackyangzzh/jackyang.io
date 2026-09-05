@@ -3,7 +3,7 @@ layout: project
 weight: 5
 title: 'MRTK for Unity'
 description: >
-  Contributed Leap Motion support and an orientation example to Microsoft's Mixed Reality Toolkit 2.7.
+  Leap Motion integration work and a merged orientation example for Microsoft's Mixed Reality Toolkit 2.7.
 date: '01-01-2021'
 category: personal
 image: 
@@ -18,28 +18,24 @@ links:
     url: https://github.com/microsoft/MixedRealityToolkit-Unity
 
 ---
-MRTK is Microsoft's open-source Unity toolkit for XR. Because it gives developers common APIs for input, interaction, UI, and spatial behavior across completely different headsets, it has become a foundational layer for many spatial computing projects.
+I contributed to the Leap Motion integration in MRTK 2.7, Microsoft's open-source Unity toolkit for XR. The work included a merged example scene showing how hand tracking behaves in different orientation modes.
 
 {% include pro/project-video.html id="-E4QYB3zIm0" title="MRTK for Unity" %}
 
 ## My contribution in MRTK 2.7
 
-When I started contributing, I assumed the hardest part would be writing the core integration code itself. However, I quickly realized that building a useful example scene and maintaining regression stability were actually far more complex aspects of open-source toolkit work. 
+My primary public contribution is [PR #9726](https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726). Orientation settings can be hard to understand from a configuration panel. The scene lets developers see how MRTK interprets a tracked hand in each supported mode.
 
-My primary public contribution is [PR #9726](https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726), which adds an example scene that demonstrates Leap Motion orientation modes. Because settings like orientation can be highly abstract, I wanted to provide a tangible scene that explicitly shows how MRTK interprets a tracked hand under every possible orientation configuration. 
+I removed hard dependencies so the scene could load before the Leap Motion Unity module was installed. Maintainer reviews also helped keep the example consistent with the rest of MRTK. It needed to explain the feature without asking developers to learn another setup process.
 
-While building this scene, I intentionally removed any hard dependencies so the display could load correctly even before the Leap Motion Unity module was installed. I also went through multiple maintainer review cycles to ensure the sample stayed rigorously consistent with existing MRTK patterns, since I did not want developers to have to learn a totally separate setup path just for this one feature.
+## Integration work
 
-## Additional engineering
-
-Beyond the example scene, I pushed several changes to the surrounding Leap Motion integration to ensure release quality:
+Beyond the example scene, I worked on the surrounding integration:
 
 - Profiled input system hotspots and shifted allocation-heavy workloads into C# Jobs.
-- Added strict tests around hand-joint data and interactable states because I wanted to aggressively reduce potential regressions.
-- Wrote migration notes and provided samples for external teams adopting these new changes.
+- Added tests for hand-joint data and interactable states.
+- Wrote migration notes and samples for teams adopting the changes.
 
-## Open-source constraints
+## Working in someone else's project
 
-Contributing to MRTK fundamentally changed my perspective on shipping code. While in a standalone app you simply write code to solve your own problem, toolkit code absolutely has to work in wildly unpredictable external environments. Even though a change worked perfectly in my sample, it could still easily break another team's project, meaning compatibility and regression risk constantly shaped the final implementation.
-
-In brief, this work made the less visible parts of an open-source release painfully concrete for me. A useful example was just one tiny piece of the overall contribution. Ultimately, optional packages, strict testing, and maintainer reviews had just as much influence on the final shipped code as the feature itself.
+A sample working on my machine wasn't enough. It had to coexist with optional packages, different project setups, and code I hadn't seen. Compatibility checks, tests, and maintainer feedback shaped the contribution as much as the feature did.

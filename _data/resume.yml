@@ -3,14 +3,14 @@
 # See also: <https://jsonresume.org/>.
 basics:
   name: "Jack Yang"
-  label: "Building real-time AI agents and multimodal systems"
+  label: "AI agents for live conversations"
   picture: "./assets/img/profile.webp"
   email: "jackyangzzh@gmail.com"
   phone: ""
   website: ""
   summary: >
-    I build systems that have to hold up inside a live conversation. At Microsoft Teams AI I work on Facilitator, an agent that joins real multi-person meetings, which means it has to judge when to speak and when to stay out of the way. <br><br>
-    I double-majored in Computer Science and Communication at UW–Madison, built XR products at Holos, then worked on cross-platform UI, avatar customization, rendering, and performance for Microsoft Mesh. I am also part-way through an M.S. in Computer Science at Georgia Tech, specializing in human-computer interaction. In brief, it is all the same question I first ran into building VR interview coaches in 2020: how does a computer take part in a conversation without taking it over?
+    I build systems that have to hold up inside a live conversation. At Microsoft Teams AI, I work on Facilitator: a meeting agent that needs to know when to contribute and when to stay out of the way. <br><br>
+    Before that, I built training tools at Holos and worked on avatars, UI, and rendering for Microsoft Mesh. The thread goes back to a VR interview coach I built in 2020. I'm still interested in the same question: how can a computer join a conversation without taking it over?
   location:
     city: "Seattle"
     countryCode: "US"
@@ -31,15 +31,15 @@ work:
     startDate: "2024-09-01"
     endDate: ""
     highlights:
-      - Build Facilitator, Microsoft's conversational AI agent for live, multi-party Teams meetings. It produces real-time notes, tracks agendas and decisions, and answers questions during the conversation for Microsoft 365 Copilot customers.
-      - Contribute across Facilitator's core agent systems, including conversation orchestration, observability, tool calling, context management, and multimodal LLM work.
+      - Build Facilitator, a meeting agent for Microsoft 365 Copilot that takes live notes, tracks agendas and decisions, and answers questions in Teams.
+      - Contribute to conversation orchestration, tool calling, context management, observability, and multimodal LLM features.
   - company: "Microsoft"
     position: "Software Engineer II, Mixed Reality (Mesh)"
     website: "https://www.microsoft.com/en-us/microsoft-teams/microsoft-mesh"
     startDate: "2022-06-01"
     endDate: "2024-09-01"
     highlights:
-      - Engineered the shared UI framework used by Microsoft Mesh and Avatars in Teams for millions of users. Built reusable interaction patterns, input abstractions, accessibility support, and spatial UI components used across Mesh product teams.
+      - Built reusable UI components, input handling, and accessibility support for the shared framework behind Microsoft Mesh and Avatars in Teams, products used by millions of people.
       - Owned the avatar rendering and performance pipeline across HoloLens, Quest, web, and desktop. Profiled CPU and GPU frame budgets, then used LOD switching and GPU instancing to maintain target framerates on constrained hardware.
       - Shipped avatar customization and character-building systems backed by data-driven content pipelines. Supported weekly releases and localization in more than 20 languages.
 
@@ -51,7 +51,7 @@ work:
     highlights:
       - Built AR and VR training features for gesture recognition, hand tracking, and in-context guidance.
       - Implemented multiplayer networking, 3D model ingestion, and physics-based interactions.
-      - Worked with leadership on the product and technical work that helped secure a $750K U.S. Air Force contract and a place in the Techstars accelerator.
+      - Worked with leadership on the product and engineering work that helped Holos secure a $750K U.S. Air Force contract and a place in Techstars.
 research:
   - company: "Kats Research Group"
     position: "XR Researcher (part-time)"

@@ -1,10 +1,10 @@
 ---
 layout: resume
-cover: true
+cover: false
 title: "Software Engineer, AI Agents & Multimodal Systems"
 description: >
-  Jack Yang builds real-time human-AI systems at Microsoft Teams AI, where he
-  works on Facilitator. Before that, avatars and XR for Microsoft Mesh.
+  Jack Yang is a software engineer at Microsoft Teams AI, working on Facilitator.
+  Previously, he built avatar and XR systems for Microsoft Mesh.
 redirect_from:
   - /about/
 hide_description: true
@@ -19,6 +19,7 @@ right_column:
 no_language_icons: false
 no_skill_icons: false
 buttons:
+  projects: /projects/
   # print: true
   email: mailto:jackyangzzh@gmail.com
   pdf: /assets/Yang_Resume.pdf
