@@ -23,8 +23,8 @@
 <meta property="og:title" content="Robot Control Through VR" />
 <meta name="author" content="Jack Yang" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="Built a VR teleoperation and motion replay system for a robotic arm using Unity, ROS, hand tracking, and inverse kinematics." />
-<meta property="og:description" content="Built a VR teleoperation and motion replay system for a robotic arm using Unity, ROS, hand tracking, and inverse kinematics." />
+<meta name="description" content="A research prototype for controlling a robotic arm with hand movements in VR, plus a replay tool for recorded lab experiments." />
+<meta property="og:description" content="A research prototype for controlling a robotic arm with hand movements in VR, plus a replay tool for recorded lab experiments." />
 <link rel="canonical" href="https://jackyang.io/projects/robot-control/" />
 <meta property="og:url" content="https://jackyang.io/projects/robot-control/" />
 <meta property="og:site_name" content="Jack Yang" />
@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="VR simulation of an industrial robotic arm moving objects between worktables" />
 <meta property="twitter:title" content="Robot Control Through VR" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-30T21:06:24+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"Built a VR teleoperation and motion replay system for a robotic arm using Unity, ROS, hand tracking, and inverse kinematics.","headline":"Robot Control Through VR","image":{"alt":"VR simulation of an industrial robotic arm moving objects between worktables","url":"https://jackyang.io/assets/img/projects/mimicry.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/robot-control/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-05T13:02:56+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"A research prototype for controlling a robotic arm with hand movements in VR, plus a replay tool for recorded lab experiments.","headline":"Robot Control Through VR","image":{"alt":"VR simulation of an industrial robotic arm moving objects between worktables","url":"https://jackyang.io/assets/img/projects/mimicry.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/robot-control/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -89,7 +89,8 @@
 
 <link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
 
-<link rel="dns-prefetch" href="/assets/js/search-worker-9.1.6.js" as="worker" id="_hrefSearch">
+
+<link rel="dns-prefetch" href="/assets/js/0-hydejack-9.1.6.worker.js" as="worker" id="_hrefSearch">
 
 
 
@@ -110,7 +111,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-08-30T21:07:10+00:00',
+    INDEX_KEY: 'index--2026-09-05T13:03:39+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -124,8 +125,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1788124030" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1788124030" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1788613419" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1788613419" id="_iconsPreload">
 
 
 
@@ -182,7 +183,8 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 >
   
   
-  <div id="_navbar" class="navbar fixed-top">
+  <a class="skip-link no-push-state no-mark-external" href="#_main">Skip to content</a>
+<div id="_navbar" class="navbar fixed-top">
   <div class="content">
     <span class="sr-only">Jump to:</span>
     <div class="nav-btn-bar">
@@ -190,7 +192,24 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
         <span class="sr-only">Navigation</span>
         <span class="icon-menu"></span>
       </a>
-      <div class="nav-span"></div>
+      <nav class="nav-span quick-nav" aria-label="Page navigation">
+        
+        
+        <a href="/" class="quick-nav-link"
+          
+          >About</a>
+        
+        
+        <a href="/projects/" class="quick-nav-link"
+          aria-current="location"
+          >Projects</a>
+        
+        
+        <a href="/writing/" class="quick-nav-link"
+          
+          >Writing</a>
+        
+      </nav>
     </div>
   </div>
 </div>
@@ -200,6 +219,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   id="_main"
   class="content layout-project"
   role="main"
+  tabindex="-1"
 >
   <nav id="breadcrumbs" class="screen-only"><ul>
   
@@ -245,6 +265,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <article id="project" class="page mb6 project-page" role="article" vocab="http://schema.org/" typeof="CreativeWork"
   resource="#project" >
+  <a class="project-back" href="/projects/"><span aria-hidden="true">←</span> All projects</a>
   <header class="project-header">
     <div class="project-header-copy">
       
@@ -264,7 +285,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
       
       
-      <p class="project-summary" property="description">Built a VR teleoperation and motion replay system for a robotic arm using Unity, ROS, hand tracking, and inverse kinematics.</p>
+      <p class="project-summary" property="description">A research prototype for controlling a robotic arm with hand movements in VR, plus a replay tool for recorded lab experiments.</p>
       
       
 
@@ -311,19 +332,17 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   </header>
 
   <div class="project-body">
-    <p>This project tested two different ways to interact with an industrial robotic arm in VR. The first mapped hand and arm movements directly to the robot in real time. The second replayed recorded experiment data visually for times when the physical lab was unavailable.</p>
+    <p>I built the VR side of a robotic-arm research project: first a live control interface, then a tool for replaying recorded experiments. The work covered the Unity app, a ROS bridge, and inverse kinematics.</p>
 
-<h2 id="the-problem">The problem</h2>
+<h2 id="making-the-robots-movement-easier-to-read">Making the robot’s movement easier to read</h2>
 
-<p>While traditional robot control tools are incredibly precise, I always found them exceptionally difficult to learn. Even though you are manipulating a physical object in 3D space, you usually control it through abstract interfaces.</p>
+<p>A robot operates in 3D space, but its controls can feel abstract. I wanted to explore whether moving your own hand in VR could make the arm’s motion easier to understand.</p>
 
-<p>I hypothesized that directly moving your own hand in VR might make the robot’s kinematics vastly easier to intuit. However, I knew I could not just sacrifice the strict safety constraints required for real-world hardware. When COVID-19 abruptly closed the physical lab, I also had to pivot quickly to figure out how researchers could still review experiments without direct access.</p>
+<p>The robot couldn’t simply copy a human hand. It had joint limits, collision risks, and movement constraints that the interface needed to make visible.</p>
 
-<h2 id="what-i-built">What I built</h2>
+<h2 id="live-teleoperation">Live teleoperation</h2>
 
-<p>I implemented the entire VR stack, which included building the core Unity application, writing the ROS bridge for network communication, and managing the inverse kinematics pipeline.</p>
-
-<p>For the live teleoperation, a user simply drove the robot by moving their hand. I built a lightweight network bridge that passed ROS data between Unity and the physical robot with low enough latency to actually support deliberate manipulation.</p>
+<p>The live interface mapped hand movements to the arm through a lightweight ROS bridge between Unity and the physical robot. I worked on keeping communication responsive enough for deliberate manipulation, while checking commands against the robot’s constraints.</p>
 
 <figure class="project-video">
     <div class="project-video-frame">
@@ -332,16 +351,19 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
 </figure>
 
-<p>Because I suspected users would blindly expect the hardware to match their hand motions perfectly, I built custom safety logic.</p>
+<p>The prototype included:</p>
+
 <ul>
-  <li>A custom inverse kinematics solver combines Leap Motion hand poses with the robot’s joint limits specifically to avoid mechanical singularities.</li>
-  <li>Safety interlocks heavily monitor joint velocity, collision volumes, and operator intent before any command ever leaves the VR client.</li>
-  <li>Visual overlays actively render the reachable space and predict joint poses so the user can literally see what the robot intends to do before committing to a motion.</li>
+  <li>A custom inverse kinematics solver combining Leap Motion hand poses with joint limits and checks for mechanical singularities.</li>
+  <li>Safety interlocks checking joint velocity, collision volumes, and operator intent before commands left the VR client.</li>
+  <li>Overlays showing reachable space and predicted joint poses, so the operator could see the proposed movement before committing to it.</li>
 </ul>
 
-<h2 id="the-covid-19-pivot">The COVID-19 pivot</h2>
+<h2 id="when-the-lab-closed">When the lab closed</h2>
 
-<p>When lab access disappeared, I temporarily shelved the live controls and built a motion replay pipeline instead. By simply reading timestamped joint angles from over 15 existing experiment datasets, the system successfully generated exact Unity animation clips of the recorded motion.</p>
+<p>When COVID-19 closed the lab, I shifted from live control to replay. Researchers still needed to inspect earlier experiments without access to the physical arm.</p>
+
+<p>I built a pipeline that read timestamped joint angles from more than 15 experiment datasets and turned them into Unity animation clips. It let us reconstruct the recorded motion without a video stream or the original hardware.</p>
 
 <figure class="project-video">
     <div class="project-video-frame">
@@ -350,13 +372,11 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
 </figure>
 
-<h2 id="reflection">Reflection</h2>
+<h2 id="making-constraints-part-of-the-interface">Making constraints part of the interface</h2>
 
-<p>I began this project assuming that a one-to-one hand mapping would just intuitively work. However, I was entirely wrong. Because a robot cannot safely copy human motion blindly, predicted poses and visible constraints had to become a fundamental part of the interface so the user could immediately understand why the robot rejected or altered their movement.</p>
+<p>One-to-one hand mapping wasn’t enough. If the robot rejected or changed a movement, the operator needed to understand why. Predicted poses and visible limits were part of the control interface, not optional debugging tools.</p>
 
-<p>In addition, the motion replay pivot proved that raw joint angle data was actually enough to recreate highly useful robot motion in Unity without requiring a video stream or the original hardware.</p>
-
-<p>Therefore, this whole project made safety and observability feel like pure interface problems rather than just robotics problems. Whenever a system controls something physical outside the headset, the user absolutely needs to see what it plans to do before it actually does it.</p>
+<p>That became the most useful lesson from the project: when software controls something physical, showing what it plans to do matters as much as accepting the next command.</p>
 
   </div>
 </article>
@@ -407,10 +427,9 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   </h2>
 
   <p>Jack Yang is a software engineer at Microsoft Teams AI, where he works on
-Facilitator, an agent that joins live multi-person meetings. Before that he
-worked on avatars and XR at Microsoft Mesh, from 2022 to 2024. He has been
-circling the same question since 2020: how a computer can take part in a
-conversation without taking it over.</p>
+Facilitator. Previously, he built avatar and XR systems for Microsoft Mesh.
+He writes about AI agents, human-computer interaction, and what he learns
+from building things.</p>
 
 
   <div class="sidebar-social">
@@ -508,7 +527,7 @@ conversation without taking it over.</p>
 
 
 
-  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">        <article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/project-virtualso/#project" >  <meta property="name" content="Project Virtualso" />    <meta property="image" content="/assets/img/projects/virtualso.webp" />  <a href="/projects/project-virtualso/" class="no-hover no-print-link project-transition">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/virtualso.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Project Virtualso interview simulation with a virtual interviewer in an office"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-personal">Personal</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2020-01-01T00:00:00+00:00">2020</time>                  <span class="project-card-meta-separator">|</span>      <span>2 links</span>          </p>        <h3 class="project-card-title">      <a href="/projects/project-virtualso/" class="project-transition" property="mainEntityOfPage">Project Virtualso</a>    </h3>            <p class="project-card-text fine" property="disambiguatingDescription">      Built VR coaches for interview and presentation practice using speech recognition, guided dialogue, facial animation, and gaze.    </p>        <p class="project-card-cta"><a href="/projects/project-virtualso/" class="project-transition">View project</a></p>  </div></article>      </div>                  <div class="column column-1-2">        <article class="project-card" data-category="research" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/vision-disorder/#project" >  <meta property="name" content="VR Vision Disorder Simulation" />    <meta property="image" content="/assets/img/projects/kats.webp" />  <a href="/projects/vision-disorder/" class="no-hover no-print-link project-transition">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/kats.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="VR headset displaying different color-adjusted scenes to the left and right eyes"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-research">Research</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2020-01-01T00:00:00+00:00">2020</time>                  <span class="project-card-meta-separator">|</span>      <span>2 links</span>          </p>        <h3 class="project-card-title">      <a href="/projects/vision-disorder/" class="project-transition" property="mainEntityOfPage">VR Vision Disorder Simulation</a>    </h3>            <p class="project-card-text fine" property="disambiguatingDescription">      Led two VR research projects on color vision deficiency and binocular rivalry using computer vision and consumer headsets.    </p>        <p class="project-card-cta"><a href="/projects/vision-disorder/" class="project-transition">View project</a></p>  </div></article>      </div>      </div></aside>
+  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">        <article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/project-virtualso/#project" >  <meta property="name" content="Project Virtualso" />    <meta property="image" content="/assets/img/projects/virtualso.webp" />  <a href="/projects/project-virtualso/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/virtualso.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Project Virtualso interview simulation with a virtual interviewer in an office"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-personal">Personal</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2020-01-01T00:00:00+00:00">2020</time>                </p>        <h2 class="project-card-title">      <a href="/projects/project-virtualso/" class="project-transition" property="mainEntityOfPage">Project Virtualso</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      VR interview and presentation coaches that listen, ask follow-up questions, and react through facial expressions and gaze.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/project-virtualso/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>                  <div class="column column-1-2">        <article class="project-card" data-category="research" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/vision-disorder/#project" >  <meta property="name" content="Color Vision & Binocular Rivalry in VR" />    <meta property="image" content="/assets/img/projects/kats.webp" />  <a href="/projects/vision-disorder/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/kats.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="VR headset displaying different color-adjusted scenes to the left and right eyes"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-research">Research</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2020-01-01T00:00:00+00:00">2020</time>                </p>        <h2 class="project-card-title">      <a href="/projects/vision-disorder/" class="project-transition" property="mainEntityOfPage">Color Vision & Binocular Rivalry in VR</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      Two research prototypes using consumer VR headsets to explore color vision deficiency and binocular rivalry.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/vision-disorder/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>      </div></aside>
 
 
 
@@ -561,13 +580,13 @@ conversation without taking it over.</p>
     
     
       <p class="">
-        Building real-time AI agents and multimodal systems
+        AI agents for live conversations
 
       </p>
     
   </div>
 
-  <nav class="sidebar-nav heading" role="navigation">
+  <nav class="sidebar-nav heading" aria-label="Main navigation">
     <span class="sr-only">Navigation:</span>
 <ul>
   
@@ -578,6 +597,7 @@ conversation without taking it over.</p>
           id="_drawer--opened"
           href="/"
           class="sidebar-nav-item "
+          
           
         >
           About
@@ -590,6 +610,7 @@ conversation without taking it over.</p>
           
           href="/projects/"
           class="sidebar-nav-item "
+          aria-current="location"
           
         >
           Projects
@@ -602,6 +623,7 @@ conversation without taking it over.</p>
           
           href="/writing/"
           class="sidebar-nav-item "
+          
           
         >
           Writing
@@ -708,7 +730,7 @@ conversation without taking it over.</p>
   
 
 <script src="/assets/js/project-transition.js?v=2" type="module"></script>
-<script src="/assets/js/site-polish.js?v=1" type="module"></script>
+<script src="/assets/js/site-polish.js?v=1788613419" type="module"></script>
 
   
 

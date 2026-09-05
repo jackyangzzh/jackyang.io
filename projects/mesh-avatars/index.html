@@ -23,21 +23,21 @@
 <meta property="og:title" content="Microsoft Mesh &amp; Avatars for Teams" />
 <meta name="author" content="Jack Yang" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="Helped build the UI, avatar editor, and real-time embodiment systems for Microsoft Mesh and Avatars in Teams, used by millions of people." />
-<meta property="og:description" content="Helped build the UI, avatar editor, and real-time embodiment systems for Microsoft Mesh and Avatars in Teams, used by millions of people." />
+<meta name="description" content="My work on the shared UI, avatar editor, and rendering systems behind Microsoft Mesh and Avatars in Teams." />
+<meta property="og:description" content="My work on the shared UI, avatar editor, and rendering systems behind Microsoft Mesh and Avatars in Teams." />
 <link rel="canonical" href="https://jackyang.io/projects/mesh-avatars/" />
 <meta property="og:url" content="https://jackyang.io/projects/mesh-avatars/" />
 <meta property="og:site_name" content="Jack Yang" />
 <meta property="og:image" content="https://jackyang.io/assets/img/projects/mesh-avatars.webp" />
 <meta property="og:image:alt" content="Microsoft Mesh immersive event with avatars gathered around a shared presentation" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2023-01-01T00:00:00+00:00" />
+<meta property="article:published_time" content="2022-06-01T00:00:00+00:00" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta property="twitter:image" content="https://jackyang.io/assets/img/projects/mesh-avatars.webp" />
 <meta name="twitter:image:alt" content="Microsoft Mesh immersive event with avatars gathered around a shared presentation" />
 <meta property="twitter:title" content="Microsoft Mesh &amp; Avatars for Teams" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-30T21:06:24+00:00","datePublished":"2023-01-01T00:00:00+00:00","description":"Helped build the UI, avatar editor, and real-time embodiment systems for Microsoft Mesh and Avatars in Teams, used by millions of people.","headline":"Microsoft Mesh &amp; Avatars for Teams","image":{"alt":"Microsoft Mesh immersive event with avatars gathered around a shared presentation","url":"https://jackyang.io/assets/img/projects/mesh-avatars.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/mesh-avatars/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-05T13:02:56+00:00","datePublished":"2022-06-01T00:00:00+00:00","description":"My work on the shared UI, avatar editor, and rendering systems behind Microsoft Mesh and Avatars in Teams.","headline":"Microsoft Mesh &amp; Avatars for Teams","image":{"alt":"Microsoft Mesh immersive event with avatars gathered around a shared presentation","url":"https://jackyang.io/assets/img/projects/mesh-avatars.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/mesh-avatars/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -89,7 +89,8 @@
 
 <link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
 
-<link rel="dns-prefetch" href="/assets/js/search-worker-9.1.6.js" as="worker" id="_hrefSearch">
+
+<link rel="dns-prefetch" href="/assets/js/0-hydejack-9.1.6.worker.js" as="worker" id="_hrefSearch">
 
 
 
@@ -110,7 +111,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-08-30T21:07:10+00:00',
+    INDEX_KEY: 'index--2026-09-05T13:03:39+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -124,8 +125,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1788124030" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1788124030" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1788613419" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1788613419" id="_iconsPreload">
 
 
 
@@ -182,7 +183,8 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 >
   
   
-  <div id="_navbar" class="navbar fixed-top">
+  <a class="skip-link no-push-state no-mark-external" href="#_main">Skip to content</a>
+<div id="_navbar" class="navbar fixed-top">
   <div class="content">
     <span class="sr-only">Jump to:</span>
     <div class="nav-btn-bar">
@@ -190,7 +192,24 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
         <span class="sr-only">Navigation</span>
         <span class="icon-menu"></span>
       </a>
-      <div class="nav-span"></div>
+      <nav class="nav-span quick-nav" aria-label="Page navigation">
+        
+        
+        <a href="/" class="quick-nav-link"
+          
+          >About</a>
+        
+        
+        <a href="/projects/" class="quick-nav-link"
+          aria-current="location"
+          >Projects</a>
+        
+        
+        <a href="/writing/" class="quick-nav-link"
+          
+          >Writing</a>
+        
+      </nav>
     </div>
   </div>
 </div>
@@ -200,6 +219,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   id="_main"
   class="content layout-project"
   role="main"
+  tabindex="-1"
 >
   <nav id="breadcrumbs" class="screen-only"><ul>
   
@@ -245,6 +265,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <article id="project" class="page mb6 project-page" role="article" vocab="http://schema.org/" typeof="CreativeWork"
   resource="#project" >
+  <a class="project-back" href="/projects/"><span aria-hidden="true">←</span> All projects</a>
   <header class="project-header">
     <div class="project-header-copy">
       
@@ -256,7 +277,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
         
         <span class="project-header-separator">|</span>
-        <span class="project-period"><time datetime="2023-01-01T00:00:00+00:00">2023</time></span>
+        <span class="project-period"><time datetime="2022-06-01T00:00:00+00:00">2022</time>
+
+–
+<time datetime="2024-09-01T00:00:00+00:00">2024</time></span>
         
       </p>
 
@@ -264,7 +288,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
       
       
-      <p class="project-summary" property="description">Helped build the UI, avatar editor, and real-time embodiment systems for Microsoft Mesh and Avatars in Teams, used by millions of people.</p>
+      <p class="project-summary" property="description">My work on the shared UI, avatar editor, and rendering systems behind Microsoft Mesh and Avatars in Teams.</p>
       
       
 
@@ -311,7 +335,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   </header>
 
   <div class="project-body">
-    <p>I worked on Microsoft Mesh and Avatars for Teams from June 2022 to September 2024. Because we wanted users to have a consistent identity, a person could use the exact same avatar in a regular Teams meeting, a desktop immersive event, or VR. I primarily focused on the UI, the avatar editor, and the rendering systems that maintained that consistency across so many different devices.</p>
+    <p>I worked on Microsoft Mesh and Avatars for Teams from June 2022 to September 2024. My focus was the shared UI, avatar editor, and rendering systems. The goal was to let someone use the same avatar in a Teams meeting, a desktop immersive event, or VR without it feeling like a different character each time.</p>
 
 <figure class="project-video">
     <div class="project-video-frame">
@@ -327,26 +351,26 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
 </figure>
 
-<h2 id="the-challenge">The challenge</h2>
+<h2 id="one-avatar-several-runtimes">One avatar, several runtimes</h2>
 
-<p>While video meetings clearly work, a grid of faces inevitably loses body language and any real feeling of being in a shared space. Even though we wanted to bring that sense of presence back into calls, the system still had to run reliably on ordinary laptops because of the steep performance expectations Teams customers have.</p>
+<p>We wanted to bring more body language and a sense of shared space into meetings. That still had to work on an ordinary laptop, not just a dedicated headset.</p>
 
-<p>I initially assumed the hardest part would be the immersive 3D events themselves. However, I found that making the same avatar look and move consistently in a tiny laptop meeting tile, a crowded desktop event, and a high-framerate Quest session was far more demanding. Those runtimes have wildly different performance budgets and input models.</p>
+<p>A small meeting tile, a crowded desktop event, and a Quest session have very different performance budgets and input models. Getting the same avatar to look and move consistently across them was harder than any single 3D scene.</p>
 
-<h2 id="my-specific-contributions">My specific contributions</h2>
+<h2 id="what-i-worked-on">What I worked on</h2>
 
 <h3 id="cross-platform-ui-uxtools">Cross-platform UI (UXTools)</h3>
-<p>Because we could not afford to rebuild interaction patterns for every single endpoint, I contributed heavily to the shared UI toolkit used across Teams desktop, web-hosted surfaces, and immersive VR clients. I designed component primitives to handle both 2D pointer input and 3D hand controller input seamlessly, meaning other Mesh surfaces could easily reuse our theming, accessibility, focus, and input routing patterns.</p>
+<p>I contributed to the shared UI toolkit used across desktop, web-hosted surfaces, and VR clients. I designed components for both 2D pointer input and 3D hand and controller input, so other teams could reuse our theming, accessibility, focus, and input-routing patterns rather than rebuild them.</p>
 
 <h3 id="avatar-customization">Avatar customization</h3>
-<p>I built the main avatar editor for bodies, faces, hair, outfits, and accessories. Even though it is tempting to expose every technical slider, I worked closely with design and art teams to ensure the editor was clear for first-time users without stripping away the options people genuinely needed to represent themselves. I spent significant time tuning loading logic and asset swaps so that changes appeared instantly in the live preview without blowing past the memory limits on lower-end hardware.</p>
+<p>I built the main editor for bodies, faces, hair, outfits, and accessories, working with design and art teams. We needed enough choice for people to represent themselves without making the first visit overwhelming. I also tuned loading and asset swaps to keep the live preview responsive within the memory limits of lower-end hardware.</p>
 
-<h3 id="the-avatar-stack-and-delivery">The avatar stack and delivery</h3>
-<p>I also worked deep in the stack to define how the system actually describes an avatar, assembles its modular assets, updates its animations, and synchronizes its state across completely different clients. Since these avatars run inside Teams meetings, I extensively profiled CPU and GPU frametimes across HoloLens, Quest, web, and desktop. Using LOD switching and aggressive GPU instancing, I helped maintain smooth framerates even on highly constrained devices.</p>
+<h3 id="rendering-and-delivery">Rendering and delivery</h3>
+<p>My work also covered avatar definitions, modular asset assembly, animation updates, and state synchronization between clients. I profiled CPU and GPU frame times across HoloLens, Quest, web, and desktop, then used level-of-detail switching and GPU instancing to stay within their different frame budgets.</p>
 
-<h2 id="the-takeaway">The takeaway</h2>
+<h2 id="what-stayed-with-me">What stayed with me</h2>
 
-<p>Working on Mesh fundamentally changed my engineering priorities. I went in caring about graphics, but I came out realizing that the parts users rarely notice until they break, such as input routing, asset budgets, localization, and accessibility, are the actual product. Because small costs add up incredibly fast in crowded events, the core challenge was always optimization rather than feature sprawl. Personally, I still carry that intense focus on cross-device consistency and performance into the AI systems I build today.</p>
+<p>I came to Mesh interested in graphics. I left with much more respect for the things people only notice when they break: input routing, asset budgets, localization, and accessibility. In a crowded event, small costs add up. That attention to reliability still shapes the AI systems I work on today.</p>
 
   </div>
 </article>
@@ -397,10 +421,9 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   </h2>
 
   <p>Jack Yang is a software engineer at Microsoft Teams AI, where he works on
-Facilitator, an agent that joins live multi-person meetings. Before that he
-worked on avatars and XR at Microsoft Mesh, from 2022 to 2024. He has been
-circling the same question since 2020: how a computer can take part in a
-conversation without taking it over.</p>
+Facilitator. Previously, he built avatar and XR systems for Microsoft Mesh.
+He writes about AI agents, human-computer interaction, and what he learns
+from building things.</p>
 
 
   <div class="sidebar-social">
@@ -498,7 +521,7 @@ conversation without taking it over.</p>
 
 
 
-  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">        <article class="project-card" data-category="professional" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/holos/#project" >  <meta property="name" content="Holos" />    <meta property="image" content="/assets/img/projects/holos.webp" />  <a href="/projects/holos/" class="no-hover no-print-link project-transition">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/holos.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Holos immersive training scene with an aircraft cockpit model and interactive instruction panels"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-professional">Professional</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2022-01-01T00:00:00+00:00">2022</time>                  <span class="project-card-meta-separator">|</span>      <span>1 link</span>          </p>        <h3 class="project-card-title">      <a href="/projects/holos/" class="project-transition" property="mainEntityOfPage">Holos</a>    </h3>            <p class="project-card-text fine" property="disambiguatingDescription">      Built hand interaction, multiplayer networking, and 3D content workflows for Holos’s AR and VR training platform from 2019 to 2022.    </p>        <p class="project-card-cta"><a href="/projects/holos/" class="project-transition">View project</a></p>  </div></article>      </div>                  <div class="column column-1-2">        <article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/dishvue/#project" >  <meta property="name" content="DishVue" />    <meta property="image" content="/assets/img/projects/DishVue.webp" />  <a href="/projects/dishvue/" class="no-hover no-print-link project-transition">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/DishVue.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="DishVue wordmark over a scanned 3D dish displayed in translucent spatial menu panels"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-personal">Personal</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2024-01-01T00:00:00+00:00">2024</time>                  <span class="project-card-meta-separator">|</span>      <span>1 link</span>          </p>        <h3 class="project-card-title">      <a href="/projects/dishvue/" class="project-transition" property="mainEntityOfPage">DishVue</a>    </h3>            <p class="project-card-text fine" property="disambiguatingDescription">      Built a 3D menu for iPhone, iPad, Apple Vision Pro, and the web. Restaurants scan a dish once, and diners can inspect it at table scale.    </p>        <p class="project-card-cta"><a href="/projects/dishvue/" class="project-transition">View project</a></p>  </div></article>      </div>      </div></aside>
+  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">        <article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/polyspace/#project" >  <meta property="name" content="Poly Space VR" />    <meta property="image" content="/assets/img/projects/PolySpaceLogo.webp" />  <a href="/projects/polyspace/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/PolySpaceLogo.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Poly Space VR logo"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-personal">Personal</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2021-01-01T00:00:00+00:00">2021</time>                </p>        <h2 class="project-card-title">      <a href="/projects/polyspace/" class="project-transition" property="mainEntityOfPage">Poly Space VR</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      An open-source social VR app for up to eight people, with voice chat, shared objects, and an in-headset room editor. Released on the Oculus PC VR store.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/polyspace/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>                  <div class="column column-1-2">        <article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/dishvue/#project" >  <meta property="name" content="DishVue" />    <meta property="image" content="/assets/img/projects/DishVue.webp" />  <a href="/projects/dishvue/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/DishVue.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="DishVue wordmark over a scanned 3D dish displayed in translucent spatial menu panels"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-personal">Personal</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2024-01-01T00:00:00+00:00">2024</time>                </p>        <h2 class="project-card-title">      <a href="/projects/dishvue/" class="project-transition" property="mainEntityOfPage">DishVue</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      A 3D menu spanning iPhone, iPad, Apple Vision Pro, and the web. Scan a dish once, then let diners see it at table scale.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/dishvue/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>      </div></aside>
 
 
 
@@ -551,13 +574,13 @@ conversation without taking it over.</p>
     
     
       <p class="">
-        Building real-time AI agents and multimodal systems
+        AI agents for live conversations
 
       </p>
     
   </div>
 
-  <nav class="sidebar-nav heading" role="navigation">
+  <nav class="sidebar-nav heading" aria-label="Main navigation">
     <span class="sr-only">Navigation:</span>
 <ul>
   
@@ -568,6 +591,7 @@ conversation without taking it over.</p>
           id="_drawer--opened"
           href="/"
           class="sidebar-nav-item "
+          
           
         >
           About
@@ -580,6 +604,7 @@ conversation without taking it over.</p>
           
           href="/projects/"
           class="sidebar-nav-item "
+          aria-current="location"
           
         >
           Projects
@@ -592,6 +617,7 @@ conversation without taking it over.</p>
           
           href="/writing/"
           class="sidebar-nav-item "
+          
           
         >
           Writing
@@ -698,7 +724,7 @@ conversation without taking it over.</p>
   
 
 <script src="/assets/js/project-transition.js?v=2" type="module"></script>
-<script src="/assets/js/site-polish.js?v=1" type="module"></script>
+<script src="/assets/js/site-polish.js?v=1788613419" type="module"></script>
 
   
 

@@ -23,8 +23,8 @@
 <meta property="og:title" content="Projects" />
 <meta name="author" content="Jack Yang" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="AI agents, real-time systems, spatial computing, and the side projects I shipped mostly to find out whether an idea would work." />
-<meta property="og:description" content="AI agents, real-time systems, spatial computing, and the side projects I shipped mostly to find out whether an idea would work." />
+<meta name="description" content="Work I’ve shipped with teams, research prototypes, and side projects I built to see whether an idea would work." />
+<meta property="og:description" content="Work I’ve shipped with teams, research prototypes, and side projects I built to see whether an idea would work." />
 <link rel="canonical" href="https://jackyang.io/projects/" />
 <meta property="og:url" content="https://jackyang.io/projects/" />
 <meta property="og:site_name" content="Jack Yang" />
@@ -32,7 +32,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Projects" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-30T21:06:24+00:00","description":"AI agents, real-time systems, spatial computing, and the side projects I shipped mostly to find out whether an idea would work.","headline":"Projects","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-05T13:02:56+00:00","description":"Work I’ve shipped with teams, research prototypes, and side projects I built to see whether an idea would work.","headline":"Projects","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -84,7 +84,8 @@
 
 <link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
 
-<link rel="dns-prefetch" href="/assets/js/search-worker-9.1.6.js" as="worker" id="_hrefSearch">
+
+<link rel="dns-prefetch" href="/assets/js/0-hydejack-9.1.6.worker.js" as="worker" id="_hrefSearch">
 
 
 
@@ -105,7 +106,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-08-30T21:07:10+00:00',
+    INDEX_KEY: 'index--2026-09-05T13:03:39+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -119,8 +120,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1788124030" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1788124030" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1788613419" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1788613419" id="_iconsPreload">
 
 
 
@@ -177,7 +178,8 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 >
   
   
-  <div id="_navbar" class="navbar fixed-top">
+  <a class="skip-link no-push-state no-mark-external" href="#_main">Skip to content</a>
+<div id="_navbar" class="navbar fixed-top">
   <div class="content">
     <span class="sr-only">Jump to:</span>
     <div class="nav-btn-bar">
@@ -185,7 +187,24 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
         <span class="sr-only">Navigation</span>
         <span class="icon-menu"></span>
       </a>
-      <div class="nav-span"></div>
+      <nav class="nav-span quick-nav" aria-label="Page navigation">
+        
+        
+        <a href="/" class="quick-nav-link"
+          
+          >About</a>
+        
+        
+        <a href="/projects/" class="quick-nav-link"
+          aria-current="page"
+          >Projects</a>
+        
+        
+        <a href="/writing/" class="quick-nav-link"
+          
+          >Writing</a>
+        
+      </nav>
     </div>
   </div>
 </div>
@@ -195,6 +214,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   id="_main"
   class="content layout-projects"
   role="main"
+  tabindex="-1"
 >
   <nav id="breadcrumbs" class="screen-only"><ul>
   
@@ -219,7 +239,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
   
     <p class="note-sm" >
-      AI agents, real-time systems, spatial computing, and the side projects I shipped mostly to find out whether an idea would work.
+      Work I’ve shipped with teams, research prototypes, and side projects I built to see whether an idea would work.
 
     </p>
   
@@ -227,13 +247,17 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
   </header>
 
-  
+  <p><strong>Current work: Facilitator at Microsoft Teams AI</strong></p>
+
+<p>I work on an agent that takes notes, tracks agendas and decisions, and answers questions during Teams meetings. My work includes the systems it uses to follow the conversation, call tools, and keep track of context.</p>
+
    
   
 
 <ul
   class="project-filters"
   aria-label="Filter projects by category"
+  hidden
 >
   <li>
     <button
@@ -243,7 +267,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
       aria-pressed="true"
       aria-controls="project-list"
     >
-      <span>All</span>
+      <span>All</span><span class="filter-count" aria-hidden="true">9</span>
     </button>
   </li>
   <li>
@@ -254,7 +278,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
       aria-pressed="false"
       aria-controls="project-list"
     >
-      <span>Professional</span>
+      <span>Professional</span><span class="filter-count" aria-hidden="true">2</span>
     </button>
   </li>
   <li>
@@ -265,7 +289,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
       aria-pressed="false"
       aria-controls="project-list"
     >
-      <span>Personal</span>
+      <span>Personal</span><span class="filter-count" aria-hidden="true">5</span>
     </button>
   </li>
   <li>
@@ -276,10 +300,12 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
       aria-pressed="false"
       aria-controls="project-list"
     >
-      <span>Research</span>
+      <span>Research</span><span class="filter-count" aria-hidden="true">2</span>
     </button>
   </li>
 </ul>
+
+<p class="project-results" role="status" aria-live="polite" aria-atomic="true">Showing all 9 projects</p>
 
 <div class="project-list" id="project-list">
    
@@ -316,7 +342,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   
   <meta property="image" content="/assets/img/projects/fakehaul.webp" />
 
-  <a href="/projects/fakehaul/" class="no-hover no-print-link project-transition">
+  <a href="/projects/fakehaul/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">
     <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">
       
       
@@ -350,21 +376,18 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
       <time datetime="2026-01-07T00:00:00+00:00">2026</time>
       
       
-      <span class="project-card-meta-separator">|</span>
-      <span>3 links</span>
-      
     </p>
     
-    <h3 class="project-card-title">
+    <h2 class="project-card-title">
       <a href="/projects/fakehaul/" class="project-transition" property="mainEntityOfPage">FakeHaul</a>
-    </h3>
+    </h2>
     
     
     <p class="project-card-text fine" property="disambiguatingDescription">
-      A fake shopping marketplace where every checkout totals $0.00 and nothing ships. The full dopamine loop of online shopping, minus the purchase.
+      A pretend shopping marketplace where every checkout is $0.00 and nothing ships. The ritual of online shopping, without spending money.
     </p>
     
-    <p class="project-card-cta"><a href="/projects/fakehaul/" class="project-transition">View project</a></p>
+    <p class="project-card-cta" aria-hidden="true"><a href="/projects/fakehaul/" class="project-transition" tabindex="-1">View project</a></p>
   </div>
 </article>
     </div>
@@ -401,7 +424,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   
   <meta property="image" content="/assets/img/projects/mesh-avatars.webp" />
 
-  <a href="/projects/mesh-avatars/" class="no-hover no-print-link project-transition">
+  <a href="/projects/mesh-avatars/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">
     <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">
       
       
@@ -432,24 +455,23 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
       
       
       <span class="project-card-meta-separator">|</span>
-      <time datetime="2023-01-01T00:00:00+00:00">2023</time>
+      <time datetime="2022-06-01T00:00:00+00:00">2022</time>
       
+      – <time datetime="2024-09-01T00:00:00+00:00">2024</time>
       
-      <span class="project-card-meta-separator">|</span>
-      <span>2 links</span>
       
     </p>
     
-    <h3 class="project-card-title">
+    <h2 class="project-card-title">
       <a href="/projects/mesh-avatars/" class="project-transition" property="mainEntityOfPage">Microsoft Mesh & Avatars for Teams</a>
-    </h3>
+    </h2>
     
     
     <p class="project-card-text fine" property="disambiguatingDescription">
-      Helped build the UI, avatar editor, and real-time embodiment systems for Microsoft Mesh and Avatars in Teams, used by millions of people.
+      My work on the shared UI, avatar editor, and rendering systems behind Microsoft Mesh and Avatars in Teams.
     </p>
     
-    <p class="project-card-cta"><a href="/projects/mesh-avatars/" class="project-transition">View project</a></p>
+    <p class="project-card-cta" aria-hidden="true"><a href="/projects/mesh-avatars/" class="project-transition" tabindex="-1">View project</a></p>
   </div>
 </article>
     </div>
@@ -486,7 +508,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   
   <meta property="image" content="/assets/img/projects/holos.webp" />
 
-  <a href="/projects/holos/" class="no-hover no-print-link project-transition">
+  <a href="/projects/holos/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">
     <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">
       
       
@@ -517,24 +539,23 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
       
       
       <span class="project-card-meta-separator">|</span>
-      <time datetime="2022-01-01T00:00:00+00:00">2022</time>
+      <time datetime="2019-02-01T00:00:00+00:00">2019</time>
       
+      – <time datetime="2022-05-01T00:00:00+00:00">2022</time>
       
-      <span class="project-card-meta-separator">|</span>
-      <span>1 link</span>
       
     </p>
     
-    <h3 class="project-card-title">
+    <h2 class="project-card-title">
       <a href="/projects/holos/" class="project-transition" property="mainEntityOfPage">Holos</a>
-    </h3>
+    </h2>
     
     
     <p class="project-card-text fine" property="disambiguatingDescription">
-      Built hand interaction, multiplayer networking, and 3D content workflows for Holos’s AR and VR training platform from 2019 to 2022.
+      Hand interaction, multiplayer networking, and 3D content workflows I built for Holos’s AR and VR training platform.
     </p>
     
-    <p class="project-card-cta"><a href="/projects/holos/" class="project-transition">View project</a></p>
+    <p class="project-card-cta" aria-hidden="true"><a href="/projects/holos/" class="project-transition" tabindex="-1">View project</a></p>
   </div>
 </article>
     </div>
@@ -571,7 +592,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   
   <meta property="image" content="/assets/img/projects/DishVue.webp" />
 
-  <a href="/projects/dishvue/" class="no-hover no-print-link project-transition">
+  <a href="/projects/dishvue/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">
     <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">
       
       
@@ -605,21 +626,18 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
       <time datetime="2024-01-01T00:00:00+00:00">2024</time>
       
       
-      <span class="project-card-meta-separator">|</span>
-      <span>1 link</span>
-      
     </p>
     
-    <h3 class="project-card-title">
+    <h2 class="project-card-title">
       <a href="/projects/dishvue/" class="project-transition" property="mainEntityOfPage">DishVue</a>
-    </h3>
+    </h2>
     
     
     <p class="project-card-text fine" property="disambiguatingDescription">
-      Built a 3D menu for iPhone, iPad, Apple Vision Pro, and the web. Restaurants scan a dish once, and diners can inspect it at table scale.
+      A 3D menu spanning iPhone, iPad, Apple Vision Pro, and the web. Scan a dish once, then let diners see it at table scale.
     </p>
     
-    <p class="project-card-cta"><a href="/projects/dishvue/" class="project-transition">View project</a></p>
+    <p class="project-card-cta" aria-hidden="true"><a href="/projects/dishvue/" class="project-transition" tabindex="-1">View project</a></p>
   </div>
 </article>
     </div>
@@ -656,7 +674,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   
   <meta property="image" content="/assets/img/projects/virtualso.webp" />
 
-  <a href="/projects/project-virtualso/" class="no-hover no-print-link project-transition">
+  <a href="/projects/project-virtualso/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">
     <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">
       
       
@@ -690,21 +708,18 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
       <time datetime="2020-01-01T00:00:00+00:00">2020</time>
       
       
-      <span class="project-card-meta-separator">|</span>
-      <span>2 links</span>
-      
     </p>
     
-    <h3 class="project-card-title">
+    <h2 class="project-card-title">
       <a href="/projects/project-virtualso/" class="project-transition" property="mainEntityOfPage">Project Virtualso</a>
-    </h3>
+    </h2>
     
     
     <p class="project-card-text fine" property="disambiguatingDescription">
-      Built VR coaches for interview and presentation practice using speech recognition, guided dialogue, facial animation, and gaze.
+      VR interview and presentation coaches that listen, ask follow-up questions, and react through facial expressions and gaze.
     </p>
     
-    <p class="project-card-cta"><a href="/projects/project-virtualso/" class="project-transition">View project</a></p>
+    <p class="project-card-cta" aria-hidden="true"><a href="/projects/project-virtualso/" class="project-transition" tabindex="-1">View project</a></p>
   </div>
 </article>
     </div>
@@ -741,7 +756,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   
   <meta property="image" content="/assets/img/projects/mrtk_unity.webp" />
 
-  <a href="/projects/mrtk/" class="no-hover no-print-link project-transition">
+  <a href="/projects/mrtk/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">
     <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">
       
       
@@ -775,21 +790,18 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
       <time datetime="2021-01-01T00:00:00+00:00">2021</time>
       
       
-      <span class="project-card-meta-separator">|</span>
-      <span>3 links</span>
-      
     </p>
     
-    <h3 class="project-card-title">
+    <h2 class="project-card-title">
       <a href="/projects/mrtk/" class="project-transition" property="mainEntityOfPage">MRTK for Unity</a>
-    </h3>
+    </h2>
     
     
     <p class="project-card-text fine" property="disambiguatingDescription">
-      Contributed Leap Motion support and an orientation example to Microsoft’s Mixed Reality Toolkit 2.7.
+      Leap Motion integration work and a merged orientation example for Microsoft’s Mixed Reality Toolkit 2.7.
     </p>
     
-    <p class="project-card-cta"><a href="/projects/mrtk/" class="project-transition">View project</a></p>
+    <p class="project-card-cta" aria-hidden="true"><a href="/projects/mrtk/" class="project-transition" tabindex="-1">View project</a></p>
   </div>
 </article>
     </div>
@@ -826,7 +838,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   
   <meta property="image" content="/assets/img/projects/mimicry.webp" />
 
-  <a href="/projects/robot-control/" class="no-hover no-print-link project-transition">
+  <a href="/projects/robot-control/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">
     <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">
       
       
@@ -860,21 +872,18 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
       <time datetime="2020-01-01T00:00:00+00:00">2020</time>
       
       
-      <span class="project-card-meta-separator">|</span>
-      <span>2 links</span>
-      
     </p>
     
-    <h3 class="project-card-title">
+    <h2 class="project-card-title">
       <a href="/projects/robot-control/" class="project-transition" property="mainEntityOfPage">Robot Control Through VR</a>
-    </h3>
+    </h2>
     
     
     <p class="project-card-text fine" property="disambiguatingDescription">
-      Built a VR teleoperation and motion replay system for a robotic arm using Unity, ROS, hand tracking, and inverse kinematics.
+      A research prototype for controlling a robotic arm with hand movements in VR, plus a replay tool for recorded lab experiments.
     </p>
     
-    <p class="project-card-cta"><a href="/projects/robot-control/" class="project-transition">View project</a></p>
+    <p class="project-card-cta" aria-hidden="true"><a href="/projects/robot-control/" class="project-transition" tabindex="-1">View project</a></p>
   </div>
 </article>
     </div>
@@ -907,11 +916,11 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 <article class="project-card" data-category="research" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/vision-disorder/#project" >
-  <meta property="name" content="VR Vision Disorder Simulation" />
+  <meta property="name" content="Color Vision & Binocular Rivalry in VR" />
   
   <meta property="image" content="/assets/img/projects/kats.webp" />
 
-  <a href="/projects/vision-disorder/" class="no-hover no-print-link project-transition">
+  <a href="/projects/vision-disorder/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">
     <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">
       
       
@@ -945,21 +954,18 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
       <time datetime="2020-01-01T00:00:00+00:00">2020</time>
       
       
-      <span class="project-card-meta-separator">|</span>
-      <span>2 links</span>
-      
     </p>
     
-    <h3 class="project-card-title">
-      <a href="/projects/vision-disorder/" class="project-transition" property="mainEntityOfPage">VR Vision Disorder Simulation</a>
-    </h3>
+    <h2 class="project-card-title">
+      <a href="/projects/vision-disorder/" class="project-transition" property="mainEntityOfPage">Color Vision & Binocular Rivalry in VR</a>
+    </h2>
     
     
     <p class="project-card-text fine" property="disambiguatingDescription">
-      Led two VR research projects on color vision deficiency and binocular rivalry using computer vision and consumer headsets.
+      Two research prototypes using consumer VR headsets to explore color vision deficiency and binocular rivalry.
     </p>
     
-    <p class="project-card-cta"><a href="/projects/vision-disorder/" class="project-transition">View project</a></p>
+    <p class="project-card-cta" aria-hidden="true"><a href="/projects/vision-disorder/" class="project-transition" tabindex="-1">View project</a></p>
   </div>
 </article>
     </div>
@@ -996,7 +1002,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   
   <meta property="image" content="/assets/img/projects/PolySpaceLogo.webp" />
 
-  <a href="/projects/polyspace/" class="no-hover no-print-link project-transition">
+  <a href="/projects/polyspace/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">
     <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">
       
       
@@ -1030,21 +1036,18 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
       <time datetime="2021-01-01T00:00:00+00:00">2021</time>
       
       
-      <span class="project-card-meta-separator">|</span>
-      <span>2 links</span>
-      
     </p>
     
-    <h3 class="project-card-title">
+    <h2 class="project-card-title">
       <a href="/projects/polyspace/" class="project-transition" property="mainEntityOfPage">Poly Space VR</a>
-    </h3>
+    </h2>
     
     
     <p class="project-card-text fine" property="disambiguatingDescription">
-      Built and open-sourced a social VR app that caps rooms at eight people to keep voice and avatar sync reliable, with an in-headset editor for hosts. Released on the Oculus PC VR store.
+      An open-source social VR app for up to eight people, with voice chat, shared objects, and an in-headset room editor. Released on the Oculus PC VR store.
     </p>
     
-    <p class="project-card-cta"><a href="/projects/polyspace/" class="project-transition">View project</a></p>
+    <p class="project-card-cta" aria-hidden="true"><a href="/projects/polyspace/" class="project-transition" tabindex="-1">View project</a></p>
   </div>
 </article>
     </div>
@@ -1054,27 +1057,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
    
 </div>
 
-<script>
-  (function () {
-    var buttons = document.querySelectorAll(".project-filter-btn");
-    var items = document.querySelectorAll(".project-list .project-column");
-    buttons.forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var filter = btn.getAttribute("data-filter");
-        buttons.forEach(function (b) {
-          var active = b === btn;
-          b.classList.toggle("is-active", active);
-          b.setAttribute("aria-pressed", active ? "true" : "false");
-        });
-        items.forEach(function (item) {
-          var match =
-            filter === "all" || item.getAttribute("data-category") === filter;
-          item.classList.toggle("project-hidden", !match);
-        });
-      });
-    });
-  })();
-</script>
+
 
 </article>
 
@@ -1129,13 +1112,13 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     
       <p class="">
-        Building real-time AI agents and multimodal systems
+        AI agents for live conversations
 
       </p>
     
   </div>
 
-  <nav class="sidebar-nav heading" role="navigation">
+  <nav class="sidebar-nav heading" aria-label="Main navigation">
     <span class="sr-only">Navigation:</span>
 <ul>
   
@@ -1146,6 +1129,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
           id="_drawer--opened"
           href="/"
           class="sidebar-nav-item "
+          
           
         >
           About
@@ -1158,6 +1142,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
           
           href="/projects/"
           class="sidebar-nav-item "
+          aria-current="location"
           
         >
           Projects
@@ -1170,6 +1155,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
           
           href="/writing/"
           class="sidebar-nav-item "
+          
           
         >
           Writing
@@ -1276,7 +1262,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   
 
 <script src="/assets/js/project-transition.js?v=2" type="module"></script>
-<script src="/assets/js/site-polish.js?v=1" type="module"></script>
+<script src="/assets/js/site-polish.js?v=1788613419" type="module"></script>
 
   
 

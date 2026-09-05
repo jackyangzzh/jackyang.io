@@ -23,8 +23,8 @@
 <meta property="og:title" content="Writing" />
 <meta name="author" content="Jack Yang" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="Essays and notes on AI agents, human-AI interaction, spatial computing, and whatever book I have just finished. Most of it lives on Medium." />
-<meta property="og:description" content="Essays and notes on AI agents, human-AI interaction, spatial computing, and whatever book I have just finished. Most of it lives on Medium." />
+<meta name="description" content="Notes on AI agents, spatial computing, things I’m building, and whatever book I’ve just finished. Most of my writing lives on Medium." />
+<meta property="og:description" content="Notes on AI agents, spatial computing, things I’m building, and whatever book I’ve just finished. Most of my writing lives on Medium." />
 <link rel="canonical" href="https://jackyang.io/writing/" />
 <meta property="og:url" content="https://jackyang.io/writing/" />
 <meta property="og:site_name" content="Jack Yang" />
@@ -32,7 +32,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Writing" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-30T21:06:24+00:00","description":"Essays and notes on AI agents, human-AI interaction, spatial computing, and whatever book I have just finished. Most of it lives on Medium.","headline":"Writing","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/writing/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-05T13:02:56+00:00","description":"Notes on AI agents, spatial computing, things I’m building, and whatever book I’ve just finished. Most of my writing lives on Medium.","headline":"Writing","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/writing/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -84,7 +84,8 @@
 
 <link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
 
-<link rel="dns-prefetch" href="/assets/js/search-worker-9.1.6.js" as="worker" id="_hrefSearch">
+
+<link rel="dns-prefetch" href="/assets/js/0-hydejack-9.1.6.worker.js" as="worker" id="_hrefSearch">
 
 
 
@@ -105,7 +106,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-08-30T21:07:10+00:00',
+    INDEX_KEY: 'index--2026-09-05T13:03:39+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -119,8 +120,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1788124030" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1788124030" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1788613419" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1788613419" id="_iconsPreload">
 
 
 
@@ -177,7 +178,8 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 >
   
   
-  <div id="_navbar" class="navbar fixed-top">
+  <a class="skip-link no-push-state no-mark-external" href="#_main">Skip to content</a>
+<div id="_navbar" class="navbar fixed-top">
   <div class="content">
     <span class="sr-only">Jump to:</span>
     <div class="nav-btn-bar">
@@ -185,7 +187,24 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
         <span class="sr-only">Navigation</span>
         <span class="icon-menu"></span>
       </a>
-      <div class="nav-span"></div>
+      <nav class="nav-span quick-nav" aria-label="Page navigation">
+        
+        
+        <a href="/" class="quick-nav-link"
+          
+          >About</a>
+        
+        
+        <a href="/projects/" class="quick-nav-link"
+          
+          >Projects</a>
+        
+        
+        <a href="/writing/" class="quick-nav-link"
+          aria-current="page"
+          >Writing</a>
+        
+      </nav>
     </div>
   </div>
 </div>
@@ -195,6 +214,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   id="_main"
   class="content layout-blog"
   role="main"
+  tabindex="-1"
 >
   <nav id="breadcrumbs" class="screen-only"><ul>
   
@@ -221,7 +241,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
   
     <p class="note-sm" >
-      Essays and notes on AI agents, human-AI interaction, spatial computing, and whatever book I have just finished. Most of it lives on <a href="https://medium.com/@jackyangzzh" target="_blank" rel="noopener noreferrer">Medium</a>.
+      Notes on AI agents, spatial computing, things I’m building, and whatever book I’ve just finished. Most of my writing lives on <a href="https://medium.com/@jackyangzzh" target="_blank" rel="noopener noreferrer">Medium</a>.
 
     </p>
   
@@ -233,205 +253,209 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
+<div class="writing-toolbar">
+  <p>Latest on Medium <span aria-hidden="true">↗</span></p>
+  <a href="https://medium.com/feed/@jackyangzzh" class="no-mark-external">Subscribe via RSS <span aria-hidden="true">→</span></a>
+</div>
 <ul class="posts-grid" aria-label="Articles from Medium">
   
   <li class="post-card">
     
-    <div class="post-card__thumb">
-      <img src="https://cdn-images-1.medium.com/max/636/0*sPOh1uC23l2J4YKt.jpg" alt="Cover image for “I leave AI models constantly. I have never once left the platform.”" loading="lazy" decoding="async" />
-    </div>
+    <a class="post-card__thumb no-hover no-mark-external" href="https://jackyangzzh.medium.com/i-leave-ai-models-constantly-i-have-never-once-left-the-platform-2bd1f0b857eb" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+      <img src="https://cdn-images-1.medium.com/max/636/0*sPOh1uC23l2J4YKt.jpg" alt="" width="640" height="360" loading="lazy" decoding="async" />
+    </a>
     
     <div class="post-card__body">
       <p class="post-card__meta">
         <time datetime="2026-08-03T14:33:32+00:00">Aug 3, 2026</time>
       </p>
-      <h3 class="post-card__title">
-        <a href="https://jackyangzzh.medium.com/i-leave-ai-models-constantly-i-have-never-once-left-the-platform-2bd1f0b857eb" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">I leave AI models constantly. I have never once left the platform.</a>
-      </h3>
+      <h2 class="post-card__title">
+        <a href="https://jackyangzzh.medium.com/i-leave-ai-models-constantly-i-have-never-once-left-the-platform-2bd1f0b857eb" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">I leave AI models constantly. I have never once left the platform.<span class="sr-only"> (opens on Medium in a new tab)</span></a>
+      </h2>
       <p class="post-card__excerpt fine">
         Last week I was using GPT-5.6 Sol to write some code. Too verbose, and the latency was spiking. I killed the session, selected Opus 5 from the dropdown, and asked...
       </p>
-      <p class="post-card__cta"><a class="no-mark-external" href="https://jackyangzzh.medium.com/i-leave-ai-models-constantly-i-have-never-once-left-the-platform-2bd1f0b857eb" target="_blank" rel="noopener noreferrer">Read on Medium</a></p>
+      <p class="post-card__cta" aria-hidden="true"><a class="no-mark-external" href="https://jackyangzzh.medium.com/i-leave-ai-models-constantly-i-have-never-once-left-the-platform-2bd1f0b857eb" target="_blank" rel="noopener noreferrer" tabindex="-1">Read on Medium <span>↗</span></a></p>
     </div>
   </li>
   
   <li class="post-card">
     
-    <div class="post-card__thumb">
-      <img src="https://cdn-images-1.medium.com/max/1024/1*EVR7sbPPIbIh4MVvefMDaw.png" alt="Cover image for “I built a fake shopping app. Nothing ships. It might be the most useful thing I’ve made.”" loading="lazy" decoding="async" />
-    </div>
+    <a class="post-card__thumb no-hover no-mark-external" href="https://jackyangzzh.medium.com/i-built-a-fake-shopping-app-nothing-ships-it-might-be-the-most-useful-thing-ive-made-220919e6b6ce" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+      <img src="https://cdn-images-1.medium.com/max/1024/1*EVR7sbPPIbIh4MVvefMDaw.png" alt="" width="640" height="360" loading="lazy" decoding="async" />
+    </a>
     
     <div class="post-card__body">
       <p class="post-card__meta">
         <time datetime="2026-07-14T14:10:25+00:00">Jul 14, 2026</time>
       </p>
-      <h3 class="post-card__title">
-        <a href="https://jackyangzzh.medium.com/i-built-a-fake-shopping-app-nothing-ships-it-might-be-the-most-useful-thing-ive-made-220919e6b6ce" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">I built a fake shopping app. Nothing ships. It might be the most useful thing I’ve made.</a>
-      </h3>
+      <h2 class="post-card__title">
+        <a href="https://jackyangzzh.medium.com/i-built-a-fake-shopping-app-nothing-ships-it-might-be-the-most-useful-thing-ive-made-220919e6b6ce" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">I built a fake shopping app. Nothing ships. It might be the most useful thing I’ve made.<span class="sr-only"> (opens on Medium in a new tab)</span></a>
+      </h2>
       <p class="post-card__excerpt fine">
         Somewhere around 1am, everyone has almost bought a vegetable chopper. You know the loop. The lightning deal, the countdown timer, the “only 6 left” badge, the coupon you clip like...
       </p>
-      <p class="post-card__cta"><a class="no-mark-external" href="https://jackyangzzh.medium.com/i-built-a-fake-shopping-app-nothing-ships-it-might-be-the-most-useful-thing-ive-made-220919e6b6ce" target="_blank" rel="noopener noreferrer">Read on Medium</a></p>
+      <p class="post-card__cta" aria-hidden="true"><a class="no-mark-external" href="https://jackyangzzh.medium.com/i-built-a-fake-shopping-app-nothing-ships-it-might-be-the-most-useful-thing-ive-made-220919e6b6ce" target="_blank" rel="noopener noreferrer" tabindex="-1">Read on Medium <span>↗</span></a></p>
     </div>
   </li>
   
   <li class="post-card">
     
-    <div class="post-card__thumb">
-      <img src="https://cdn-images-1.medium.com/max/1024/1*qlt7zewWYlDd0CBiRVe3Pg.jpeg" alt="Cover image for “My Top 5 Books of 2025”" loading="lazy" decoding="async" />
-    </div>
+    <a class="post-card__thumb no-hover no-mark-external" href="https://jackyangzzh.medium.com/mt-top-5-books-of-2025-cffeffe6078b" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+      <img src="https://cdn-images-1.medium.com/max/1024/1*qlt7zewWYlDd0CBiRVe3Pg.jpeg" alt="" width="640" height="360" loading="lazy" decoding="async" />
+    </a>
     
     <div class="post-card__body">
       <p class="post-card__meta">
         <time datetime="2025-12-13T18:33:11+00:00">Dec 13, 2025</time>
       </p>
-      <h3 class="post-card__title">
-        <a href="https://jackyangzzh.medium.com/mt-top-5-books-of-2025-cffeffe6078b" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">My Top 5 Books of 2025</a>
-      </h3>
+      <h2 class="post-card__title">
+        <a href="https://jackyangzzh.medium.com/mt-top-5-books-of-2025-cffeffe6078b" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">My Top 5 Books of 2025<span class="sr-only"> (opens on Medium in a new tab)</span></a>
+      </h2>
       <p class="post-card__excerpt fine">
         Welcome back to my annual reading reflection! As 2025 comes to a close, I’m excited to share the five books (and a few honorable mentions) that stood out the most...
       </p>
-      <p class="post-card__cta"><a class="no-mark-external" href="https://jackyangzzh.medium.com/mt-top-5-books-of-2025-cffeffe6078b" target="_blank" rel="noopener noreferrer">Read on Medium</a></p>
+      <p class="post-card__cta" aria-hidden="true"><a class="no-mark-external" href="https://jackyangzzh.medium.com/mt-top-5-books-of-2025-cffeffe6078b" target="_blank" rel="noopener noreferrer" tabindex="-1">Read on Medium <span>↗</span></a></p>
     </div>
   </li>
   
   <li class="post-card">
     
-    <div class="post-card__thumb">
-      <img src="https://cdn-images-1.medium.com/max/1024/0*c5Sk1rmSqKIXXOAP.jpg" alt="Cover image for “Making a Comeback”" loading="lazy" decoding="async" />
-    </div>
+    <a class="post-card__thumb no-hover no-mark-external" href="https://medium.com/antaeus-ar/making-a-comeback-a0fee67d9b2a" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+      <img src="https://cdn-images-1.medium.com/max/1024/0*c5Sk1rmSqKIXXOAP.jpg" alt="" width="640" height="360" loading="lazy" decoding="async" />
+    </a>
     
     <div class="post-card__body">
       <p class="post-card__meta">
         <time datetime="2025-05-22T01:19:17+00:00">May 22, 2025</time>
       </p>
-      <h3 class="post-card__title">
-        <a href="https://medium.com/antaeus-ar/making-a-comeback-a0fee67d9b2a" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">Making a Comeback</a>
-      </h3>
+      <h2 class="post-card__title">
+        <a href="https://medium.com/antaeus-ar/making-a-comeback-a0fee67d9b2a" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">Making a Comeback<span class="sr-only"> (opens on Medium in a new tab)</span></a>
+      </h2>
       <p class="post-card__excerpt fine">
         For most of the past decade, XR has lurched from hype cycle to hype cycle — spectacular live demos, earnest developer enthusiasm, and long stretches where headsets gathered dust on closet shelves....
       </p>
-      <p class="post-card__cta"><a class="no-mark-external" href="https://medium.com/antaeus-ar/making-a-comeback-a0fee67d9b2a" target="_blank" rel="noopener noreferrer">Read on Medium</a></p>
+      <p class="post-card__cta" aria-hidden="true"><a class="no-mark-external" href="https://medium.com/antaeus-ar/making-a-comeback-a0fee67d9b2a" target="_blank" rel="noopener noreferrer" tabindex="-1">Read on Medium <span>↗</span></a></p>
     </div>
   </li>
   
   <li class="post-card">
     
-    <div class="post-card__thumb">
-      <img src="https://cdn-images-1.medium.com/max/1024/1*cHse4EznzDEFA4WgIfLDhg.png" alt="Cover image for “My Top 5 Books of 2024”" loading="lazy" decoding="async" />
-    </div>
+    <a class="post-card__thumb no-hover no-mark-external" href="https://jackyangzzh.medium.com/my-top-5-books-of-2024-fec79743f1e6" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+      <img src="https://cdn-images-1.medium.com/max/1024/1*cHse4EznzDEFA4WgIfLDhg.png" alt="" width="640" height="360" loading="lazy" decoding="async" />
+    </a>
     
     <div class="post-card__body">
       <p class="post-card__meta">
         <time datetime="2025-05-13T01:29:12+00:00">May 13, 2025</time>
       </p>
-      <h3 class="post-card__title">
-        <a href="https://jackyangzzh.medium.com/my-top-5-books-of-2024-fec79743f1e6" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">My Top 5 Books of 2024</a>
-      </h3>
+      <h2 class="post-card__title">
+        <a href="https://jackyangzzh.medium.com/my-top-5-books-of-2024-fec79743f1e6" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">My Top 5 Books of 2024<span class="sr-only"> (opens on Medium in a new tab)</span></a>
+      </h2>
       <p class="post-card__excerpt fine">
         Edit: I may hold the record for the latest 2024 book recap on the internet — I drafted this back in January and only just realized I never hit “publish.” I hope...
       </p>
-      <p class="post-card__cta"><a class="no-mark-external" href="https://jackyangzzh.medium.com/my-top-5-books-of-2024-fec79743f1e6" target="_blank" rel="noopener noreferrer">Read on Medium</a></p>
+      <p class="post-card__cta" aria-hidden="true"><a class="no-mark-external" href="https://jackyangzzh.medium.com/my-top-5-books-of-2024-fec79743f1e6" target="_blank" rel="noopener noreferrer" tabindex="-1">Read on Medium <span>↗</span></a></p>
     </div>
   </li>
   
   <li class="post-card">
     
-    <div class="post-card__thumb">
-      <img src="https://cdn-images-1.medium.com/max/1024/0*HTUXSQ65rdHwA6QX" alt="Cover image for “The Spatial Computing Killer App is Finally Here”" loading="lazy" decoding="async" />
-    </div>
+    <a class="post-card__thumb no-hover no-mark-external" href="https://medium.com/antaeus-ar/the-spatial-computing-killer-app-is-finally-here-171b745820e5" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+      <img src="https://cdn-images-1.medium.com/max/1024/0*HTUXSQ65rdHwA6QX" alt="" width="640" height="360" loading="lazy" decoding="async" />
+    </a>
     
     <div class="post-card__body">
       <p class="post-card__meta">
         <time datetime="2024-05-14T00:58:19+00:00">May 14, 2024</time>
       </p>
-      <h3 class="post-card__title">
-        <a href="https://medium.com/antaeus-ar/the-spatial-computing-killer-app-is-finally-here-171b745820e5" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">The Spatial Computing Killer App is Finally Here</a>
-      </h3>
+      <h2 class="post-card__title">
+        <a href="https://medium.com/antaeus-ar/the-spatial-computing-killer-app-is-finally-here-171b745820e5" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">The Spatial Computing Killer App is Finally Here<span class="sr-only"> (opens on Medium in a new tab)</span></a>
+      </h2>
       <p class="post-card__excerpt fine">
         This morning, OpenAI has just released GPT-4o, the latest upgrade to its renowned series of AI models. This new version introduces significant enhancements, bringing more advanced and versatile capabilities to...
       </p>
-      <p class="post-card__cta"><a class="no-mark-external" href="https://medium.com/antaeus-ar/the-spatial-computing-killer-app-is-finally-here-171b745820e5" target="_blank" rel="noopener noreferrer">Read on Medium</a></p>
+      <p class="post-card__cta" aria-hidden="true"><a class="no-mark-external" href="https://medium.com/antaeus-ar/the-spatial-computing-killer-app-is-finally-here-171b745820e5" target="_blank" rel="noopener noreferrer" tabindex="-1">Read on Medium <span>↗</span></a></p>
     </div>
   </li>
   
   <li class="post-card">
     
-    <div class="post-card__thumb">
-      <img src="https://cdn-images-1.medium.com/max/1024/1*lcx4zmfWyC8lJy0lxjhUEA.jpeg" alt="Cover image for “A Week with Vision Pro: Insights and Impressions”" loading="lazy" decoding="async" />
-    </div>
+    <a class="post-card__thumb no-hover no-mark-external" href="https://medium.com/antaeus-ar/a-week-with-vision-pro-insights-and-impressions-8ee86547eed5" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+      <img src="https://cdn-images-1.medium.com/max/1024/1*lcx4zmfWyC8lJy0lxjhUEA.jpeg" alt="" width="640" height="360" loading="lazy" decoding="async" />
+    </a>
     
     <div class="post-card__body">
       <p class="post-card__meta">
         <time datetime="2024-02-17T06:41:03+00:00">Feb 17, 2024</time>
       </p>
-      <h3 class="post-card__title">
-        <a href="https://medium.com/antaeus-ar/a-week-with-vision-pro-insights-and-impressions-8ee86547eed5" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">A Week with Vision Pro: Insights and Impressions</a>
-      </h3>
+      <h2 class="post-card__title">
+        <a href="https://medium.com/antaeus-ar/a-week-with-vision-pro-insights-and-impressions-8ee86547eed5" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">A Week with Vision Pro: Insights and Impressions<span class="sr-only"> (opens on Medium in a new tab)</span></a>
+      </h2>
       <p class="post-card__excerpt fine">
         After years of patiently waiting, I finally got my hands on the Apple Vision Pro. With nearly a decade of working with immersive technologies, it is always exciting to see...
       </p>
-      <p class="post-card__cta"><a class="no-mark-external" href="https://medium.com/antaeus-ar/a-week-with-vision-pro-insights-and-impressions-8ee86547eed5" target="_blank" rel="noopener noreferrer">Read on Medium</a></p>
+      <p class="post-card__cta" aria-hidden="true"><a class="no-mark-external" href="https://medium.com/antaeus-ar/a-week-with-vision-pro-insights-and-impressions-8ee86547eed5" target="_blank" rel="noopener noreferrer" tabindex="-1">Read on Medium <span>↗</span></a></p>
     </div>
   </li>
   
   <li class="post-card">
     
-    <div class="post-card__thumb">
-      <img src="https://cdn-images-1.medium.com/max/1024/0*Wu75qqMvxDlukl4X" alt="Cover image for “My Top 5 Books of 2023”" loading="lazy" decoding="async" />
-    </div>
+    <a class="post-card__thumb no-hover no-mark-external" href="https://jackyangzzh.medium.com/my-top-5-books-of-2023-1f1f29cf82e0" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+      <img src="https://cdn-images-1.medium.com/max/1024/0*Wu75qqMvxDlukl4X" alt="" width="640" height="360" loading="lazy" decoding="async" />
+    </a>
     
     <div class="post-card__body">
       <p class="post-card__meta">
         <time datetime="2024-01-03T02:36:50+00:00">Jan 3, 2024</time>
       </p>
-      <h3 class="post-card__title">
-        <a href="https://jackyangzzh.medium.com/my-top-5-books-of-2023-1f1f29cf82e0" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">My Top 5 Books of 2023</a>
-      </h3>
+      <h2 class="post-card__title">
+        <a href="https://jackyangzzh.medium.com/my-top-5-books-of-2023-1f1f29cf82e0" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">My Top 5 Books of 2023<span class="sr-only"> (opens on Medium in a new tab)</span></a>
+      </h2>
       <p class="post-card__excerpt fine">
         Welcome to my year-end summary! As we embark on a new year, I’m thrilled to share with you the top 5 books that made my 2023 a remarkable journey in...
       </p>
-      <p class="post-card__cta"><a class="no-mark-external" href="https://jackyangzzh.medium.com/my-top-5-books-of-2023-1f1f29cf82e0" target="_blank" rel="noopener noreferrer">Read on Medium</a></p>
+      <p class="post-card__cta" aria-hidden="true"><a class="no-mark-external" href="https://jackyangzzh.medium.com/my-top-5-books-of-2023-1f1f29cf82e0" target="_blank" rel="noopener noreferrer" tabindex="-1">Read on Medium <span>↗</span></a></p>
     </div>
   </li>
   
   <li class="post-card">
     
-    <div class="post-card__thumb">
-      <img src="https://cdn-images-1.medium.com/max/1024/1*sGb3GVOcBs_h8kN4cRo1ow.jpeg" alt="Cover image for “My Thoughts on XR: Apple vs. Meta”" loading="lazy" decoding="async" />
-    </div>
+    <a class="post-card__thumb no-hover no-mark-external" href="https://medium.com/antaeus-ar/my-thoughts-on-xr-apple-vs-meta-bae73e867c0c" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+      <img src="https://cdn-images-1.medium.com/max/1024/1*sGb3GVOcBs_h8kN4cRo1ow.jpeg" alt="" width="640" height="360" loading="lazy" decoding="async" />
+    </a>
     
     <div class="post-card__body">
       <p class="post-card__meta">
         <time datetime="2023-06-09T22:59:20+00:00">Jun 9, 2023</time>
       </p>
-      <h3 class="post-card__title">
-        <a href="https://medium.com/antaeus-ar/my-thoughts-on-xr-apple-vs-meta-bae73e867c0c" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">My Thoughts on XR: Apple vs. Meta</a>
-      </h3>
+      <h2 class="post-card__title">
+        <a href="https://medium.com/antaeus-ar/my-thoughts-on-xr-apple-vs-meta-bae73e867c0c" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">My Thoughts on XR: Apple vs. Meta<span class="sr-only"> (opens on Medium in a new tab)</span></a>
+      </h2>
       <p class="post-card__excerpt fine">
         This week has undoubtedly been one of the most exciting in my seven years in the XR industry. With the release of Meta Quest 3 and Apple Vision Pro, XR...
       </p>
-      <p class="post-card__cta"><a class="no-mark-external" href="https://medium.com/antaeus-ar/my-thoughts-on-xr-apple-vs-meta-bae73e867c0c" target="_blank" rel="noopener noreferrer">Read on Medium</a></p>
+      <p class="post-card__cta" aria-hidden="true"><a class="no-mark-external" href="https://medium.com/antaeus-ar/my-thoughts-on-xr-apple-vs-meta-bae73e867c0c" target="_blank" rel="noopener noreferrer" tabindex="-1">Read on Medium <span>↗</span></a></p>
     </div>
   </li>
   
   <li class="post-card">
     
-    <div class="post-card__thumb">
-      <img src="https://cdn-images-1.medium.com/max/1024/0*7BEwRiAXuPA_ogLL.jpg" alt="Cover image for “My Initial Thoughts on Vision Pro”" loading="lazy" decoding="async" />
-    </div>
+    <a class="post-card__thumb no-hover no-mark-external" href="https://medium.com/antaeus-ar/my-initial-thoughts-on-vision-pro-c6b65ab7ad13" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+      <img src="https://cdn-images-1.medium.com/max/1024/0*7BEwRiAXuPA_ogLL.jpg" alt="" width="640" height="360" loading="lazy" decoding="async" />
+    </a>
     
     <div class="post-card__body">
       <p class="post-card__meta">
         <time datetime="2023-06-06T03:34:58+00:00">Jun 6, 2023</time>
       </p>
-      <h3 class="post-card__title">
-        <a href="https://medium.com/antaeus-ar/my-initial-thoughts-on-vision-pro-c6b65ab7ad13" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">My Initial Thoughts on Vision Pro</a>
-      </h3>
+      <h2 class="post-card__title">
+        <a href="https://medium.com/antaeus-ar/my-initial-thoughts-on-vision-pro-c6b65ab7ad13" target="_blank" rel="noopener noreferrer" class="flip-title no-mark-external">My Initial Thoughts on Vision Pro<span class="sr-only"> (opens on Medium in a new tab)</span></a>
+      </h2>
       <p class="post-card__excerpt fine">
         After a long-awaited wait, Apple has finally unveiled its mixed reality headset, Apple Vision Pro. This unique device boasts innovative technologies like EyeSight and Reality Dial. There are already plenty...
       </p>
-      <p class="post-card__cta"><a class="no-mark-external" href="https://medium.com/antaeus-ar/my-initial-thoughts-on-vision-pro-c6b65ab7ad13" target="_blank" rel="noopener noreferrer">Read on Medium</a></p>
+      <p class="post-card__cta" aria-hidden="true"><a class="no-mark-external" href="https://medium.com/antaeus-ar/my-initial-thoughts-on-vision-pro-c6b65ab7ad13" target="_blank" rel="noopener noreferrer" tabindex="-1">Read on Medium <span>↗</span></a></p>
     </div>
   </li>
   
@@ -487,13 +511,13 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     
       <p class="">
-        Building real-time AI agents and multimodal systems
+        AI agents for live conversations
 
       </p>
     
   </div>
 
-  <nav class="sidebar-nav heading" role="navigation">
+  <nav class="sidebar-nav heading" aria-label="Main navigation">
     <span class="sr-only">Navigation:</span>
 <ul>
   
@@ -504,6 +528,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
           id="_drawer--opened"
           href="/"
           class="sidebar-nav-item "
+          
           
         >
           About
@@ -516,6 +541,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
           
           href="/projects/"
           class="sidebar-nav-item "
+          aria-current="location"
           
         >
           Projects
@@ -528,6 +554,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
           
           href="/writing/"
           class="sidebar-nav-item "
+          
           
         >
           Writing
@@ -634,7 +661,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   
 
 <script src="/assets/js/project-transition.js?v=2" type="module"></script>
-<script src="/assets/js/site-polish.js?v=1" type="module"></script>
+<script src="/assets/js/site-polish.js?v=1788613419" type="module"></script>
 
   
 

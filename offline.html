@@ -25,8 +25,8 @@
 <meta property="og:title" content="You are offline" />
 <meta name="author" content="Jack Yang" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="Jack Yang builds real-time human-AI systems at Microsoft Teams AI, where he works on Facilitator. Before that, avatars and XR for Microsoft Mesh." />
-<meta property="og:description" content="Jack Yang builds real-time human-AI systems at Microsoft Teams AI, where he works on Facilitator. Before that, avatars and XR for Microsoft Mesh." />
+<meta name="description" content="Jack Yang is a software engineer at Microsoft Teams AI, working on Facilitator. Previously, he built avatar and XR systems for Microsoft Mesh." />
+<meta property="og:description" content="Jack Yang is a software engineer at Microsoft Teams AI, working on Facilitator. Previously, he built avatar and XR systems for Microsoft Mesh." />
 <link rel="canonical" href="https://jackyang.io/offline.html" />
 <meta property="og:url" content="https://jackyang.io/offline.html" />
 <meta property="og:site_name" content="Jack Yang" />
@@ -34,7 +34,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="You are offline" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-30T21:06:24+00:00","description":"Jack Yang builds real-time human-AI systems at Microsoft Teams AI, where he works on Facilitator. Before that, avatars and XR for Microsoft Mesh.","headline":"You are offline","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/offline.html"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-05T13:02:56+00:00","description":"Jack Yang is a software engineer at Microsoft Teams AI, working on Facilitator. Previously, he built avatar and XR systems for Microsoft Mesh.","headline":"You are offline","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/offline.html"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -86,7 +86,8 @@
 
 <link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
 
-<link rel="dns-prefetch" href="/assets/js/search-worker-9.1.6.js" as="worker" id="_hrefSearch">
+
+<link rel="dns-prefetch" href="/assets/js/0-hydejack-9.1.6.worker.js" as="worker" id="_hrefSearch">
 
 
 
@@ -107,7 +108,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-08-30T21:07:10+00:00',
+    INDEX_KEY: 'index--2026-09-05T13:03:39+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -121,8 +122,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1788124030" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1788124030" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1788613419" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1788613419" id="_iconsPreload">
 
 
 
@@ -179,7 +180,8 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 >
   
   
-  <div id="_navbar" class="navbar fixed-top">
+  <a class="skip-link no-push-state no-mark-external" href="#_main">Skip to content</a>
+<div id="_navbar" class="navbar fixed-top">
   <div class="content">
     <span class="sr-only">Jump to:</span>
     <div class="nav-btn-bar">
@@ -187,7 +189,24 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
         <span class="sr-only">Navigation</span>
         <span class="icon-menu"></span>
       </a>
-      <div class="nav-span"></div>
+      <nav class="nav-span quick-nav" aria-label="Page navigation">
+        
+        
+        <a href="/" class="quick-nav-link"
+          
+          >About</a>
+        
+        
+        <a href="/projects/" class="quick-nav-link"
+          
+          >Projects</a>
+        
+        
+        <a href="/writing/" class="quick-nav-link"
+          
+          >Writing</a>
+        
+      </nav>
     </div>
   </div>
 </div>
@@ -197,6 +216,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   id="_main"
   class="content layout-offline"
   role="main"
+  tabindex="-1"
 >
   <nav id="breadcrumbs" class="screen-only"><ul>
   
@@ -271,13 +291,13 @@ return <a href="/">home</a>, explore my <a href="/projects/">projects</a>, or br
     
     
       <p class="">
-        Building real-time AI agents and multimodal systems
+        AI agents for live conversations
 
       </p>
     
   </div>
 
-  <nav class="sidebar-nav heading" role="navigation">
+  <nav class="sidebar-nav heading" aria-label="Main navigation">
     <span class="sr-only">Navigation:</span>
 <ul>
   
@@ -288,6 +308,7 @@ return <a href="/">home</a>, explore my <a href="/projects/">projects</a>, or br
           id="_drawer--opened"
           href="/"
           class="sidebar-nav-item "
+          
           
         >
           About
@@ -300,6 +321,7 @@ return <a href="/">home</a>, explore my <a href="/projects/">projects</a>, or br
           
           href="/projects/"
           class="sidebar-nav-item "
+          aria-current="location"
           
         >
           Projects
@@ -312,6 +334,7 @@ return <a href="/">home</a>, explore my <a href="/projects/">projects</a>, or br
           
           href="/writing/"
           class="sidebar-nav-item "
+          
           
         >
           Writing
@@ -418,7 +441,7 @@ return <a href="/">home</a>, explore my <a href="/projects/">projects</a>, or br
   
 
 <script src="/assets/js/project-transition.js?v=2" type="module"></script>
-<script src="/assets/js/site-polish.js?v=1" type="module"></script>
+<script src="/assets/js/site-polish.js?v=1788613419" type="module"></script>
 
   
 

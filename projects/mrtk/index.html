@@ -23,8 +23,8 @@
 <meta property="og:title" content="MRTK for Unity" />
 <meta name="author" content="Jack Yang" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="Contributed Leap Motion support and an orientation example to Microsoft’s Mixed Reality Toolkit 2.7." />
-<meta property="og:description" content="Contributed Leap Motion support and an orientation example to Microsoft’s Mixed Reality Toolkit 2.7." />
+<meta name="description" content="Leap Motion integration work and a merged orientation example for Microsoft’s Mixed Reality Toolkit 2.7." />
+<meta property="og:description" content="Leap Motion integration work and a merged orientation example for Microsoft’s Mixed Reality Toolkit 2.7." />
 <link rel="canonical" href="https://jackyang.io/projects/mrtk/" />
 <meta property="og:url" content="https://jackyang.io/projects/mrtk/" />
 <meta property="og:site_name" content="Jack Yang" />
@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="Mixed Reality Toolkit for Unity logo" />
 <meta property="twitter:title" content="MRTK for Unity" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-08-30T21:06:24+00:00","datePublished":"2021-01-01T00:00:00+00:00","description":"Contributed Leap Motion support and an orientation example to Microsoft’s Mixed Reality Toolkit 2.7.","headline":"MRTK for Unity","image":{"alt":"Mixed Reality Toolkit for Unity logo","url":"https://jackyang.io/assets/img/projects/mrtk_unity.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/mrtk/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-05T13:02:56+00:00","datePublished":"2021-01-01T00:00:00+00:00","description":"Leap Motion integration work and a merged orientation example for Microsoft’s Mixed Reality Toolkit 2.7.","headline":"MRTK for Unity","image":{"alt":"Mixed Reality Toolkit for Unity logo","url":"https://jackyang.io/assets/img/projects/mrtk_unity.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/mrtk/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -89,7 +89,8 @@
 
 <link rel="preload" href="/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
 
-<link rel="dns-prefetch" href="/assets/js/search-worker-9.1.6.js" as="worker" id="_hrefSearch">
+
+<link rel="dns-prefetch" href="/assets/js/0-hydejack-9.1.6.worker.js" as="worker" id="_hrefSearch">
 
 
 
@@ -110,7 +111,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-08-30T21:07:10+00:00',
+    INDEX_KEY: 'index--2026-09-05T13:03:39+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -124,8 +125,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1788124030" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1788124030" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1788613419" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1788613419" id="_iconsPreload">
 
 
 
@@ -182,7 +183,8 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 >
   
   
-  <div id="_navbar" class="navbar fixed-top">
+  <a class="skip-link no-push-state no-mark-external" href="#_main">Skip to content</a>
+<div id="_navbar" class="navbar fixed-top">
   <div class="content">
     <span class="sr-only">Jump to:</span>
     <div class="nav-btn-bar">
@@ -190,7 +192,24 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
         <span class="sr-only">Navigation</span>
         <span class="icon-menu"></span>
       </a>
-      <div class="nav-span"></div>
+      <nav class="nav-span quick-nav" aria-label="Page navigation">
+        
+        
+        <a href="/" class="quick-nav-link"
+          
+          >About</a>
+        
+        
+        <a href="/projects/" class="quick-nav-link"
+          aria-current="location"
+          >Projects</a>
+        
+        
+        <a href="/writing/" class="quick-nav-link"
+          
+          >Writing</a>
+        
+      </nav>
     </div>
   </div>
 </div>
@@ -200,6 +219,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   id="_main"
   class="content layout-project"
   role="main"
+  tabindex="-1"
 >
   <nav id="breadcrumbs" class="screen-only"><ul>
   
@@ -245,6 +265,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <article id="project" class="page mb6 project-page" role="article" vocab="http://schema.org/" typeof="CreativeWork"
   resource="#project" >
+  <a class="project-back" href="/projects/"><span aria-hidden="true">←</span> All projects</a>
   <header class="project-header">
     <div class="project-header-copy">
       
@@ -264,7 +285,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
       
       
-      <p class="project-summary" property="description">Contributed Leap Motion support and an orientation example to Microsoft’s Mixed Reality Toolkit 2.7.</p>
+      <p class="project-summary" property="description">Leap Motion integration work and a merged orientation example for Microsoft’s Mixed Reality Toolkit 2.7.</p>
       
       
 
@@ -315,7 +336,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   </header>
 
   <div class="project-body">
-    <p>MRTK is Microsoft’s open-source Unity toolkit for XR. Because it gives developers common APIs for input, interaction, UI, and spatial behavior across completely different headsets, it has become a foundational layer for many spatial computing projects.</p>
+    <p>I contributed to the Leap Motion integration in MRTK 2.7, Microsoft’s open-source Unity toolkit for XR. The work included a merged example scene showing how hand tracking behaves in different orientation modes.</p>
 
 <figure class="project-video">
     <div class="project-video-frame">
@@ -326,27 +347,23 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <h2 id="my-contribution-in-mrtk-27">My contribution in MRTK 2.7</h2>
 
-<p>When I started contributing, I assumed the hardest part would be writing the core integration code itself. However, I quickly realized that building a useful example scene and maintaining regression stability were actually far more complex aspects of open-source toolkit work.</p>
+<p>My primary public contribution is <a href="https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726">PR #9726</a>. Orientation settings can be hard to understand from a configuration panel. The scene lets developers see how MRTK interprets a tracked hand in each supported mode.</p>
 
-<p>My primary public contribution is <a href="https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726">PR #9726</a>, which adds an example scene that demonstrates Leap Motion orientation modes. Because settings like orientation can be highly abstract, I wanted to provide a tangible scene that explicitly shows how MRTK interprets a tracked hand under every possible orientation configuration.</p>
+<p>I removed hard dependencies so the scene could load before the Leap Motion Unity module was installed. Maintainer reviews also helped keep the example consistent with the rest of MRTK. It needed to explain the feature without asking developers to learn another setup process.</p>
 
-<p>While building this scene, I intentionally removed any hard dependencies so the display could load correctly even before the Leap Motion Unity module was installed. I also went through multiple maintainer review cycles to ensure the sample stayed rigorously consistent with existing MRTK patterns, since I did not want developers to have to learn a totally separate setup path just for this one feature.</p>
+<h2 id="integration-work">Integration work</h2>
 
-<h2 id="additional-engineering">Additional engineering</h2>
-
-<p>Beyond the example scene, I pushed several changes to the surrounding Leap Motion integration to ensure release quality:</p>
+<p>Beyond the example scene, I worked on the surrounding integration:</p>
 
 <ul>
   <li>Profiled input system hotspots and shifted allocation-heavy workloads into C# Jobs.</li>
-  <li>Added strict tests around hand-joint data and interactable states because I wanted to aggressively reduce potential regressions.</li>
-  <li>Wrote migration notes and provided samples for external teams adopting these new changes.</li>
+  <li>Added tests for hand-joint data and interactable states.</li>
+  <li>Wrote migration notes and samples for teams adopting the changes.</li>
 </ul>
 
-<h2 id="open-source-constraints">Open-source constraints</h2>
+<h2 id="working-in-someone-elses-project">Working in someone else’s project</h2>
 
-<p>Contributing to MRTK fundamentally changed my perspective on shipping code. While in a standalone app you simply write code to solve your own problem, toolkit code absolutely has to work in wildly unpredictable external environments. Even though a change worked perfectly in my sample, it could still easily break another team’s project, meaning compatibility and regression risk constantly shaped the final implementation.</p>
-
-<p>In brief, this work made the less visible parts of an open-source release painfully concrete for me. A useful example was just one tiny piece of the overall contribution. Ultimately, optional packages, strict testing, and maintainer reviews had just as much influence on the final shipped code as the feature itself.</p>
+<p>A sample working on my machine wasn’t enough. It had to coexist with optional packages, different project setups, and code I hadn’t seen. Compatibility checks, tests, and maintainer feedback shaped the contribution as much as the feature did.</p>
 
   </div>
 </article>
@@ -397,10 +414,9 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   </h2>
 
   <p>Jack Yang is a software engineer at Microsoft Teams AI, where he works on
-Facilitator, an agent that joins live multi-person meetings. Before that he
-worked on avatars and XR at Microsoft Mesh, from 2022 to 2024. He has been
-circling the same question since 2020: how a computer can take part in a
-conversation without taking it over.</p>
+Facilitator. Previously, he built avatar and XR systems for Microsoft Mesh.
+He writes about AI agents, human-computer interaction, and what he learns
+from building things.</p>
 
 
   <div class="sidebar-social">
@@ -498,7 +514,7 @@ conversation without taking it over.</p>
 
 
 
-  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">        <article class="project-card" data-category="research" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/vision-disorder/#project" >  <meta property="name" content="VR Vision Disorder Simulation" />    <meta property="image" content="/assets/img/projects/kats.webp" />  <a href="/projects/vision-disorder/" class="no-hover no-print-link project-transition">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/kats.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="VR headset displaying different color-adjusted scenes to the left and right eyes"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-research">Research</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2020-01-01T00:00:00+00:00">2020</time>                  <span class="project-card-meta-separator">|</span>      <span>2 links</span>          </p>        <h3 class="project-card-title">      <a href="/projects/vision-disorder/" class="project-transition" property="mainEntityOfPage">VR Vision Disorder Simulation</a>    </h3>            <p class="project-card-text fine" property="disambiguatingDescription">      Led two VR research projects on color vision deficiency and binocular rivalry using computer vision and consumer headsets.    </p>        <p class="project-card-cta"><a href="/projects/vision-disorder/" class="project-transition">View project</a></p>  </div></article>      </div>                  <div class="column column-1-2">        <article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/polyspace/#project" >  <meta property="name" content="Poly Space VR" />    <meta property="image" content="/assets/img/projects/PolySpaceLogo.webp" />  <a href="/projects/polyspace/" class="no-hover no-print-link project-transition">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/PolySpaceLogo.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Poly Space VR logo"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-personal">Personal</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2021-01-01T00:00:00+00:00">2021</time>                  <span class="project-card-meta-separator">|</span>      <span>2 links</span>          </p>        <h3 class="project-card-title">      <a href="/projects/polyspace/" class="project-transition" property="mainEntityOfPage">Poly Space VR</a>    </h3>            <p class="project-card-text fine" property="disambiguatingDescription">      Built and open-sourced a social VR app that caps rooms at eight people to keep voice and avatar sync reliable, with an in-headset editor for hosts. Released on the Oculus PC VR store.    </p>        <p class="project-card-cta"><a href="/projects/polyspace/" class="project-transition">View project</a></p>  </div></article>      </div>      </div></aside>
+  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">        <article class="project-card" data-category="research" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/vision-disorder/#project" >  <meta property="name" content="Color Vision & Binocular Rivalry in VR" />    <meta property="image" content="/assets/img/projects/kats.webp" />  <a href="/projects/vision-disorder/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/kats.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="VR headset displaying different color-adjusted scenes to the left and right eyes"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-research">Research</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2020-01-01T00:00:00+00:00">2020</time>                </p>        <h2 class="project-card-title">      <a href="/projects/vision-disorder/" class="project-transition" property="mainEntityOfPage">Color Vision & Binocular Rivalry in VR</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      Two research prototypes using consumer VR headsets to explore color vision deficiency and binocular rivalry.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/vision-disorder/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>                  <div class="column column-1-2">        <article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/polyspace/#project" >  <meta property="name" content="Poly Space VR" />    <meta property="image" content="/assets/img/projects/PolySpaceLogo.webp" />  <a href="/projects/polyspace/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/PolySpaceLogo.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Poly Space VR logo"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-personal">Personal</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2021-01-01T00:00:00+00:00">2021</time>                </p>        <h2 class="project-card-title">      <a href="/projects/polyspace/" class="project-transition" property="mainEntityOfPage">Poly Space VR</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      An open-source social VR app for up to eight people, with voice chat, shared objects, and an in-headset room editor. Released on the Oculus PC VR store.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/polyspace/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>      </div></aside>
 
 
 
@@ -551,13 +567,13 @@ conversation without taking it over.</p>
     
     
       <p class="">
-        Building real-time AI agents and multimodal systems
+        AI agents for live conversations
 
       </p>
     
   </div>
 
-  <nav class="sidebar-nav heading" role="navigation">
+  <nav class="sidebar-nav heading" aria-label="Main navigation">
     <span class="sr-only">Navigation:</span>
 <ul>
   
@@ -568,6 +584,7 @@ conversation without taking it over.</p>
           id="_drawer--opened"
           href="/"
           class="sidebar-nav-item "
+          
           
         >
           About
@@ -580,6 +597,7 @@ conversation without taking it over.</p>
           
           href="/projects/"
           class="sidebar-nav-item "
+          aria-current="location"
           
         >
           Projects
@@ -592,6 +610,7 @@ conversation without taking it over.</p>
           
           href="/writing/"
           class="sidebar-nav-item "
+          
           
         >
           Writing
@@ -698,7 +717,7 @@ conversation without taking it over.</p>
   
 
 <script src="/assets/js/project-transition.js?v=2" type="module"></script>
-<script src="/assets/js/site-polish.js?v=1" type="module"></script>
+<script src="/assets/js/site-polish.js?v=1788613419" type="module"></script>
 
   
 

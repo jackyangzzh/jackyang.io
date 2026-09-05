@@ -1,7 +1,5 @@
-// Progressive-enhancement polish: staggered scroll reveals and a copy-to-clipboard
-// affordance on the email button. Both are optional extras — if this file never
-// loads, the inline gate in <head> un-hides everything and the email button keeps
-// its plain `mailto:` behaviour.
+// Progressive enhancements for both initial loads and Hydejack page swaps.
+// Without JavaScript, all content remains readable and ordinary links still work.
 (() => {
   "use strict";
 
@@ -85,31 +83,97 @@
     }, 2600);
   };
 
+  /* --------------------------------------------------------------- navigation */
+
+  const setupNavigation = () => {
+    const path = location.pathname.replace(/\/$/, "") || "/";
+    for (const link of document.querySelectorAll(".sidebar-nav-item, .quick-nav-link")) {
+      const url = new URL(link.href, location.href);
+      const target = url.pathname.replace(/\/$/, "") || "/";
+      link.removeAttribute("aria-current");
+      if (url.origin !== location.origin) continue;
+      if (target === path) link.setAttribute("aria-current", "page");
+      else if (target !== "/" && path.startsWith(`${target}/`)) {
+        link.setAttribute("aria-current", "location");
+      }
+    }
+  };
+
+  /* ----------------------------------------------------------------- filters */
+
+  const setupFilters = () => {
+    const filters = document.querySelector(".project-filters");
+    if (!filters) return;
+    const buttons = [...filters.querySelectorAll("[data-filter]")];
+    const items = [...document.querySelectorAll(".project-list .project-column")];
+    const status = document.querySelector(".project-results");
+
+    const applyFilter = (filter) => {
+      let count = 0;
+      for (const button of buttons) {
+        const active = button.dataset.filter === filter;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+      }
+      for (const item of items) {
+        const match = filter === "all" || item.dataset.category === filter;
+        item.hidden = !match;
+        item.classList.toggle("project-hidden", !match);
+        if (match) count += 1;
+      }
+      if (status) {
+        const category = filter === "all" ? "" : `${filter} `;
+        status.textContent = `Showing ${filter === "all" ? "all " : ""}${count} ${category}project${count === 1 ? "" : "s"}`;
+      }
+    };
+
+    const requested = new URL(location.href).searchParams.get("category");
+    applyFilter(buttons.some((button) => button.dataset.filter === requested) ? requested : "all");
+    filters.hidden = false;
+
+    // A cached page may be initialized again; do not stack click handlers.
+    if (filters.dataset.ready) return;
+    filters.dataset.ready = "true";
+    filters.addEventListener("click", (event) => {
+      const button = event.target instanceof Element && event.target.closest("[data-filter]");
+      if (!button) return;
+      const filter = button.dataset.filter;
+      applyFilter(filter);
+      const url = new URL(location.href);
+      if (filter === "all") url.searchParams.delete("category");
+      else url.searchParams.set("category", filter);
+      // Keep the selection shareable without reloading or adding a history entry
+      // for each button press. Preserve the theme's own history-state data.
+      history.replaceState(history.state, "", url);
+      setupReveal();
+    });
+  };
+
   /* ------------------------------------------------------- copy email address */
 
-  const onDocumentClick = (event) => {
-    const link = event.target.closest('a[href^="mailto:"]');
-    if (!link) return;
-
-    const address = link.getAttribute("href").slice(7).split("?")[0];
-    if (!address) return;
-
-    // Deliberately does NOT preventDefault: the mail client should still open for
-    // people who have one. The copy is a safety net for those who don't, which is
-    // otherwise a dead end on a `mailto:` link.
+  const setupCopyEmail = () => {
     if (!navigator.clipboard?.writeText) return;
+    for (const button of document.querySelectorAll("[data-copy-email]")) {
+      button.hidden = false;
+    }
+  };
 
-    navigator.clipboard
-      .writeText(address)
-      .then(() => showToast(`${address} copied to clipboard`))
+  const onDocumentClick = (event) => {
+    const button = event.target instanceof Element && event.target.closest("[data-copy-email]");
+    if (!button || !navigator.clipboard?.writeText) return;
+    navigator.clipboard.writeText(button.dataset.copyEmail)
+      .then(() => showToast("Email address copied"))
       .catch(() => {
-        /* Clipboard blocked — the mailto: navigation still happens. */
+        showToast("Couldn’t copy. Select the email address to copy it manually.");
       });
   };
 
   /* -------------------------------------------------------------------- init */
 
   const init = () => {
+    setupNavigation();
+    setupFilters();
+    setupCopyEmail();
     setupReveal();
   };
 
@@ -121,9 +185,9 @@
 
   document.addEventListener("click", onDocumentClick);
 
-  // Hydejack swaps page content client-side, so freshly injected cards and
-  // resume sections need to be observed again.
+  // The sidebar and toolbar persist while the main content is replaced.
   if (pushState) {
-    pushState.addEventListener("hy-push-state-after", setupReveal);
+    pushState.addEventListener("hy-push-state-after", init);
   }
+  window.addEventListener("popstate", init);
 })();
