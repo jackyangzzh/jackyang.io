@@ -103,7 +103,42 @@
 	&:focus { transform: none; }
 }
 
+// Copy-to-clipboard confirmation --------------------------------------------
+//
+// The confirmation happens inside the button: an accent layer blooms from the
+// middle, the label swaps to a checkmark that draws itself, and the chip
+// settles back about two seconds later. All three labels share one grid cell,
+// so the button always reserves the width of the widest one and the definition
+// list never reflows. The spoken half of the confirmation is a separate live
+// region (.copy-email-status) — the button's accessible name never changes, so
+// nothing depends on a screen reader noticing a relabelled control that
+// currently holds focus.
+//
+// The failure colour follows the same two-way dark-mode pattern as the accent
+// tokens in my-inline.scss: a bare `body` for the media query, plus
+// `.dark-mode` / `.light-mode` for the manual toggle.
+:root { --copy-fail: #b0443b; }			// 5.3:1 on the light chip
+
+@media screen and (prefers-color-scheme: dark) {
+	body { --copy-fail: #f0a29a; }		// 7.4:1 on the dark chip
+}
+
+@media screen {
+	body.dark-mode { --copy-fail: #f0a29a; }
+	body.light-mode { --copy-fail: #b0443b; }
+}
+
 .copy-email {
+	// Named curves, so each part of the gesture has its own intent.
+	--copy-bloom: cubic-bezier(.22, 1, .32, 1);		// fill arrives fast, settles long
+	--copy-drain: cubic-bezier(.4, 0, .7, .2);		// leaves reluctantly, then quickly
+	--copy-draw: cubic-bezier(.16, .84, .44, 1);	// pen stroke: off the mark fast, lands soft
+	--copy-spring: cubic-bezier(.34, 1.42, .64, 1);	// exactly one overshoot, no wobble
+	--copy-settle: cubic-bezier(.33, 1, .68, 1);	// the chip's own pop
+
+	position: relative;
+	// Keeps the fill layer's z-index a private matter.
+	isolation: isolate;
 	min-height: 44px;
 	padding: .2rem .5rem;
 	border: 0;
@@ -112,30 +147,172 @@
 	color: var(--accent-strong);
 	font: inherit;
 	font-size: .75rem;
+	line-height: 1.2;
+	// Pinned instead of left on the baseline: the button's inner structure now
+	// decides where its baseline falls, and `middle` keeps it visually locked
+	// to the address beside it regardless. `overflow` stays visible on purpose
+	// — clipping would move an inline-block's baseline to its bottom edge.
+	vertical-align: middle;
 	cursor: pointer;
+	// The chip has its own press feedback now; iOS's grey flash fights the pop.
+	-webkit-tap-highlight-color: transparent;
+	transition: background-color 140ms linear;
 	&:hover { background: var(--border-color); }
+	&:active { transform: scale(.97); }
 }
 
-.site-toast {
-	position: fixed;
-	bottom: max(1.25rem, env(safe-area-inset-bottom));
-	left: 50%;
-	z-index: 100;
-	width: max-content;
-	max-width: calc(100% - 2rem);
-	padding: .8rem 1.1rem;
-	border: 1px solid var(--border-color);
-	border-radius: .7rem;
-	background: var(--body-bg);
-	color: var(--body-color);
-	box-shadow: var(--card-shadow);
-	font-size: .85rem;
-	text-align: center;
+// The fill is either fully opaque or zero-sized, never a partial blend, so the
+// label on top of it always sits on a finished colour. The 90ms drain delay
+// holds the surface still until the white label above it has already faded out.
+.copy-email__fill {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	border-radius: inherit;
+	background: var(--accent-strong);
+	transform: scale(0);
+	transform-origin: 50% 50%;
+	transition: transform 200ms var(--copy-drain) 90ms;
+}
+
+// One grid cell, three labels stacked in it: the track is as wide and as tall
+// as the widest/tallest label, in every state.
+.copy-email__faces {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	place-items: center;
+}
+
+.copy-email__face {
+	grid-area: 1 / 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .35em;
+	white-space: nowrap;
+	transition:
+		opacity 90ms linear,
+		transform 130ms var(--copy-bloom),
+		visibility 0s 90ms;
+}
+
+// Same colour as the fill, so the bloom swallows the word instead of
+// cross-fading with it.
+.copy-email__face--idle { color: var(--accent-strong); }
+
+.copy-email__face--done,
+.copy-email__face--fail {
 	opacity: 0;
-	transform: translate(-50%, .5rem);
-	pointer-events: none;
-	transition: opacity 160ms ease, transform 160ms ease;
-	&.is-visible { opacity: 1; transform: translate(-50%, 0); }
+	visibility: hidden;
+	transform: scale(.82);
+}
+
+.copy-email__face--done { color: var(--accent-strong-contrast); }
+.copy-email__face--fail { color: var(--copy-fail); }
+
+// `pathLength="1"` in the markup makes one unit of dash offset the whole stroke.
+.copy-email__check {
+	width: .95em;
+	height: .95em;
+	stroke-dasharray: 1;
+	stroke-dashoffset: 1;
+}
+
+// Confirmed -----------------------------------------------------------------
+
+.copy-email.is-copied {
+	animation: copy-email-pop 420ms var(--copy-settle);
+}
+
+.copy-email.is-copied .copy-email__fill {
+	transform: scale(1);
+	transition: transform 260ms var(--copy-bloom);
+}
+
+.copy-email.is-copied .copy-email__face--idle,
+.copy-email.is-failed .copy-email__face--idle {
+	opacity: 0;
+	transition: opacity 90ms linear;
+}
+
+.copy-email.is-copied .copy-email__face--done,
+.copy-email.is-failed .copy-email__face--fail {
+	opacity: 1;
+	visibility: visible;
+	transform: none;
+	// Held back ~90ms so the label lands on a surface that has already arrived.
+	transition:
+		opacity 150ms linear 90ms,
+		transform 300ms var(--copy-spring) 90ms,
+		visibility 0s 90ms;
+}
+
+.copy-email.is-copied .copy-email__check {
+	animation: copy-email-draw 340ms var(--copy-draw) 150ms forwards;
+}
+
+// Failed --------------------------------------------------------------------
+//
+// No fill here: an inset ring plus the failure colour reads as "stopped"
+// without inventing a second contrast pair. The sentence that explains what to
+// do next is carried by the live region.
+.copy-email.is-failed {
+	box-shadow: inset 0 0 0 1px var(--copy-fail);
+	animation: copy-email-nudge 320ms ease-in-out;
+}
+
+// Windows High Contrast flattens author colours, which would leave the
+// confirmed label invisible on its own fill. Opt those two layers out and use
+// the system pair instead.
+@media (forced-colors: active) {
+	.copy-email__fill {
+		forced-color-adjust: none;
+		background: Highlight;
+	}
+
+	.copy-email.is-copied .copy-email__face--done {
+		forced-color-adjust: none;
+		color: HighlightText;
+	}
+
+	.copy-email.is-failed {
+		box-shadow: inset 0 0 0 1px ButtonText;
+	}
+}
+
+@keyframes copy-email-pop {
+	0% { transform: scale(1); }
+	26% { transform: scale(.955); }
+	60% { transform: scale(1.035); }
+	100% { transform: scale(1); }
+}
+
+@keyframes copy-email-draw {
+	to { stroke-dashoffset: 0; }
+}
+
+@keyframes copy-email-nudge {
+	0%, 100% { transform: translateX(0); }
+	22% { transform: translateX(-2px); }
+	55% { transform: translateX(2px); }
+	80% { transform: translateX(-1px); }
+}
+
+// The spoken half of the confirmation. It ships in the markup rather than being
+// created on click, so assistive tech has registered it long before the first
+// click; visually hidden, but still rendered, which is what live regions need.
+.copy-email-status {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
 }
 
 // Resume --------------------------------------------------------------------
@@ -729,12 +906,11 @@ body.dark-mode {
 }
 
 @media print {
-	.skip-link, .quick-nav, .site-toast, .project-filters, .project-results, .project-back { display: none; }
+	.skip-link, .quick-nav, .copy-email, .copy-email-status, .project-filters, .project-results, .project-back { display: none; }
 	.layout-resume .resume-intro { margin: 1rem 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.site-toast,
 	.btn,
 	.project-card,
 	.post-card,
@@ -756,4 +932,29 @@ body.dark-mode {
 	.project-link:focus-visible {
 		transform: none;
 	}
+
+	// The confirmation still happens, it just stops moving: the fill snaps to
+	// full size, the check is declared already-drawn, and the label still reads
+	// "Copied" for the full hold. The fill's `transform` is deliberately not
+	// reset here — it is the state itself, not the motion.
+	.copy-email,
+	.copy-email__fill,
+	.copy-email__face,
+	.copy-email__check,
+	.copy-email.is-copied,
+	.copy-email.is-failed,
+	.copy-email.is-copied .copy-email__fill,
+	.copy-email.is-copied .copy-email__face--done,
+	.copy-email.is-failed .copy-email__face--fail {
+		transition: none !important;
+		animation: none !important;
+	}
+
+	.copy-email:active { transform: none; }
+
+	// Without the press animation, the platform's own tap flash is the only
+	// touch-down feedback left, so give it back.
+	.copy-email { -webkit-tap-highlight-color: initial; }
+
+	.copy-email.is-copied .copy-email__check { stroke-dashoffset: 0; }
 }
