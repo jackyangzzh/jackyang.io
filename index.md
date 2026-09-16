@@ -11,10 +11,10 @@ hide_description: true
 left_column:
   - work
   - research
+  - education
   - certifications
 right_column:
   - skills
-  - education
   - publications
 no_language_icons: false
 no_skill_icons: false

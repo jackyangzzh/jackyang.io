@@ -124,26 +124,28 @@ publications:
     website: "https://www.amazon.com/dp/0645300802"
     summary: "Contributed the article \"Critical Conversation\" to Mike Cameron's collected volume."
 skills:
-  - name: "AI & Agents"
+  - name: "AI & Agent Systems"
     keywords:
-      - "LLMs / Agents"
+      - "LLM Agents & Orchestration"
+      - "Tool Calling & Context Management"
       - "Retrieval-Augmented Generation (RAG)"
-      - "Model Context Protocol (MCP)"
-      - "Agent-to-Agent (A2A)"
+      - "Multimodal AI"
+      - "Agent Interoperability (MCP / A2A)"
       - "Python / PyTorch"
-      - "OpenCV"
 
-  - name: "Real-Time & Spatial Systems"
+  - name: "Software & Cloud"
     keywords:
-      - "Unity / C#"
-      - "Unreal / C++"
-      - "visionOS / Swift"
-      - "Babylon.js / WebXR"
-      - "Vulkan / OpenGL"
-
-  - name: "Product & UI Engineering"
-    keywords:
-      - "Interaction Design"
-      - "React / TypeScript"
-      - "Three.js / JavaScript"
+      - "Python"
+      - "C# / C++"
+      - "TypeScript / React"
       - "Azure / Cloud Services"
+      - "Observability & Performance"
+      - "Accessible UI Engineering"
+
+  - name: "Real-Time & Spatial Computing"
+    keywords:
+      - "Unity / Unreal Engine"
+      - "Computer Vision / OpenCV"
+      - "WebXR / Three.js"
+      - "visionOS / Swift"
+      - "GPU Rendering / Vulkan / OpenGL"

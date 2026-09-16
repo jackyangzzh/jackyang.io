@@ -490,6 +490,96 @@
 	}
 }
 
+// Skills: turn the floated <dt> group labels into eyebrow subheadings so the
+// three groups read as a hierarchy instead of a chip wall. The theme appends
+// a " :" via dt::after, which no longer fits the design.
+.layout-resume .skills {
+	> dt {
+		float: none;
+		width: auto;
+		margin: 1.35rem 0 .1rem;
+		color: var(--accent-strong);
+		font-size: .78rem;
+		font-weight: 700;
+		letter-spacing: .06em;
+		text-transform: uppercase;
+		&::after { content: none; }
+	}
+	> dd {
+		float: none;
+		width: auto;
+		padding-left: 0;
+	}
+	> dt:first-of-type { margin-top: .5rem; }
+
+}
+
+// Certifications: compact card list instead of stacked "X from Y" headings.
+.layout-resume .cert-list {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: .6rem;
+	margin: 0 0 1rem;
+	padding: 0;
+	list-style: none;
+
+	.cert-item { margin: 0; padding: 0; }
+
+	.cert-link {
+		display: block;
+		box-sizing: border-box;
+		height: 100%;
+		padding: .65rem .85rem;
+		border: 1px solid var(--border-color);
+		border-radius: .6rem;
+		background: var(--gray-bg);
+		text-decoration: none;
+		transition:
+			border-color 160ms ease,
+			background-color 160ms ease,
+			transform 160ms ease;
+	}
+
+	// Keep the theme's external-link glyph, but dock it to the card corner
+	// instead of letting it drop onto its own line below the block spans.
+	a.cert-link {
+		position: relative;
+		&::after {
+			position: absolute;
+			top: .55rem;
+			right: .65rem;
+		}
+	}
+
+	a.cert-link:hover {
+		border-color: var(--accent-color-faded);
+		background: var(--body-bg);
+		transform: translateY(-1px);
+	}
+
+	.cert-name {
+		display: block;
+		color: var(--body-color);
+		font-size: .85rem;
+		font-weight: 700;
+		line-height: 1.4;
+	}
+
+	.cert-publisher {
+		display: block;
+		margin-top: .15rem;
+		color: var(--gray-text);
+		font-size: .75rem;
+		line-height: 1.4;
+	}
+}
+
+// Desktop: the sidebar already shows the main nav, so the duplicate
+// quick-nav links in the top bar only add noise.
+@media screen and (min-width: 64em) {
+	.quick-nav { display: none; }
+}
+
 // Collection pages ---------------------------------------------------------
 
 .layout-projects,
@@ -888,7 +978,20 @@ body.dark-mode {
 	.layout-resume .resume-hero .avatar { width: 4.5rem; height: 4.5rem; align-self: start; }
 	.layout-resume .resume-headline { font-size: 1.15rem; }
 	.layout-resume .resume-eyebrow { font-size: .65rem; letter-spacing: .06em; }
-	.layout-resume #resume > .resume-actions .btn { flex: 1 1 calc(50% - .6rem); }
+	.layout-resume #resume > .resume-actions {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.layout-resume #resume > .resume-actions .btn {
+		width: 100%;
+		margin: 0;
+	}
+	// Make the quiet/ghost buttons read as equal tiles in the mobile grid.
+	.layout-resume #resume > .resume-actions .btn-quiet {
+		border-color: var(--border-color);
+		color: var(--body-color);
+	}
+	.layout-resume .cert-list { grid-template-columns: 1fr; }
 	.layout-resume .contact dd { overflow-wrap: anywhere; }
 	.quick-nav { gap: 0; padding-right: .25rem; }
 	.quick-nav-link { padding: .3rem .5rem; font-size: .75rem; }
