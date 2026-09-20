@@ -75,19 +75,26 @@
         { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
       );
 
+      // Read geometry before class changes to avoid repeated synchronous
+      // style/layout work; batching the reads also keeps the writes from
+      // creating layout-thrash between them.
       const fold = root.clientHeight;
+      const measured = [];
       for (const el of targets) {
         // Seen targets stay visible; nothing to do on a repeat init.
         if (el.classList.contains(SEEN_CLASS) || el.classList.contains("is-in")) continue;
-
         const rect = el.getBoundingClientRect();
         const inOrPastViewport = rect.bottom <= 0 || (rect.top < fold && rect.bottom > 0);
+        measured.push({ el, inOrPastViewport });
+      }
 
+      // Writes only: opt in, reveal, or register with the fresh observer.
+      for (const { el, inOrPastViewport } of measured) {
         if (el.classList.contains(PENDING_CLASS)) {
-          // Hidden earlier by a previous pass; re-measure now. Still below the
-          // fold: keep it waiting (re-observe a fresh observer). No longer
-          // below the fold — entered the viewport or been scrolled past while
-          // hidden: show immediately, without a fresh fade, and mark seen.
+          // Hidden earlier by a previous pass; re-measure from phase A. Still
+          // below the fold: keep it waiting (re-observe a fresh observer). No
+          // longer below the fold — entered the viewport or been scrolled past
+          // while hidden: show immediately, without a fresh fade, mark seen.
           if (inOrPastViewport) markSeen(el);
           else observer.observe(el);
           continue;
@@ -340,6 +347,103 @@
     );
   };
 
+  /* -------------------------------------------------------- reading progress */
+
+  let progressTicking = false;
+  const updateReadingProgress = () => {
+    progressTicking = false;
+    const bar = document.getElementById("reading-progress");
+    if (!bar) return;
+    const scrollH = document.documentElement.scrollHeight - window.innerHeight;
+    if (scrollH <= 0) {
+      bar.style.width = "0%";
+      return;
+    }
+    const percent = Math.min(100, Math.max(0, (window.scrollY / scrollH) * 100));
+    bar.style.width = `${percent.toFixed(1)}%`;
+  };
+
+  const setupReadingProgress = () => {
+    const bar = document.getElementById("reading-progress");
+    if (!bar) return;
+    if (reducedMotion && reducedMotion.matches) {
+      bar.style.display = "none";
+      return;
+    }
+    bar.style.display = "block";
+    updateReadingProgress();
+    if (!window.__readingProgressReady) {
+      window.__readingProgressReady = true;
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (!progressTicking) {
+            requestAnimationFrame(updateReadingProgress);
+            progressTicking = true;
+          }
+        },
+        { passive: true }
+      );
+    }
+  };
+
+  /* ------------------------------------------------------- keyboard shortcuts */
+
+  const setupKeyboardShortcuts = () => {
+    if (window.__shortcutsReady) return;
+    window.__shortcutsReady = true;
+
+    window.addEventListener("keydown", (event) => {
+      // Don't intercept when user is typing or using modifier keys
+      if (
+        event.metaKey ||
+        event.ctrlKey ||
+        event.altKey ||
+        event.target instanceof HTMLInputElement ||
+        event.target instanceof HTMLTextAreaElement ||
+        (event.target instanceof HTMLElement && event.target.isContentEditable)
+      ) {
+        return;
+      }
+
+      if (event.key === "/") {
+        const searchBtn = document.getElementById("_search");
+        if (searchBtn) {
+          event.preventDefault();
+          searchBtn.click();
+        }
+      } else if (event.key === "t" || event.key === "T") {
+        const darkModeBtn = document.getElementById("_dark-mode");
+        if (darkModeBtn) {
+          event.preventDefault();
+          darkModeBtn.click();
+        }
+      }
+    });
+  };
+
+  /* ---------------------------------------------------------- card spotlight */
+
+  const setupCardSpotlight = () => {
+    if ((reducedMotion && reducedMotion.matches) || (window.matchMedia && window.matchMedia("(pointer: coarse)").matches)) return;
+    const cards = document.querySelectorAll(".project-card, .post-card");
+    for (const card of cards) {
+      if (card.dataset.spotlightReady) continue;
+      card.dataset.spotlightReady = "true";
+      card.addEventListener(
+        "pointermove",
+        (event) => {
+          const rect = card.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const y = event.clientY - rect.top;
+          card.style.setProperty("--mouse-x", `${x.toFixed(1)}px`);
+          card.style.setProperty("--mouse-y", `${y.toFixed(1)}px`);
+        },
+        { passive: true }
+      );
+    }
+  };
+
   /* -------------------------------------------------------------------- init */
 
   const init = () => {
@@ -347,6 +451,9 @@
     setupFilters();
     setupCopyEmail();
     setupReveal();
+    setupReadingProgress();
+    setupKeyboardShortcuts();
+    setupCardSpotlight();
   };
 
   if (document.readyState === "loading") {
