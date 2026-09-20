@@ -919,6 +919,11 @@ main.layout-blog .posts-grid {
 		}
 
 		.press-quote {
+			// Phrasing content, not a <p>: the production HTML compressor strips
+			// `</p>` end tags (`compress_html.endings: all`), which makes the
+			// browser parser split the surrounding anchor. A block-level span
+			// keeps the card a single link.
+			display: block;
 			margin: .6rem 0 .75rem;
 			font-size: .88rem;
 			line-height: 1.55;
