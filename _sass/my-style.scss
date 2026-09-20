@@ -575,9 +575,17 @@
 }
 
 // Desktop: the sidebar already shows the main nav, so the duplicate
-// quick-nav links in the top bar only add noise.
+// quick-nav links in the top bar only add noise. The footer nav is the same
+// duplication at the other end of the page — it earns its place on mobile,
+// where the sidebar is a closed drawer and these are the only links at the
+// end of a long scroll, but not beside a permanently visible sidebar.
 @media screen and (min-width: 64em) {
 	.quick-nav { display: none; }
+	.site-footer__nav { display: none; }
+
+	// Without the nav on its left, the social row would sit alone against the
+	// right edge of a wide footer. Pull it back to the start.
+	.site-footer__top { justify-content: flex-start; }
 }
 
 // Collection pages ---------------------------------------------------------
@@ -709,11 +717,23 @@ main.layout-blog .posts-grid {
 	a { padding: .6rem 0; border: 0; color: var(--accent-strong); }
 }
 
+// Category tags -------------------------------------------------------------
+//
+// These were four saturated fills carrying white text, which made the category
+// the loudest thing on a card — louder than the project title and competing
+// with the artwork above it. Tonal pills keep each category just as
+// distinguishable while letting the image and the title lead.
+//
+// Every pair is checked against the surface it actually sits on: the tinted
+// text on its own tint, rather than on the page. Light runs 5.6:1–7.2:1; dark
+// composites the translucent tint over the card (rgb(43,43,47)) first and runs
+// 5.2:1–6.0:1. All well clear of the 4.5:1 minimum for text this size.
 .project-tag {
 	display: inline-block;
 	padding: .2rem .58rem;
 	border-radius: 999px;
-	color: #fff;
+	background: var(--tag-bg);
+	color: var(--tag-fg);
 	font-size: .68rem;
 	font-weight: 700;
 	letter-spacing: .045em;
@@ -721,10 +741,41 @@ main.layout-blog .posts-grid {
 	text-transform: uppercase;
 }
 
-.project-tag-professional { background: #2563eb; }
-.project-tag-personal { background: #127c40; }
-.project-tag-research { background: #8236b2; }
-.project-tag-other { background: #626b78; }
+@mixin project-tags-light() {
+	.project-tag-professional { --tag-bg: #e8eefc; --tag-fg: #1a4ba8; }
+	.project-tag-personal     { --tag-bg: #e2f1e8; --tag-fg: #106b3c; }
+	.project-tag-research     { --tag-bg: #f1e8fb; --tag-fg: #6a34a5; }
+	.project-tag-other        { --tag-bg: #ecedf0; --tag-fg: #474e5a; }
+}
+
+@mixin project-tags-dark() {
+	.project-tag-professional { --tag-bg: rgba(96, 151, 255, .18); --tag-fg: #9cc0fb; }
+	.project-tag-personal     { --tag-bg: rgba(60, 190, 120, .18); --tag-fg: #7fd6a4; }
+	.project-tag-research     { --tag-bg: rgba(180, 130, 240, .20); --tag-fg: #cdaaf2; }
+	.project-tag-other        { --tag-bg: rgba(150, 160, 180, .20); --tag-fg: #b4bcc9; }
+}
+
+// Same two-way dark-mode wiring as the accent tokens in my-inline.scss: the
+// media query covers visitors who never touch the toggle (no `.dark-mode`
+// class is ever added on browsers that support the query), and the explicit
+// classes cover the manual toggle in both directions.
+//
+// The light set is emitted bare rather than under `:root`, which the accent
+// tokens can afford because they define custom properties *on* `:root` and let
+// `body` re-declare them through inheritance. These land on a descendant
+// instead, so the two would be decided by specificity — and `:root .x` (0,2,0)
+// would beat `body .x` (0,1,1), leaving dark mode showing the light pills.
+@include project-tags-light();
+
+@media screen and (prefers-color-scheme: dark) {
+	body { @include project-tags-dark(); }
+}
+
+@media screen {
+	body.dark-mode { @include project-tags-dark(); }
+	body.light-mode { @include project-tags-light(); }
+}
+
 .project-hidden { display: none !important; }
 
 .project-card,
@@ -1060,4 +1111,414 @@ body.dark-mode {
 	.copy-email { -webkit-tap-highlight-color: initial; }
 
 	.copy-email.is-copied .copy-email__check { stroke-dashoffset: 0; }
+}
+
+// Site footer --------------------------------------------------------------
+//
+// The theme pins `main > footer.content` with `position: absolute; bottom: 0`,
+// which works for a one-line copyright but leaves the end of every page as a
+// stretch of empty canvas with a stray line of grey text floating in it. The
+// footer now carries nav, social and a back-to-top link, so it needs to sit in
+// normal flow instead — and it needs to stay pinned to the bottom on pages
+// shorter than the viewport, which `.content`'s desktop `min-height: 100vh`
+// would otherwise leave as dead space *below* the footer.
+//
+// Making #_main a flex column solves both: the footer is a normal flex item,
+// and `margin-top: auto` pushes it down only when there is room to spare.
+@media screen {
+	#_main {
+		display: flex;
+		flex-direction: column;
+
+		// `.content` reserves 12rem of bottom padding as the slot the
+		// absolutely positioned footer used to sit in. Now that the footer is
+		// in flow and brings its own bottom padding, that reservation is just
+		// empty canvas underneath it.
+		padding-bottom: 0;
+	}
+
+	// Flex items don't collapse margins, so every layout's own trailing margin
+	// would stack on top of the footer's. Zero them and let the footer's
+	// `padding-top` be the single source of the gap above the rule, so the end
+	// of a project page, a collection index and the resume all read alike.
+	#_main > .page:last-of-type,
+	#_main > .mb6:last-of-type,
+	#_main > aside:last-of-type {
+		margin-bottom: 0;
+	}
+
+	main > footer.site-footer {
+		position: static;
+		// `auto` absorbs the leftover space on pages shorter than the viewport
+		// and collapses to nothing on long ones, so the gap above the rule has
+		// to come from padding to be the same on both.
+		margin-top: auto;
+		padding-top: 3.5rem;
+		padding-bottom: 2.5rem;
+		text-align: left;
+
+		// `.content` sets the page gutter (max-width plus large auto-ish side
+		// margins). The footer carries that class and sits *inside* #_main,
+		// which has already applied it — harmless while the footer was
+		// `position: absolute; left: 0; right: 0`, but in normal flow the
+		// margins apply a second time and squeeze it into the right gutter.
+		// Neutralise the inner copy and let #_main own the measure.
+		max-width: none;
+		margin-left: 0;
+		margin-right: 0;
+		margin-bottom: 0;
+		padding-left: 0;
+		padding-right: 0;
+
+		> hr {
+			margin-bottom: 1.5rem;
+		}
+	}
+
+	.site-footer__top {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: .5rem 2rem;
+	}
+
+	.site-footer__nav > ul {
+		display: flex;
+		flex-wrap: wrap;
+		gap: .25rem 1.25rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		> li { margin: 0; }
+
+		> a,
+		> li > a {
+			display: inline-flex;
+			align-items: center;
+			min-height: 44px;
+			border: 0;
+			color: var(--body-color);
+			font-size: .85rem;
+			font-weight: 700;
+			text-decoration: none;
+		}
+
+		> li > a:hover,
+		> li > a[aria-current] { color: var(--accent-strong); }
+	}
+
+	// Reuse the sidebar's social list geometry, scaled down and un-floated so
+	// the icons sit on the footer's baseline row rather than in a 4rem block.
+	.site-footer__social > ul {
+		display: flex;
+		align-items: center;
+		gap: .15rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		> li { margin: 0; float: none; }
+
+		> li > a {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 44px;
+			height: 44px;
+			border: 0;
+			border-radius: .5rem;
+			color: var(--gray-text);
+			font-size: 1.15rem;
+			line-height: 1;
+			text-decoration: none;
+		}
+
+		> li > a:hover {
+			background: var(--gray-bg);
+			color: var(--accent-strong);
+		}
+	}
+
+	.site-footer__bottom {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: .25rem 1.5rem;
+		margin-top: .75rem;
+		padding-top: 1rem;
+		border-top: 1px solid var(--border-color);
+
+		> p { margin: 0; }
+		.copyright { color: var(--gray-text); font-size: .8rem; }
+		.legal { font-size: .8rem; }
+	}
+
+	.site-footer__top-link {
+		display: inline-flex;
+		align-items: center;
+		gap: .35rem;
+		min-height: 44px;
+		border: 0;
+		color: var(--gray-text);
+		font-size: .8rem;
+		font-weight: 700;
+		text-decoration: none;
+
+		&:hover { color: var(--accent-strong); }
+	}
+}
+
+// The trailing dingbat divides an article from what follows it (about box,
+// related projects, comments). The collection index pages have no such
+// section, so it reads as a decorative rule floating in empty space above the
+// footer. Hide it there, and reclaim the margin it was sitting in.
+@media screen {
+	.layout-projects > hr.dingbat,
+	.layout-blog hr.dingbat,
+	.layout-blog + hr.dingbat {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 41.99em) {
+	// Both rows still fit on one line at 390px, so keep them pushed to the
+	// edges; `flex-wrap` handles the narrower phones on its own.
+	.site-footer__top {
+		gap: .25rem 1rem;
+	}
+
+	.site-footer__nav > ul {
+		gap: .25rem 1rem;
+	}
+}
+
+@media print {
+	.site-footer__top,
+	.site-footer__top-link { display: none; }
+}
+
+// Publications --------------------------------------------------------------
+//
+// Scoped with `:has()` to the Publications section only; the same `.note` and
+// `.h4` classes carry different weight in Work, Research and Awards.
+@media screen {
+	.layout-resume section:has(> .npb > #publications) {
+		// Paper titles are long, and this column is narrow, so they routinely
+		// wrap to three or four lines. The theme underlines links with a
+		// `border-bottom`, which redraws once per line box — a wrapped title
+		// arrives as a stack of purple stripes rather than a heading. Drop the
+		// border and carry the affordance on hover and focus, the way the
+		// project and post card titles already do.
+		.h4 a {
+			border-bottom: 0;
+			color: var(--body-color);
+			text-decoration: none;
+		}
+
+		.h4 a:hover,
+		.h4 a:focus-visible {
+			color: var(--accent-strong);
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: .18em;
+		}
+
+		// A "SUMMARY" eyebrow above each entry labels what the sentence under a
+		// paper title self-evidently is, three times down one column. The
+		// padding it occupied goes back to the entry.
+		.note::before { content: none; }
+		.note { padding-top: .1rem; }
+	}
+}
+
+// Figure captions -----------------------------------------------------------
+//
+// The theme centres captions and renders them at `.fine` size in `--gray`.
+// Under a full-bleed figure in a left-aligned text column that reads as a
+// stray fragment rather than as the caption for the image above it. Align it
+// to the measure and give it enough size and contrast to be read.
+@media screen {
+	.project-body .figcaption,
+	.post .figcaption {
+		margin-top: .6rem;
+		margin-bottom: 2rem;
+		color: var(--gray-text);
+		font-size: .82rem;
+		line-height: 1.6;
+		text-align: left;
+
+		a {
+			color: var(--accent-strong);
+			text-underline-offset: .18em;
+		}
+	}
+}
+
+// Beauty pass ---------------------------------------------------------------
+
+// Text selection. The browser default is a flat blue that belongs to no part
+// of this design; an accent tint makes selecting text feel like part of the
+// page. Kept light enough that body text stays legible through it.
+::selection { background: rgba(135, 90, 205, .22); }
+
+@media screen and (prefers-color-scheme: dark) {
+	body ::selection { background: rgba(185, 154, 236, .28); }
+}
+
+@media screen {
+	body.dark-mode ::selection { background: rgba(185, 154, 236, .28); }
+	body.light-mode ::selection { background: rgba(135, 90, 205, .22); }
+}
+
+// Card artwork --------------------------------------------------------------
+//
+// Cards are edge-to-edge images sitting directly on the card surface. When a
+// project's artwork has its own light background (a logo lockup, a flat
+// illustration) it dissolves into a light card and, worse, glares as a slab of
+// pure white on a dark one. A hairline along the bottom edge always gives the
+// image a boundary, and in dark mode the artwork rests very slightly dimmed
+// and comes up to full strength on hover — which doubles as the focus cue for
+// whichever card you are pointing at.
+@media screen {
+	.project-card-img,
+	.post-card__thumb {
+		border-bottom: 1px solid var(--border-color);
+	}
+
+	// The featured card turns side-by-side at this width, so the boundary
+	// between artwork and copy is vertical there. A bottom border would draw a
+	// rule that runs halfway across the card and stops.
+	@media (min-width: 42em) {
+		.layout-projects .column-1 > .project-card .project-card-img {
+			border-bottom: 0;
+			border-right: 1px solid var(--border-color);
+		}
+	}
+
+	.project-card-img img,
+	.post-card__thumb img {
+		transition:
+			transform 260ms ease,
+			filter 260ms ease;
+	}
+}
+
+@mixin card-art-dark() {
+	.project-card-img img,
+	.post-card__thumb img { filter: brightness(.88); }
+
+	.project-card:hover .project-card-img img,
+	.project-card:focus-within .project-card-img img,
+	.post-card:hover .post-card__thumb img,
+	.post-card:focus-within .post-card__thumb img { filter: brightness(1); }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+	body { @include card-art-dark(); }
+}
+
+@media screen {
+	body.dark-mode { @include card-art-dark(); }
+	body.light-mode {
+		.project-card-img img,
+		.post-card__thumb img { filter: none; }
+	}
+}
+
+// Project links -------------------------------------------------------------
+//
+// These pills are the only outbound links in a project header, but nothing
+// said so — they read as inert buttons. A trailing arrow marks them as leaving
+// the site, and trimming the padding lets two of them sit on one line in the
+// header's left column instead of stacking into a tall ragged stack.
+@media screen {
+	.layout-project .project-link {
+		gap: .4rem;
+		min-height: 2.25rem;
+		padding: .4rem .8rem;
+		font-size: .85rem;
+
+		&::after {
+			content: "↗";
+			font-size: .8em;
+			color: var(--gray-text);
+			transition: transform 160ms ease, color 160ms ease;
+		}
+
+		&:hover::after,
+		&:focus-visible::after {
+			color: var(--accent-strong);
+			transform: translate(.1em, -.1em);
+		}
+	}
+}
+
+// Hero arrival --------------------------------------------------------------
+//
+// Everything below the fold already rises into place as it is scrolled to, but
+// the one thing every visitor sees first — the name, the line under it, the
+// buttons — simply appeared. The hero now arrives in the same language: the
+// same rise, the same curve, staggered top to bottom so the eye is led down to
+// the buttons. The avatar scales in alongside the title rather than rising,
+// so the two halves of the hero feel like one gesture.
+//
+// `html.reveal-on` is set by the gate in <head> only when motion is allowed,
+// so this inherits the same opt-out as the scroll reveal. `backwards` holds
+// the pre-animation state through the stagger delay so nothing flashes at its
+// final position first.
+@keyframes hero-rise {
+	from { opacity: 0; transform: translateY(14px); }
+	to   { opacity: 1; transform: none; }
+}
+
+@keyframes hero-pop {
+	from { opacity: 0; transform: scale(.9); }
+	to   { opacity: 1; transform: none; }
+}
+
+html.reveal-on .layout-resume {
+	.resume-eyebrow,
+	.resume-hero .page-title,
+	.resume-headline,
+	#resume > .resume-actions {
+		animation: hero-rise 560ms cubic-bezier(.2, .6, .2, 1) backwards;
+	}
+
+	.resume-eyebrow            { animation-delay: 40ms; }
+	.resume-hero .page-title   { animation-delay: 100ms; }
+	.resume-headline           { animation-delay: 170ms; }
+	#resume > .resume-actions  { animation-delay: 240ms; }
+
+	.resume-hero .avatar {
+		animation: hero-pop 620ms cubic-bezier(.34, 1.28, .64, 1) 100ms backwards;
+	}
+}
+
+@media print {
+	html.reveal-on .layout-resume {
+		.resume-eyebrow,
+		.resume-hero .page-title,
+		.resume-headline,
+		#resume > .resume-actions,
+		.resume-hero .avatar { animation: none; }
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.reveal-on .layout-resume {
+		.resume-eyebrow,
+		.resume-hero .page-title,
+		.resume-headline,
+		#resume > .resume-actions,
+		.resume-hero .avatar { animation: none; }
+	}
+
+	.project-card-img img,
+	.post-card__thumb img,
+	.layout-project .project-link::after {
+		transition: none !important;
+	}
 }

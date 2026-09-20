@@ -39,9 +39,8 @@ work:
     startDate: "2022-06-01"
     endDate: "2024-09-01"
     highlights:
-      - Built reusable UI components, input handling, and accessibility support for the shared framework behind Microsoft Mesh and Avatars in Teams, products used by millions of people.
-      - Owned the avatar rendering and performance pipeline across HoloLens, Quest, web, and desktop. Profiled CPU and GPU frame budgets, then used LOD switching and GPU instancing to maintain target framerates on constrained hardware.
-      - Shipped avatar customization and character-building systems backed by data-driven content pipelines. Supported weekly releases and localization in more than 20 languages.
+      - Built avatar customization systems and shared UI components (input handling, accessibility) behind Microsoft Mesh and Avatars in Teams, supporting weekly releases and 20+ languages for millions of users.
+      - Owned the avatar rendering and performance pipeline across HoloLens, Quest, web, and desktop. Profiled CPU and GPU frame budgets, using LOD switching and GPU instancing to maintain target framerates on constrained hardware.
 
   - company: "Holos"
     position: "AR/VR Interaction Engineer"
@@ -49,9 +48,8 @@ work:
     startDate: "2019-02-01"
     endDate: "2022-05-01"
     highlights:
-      - Built AR and VR training features for gesture recognition, hand tracking, and in-context guidance.
-      - Implemented multiplayer networking, 3D model ingestion, and physics-based interactions.
-      - Worked with leadership on the product and engineering work that helped Holos secure a $750K U.S. Air Force contract and a place in Techstars.
+      - Built core AR and VR training platform capabilities, including hand tracking, gesture recognition, multiplayer networking, and 3D model ingestion workflows.
+      - Worked with leadership on product and engineering execution, helping Holos secure a $750K U.S. Air Force contract and a place in Techstars.
 research:
   - company: "Kats Research Group"
     position: "XR Researcher (part-time)"

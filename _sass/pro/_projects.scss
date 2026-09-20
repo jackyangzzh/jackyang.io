@@ -158,6 +158,13 @@ main:not(.layout-resume) {
       margin-bottom: 0;
     }
 
+    // The theme's "large headings" rule widens `.content h1` into the right
+    // margin from $break-point-dynamic up. Inside this two-column header that
+    // pushes the project title under the hero image, so keep it in its column.
+    .page-title {
+      width: auto;
+    }
+
     .project-hero {
       overflow: hidden;
       border-radius: $border-radius;

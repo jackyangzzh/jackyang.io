@@ -36,6 +36,11 @@ I contributed to the shared UI toolkit used across desktop, web-hosted surfaces,
 ### Avatar customization
 I built the main editor for bodies, faces, hair, outfits, and accessories, working with design and art teams. We needed enough choice for people to represent themselves without making the first visit overwhelming. I also tuned loading and asset swaps to keep the live preview responsive within the memory limits of lower-end hardware.
 
+<figure>
+<img src="/assets/img/projects/mesh-avatars-outfit-selection.webp" alt="Microsoft Teams avatar builder showing the Choose an outfit step on a large screen behind Satya Nadella during a Microsoft presentation" loading="lazy" width="1694" height="948">
+<figcaption class="figcaption">This is the outfit-selection page I built for the Teams avatar customization, shown here by Satya (Microsoft CEO) during Ignite. <a href="https://youtu.be/FZhbJZEgKQ4?si=-ymHCWmR4zGCshEm&amp;t=2703">Watch the segment at 45:03</a>.</figcaption>
+</figure>
+
 ### Rendering and delivery
 My work also covered avatar definitions, modular asset assembly, animation updates, and state synchronization between clients. I profiled CPU and GPU frame times across HoloLens, Quest, web, and desktop, then used level-of-detail switching and GPU instancing to stay within their different frame budgets.
 
