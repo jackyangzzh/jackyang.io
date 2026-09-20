@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="Microsoft Mesh immersive event with avatars gathered around a shared presentation" />
 <meta property="twitter:title" content="Microsoft Mesh &amp; Avatars for Teams" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-16T14:53:13+00:00","datePublished":"2022-06-01T00:00:00+00:00","description":"My work on the shared UI, avatar editor, and rendering systems behind Microsoft Mesh and Avatars in Teams.","headline":"Microsoft Mesh &amp; Avatars for Teams","image":{"alt":"Microsoft Mesh immersive event with avatars gathered around a shared presentation","url":"https://jackyang.io/assets/img/projects/mesh-avatars.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/mesh-avatars/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-20T16:33:24+00:00","datePublished":"2022-06-01T00:00:00+00:00","description":"My work on the shared UI, avatar editor, and rendering systems behind Microsoft Mesh and Avatars in Teams.","headline":"Microsoft Mesh &amp; Avatars for Teams","image":{"alt":"Microsoft Mesh immersive event with avatars gathered around a shared presentation","url":"https://jackyang.io/assets/img/projects/mesh-avatars.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/mesh-avatars/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -111,7 +111,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-09-16T14:53:55+00:00',
+    INDEX_KEY: 'index--2026-09-20T16:33:55+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -125,8 +125,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1789570435" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1789570435" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1789922035" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1789922035" id="_iconsPreload">
 
 
 
@@ -365,6 +365,11 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 <h3 id="avatar-customization">Avatar customization</h3>
 <p>I built the main editor for bodies, faces, hair, outfits, and accessories, working with design and art teams. We needed enough choice for people to represent themselves without making the first visit overwhelming. I also tuned loading and asset swaps to keep the live preview responsive within the memory limits of lower-end hardware.</p>
 
+<figure>
+<img src="/assets/img/projects/mesh-avatars-outfit-selection.webp" alt="Microsoft Teams avatar builder showing the Choose an outfit step on a large screen behind Satya Nadella during a Microsoft presentation" loading="lazy" width="1694" height="948" />
+<figcaption class="figcaption">This is the outfit-selection page I built for the Teams avatar customization, shown here by Satya (Microsoft CEO) during Ignite. <a href="https://youtu.be/FZhbJZEgKQ4?si=-ymHCWmR4zGCshEm&amp;t=2703">Watch the segment at 45:03</a>.</figcaption>
+</figure>
+
 <h3 id="rendering-and-delivery">Rendering and delivery</h3>
 <p>My work also covered avatar definitions, modular asset assembly, animation updates, and state synchronization between clients. I profiled CPU and GPU frame times across HoloLens, Quest, web, and desktop, then used level-of-detail switching and GPU instancing to stay within their different frame budgets.</p>
 
@@ -531,17 +536,122 @@ from building things.</p>
 
 
   
-<footer class="content" role="contentinfo">
+<footer class="content site-footer" role="contentinfo">
   <hr/>
+
+  <div class="site-footer__top">
+    
+    <nav class="site-footer__nav" aria-label="Footer navigation">
+      <ul>
+        
+        
+        <li><a href="/">About</a></li>
+        
+        
+        <li><a href="/projects/">Projects</a></li>
+        
+        
+        <li><a href="/writing/">Writing</a></li>
+        
+      </ul>
+    </nav>
+    
+
+    <div class="site-footer__social social">
+      <span class="sr-only">Social:</span>
+<ul>
   
-    <p><small class="copyright">© Jack Yang
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a href="https://github.com/jackyangzzh" title="GitHub" class="no-mark-external" target="_blank" rel="me noopener noreferrer">
+    <span class="icon-github"></span>
+    <span class="sr-only">GitHub</span>
+  </a>
+</li>
+
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a href="https://www.linkedin.com/in/jackyangzzh" title="LinkedIn" class="no-mark-external" target="_blank" rel="me noopener noreferrer">
+    <span class="icon-linkedin2"></span>
+    <span class="sr-only">LinkedIn</span>
+  </a>
+</li>
+
+    
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a href="https://medium.com/@jackyangzzh" title="Medium" class="no-mark-external" target="_blank" rel="me noopener noreferrer">
+    <span class="icon-medium"></span>
+    <span class="sr-only">Medium</span>
+  </a>
+</li>
+
+    
+  
+</ul>
+
+    </div>
+  </div>
+
+  <div class="site-footer__bottom">
+    
+      <p><small class="copyright">© Jack Yang
 </small></p>
-  
-  
-  
+    
+
+    
+
+    
+
+    <a class="site-footer__top-link" href="#_main">Back to top <span aria-hidden="true">↑</span></a>
+  </div>
+
   <hr class="sr-only"/>
 </footer>
-
 
 </main>
 
@@ -725,7 +835,7 @@ from building things.</p>
   
 
 <script src="/assets/js/project-transition.js?v=2" type="module"></script>
-<script src="/assets/js/site-polish.js?v=1789570435" type="module"></script>
+<script src="/assets/js/site-polish.js?v=1789922035" type="module"></script>
 
   
 
