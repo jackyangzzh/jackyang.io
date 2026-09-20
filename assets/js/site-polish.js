@@ -16,43 +16,94 @@
 
   /* ------------------------------------------------------------------ reveal */
 
+  // Opt in at SETUP time, using viewport geometry, not a blanket <head> gate:
+  // a target is given `reveal-pending` (the only thing CSS hides) only when it
+  // lies entirely below the viewport at that moment. A target that was visible
+  // once is marked `reveal-seen` and is never re-hidden by a later init pass.
+  // First-screen content is therefore always painted at full opacity. Without
+  // script or the class the content is simply visible, so no-JS needs nothing.
+  const PENDING_CLASS = "reveal-pending";
+  const SEEN_CLASS = "reveal-seen";
+
   let observer;
+  const reducedMotion =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const revealNow = (el, delay) => {
+    el.style.setProperty("--reveal-delay", `${delay}ms`);
+    el.classList.remove(PENDING_CLASS);
+    el.classList.add("is-in");
+  };
+
+  // Show without a fresh fade: for targets that were already pending but are
+  // now visible (or scrolled past) when init runs again, and for targets that
+  // start out visible and must never be opted in later.
+  const markSeen = (el) => {
+    el.classList.remove(PENDING_CLASS);
+    el.classList.add(SEEN_CLASS);
+  };
+
+  // Last resort if opt-in failed halfway through: nothing may stay hidden.
+  const revealAllPending = () => {
+    for (const el of document.querySelectorAll(`.${PENDING_CLASS}`)) revealNow(el, 0);
+  };
 
   const setupReveal = () => {
-    // The <head> gate only adds `reveal-on` when motion is allowed and
-    // IntersectionObserver exists, so this doubles as the feature check.
-    if (!root.classList.contains("reveal-on")) return;
-
-    // We made it, so the "un-hide everything" failsafe is no longer needed.
-    if (window.__revealFailsafe) {
-      clearTimeout(window.__revealFailsafe);
-      window.__revealFailsafe = null;
-    }
-
     if (observer) observer.disconnect();
 
-    const targets = document.querySelectorAll(REVEAL_SELECTOR);
-    if (!targets.length) return;
+    if ((reducedMotion && reducedMotion.matches) || !("IntersectionObserver" in window)) {
+      revealAllPending();
+      return;
+    }
 
-    observer = new IntersectionObserver(
-      (entries) => {
-        // Stagger within a batch: everything already on screen at load animates
-        // in sequence, while items scrolled to later arrive one at a time.
-        let step = 0;
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const el = entry.target;
-          observer.unobserve(el);
-          el.style.setProperty("--reveal-delay", `${step * STAGGER_MS}ms`);
-          step += 1;
-          el.classList.add("is-in");
+    let targets;
+    try {
+      targets = document.querySelectorAll(REVEAL_SELECTOR);
+      if (!targets.length) return;
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          // Stagger within a batch: items scrolled to arrive one at a time.
+          let step = 0;
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            observer.unobserve(entry.target);
+            revealNow(entry.target, step * STAGGER_MS);
+            step += 1;
+          }
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
+      );
+
+      const fold = root.clientHeight;
+      for (const el of targets) {
+        // Seen targets stay visible; nothing to do on a repeat init.
+        if (el.classList.contains(SEEN_CLASS) || el.classList.contains("is-in")) continue;
+
+        const rect = el.getBoundingClientRect();
+        const inOrPastViewport = rect.bottom <= 0 || (rect.top < fold && rect.bottom > 0);
+
+        if (el.classList.contains(PENDING_CLASS)) {
+          // Hidden earlier by a previous pass; re-measure now. Still below the
+          // fold: keep it waiting (re-observe a fresh observer). No longer
+          // below the fold — entered the viewport or been scrolled past while
+          // hidden: show immediately, without a fresh fade, and mark seen.
+          if (inOrPastViewport) markSeen(el);
+          else observer.observe(el);
+          continue;
         }
-      },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
-    );
 
-    for (const el of targets) {
-      if (!el.classList.contains("is-in")) observer.observe(el);
+        if (inOrPastViewport) {
+          // Never hide anything the visitor can already see.
+          markSeen(el);
+        } else {
+          el.classList.add(PENDING_CLASS);
+          observer.observe(el);
+        }
+      }
+    } catch {
+      revealAllPending();
+      if (observer) observer.disconnect();
     }
   };
 

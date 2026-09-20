@@ -1,54 +1,23 @@
 // Portfolio polish. These rules load after the theme so they can refine the
 // presentation without changing Hydejack's underlying layout system.
 
+// Shared above-fold critical rules (nav, sidebar, resume hero, action buttons).
+// Imported here immediately after the theme so the FINAL values win in the main
+// stylesheet too — the production main CSS is loaded late and would otherwise
+// re-style the navbar etc. back to the theme's 5rem/menu-text defaults with the
+// critical `<style>` unable to hold them (same specificity, later document
+// order). The import inside my-inline.scss covers that copy; both import the
+// same partial, so the definitions cannot diverge.
+@import "my-critical";
+
 // Navigation and shared controls -------------------------------------------
 
 @media screen {
-	#_main { scroll-margin-top: 5rem; }
-	#_main:focus { outline: none; }
-	#_main :is(h2, h3, section) { scroll-margin-top: 5rem; }
-	#breadcrumbs > ul { color: var(--gray-text); }
-	#breadcrumbs > ul > li a { color: var(--gray-text); text-decoration: underline; text-underline-offset: .2em; }
-
-	// Keep the new page links reachable while scrolling; Hydejack otherwise
-	// translates the entire toolbar offscreen, including focused controls.
-	#_navbar { transform: none !important; }
-	.navbar > .content::before { display: none; }
-	.nav-btn-bar {
-		height: 4.25rem;
-		border-bottom: 1px solid var(--border-color);
-	}
-	.nav-btn {
-		flex: 0 0 2.75rem;
-		width: 2.75rem;
-		height: 4.25rem;
-		border: 0;
-		color: var(--gray-text);
-	}
-	.quick-nav {
-		display: flex;
-		justify-content: flex-end;
-		gap: .25rem;
-		padding-right: .5rem;
-	}
-	.quick-nav-link {
-		display: inline-flex;
-		align-items: center;
-		min-height: 44px;
-		padding: .35rem .65rem;
-		border: 0;
-		border-radius: .5rem;
-		color: var(--gray-text);
-		font-size: .82rem;
-		font-weight: 700;
-		text-decoration: none;
-	}
-	.quick-nav-link:hover,
-	.quick-nav-link[aria-current] {
-		color: var(--accent-strong);
-		background: var(--gray-bg);
-		text-decoration: none;
-	}
+	// Navigation, sidebar and shared first-screen controls live in
+	// my-critical.scss (imported via my-inline), so the top of every page is
+	// painted once with the final values instead of being re-styled when the
+	// main stylesheet swaps in. Only the search overlay — never visible before
+	// it is opened — remains here.
 	#_search-box {
 		z-index: 1;
 		background: var(--body-bg);
@@ -70,24 +39,6 @@
 		height: calc(100vh - 4.25rem);
 		height: calc(100dvh - 4.25rem);
 	}
-	.sidebar .sidebar-nav-item {
-		min-width: 9rem;
-		padding: .45rem 1rem;
-		margin-bottom: .25rem;
-		border: 1px solid transparent;
-		border-radius: .6rem;
-		font-family: "Noto Sans", sans-serif;
-		font-size: .95rem;
-		text-decoration: none;
-	}
-	.sidebar .sidebar-nav-item:hover,
-	.sidebar .sidebar-nav-item[aria-current] {
-		border-color: rgba(255, 255, 255, .2);
-		background: rgba(255, 255, 255, .1);
-		text-decoration: none;
-	}
-	.sidebar-about > p { font-size: .9rem; line-height: 1.75; }
-	.sidebar a:focus-visible { outline-color: #fff; }
 }
 
 .skip-link {
@@ -316,73 +267,16 @@
 }
 
 // Resume --------------------------------------------------------------------
-
+//
+// First-screen pieces (hero, avatar, action buttons, contact block) live in
+// my-critical.scss via my-inline; this file keeps only below-the-fold polish.
+// The hero also does not animate in on load — anything the visitor is already
+// looking at must be at full opacity from the first frame.
 .layout-resume {
-	.page > .resume-hero {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) 7rem;
-		align-items: center;
-		gap: 2rem;
-		margin-bottom: 1.5rem;
-		border: 0;
-	}
-
-	.resume-eyebrow {
-		margin: 0 0 .75rem;
-		color: var(--accent-strong);
-		font-size: .72rem;
-		font-weight: 700;
-		letter-spacing: .12em;
-		text-transform: uppercase;
-		span { padding: 0 .35rem; color: var(--gray-text); }
-	}
-
-	.resume-hero .page-title {
-		margin: 0 0 .6rem;
-		font-size: clamp(2.6rem, 5vw, 3.6rem);
-		line-height: 1.12;
-	}
-
-	.resume-headline {
-		max-width: 32rem;
-		margin: 0;
-		color: var(--body-color);
-		font-size: clamp(1.15rem, 2vw, 1.45rem);
-		line-height: 1.5;
-		letter-spacing: -.02em;
-	}
-
-	.resume-hero .avatar {
-		float: none;
-		width: 7rem;
-		height: 7rem;
-		margin: 0;
-		box-sizing: border-box;
-	}
-
-	.resume-intro {
-		max-width: 46rem;
-		margin: 2rem 0;
-		line-height: 1.85;
-		> p:first-child { font-size: 1.08rem; }
-		> p + p { color: var(--gray-text); font-size: .95rem; }
-	}
-
-	.page-title {
-		letter-spacing: -.025em;
-	}
-
 	.h4 {
 		font-size: 1.05rem;
 		line-height: 1.45;
 		letter-spacing: .005em;
-	}
-
-	.avatar {
-		border: 3px solid var(--body-bg);
-		box-shadow:
-			0 0 0 2px var(--accent-color-faded),
-			0 .5rem 1.5rem rgba(0, 0, 0, .14);
 	}
 
 	article > .note {
@@ -392,53 +286,6 @@
 		border-radius: 0 .65rem .65rem 0;
 		background: var(--gray-bg);
 		line-height: 1.75;
-	}
-
-	#resume > .resume-actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: .6rem;
-		margin: 0;
-
-		.btn {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			gap: .5rem;
-			min-height: 44px;
-			padding: .6rem .9rem;
-			margin: 0;
-			border-radius: .6rem;
-			font-size: .8rem;
-			font-weight: 700;
-			box-shadow: none;
-			transition:
-				transform 160ms ease,
-				background-color 160ms ease,
-				border-color 160ms ease,
-				box-shadow 160ms ease;
-
-			&:hover {
-				transform: translateY(-1px);
-				box-shadow: 0 .25rem .6rem rgba(66, 38, 112, .1);
-			}
-		}
-
-		.btn-secondary, .btn-quiet {
-			border: 1px solid var(--border-color);
-			background: var(--body-bg);
-			color: var(--body-color);
-			&:hover { background: var(--gray-bg); }
-		}
-		.btn-quiet { border-color: transparent; color: var(--gray-text); }
-		.button-detail { font-size: .65rem; letter-spacing: .04em; }
-	}
-
-	.contact {
-		margin-top: 1.5rem;
-		padding: 1rem 0 .5rem;
-		border-top: 1px solid var(--border-color);
-		border-bottom: 1px solid var(--border-color);
 	}
 
 	.column > section + section {
@@ -1025,28 +872,7 @@ body.dark-mode {
 	main.layout-blog .posts-grid {
 		grid-template-columns: 1fr !important;
 	}
-	.layout-resume .page > .resume-hero { grid-template-columns: minmax(0, 1fr) 4.5rem; gap: 1rem; }
-	.layout-resume .resume-hero .avatar { width: 4.5rem; height: 4.5rem; align-self: start; }
-	.layout-resume .resume-headline { font-size: 1.15rem; }
-	.layout-resume .resume-eyebrow { font-size: .65rem; letter-spacing: .06em; }
-	.layout-resume #resume > .resume-actions {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
-	.layout-resume #resume > .resume-actions .btn {
-		width: 100%;
-		margin: 0;
-	}
-	// Make the quiet/ghost buttons read as equal tiles in the mobile grid.
-	.layout-resume #resume > .resume-actions .btn-quiet {
-		border-color: var(--border-color);
-		color: var(--body-color);
-	}
 	.layout-resume .cert-list { grid-template-columns: 1fr; }
-	.layout-resume .contact dd { overflow-wrap: anywhere; }
-	.quick-nav { gap: 0; padding-right: .25rem; }
-	.quick-nav-link { padding: .3rem .5rem; font-size: .75rem; }
-	.nav-btn { flex-basis: 44px; width: 44px; }
 }
 
 @media screen and (max-width: 25em) {
@@ -1458,67 +1284,165 @@ body.dark-mode {
 
 // Hero arrival --------------------------------------------------------------
 //
-// Everything below the fold already rises into place as it is scrolled to, but
-// the one thing every visitor sees first — the name, the line under it, the
-// buttons — simply appeared. The hero now arrives in the same language: the
-// same rise, the same curve, staggered top to bottom so the eye is led down to
-// the buttons. The avatar scales in alongside the title rather than rising,
-// so the two halves of the hero feel like one gesture.
-//
-// `html.reveal-on` is set by the gate in <head> only when motion is allowed,
-// so this inherits the same opt-out as the scroll reveal. `backwards` holds
-// the pre-animation state through the stagger delay so nothing flashes at its
-// final position first.
-@keyframes hero-rise {
-	from { opacity: 0; transform: translateY(14px); }
-	to   { opacity: 1; transform: none; }
-}
-
-@keyframes hero-pop {
-	from { opacity: 0; transform: scale(.9); }
-	to   { opacity: 1; transform: none; }
-}
-
-html.reveal-on .layout-resume {
-	.resume-eyebrow,
-	.resume-hero .page-title,
-	.resume-headline,
-	#resume > .resume-actions {
-		animation: hero-rise 560ms cubic-bezier(.2, .6, .2, 1) backwards;
-	}
-
-	.resume-eyebrow            { animation-delay: 40ms; }
-	.resume-hero .page-title   { animation-delay: 100ms; }
-	.resume-headline           { animation-delay: 170ms; }
-	#resume > .resume-actions  { animation-delay: 240ms; }
-
-	.resume-hero .avatar {
-		animation: hero-pop 620ms cubic-bezier(.34, 1.28, .64, 1) 100ms backwards;
-	}
-}
-
-@media print {
-	html.reveal-on .layout-resume {
-		.resume-eyebrow,
-		.resume-hero .page-title,
-		.resume-headline,
-		#resume > .resume-actions,
-		.resume-hero .avatar { animation: none; }
-	}
-}
+// The load-time hero animation (hero-rise/hero-pop stagger) is gone. Every
+// visitor's first screen — the name, the line under it, the buttons, the
+// avatar — is expected content that must be at full opacity on the first
+// frame, not something that fades in after stylesheets and JavaScript arrive.
+// Below-the-fold sections still use the opt-in scroll reveal (see
+// my-inline.scss).
 
 @media (prefers-reduced-motion: reduce) {
-	html.reveal-on .layout-resume {
-		.resume-eyebrow,
-		.resume-hero .page-title,
-		.resume-headline,
-		#resume > .resume-actions,
-		.resume-hero .avatar { animation: none; }
-	}
-
 	.project-card-img img,
 	.post-card__thumb img,
 	.layout-project .project-link::after {
 		transition: none !important;
+	}
+}
+
+// Contact row ---------------------------------------------------------------
+//
+// The theme punctuates every definition list with `dt::after { content: " :" }`,
+// which makes sense when the term is a word. Here the term is an icon, so each
+// row read "<pin> : Seattle" — a colon dangling after a picture, five times
+// down the block. The skills list already opts out of the same rule; this is
+// the other place it does not belong.
+//
+// The icons themselves come from a font at mixed optical weights (a filled pin
+// beside an outlined envelope beside a lettermark), so they are held at one
+// size and one muted colour to stop them reading as five unrelated marks.
+@media screen {
+	.layout-resume .contact {
+		dt::after { content: none; }
+
+		dt [class*="icon-"] {
+			font-size: 1.05rem;
+			color: var(--gray-text);
+		}
+
+		// The theme's 2px underline sits low and heavy. On three near-identical
+		// handles stacked in one column it turns into a row of purple bars, so
+		// these carry a neutral hairline that only takes the accent on hover.
+		//
+		// `:not(.btn)` is here to out-specify the theme's own
+		// `.content a:not(.btn):not(.no-hover)` (0,3,1), which sets the
+		// decoration colour and would otherwise win against a plain
+		// `.layout-resume .contact dd a` (0,2,2).
+		dd a:not(.btn) {
+			text-decoration-thickness: 1px;
+			text-underline-offset: .2em;
+			// Not --border-color: at 1px that is too faint to read as a link.
+			text-decoration-color: var(--gray-text);
+		}
+
+		dd a:not(.btn):hover,
+		dd a:not(.btn):focus-visible {
+			text-decoration-color: var(--accent-strong);
+		}
+	}
+}
+
+// Section symbols -----------------------------------------------------------
+//
+// Each resume section header carries a glyph at the far end of its rule — a
+// briefcase, a wrench, a trophy. At full size in the menu grey they read as
+// clip art pinned to an otherwise restrained page. Smaller, accent-tinted and
+// held back, they become a quiet marker for the section instead of an
+// illustration competing with its title.
+@media screen {
+	.layout-resume h2 > .symbol,
+	.layout-resume .h3 > .symbol {
+		margin-top: 6px;
+		color: var(--accent-strong);
+		font-size: .82rem;
+		opacity: .45;
+	}
+}
+
+// Typographic finish --------------------------------------------------------
+//
+// Two modern wrapping controls, applied where each one earns its keep.
+//
+// `balance` evens the line lengths of a short block instead of filling each
+// line and dropping whatever is left onto the last one. Headings are where it
+// shows: "Microsoft Mesh & Avatars for Teams" stops breaking as four words and
+// one orphan. Browsers cap it at a handful of lines and ignore it beyond that,
+// so it is safe to apply broadly. Unsupported browsers simply wrap as before.
+@media screen {
+	.page-title,
+	.project-card-title,
+	.post-card__title,
+	.project-summary,
+	.resume-headline,
+	.project-body h2,
+	.project-body h3,
+	.layout-resume .h3,
+	.layout-resume .h4,
+	.site-footer__bottom,
+	.cert-name {
+		text-wrap: balance;
+	}
+
+	// `pretty` leaves the body of a paragraph alone and only works the last
+	// couple of lines, so it costs nothing on long text while preventing a
+	// single word stranded on its own line.
+	.project-body p,
+	.project-card-text,
+	.post-card__excerpt,
+	.resume-intro p,
+	.page-intro p,
+	.note,
+	.note-sm,
+	.figcaption {
+		text-wrap: pretty;
+	}
+}
+
+// Dates are set in the body face, whose figures are proportional — a "1" takes
+// less room than a "4". Down a column of roles that makes the en dashes and
+// year pairs wander by a pixel or two per row. Tabular figures lock every digit
+// to one width so the dates line up as a column, which is what a résumé wants.
+@media screen {
+	.layout-resume section header > .faded,
+	.project-card-meta,
+	.post-card__meta,
+	.project-kicker,
+	.project-period,
+	.cert-list,
+	time {
+		font-variant-numeric: tabular-nums;
+	}
+}
+
+// External-link marker ------------------------------------------------------
+//
+// The theme marks outbound links with a glyph via three selectors. Two of them
+// carry `:not(.no-mark-external)`; the first, `a.external`, does not — so a
+// link wearing both classes is marked anyway, which is the exact opposite of
+// what the opt-out asks for. On this site that is the résumé email address,
+// which is a `mailto:` and gets an "opens externally" arrow it has no use for.
+// Re-assert the opt-out the theme's own selector is missing.
+@media screen {
+	a.external.no-mark-external::after,
+	a.external.no-mark::after {
+		content: none;
+	}
+}
+
+// Brand marks ---------------------------------------------------------------
+//
+// Inline SVG (components/brand-icon.html) sized in `em`, so each one takes the
+// font-size of whatever already styles the link around it — the sidebar's
+// 1.4rem, the footer's 1.15rem, the resume's contact column — with no
+// per-surface sizing here. `vertical-align` does the optical centring that a
+// font glyph used to get from its own baseline.
+.brand-icon {
+	display: inline-block;
+	vertical-align: -.145em;
+}
+
+@media screen {
+	.layout-resume .contact dt .brand-icon {
+		font-size: 1.05rem;
+		color: var(--gray-text);
 	}
 }

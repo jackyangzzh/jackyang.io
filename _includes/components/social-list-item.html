@@ -31,9 +31,10 @@
 {% assign url = username | prepend:prep | append:app %}
 {% endif %}
 
+{% capture brand_svg %}{% include components/brand-icon.html platform=platform %}{% endcapture %}
 <li>
   <a href="{{ url }}" title="{{ name }}" class="no-mark-external" target="_blank" rel="me noopener noreferrer">
-    <span class="{{ icon }}"></span>
+    {% if brand_svg contains "<svg" %}{{ brand_svg }}{% else %}<span class="{{ icon }}"></span>{% endif %}
     <span class="sr-only">{{ name }}</span>
   </a>
 </li>

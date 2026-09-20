@@ -204,15 +204,22 @@ button:focus-visible,
 
 // Scroll reveal -------------------------------------------------------------
 //
-// Gated on `html.reveal-on`, which the inline script in <head> adds only when
-// motion is allowed and IntersectionObserver exists. site-polish.js adds `is-in`
-// as each element scrolls into view and sets `--reveal-delay` for the stagger.
+// Hidden state is scoped to an explicit per-element `reveal-pending` class that
+// site-polish.js applies only to targets measured to be entirely below the
+// initial viewport. Elements visible on first paint never get the class, so
+// first-screen content (notably the mobile resume hero) is never hidden — there
+// is no blanket `html.reveal-on` gate in <head> that hides it pre-paint.
+// site-polish.js adds `is-in` (and removes `reveal-pending`) as an element
+// scrolls into view and sets `--reveal-delay` for the stagger.
 //
 // This uses an animation rather than a transition on purpose. Cards already
 // transition `transform` for their hover lift, and a competing transition on the
 // same property would fight it. `animation-fill-mode: backwards` holds the
 // pre-animation state through the stagger delay, then stops applying once the
 // animation finishes, which leaves the hover transform free afterwards.
+// The reveal must never be able to hide content on paper or for anyone who has
+// asked for reduced motion (the JS skips opting in for those cases too; these
+// are the belt-and-braces overrides, e.g. for a mid-session mode change).
 $reveal-targets: ".project-card", ".post-card", ".layout-resume .column > section";
 
 @keyframes reveal-rise {
@@ -220,32 +227,32 @@ $reveal-targets: ".project-card", ".post-card", ".layout-resume .column > sectio
   to   { opacity: 1; transform: none; }
 }
 
-html.reveal-on {
-  @each $sel in $reveal-targets {
-    #{$sel} { opacity: 0; }
+// `reveal-seen` needs no CSS: the pending class is simply removed, which
+// restores the element's natural full opacity with no animation.
+@each $sel in $reveal-targets {
+  #{$sel}.reveal-pending { opacity: 0; }
 
-    #{$sel}.is-in {
-      opacity: 1;
-      animation: reveal-rise 450ms cubic-bezier(.2, .6, .2, 1) backwards;
-      animation-delay: var(--reveal-delay, 0ms);
-    }
+  #{$sel}.is-in {
+    opacity: 1;
+    animation: reveal-rise 450ms cubic-bezier(.2, .6, .2, 1) backwards;
+    animation-delay: var(--reveal-delay, 0ms);
   }
 }
 
-// The reveal must never be able to hide content on paper or for anyone who has
-// asked for reduced motion.
 @media print {
-  html.reveal-on {
-    @each $sel in $reveal-targets {
-      #{$sel} { opacity: 1; animation: none; }
-    }
+  @each $sel in $reveal-targets {
+    #{$sel}.reveal-pending { opacity: 1; }
+    #{$sel}.is-in { opacity: 1; animation: none; }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html.reveal-on {
-    @each $sel in $reveal-targets {
-      #{$sel} { opacity: 1; animation: none; }
-    }
+  @each $sel in $reveal-targets {
+    #{$sel}.reveal-pending { opacity: 1; }
+    #{$sel}.is-in { opacity: 1; animation: none; }
   }
 }
+
+// Above-fold critical appearance (nav, sidebar, resume hero, action buttons,
+// contact block) shared with the full stylesheet. See my-critical.scss.
+@import "my-critical";

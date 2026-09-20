@@ -16,20 +16,9 @@ Fill in `href`. You may have to adjust `rel`.
 {% if page.cover and site.logo %}<link rel="preload" href="{% include smart-url url=site.logo %}" as="image" type="image/webp" fetchpriority="high">{% endif %}
 
 {% comment %}
-Scroll-reveal gate. Runs before first paint so revealed elements never flash in
-at full opacity and then hide. Only opts in when motion is allowed and
-IntersectionObserver exists; site-polish.js does the actual revealing.
-The failsafe un-hides everything if that script fails to load, so content can
-never be left permanently invisible.
+Scroll reveals no longer need a pre-paint gate: site-polish.js opts each markup
+target in individually with a `reveal-pending` class, and only for elements
+measured to be entirely below the initial viewport. Above-fold elements are
+never hidden, so first-screen content is always painted at full opacity, with
+no failsafe-timer dance and nothing to un-do if the script fails to load.
 {% endcomment %}
-<script>
-  (function (d, w) {
-    var mq = w.matchMedia && w.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mq && mq.matches) return;
-    if (!('IntersectionObserver' in w)) return;
-    d.documentElement.classList.add('reveal-on');
-    w.__revealFailsafe = setTimeout(function () {
-      d.documentElement.classList.remove('reveal-on');
-    }, 3000);
-  })(document, window);
-</script>

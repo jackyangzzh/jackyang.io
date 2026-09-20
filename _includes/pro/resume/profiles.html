@@ -9,8 +9,9 @@
   {% else %}
   {% assign name = pro.network %}
   {% endif %}
+  {% capture brand_svg %}{% include components/brand-icon.html platform=platform %}{% endcapture %}
   <dt class="faded">
-    <span class="{{ icon | default:icons.fallback | default:'icon-link' }}" title="{{ name }}"></span>
+    {% if brand_svg contains "<svg" %}{{ brand_svg }}{% else %}<span class="{{ icon | default:icons.fallback | default:'icon-link' }}" title="{{ name }}"></span>{% endif %}
     <span class="sr-only">{{ name }}</span>
   </dt>
   <dd class="bold">

@@ -1,0 +1,242 @@
+// Above-fold critical appearance, shared by both CSS paths.
+//
+// These rules were spread over my-style.scss, which ships in the main
+// stylesheet — loaded non-render-blocking via the preload/swap pattern. That
+// meant the first screen was painted with the theme's unpolished values (5rem
+// navbar, 1rem avatar border, unstyled action buttons…) and re-styled a
+// stylesheet-load later, producing visible color/border/layout transitions
+// exactly where the visitor is looking.
+//
+// Imported at the end of my-inline.scss, this becomes part of the inline
+// critical CSS in production (styles/inline.scss) and of the full stylesheet in
+// development / no_inline_css builds (styles/style.scss, whose no-inline branch
+// imports my-inline too). my-style.scss imports the same partial right after
+// the theme so the final values also win in the late-loaded main stylesheet —
+// same source, two imports, so the definitions cannot diverge.
+
+// Navigation, sidebar and shared controls — the top of every page ----------
+@media screen {
+	#_main { scroll-margin-top: 5rem; }
+	#_main:focus { outline: none; }
+	#_main :is(h2, h3, section) { scroll-margin-top: 5rem; }
+	#breadcrumbs > ul { color: var(--gray-text); }
+	#breadcrumbs > ul > li a { color: var(--gray-text); text-decoration: underline; text-underline-offset: .2em; }
+
+	// Keep the new page links reachable while scrolling; Hydejack otherwise
+	// translates the entire toolbar offscreen, including focused controls.
+	#_navbar { transform: none !important; }
+	.navbar > .content::before { display: none; }
+	.nav-btn-bar {
+		height: 4.25rem;
+		border-bottom: 1px solid var(--border-color);
+	}
+	.nav-btn {
+		flex: 0 0 2.75rem;
+		width: 2.75rem;
+		height: 4.25rem;
+		border: 0;
+		color: var(--gray-text);
+	}
+	.quick-nav {
+		display: flex;
+		justify-content: flex-end;
+		gap: .25rem;
+		padding-right: .5rem;
+	}
+	.quick-nav-link {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		padding: .35rem .65rem;
+		border: 0;
+		border-radius: .5rem;
+		color: var(--gray-text);
+		font-size: .82rem;
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.quick-nav-link:hover,
+	.quick-nav-link[aria-current] {
+		color: var(--accent-strong);
+		background: var(--gray-bg);
+		text-decoration: none;
+	}
+	.sidebar .sidebar-nav-item {
+		min-width: 9rem;
+		padding: .45rem 1rem;
+		margin-bottom: .25rem;
+		border: 1px solid transparent;
+		border-radius: .6rem;
+		font-family: "Noto Sans", sans-serif;
+		font-size: .95rem;
+		text-decoration: none;
+	}
+	.sidebar .sidebar-nav-item:hover,
+	.sidebar .sidebar-nav-item[aria-current] {
+		border-color: rgba(255, 255, 255, .2);
+		background: rgba(255, 255, 255, .1);
+		text-decoration: none;
+	}
+	.sidebar-about > p { font-size: .9rem; line-height: 1.75; }
+	.sidebar a:focus-visible { outline-color: #fff; }
+}
+
+// The quick nav duplicates the sidebar nav on desktop; keep the final
+// (hidden) state in lockstep so a wide-viewport first paint doesn't show it.
+@media screen and (min-width: 64em) {
+	.quick-nav { display: none; }
+}
+
+// Resume hero — the first screen (and the LCP) on the home page -----------
+.layout-resume {
+	.page > .resume-hero {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 7rem;
+		align-items: center;
+		gap: 2rem;
+		margin-bottom: 1.5rem;
+		border: 0;
+	}
+
+	.resume-eyebrow {
+		margin: 0 0 .75rem;
+		color: var(--accent-strong);
+		font-size: .72rem;
+		font-weight: 700;
+		letter-spacing: .12em;
+		text-transform: uppercase;
+		span { padding: 0 .35rem; color: var(--gray-text); }
+	}
+
+	.resume-hero .page-title {
+		margin: 0 0 .6rem;
+		font-size: clamp(2.6rem, 5vw, 3.6rem);
+		line-height: 1.12;
+	}
+
+	.resume-headline {
+		max-width: 32rem;
+		margin: 0;
+		color: var(--body-color);
+		font-size: clamp(1.15rem, 2vw, 1.45rem);
+		line-height: 1.5;
+		letter-spacing: -.02em;
+	}
+
+	.resume-hero .avatar {
+		float: none;
+		width: 7rem;
+		height: 7rem;
+		margin: 0;
+		box-sizing: border-box;
+	}
+
+	.page-title {
+		letter-spacing: -.025em;
+	}
+
+	.resume-intro {
+		max-width: 46rem;
+		margin: 2rem 0;
+		line-height: 1.85;
+		> p:first-child { font-size: 1.08rem; }
+		> p + p { color: var(--gray-text); font-size: .95rem; }
+	}
+
+	// `.content .avatar` (theme, inline) gives the photo a 1rem border at first
+	// paint — visibly larger than the final 3px ring. This rule (higher
+	// specificity) states the final border up front, so there is no border
+	// pop-in on the LCP image.
+	.avatar {
+		border: 3px solid var(--body-bg);
+		box-shadow:
+			0 0 0 2px var(--accent-color-faded),
+			0 .5rem 1.5rem rgba(0, 0, 0, .14);
+	}
+
+	#resume > .resume-actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: .6rem;
+		margin: 0;
+
+		.btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: .5rem;
+			min-height: 44px;
+			padding: .6rem .9rem;
+			margin: 0;
+			border-radius: .6rem;
+			font-size: .8rem;
+			font-weight: 700;
+			box-shadow: none;
+			transition:
+				transform 160ms ease,
+				background-color 160ms ease,
+				border-color 160ms ease,
+				box-shadow 160ms ease;
+
+			&:hover {
+				transform: translateY(-1px);
+				box-shadow: 0 .25rem .6rem rgba(66, 38, 112, .1);
+			}
+		}
+
+		.btn-secondary, .btn-quiet {
+			border: 1px solid var(--border-color);
+			background: var(--body-bg);
+			color: var(--body-color);
+			&:hover { background: var(--gray-bg); }
+		}
+		.btn-quiet { border-color: transparent; color: var(--gray-text); }
+		.button-detail { font-size: .65rem; letter-spacing: .04em; }
+	}
+
+	// Higher specificity than the theme's `.layout-resume .contact
+	// { margin-top: 2rem }`, which appears *after* this partial inside the
+	// inline critical `<style>` (head/css/resume is appended after
+	// head/css/inline). Without the extra class the theme value would win at
+	// first paint and then flip when the main stylesheet arrived.
+	.columns.contact {
+		margin-top: 1.5rem;
+		padding: 1rem 0 .5rem;
+		border-top: 1px solid var(--border-color);
+		border-bottom: 1px solid var(--border-color);
+	}
+
+	// Mirror of the first-screen pieces of the Typographic-finish block in
+	// my-style.scss (kept there verbatim): without them, wrapping of the hero
+	// text would balance differently before and after the main stylesheet
+	// loads. Scoped tighter here so the late-loaded broad selectors stay the
+	// authority for everything else.
+	.page-title { text-wrap: balance; }
+	.resume-headline { text-wrap: balance; }
+	.resume-intro p { text-wrap: pretty; }
+}
+
+// Mobile: the hero sizes and the button grid are all first-screen content.
+@media screen and (max-width: 41.99em) {
+	.layout-resume .page > .resume-hero { grid-template-columns: minmax(0, 1fr) 4.5rem; gap: 1rem; }
+	.layout-resume .resume-hero .avatar { width: 4.5rem; height: 4.5rem; align-self: start; }
+	.layout-resume .resume-headline { font-size: 1.15rem; }
+	.layout-resume .resume-eyebrow { font-size: .65rem; letter-spacing: .06em; }
+	.layout-resume #resume > .resume-actions {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+	.layout-resume #resume > .resume-actions .btn {
+		width: 100%;
+		margin: 0;
+	}
+	// Make the quiet/ghost buttons read as equal tiles in the mobile grid.
+	.layout-resume #resume > .resume-actions .btn-quiet {
+		border-color: var(--border-color);
+		color: var(--body-color);
+	}
+	.layout-resume .columns.contact dd { overflow-wrap: anywhere; }
+	.quick-nav { gap: 0; padding-right: .25rem; }
+	.quick-nav-link { padding: .3rem .5rem; font-size: .75rem; }
+	.nav-btn { flex-basis: 44px; width: 44px; }
+}
