@@ -56,9 +56,26 @@ The app uses Next.js 16's App Router, React 19, TypeScript, and Tailwind CSS 4. 
 
 Coverage started in July 2026, during a wider conversation about "dopamine sites" that simulate consumption without selling anything, and it continued into September.
 
-- [The New York Times](https://www.nytimes.com/2026/09/11/world/asia/dopamine-sites-popularity.html) placed FakeHaul within the South Korean "dopamine site" trend and traced the idea back to the friend I built it for. The piece also raised the objection I keep hearing, that a daily spin and a pretend delivery tracker can become an engagement loop of their own.
-- [Fast Company](https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction) questioned whether keeping habit-forming mechanics, such as the daily spin, could undermine the idea.
-- [Digital Trends](https://www.digitaltrends.com/computing/i-tried-the-internets-weirdest-shopping-trend-and-my-brain-fell-for-it-more-than-i-expected/) tried the site. The writer described feeling urgency from a countdown on a product that didn't exist, while questioning whether rehearsing checkout helps with impulse spending.
+<div class="press-quotes-grid">
+  <a href="https://www.nytimes.com/2026/09/11/world/asia/dopamine-sites-popularity.html" class="press-quote-card" target="_blank" rel="noopener noreferrer">
+    <span class="press-source">The New York Times</span>
+    <p class="press-quote">Placed FakeHaul within the trend and traced the idea back to the friend I built it for.</p>
+    <span class="press-link-label">Read article ↗</span>
+  </a>
+  <a href="https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction" class="press-quote-card" target="_blank" rel="noopener noreferrer">
+    <span class="press-source">Fast Company</span>
+    <p class="press-quote">Questioned whether keeping habit-forming mechanics could undermine the idea.</p>
+    <span class="press-link-label">Read article ↗</span>
+  </a>
+  <a href="https://www.digitaltrends.com/computing/i-tried-the-internets-weirdest-shopping-trend-and-my-brain-fell-for-it-more-than-i-expected/" class="press-quote-card" target="_blank" rel="noopener noreferrer">
+    <span class="press-source">Digital Trends</span>
+    <p class="press-quote">Described urgency from a countdown on a product that did not exist, questioning impulse loops.</p>
+    <span class="press-link-label">Read article ↗</span>
+  </a>
+</div>
+
+Additional coverage and commentary:
+
 - [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html) focused on how completely the catalog is invented.
 - [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/) read it as a parody of online retail mechanics.
 - [Cybernews](https://cybernews.com/tech/digital-diy-ai-projects/) explored what AI makes possible for personal projects. We also discussed my choice not to collect accounts, email addresses, or IP-based tracking data. That leaves me without retention data, a trade-off I'm comfortable with.

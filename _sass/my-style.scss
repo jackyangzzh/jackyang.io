@@ -56,9 +56,8 @@
 
 // Copy-to-clipboard confirmation --------------------------------------------
 //
-// The confirmation happens inside the button: an accent layer blooms from the
-// middle, the label swaps to a checkmark that draws itself, and the chip
-// settles back about two seconds later. All three labels share one grid cell,
+// The confirmation happens inside the button: the label fades to a checkmark
+// and the surface briefly takes on the accent colour. All three labels share one grid cell,
 // so the button always reserves the width of the widest one and the definition
 // list never reflows. The spoken half of the confirmation is a separate live
 // region (.copy-email-status) — the button's accessible name never changes, so
@@ -80,50 +79,42 @@
 }
 
 .copy-email {
-	// Named curves, so each part of the gesture has its own intent.
-	--copy-bloom: cubic-bezier(.22, 1, .32, 1);		// fill arrives fast, settles long
-	--copy-drain: cubic-bezier(.4, 0, .7, .2);		// leaves reluctantly, then quickly
-	--copy-draw: cubic-bezier(.16, .84, .44, 1);	// pen stroke: off the mark fast, lands soft
-	--copy-spring: cubic-bezier(.34, 1.42, .64, 1);	// exactly one overshoot, no wobble
-	--copy-settle: cubic-bezier(.33, 1, .68, 1);	// the chip's own pop
-
 	position: relative;
-	// Keeps the fill layer's z-index a private matter.
 	isolation: isolate;
-	min-height: 44px;
-	padding: .2rem .5rem;
-	border: 0;
-	border-radius: .4rem;
+	min-height: 0;
+	height: 1.1rem;
+	padding: 0 .35rem;
+	margin-left: .35rem;
+	border: 1px solid var(--border-color);
+	border-radius: 9999px;
 	background: var(--gray-bg);
 	color: var(--accent-strong);
 	font: inherit;
-	font-size: .75rem;
-	line-height: 1.2;
-	// Pinned instead of left on the baseline: the button's inner structure now
-	// decides where its baseline falls, and `middle` keeps it visually locked
-	// to the address beside it regardless. `overflow` stays visible on purpose
-	// — clipping would move an inline-block's baseline to its bottom edge.
-	vertical-align: middle;
+	font-size: .62rem;
+	font-weight: 600;
+	line-height: 1;
+	vertical-align: .1rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 	cursor: pointer;
-	// The chip has its own press feedback now; iOS's grey flash fights the pop.
 	-webkit-tap-highlight-color: transparent;
-	transition: background-color 140ms linear;
-	&:hover { background: var(--border-color); }
-	&:active { transform: scale(.97); }
+	transition: background-color 140ms ease, border-color 140ms ease;
+	&:hover {
+		background: var(--border-color);
+		border-color: var(--accent-strong);
+	}
+	&:active { background: var(--accent-color-faded); }
 }
 
-// The fill is either fully opaque or zero-sized, never a partial blend, so the
-// label on top of it always sits on a finished colour. The 90ms drain delay
-// holds the surface still until the white label above it has already faded out.
 .copy-email__fill {
 	position: absolute;
 	inset: 0;
 	z-index: 0;
 	border-radius: inherit;
 	background: var(--accent-strong);
-	transform: scale(0);
-	transform-origin: 50% 50%;
-	transition: transform 200ms var(--copy-drain) 90ms;
+	opacity: 0;
+	transition: opacity 140ms ease;
 }
 
 // One grid cell, three labels stacked in it: the track is as wide and as tall
@@ -143,9 +134,8 @@
 	gap: .35em;
 	white-space: nowrap;
 	transition:
-		opacity 90ms linear,
-		transform 130ms var(--copy-bloom),
-		visibility 0s 90ms;
+		opacity 120ms ease,
+		visibility 0s 120ms;
 }
 
 // Same colour as the fill, so the bloom swallows the word instead of
@@ -156,7 +146,6 @@
 .copy-email__face--fail {
 	opacity: 0;
 	visibility: hidden;
-	transform: scale(.82);
 }
 
 .copy-email__face--done { color: var(--accent-strong-contrast); }
@@ -164,21 +153,16 @@
 
 // `pathLength="1"` in the markup makes one unit of dash offset the whole stroke.
 .copy-email__check {
-	width: .95em;
-	height: .95em;
+	width: .9em;
+	height: .9em;
 	stroke-dasharray: 1;
-	stroke-dashoffset: 1;
+	stroke-dashoffset: 0;
 }
 
 // Confirmed -----------------------------------------------------------------
 
-.copy-email.is-copied {
-	animation: copy-email-pop 420ms var(--copy-settle);
-}
-
 .copy-email.is-copied .copy-email__fill {
-	transform: scale(1);
-	transition: transform 260ms var(--copy-bloom);
+	opacity: 1;
 }
 
 .copy-email.is-copied .copy-email__face--idle,
@@ -191,16 +175,9 @@
 .copy-email.is-failed .copy-email__face--fail {
 	opacity: 1;
 	visibility: visible;
-	transform: none;
-	// Held back ~90ms so the label lands on a surface that has already arrived.
 	transition:
-		opacity 150ms linear 90ms,
-		transform 300ms var(--copy-spring) 90ms,
-		visibility 0s 90ms;
-}
-
-.copy-email.is-copied .copy-email__check {
-	animation: copy-email-draw 340ms var(--copy-draw) 150ms forwards;
+		opacity 120ms ease,
+		visibility 0s;
 }
 
 // Failed --------------------------------------------------------------------
@@ -210,7 +187,6 @@
 // do next is carried by the live region.
 .copy-email.is-failed {
 	box-shadow: inset 0 0 0 1px var(--copy-fail);
-	animation: copy-email-nudge 320ms ease-in-out;
 }
 
 // Windows High Contrast flattens author colours, which would leave the
@@ -230,24 +206,6 @@
 	.copy-email.is-failed {
 		box-shadow: inset 0 0 0 1px ButtonText;
 	}
-}
-
-@keyframes copy-email-pop {
-	0% { transform: scale(1); }
-	26% { transform: scale(.955); }
-	60% { transform: scale(1.035); }
-	100% { transform: scale(1); }
-}
-
-@keyframes copy-email-draw {
-	to { stroke-dashoffset: 0; }
-}
-
-@keyframes copy-email-nudge {
-	0%, 100% { transform: translateX(0); }
-	22% { transform: translateX(-2px); }
-	55% { transform: translateX(2px); }
-	80% { transform: translateX(-1px); }
 }
 
 // The spoken half of the confirmation. It ships in the markup rather than being
@@ -328,12 +286,61 @@
 
 	.tag {
 		margin: 0;
-		padding: .25rem .55rem;
-		border-color: var(--border-color);
-		border-radius: 999px;
+		padding: .28rem .65rem;
+		border: 1px solid var(--border-color);
+		border-radius: 9999px;
 		background: var(--gray-bg);
 		color: var(--gray-text);
 		line-height: 1.35;
+		box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+		transition:
+			transform 140ms ease,
+			color 140ms ease,
+			border-color 140ms ease,
+			box-shadow 140ms ease;
+
+		&:hover {
+			border-color: var(--accent-strong);
+			color: var(--body-color);
+			transform: translateY(-1px);
+		}
+	}
+
+	// Timeline rail on Experience and Research
+	.column > section:has(> .npb > h2#work),
+	.column > section:has(> .npb > h2#research) {
+		> .npb > section,
+		> section {
+			position: relative;
+			padding-left: 1.5rem;
+
+			&::before {
+				content: "";
+				position: absolute;
+				left: .29rem;
+				top: .5rem;
+				bottom: -2.6rem;
+				width: 2px;
+				background: var(--border-color);
+			}
+
+			&::after {
+				content: "";
+				position: absolute;
+				left: 0;
+				top: .4rem;
+				width: .68rem;
+				height: .68rem;
+				border-radius: 50%;
+				background: var(--accent-strong);
+				box-shadow: 0 0 0 3px var(--body-bg), 0 0 8px var(--accent-strong);
+			}
+		}
+
+		> section:last-child::before,
+		> .npb:last-child > section::before {
+			display: none;
+		}
 	}
 }
 
@@ -376,15 +383,17 @@
 		display: block;
 		box-sizing: border-box;
 		height: 100%;
-		padding: .65rem .85rem;
+		padding: .75rem 1rem;
 		border: 1px solid var(--border-color);
-		border-radius: .6rem;
+		border-radius: 1rem;
 		background: var(--gray-bg);
 		text-decoration: none;
+		box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08), 0 2px 8px rgba(0, 0, 0, 0.15);
 		transition:
-			border-color 160ms ease,
-			background-color 160ms ease,
-			transform 160ms ease;
+			border-color 180ms ease,
+			background-color 180ms ease,
+			box-shadow 180ms ease,
+			transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
 	// Keep the theme's external-link glyph, but dock it to the card corner
@@ -399,9 +408,10 @@
 	}
 
 	a.cert-link:hover {
-		border-color: var(--accent-color-faded);
+		border-color: var(--accent-strong);
 		background: var(--body-bg);
-		transform: translateY(-1px);
+		transform: translateY(-2px);
+		box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), 0 6px 18px rgba(0, 0, 0, 0.25);
 	}
 
 	.cert-name {
@@ -421,12 +431,17 @@
 	}
 }
 
+.layout-resume .column-2-5 .cert-list {
+	grid-template-columns: 1fr;
+}
+
 // Desktop: the sidebar already shows the main nav, so the duplicate
 // quick-nav links in the top bar only add noise. The footer nav is the same
 // duplication at the other end of the page — it earns its place on mobile,
 // where the sidebar is a closed drawer and these are the only links at the
 // end of a long scroll, but not beside a permanently visible sidebar.
 @media screen and (min-width: 64em) {
+	#_menu { display: none; }
 	.quick-nav { display: none; }
 	.site-footer__nav { display: none; }
 
@@ -444,7 +459,8 @@
 	}
 
 	.page-title {
-		letter-spacing: -.025em;
+		letter-spacing: -.03em;
+		font-weight: 700;
 		font-size: clamp(2rem, 4vw, 2.8rem);
 	}
 
@@ -484,9 +500,9 @@
 	justify-content: center;
 	min-height: 44px;
 	gap: .5rem;
-	padding: .45rem .95rem;
+	padding: .45rem 1rem;
 	border: 1px solid var(--border-color);
-	border-radius: 999px;
+	border-radius: 9999px;
 	background: var(--gray-bg);
 	color: var(--gray-text);
 	font: inherit;
@@ -494,9 +510,9 @@
 	font-weight: 600;
 	line-height: 1;
 	cursor: pointer;
-	box-shadow: none;
+	box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
 	transition:
-		transform 160ms ease,
+		transform 160ms cubic-bezier(0.16, 1, 0.3, 1),
 		color 160ms ease,
 		background-color 160ms ease,
 		border-color 160ms ease,
@@ -504,9 +520,13 @@
 }
 
 .project-filter-btn:hover {
-	transform: translateY(-1px);
-	border-color: var(--accent-color-faded);
+	transform: translateY(-1.5px);
+	border-color: var(--accent-strong);
 	color: var(--body-color);
+}
+
+.project-filter-btn:active {
+	transform: scale(0.97);
 }
 
 .project-filter-btn:focus-visible {
@@ -516,9 +536,9 @@
 
 .project-filter-btn.is-active {
 	border-color: var(--accent-strong);
-	background: var(--accent-strong);
+	background: linear-gradient(180deg, var(--accent-strong-hover) 0%, var(--accent-strong) 100%);
 	color: var(--accent-strong-contrast);
-	box-shadow: none;
+	box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.32), 0 4px 14px rgba(135, 90, 205, 0.35);
 }
 
 .project-filter-btn.is-active span {
@@ -551,19 +571,6 @@ main.layout-blog .posts-grid {
 	gap: 1.5rem;
 }
 
-.writing-toolbar {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: space-between;
-	gap: .5rem 1rem;
-	margin-bottom: 1.5rem;
-	font-size: .8rem;
-	color: var(--gray-text);
-	p { margin: 0; }
-	a { padding: .6rem 0; border: 0; color: var(--accent-strong); }
-}
-
 // Category tags -------------------------------------------------------------
 //
 // These were four saturated fills carrying white text, which made the category
@@ -577,8 +584,8 @@ main.layout-blog .posts-grid {
 // 5.2:1–6.0:1. All well clear of the 4.5:1 minimum for text this size.
 .project-tag {
 	display: inline-block;
-	padding: .2rem .58rem;
-	border-radius: 999px;
+	padding: .2rem .62rem;
+	border-radius: 9999px;
 	background: var(--tag-bg);
 	color: var(--tag-fg);
 	font-size: .68rem;
@@ -586,6 +593,8 @@ main.layout-blog .posts-grid {
 	letter-spacing: .045em;
 	line-height: 1.4;
 	text-transform: uppercase;
+	box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+	border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 @mixin project-tags-light() {
@@ -627,19 +636,42 @@ main.layout-blog .posts-grid {
 
 .project-card,
 .post-card {
-	border-radius: .8rem !important;
+	position: relative;
+	border-radius: 1.25rem !important;
 	background: var(--body-bg) !important;
+	border: 1px solid var(--border-color) !important;
 	box-shadow: var(--card-shadow) !important;
+	overflow: hidden !important;
 	transition:
-		transform 180ms ease,
-		border-color 180ms ease,
-		box-shadow 180ms ease !important;
+		transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+		border-color 200ms ease,
+		box-shadow 200ms ease !important;
 
 	&:hover,
 	&:focus-within {
-		transform: translateY(-.2rem);
-		border-color: var(--accent-color-faded);
+		transform: translateY(-3px);
+		border-color: var(--accent-color-faded) !important;
 		box-shadow: var(--card-shadow-hover) !important;
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		padding: 1.2px;
+		background: radial-gradient(380px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), var(--accent-strong), transparent 60%);
+		-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+		-webkit-mask-composite: xor;
+		mask-composite: exclude;
+		pointer-events: none;
+		opacity: 0;
+		transition: opacity 240ms ease;
+		z-index: 2;
+	}
+
+	&:hover::after {
+		opacity: 0.65;
 	}
 }
 
@@ -695,6 +727,8 @@ main.layout-blog .posts-grid {
 	margin-bottom: .55rem !important;
 	color: var(--body-color) !important;
 	font-size: 1.12rem !important;
+	font-weight: 700 !important;
+	letter-spacing: -.02em !important;
 	line-height: 1.35;
 	a { color: inherit; border-bottom: 0; text-decoration: none; }
 	a:hover { color: var(--accent-strong); }
@@ -736,13 +770,26 @@ main.layout-blog .posts-grid {
 .project-back {
 	display: inline-flex;
 	align-items: center;
-	gap: .5rem;
-	min-height: 44px;
+	gap: .4rem;
+	min-height: 2.25rem;
 	margin-bottom: 1.25rem;
-	border: 0;
-	color: var(--accent-strong);
-	font-size: .85rem;
-	font-weight: 700;
+	border: 0 !important;
+	border-bottom: 0 !important;
+	color: var(--gray-text) !important;
+	font-size: .82rem;
+	font-weight: 600;
+	text-decoration: none !important;
+	transition:
+		color 160ms ease,
+		transform 160ms cubic-bezier(0.16, 1, 0.3, 1);
+
+	&:hover,
+	&:focus-visible {
+		color: var(--accent-strong) !important;
+		text-decoration: none !important;
+		border-bottom: 0 !important;
+		transform: translateX(-3px);
+	}
 }
 
 .layout-project {
@@ -753,22 +800,41 @@ main.layout-blog .posts-grid {
 
 	.project-summary {
 		max-width: 42rem;
-		font-size: 1.08rem;
+		font-size: 1.05rem;
+		line-height: 1.7;
 	}
 
 	.project-link {
+		display: inline-flex;
+		align-items: center;
+		min-height: 2.25rem;
+		padding: .5rem 1.15rem;
+		border: 1px solid var(--border-color);
+		border-radius: 9999px;
+		background: var(--gray-bg);
+		color: var(--body-color);
+		font-size: .82rem;
+		font-weight: 600;
+		text-decoration: none !important;
+		border-bottom: 0 !important;
+		box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
 		transition:
-			transform 160ms ease,
-			color 160ms ease,
-			background-color 160ms ease,
-			border-color 160ms ease,
-			box-shadow 160ms ease;
+			transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+			color 180ms ease,
+			background-color 180ms ease,
+			border-color 180ms ease,
+			box-shadow 180ms ease;
 
 		&:hover,
 		&:focus-visible {
-			transform: translateY(-1px);
-			background: var(--gray-bg);
-			box-shadow: 0 .25rem .65rem rgba(0, 0, 0, .09);
+			transform: translateY(-2px);
+			border-color: var(--accent-strong);
+			background: var(--body-bg);
+			box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.16), 0 4px 14px rgba(0, 0, 0, 0.22);
+		}
+
+		&:active {
+			transform: scale(0.97);
 		}
 	}
 
@@ -811,6 +877,71 @@ main.layout-blog .posts-grid {
 		img:not(.avatar) {
 			border-radius: .5rem;
 		}
+	}
+
+	// Press quotes callout grid (e.g. on FakeHaul)
+	.press-quotes-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
+		margin: 1.75rem 0 2rem;
+
+		.press-quote-card {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			padding: 1.25rem 1.25rem 1.1rem;
+			border: 1px solid var(--border-color);
+			border-radius: 1.15rem;
+			background: var(--gray-bg);
+			box-shadow: var(--card-shadow);
+			text-decoration: none !important;
+			border-bottom: 1px solid var(--border-color) !important;
+			transition:
+				transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+				border-color 200ms ease,
+				box-shadow 200ms ease;
+
+			&:hover,
+			&:focus-visible {
+				transform: translateY(-2px);
+				border-color: var(--accent-color-faded);
+				box-shadow: var(--card-shadow-hover);
+			}
+		}
+
+		.press-source {
+			font-size: .72rem;
+			font-weight: 800;
+			text-transform: uppercase;
+			letter-spacing: .08em;
+			color: var(--accent-strong);
+		}
+
+		.press-quote {
+			margin: .6rem 0 .75rem;
+			font-size: .88rem;
+			line-height: 1.55;
+			color: var(--body-color);
+			font-style: italic;
+		}
+
+		.press-link-label {
+			font-size: .75rem;
+			font-weight: 700;
+			color: var(--gray-text);
+			transition: color 140ms ease;
+		}
+
+		.press-quote-card:hover .press-link-label {
+			color: var(--accent-strong);
+		}
+	}
+}
+
+@media screen and (max-width: 48em) {
+	.layout-project .press-quotes-grid {
+		grid-template-columns: 1fr;
 	}
 }
 
@@ -997,73 +1128,7 @@ body.dark-mode {
 		padding-right: 0;
 
 		> hr {
-			margin-bottom: 1.5rem;
-		}
-	}
-
-	.site-footer__top {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: .5rem 2rem;
-	}
-
-	.site-footer__nav > ul {
-		display: flex;
-		flex-wrap: wrap;
-		gap: .25rem 1.25rem;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-
-		> li { margin: 0; }
-
-		> a,
-		> li > a {
-			display: inline-flex;
-			align-items: center;
-			min-height: 44px;
-			border: 0;
-			color: var(--body-color);
-			font-size: .85rem;
-			font-weight: 700;
-			text-decoration: none;
-		}
-
-		> li > a:hover,
-		> li > a[aria-current] { color: var(--accent-strong); }
-	}
-
-	// Reuse the sidebar's social list geometry, scaled down and un-floated so
-	// the icons sit on the footer's baseline row rather than in a 4rem block.
-	.site-footer__social > ul {
-		display: flex;
-		align-items: center;
-		gap: .15rem;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-
-		> li { margin: 0; float: none; }
-
-		> li > a {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			width: 44px;
-			height: 44px;
-			border: 0;
-			border-radius: .5rem;
-			color: var(--gray-text);
-			font-size: 1.15rem;
-			line-height: 1;
-			text-decoration: none;
-		}
-
-		> li > a:hover {
-			background: var(--gray-bg);
-			color: var(--accent-strong);
+			display: none;
 		}
 	}
 
@@ -1073,8 +1138,8 @@ body.dark-mode {
 		align-items: center;
 		justify-content: space-between;
 		gap: .25rem 1.5rem;
-		margin-top: .75rem;
-		padding-top: 1rem;
+		margin-top: 0;
+		padding-top: 1.5rem;
 		border-top: 1px solid var(--border-color);
 
 		> p { margin: 0; }

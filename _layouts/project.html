@@ -30,24 +30,26 @@ layout: base
 {{ project.description | markdownify | replace:'<p>','' | replace:'</p>','' }}
 {% endcapture %}
 
+{% assign project_category = project.category | default:'other' | downcase %}
+{% case project_category %}
+  {% when 'professional' %}{% assign project_category_label = 'Professional' %}
+  {% when 'personal' %}{% assign project_category_label = 'Personal' %}
+  {% when 'research' %}{% assign project_category_label = 'Research' %}
+  {% else %}{% assign project_category_label = project.category %}
+{% endcase %}
+
 <article id="project" class="page mb6 project-page" role="article" {% unless nsd %}vocab="http://schema.org/" typeof="CreativeWork"
   resource="#project" {% endunless %}>
   <a class="project-back" href="{{ '/projects/' | relative_url }}"><span aria-hidden="true">←</span> All projects</a>
   <header class="project-header">
     <div class="project-header-copy">
-      {% if major >= 4 and minor >= 1 %}
-      {% assign parent = site.pages | find:"show_collection",project.collection %}
-      {% else %}
-      {% assign parent = site.pages | where:"show_collection",project.collection | first %}
-      {% endif %}
-
       <p class="project-kicker heading">
-        {% if parent %}
-        <a href="{{ parent.url | relative_url }}" class="flip-title" property="genre">{{ parent.title }}</a>
+        {% if project.category %}
+        <span class="project-tag project-tag-{{ project_category }}">{{ project_category_label }}</span>
         {% endif %}
 
         {% unless site.hydejack.hide_dates %}
-        {% if parent %}<span class="project-header-separator">{{ separator }}</span>{% endif %}
+        {% if project.category %}<span class="project-header-separator">{{ separator }}</span>{% endif %}
         <span class="project-period">{{ project_period | strip }}</span>
         {% endunless %}
       </p>

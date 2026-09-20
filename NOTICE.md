@@ -31,7 +31,7 @@ Appropriate credit as per Creative Commons licenses.
 |:-------------------------------------------------------|:---------------|:-
 | Photo by [Jeremy Bishop][jb]                           | [Unsplash]     | Liquify filter, blur
 | Photo by [Caleb George][cg]                            | [Unsplash]     | Liquify filter, patch tool, blur
-| [IcoMoon Icons Free Version][11] by [Keyamoon][12]     | [CC-BY-SA-4.0] | None
+| [IcoMoon Icons Free Version][11] by [Keyamoon][12]     | [CC-BY-SA-4.0] | Full glyph set recompressed as WOFF2 (`icomoon-v2.woff2`, built with fontTools); original TTF/WOFF/EOT/SVG kept unchanged
 | [Touch-161562.svg][41]                                 | [CC0-1.0]      | Composition
 
 [jb]: https://unsplash.com/photos/1braZySlEKA

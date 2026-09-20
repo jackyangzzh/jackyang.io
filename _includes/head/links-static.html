@@ -9,6 +9,9 @@
 <link rel="preload" href="{{ '/assets/fonts/noto-sans-400.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{{ '/assets/fonts/roboto-slab-700.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
 
+{% comment %}Preload the icon font: its @font-face is inline in critical CSS and the navbar icon glyphs are above the fold; swap must find the font already resident to avoid a navbar reflow (font-display: swap = zero block period).{% endcomment %}
+<link rel="preload" href="{{ '/assets/icomoon/fonts/icomoon-v2.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+
 {% if site.google_fonts %}
   {%- capture google_fonts_url %}{{ site.google_fonts_url | default:'https://fonts.googleapis.com' }}{%- endcapture -%}
   <link rel="dns-prefetch" href="{{ google_fonts_url }}">

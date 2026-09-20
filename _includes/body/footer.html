@@ -2,23 +2,6 @@
 <footer class="content site-footer" role="contentinfo">
   <hr/>
 
-  <div class="site-footer__top">
-    {% if site.menu.size > 0 %}
-    <nav class="site-footer__nav" aria-label="{{ site.data.strings.footer_navigation | default:'Footer navigation' }}">
-      <ul>
-        {% for node in site.menu %}
-        {% assign url = node.url | default:node.href %}
-        <li><a href="{% include_cached smart-url url=url %}">{{ node.name | default:node.title }}</a></li>
-        {% endfor %}
-      </ul>
-    </nav>
-    {% endif %}
-
-    <div class="site-footer__social social">
-      {% include components/social.html author=author %}
-    </div>
-  </div>
-
   <div class="site-footer__bottom">
     {% if site.copyright.size > 0 %}
       <p><small class="copyright">{{ site.copyright | markdownify | replace:'<p>','' | replace:'</p>','' }}</small></p>
@@ -37,8 +20,6 @@
     {% if site.hydejack.advertise %}
       <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.6</span></small></p>
     {% endif %}
-
-    <a class="site-footer__top-link" href="#_main">{{ site.data.strings.back_to_top | default:'Back to top' }} <span aria-hidden="true">↑</span></a>
   </div>
 
   <hr class="sr-only"/>

@@ -10,10 +10,6 @@ layout: default
 {% endif %}
 
 {% if site.data.medium_posts and site.data.medium_posts.size > 0 %}
-<div class="writing-toolbar">
-  <p>Latest on Medium <span aria-hidden="true">↗</span></p>
-  <a href="https://medium.com/feed/@jackyangzzh" class="no-mark-external">Subscribe via RSS <span aria-hidden="true">→</span></a>
-</div>
 <ul class="posts-grid" aria-label="Articles from Medium">
   {% for post in site.data.medium_posts %}
   <li class="post-card">

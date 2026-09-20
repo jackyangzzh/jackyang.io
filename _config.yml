@@ -24,11 +24,11 @@ title: Jack Yang
 # A short description (~150 chars) of the page used for the meta description tag.
 # Can use markdown, but no more than one paragraph (enforced by `>`)
 description: >
-  Jack Yang is a software engineer at Microsoft Teams AI, working on Facilitator.
-  Previously, he built avatar and XR systems for Microsoft Mesh.
+  Jack Yang is a software engineer at Microsoft Teams AI building real-time multimodal
+  agents for Microsoft 365 Copilot. Previously, he built avatar and XR systems for Microsoft Mesh.
 
 # A shorter description for the sidebar.
-tagline: AI agents for live conversations
+tagline: Building Real-Time Multimodal Agents for Live Human-AI Interaction
 
 # A list of keywords for the site
 keywords:
@@ -110,7 +110,7 @@ font: 'Noto Sans, "Noto Sans Fallback", Helvetica, Arial, sans-serif'
 
 # The font used for headings. Expects a string that is a valid CSS font-family value.
 # To change font-weight, see _sass/variables.scss
-font_heading: 'Roboto Slab, "Roboto Slab Fallback", Helvetica, Arial, sans-serif'
+font_heading: '"Noto Sans", "Noto Sans Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
 
 # The font used for code blocks. Expects a string that is a valid CSS font-family value.
 font_code: Fira Code, Menlo, Monaco, Consolas, monospace;
@@ -182,7 +182,7 @@ hydejack:
   post_addons: [about, newsletter, related, random, comments]
 
   # Configure the order of complementary content on project pages
-  project_addons: [about, newsletter, other, comments]
+  project_addons: [other]
 
   # Set to `true` if you don't want to show an icon indicating external links
   no_mark_external: false
@@ -235,7 +235,7 @@ hydejack:
   no_theme_color: false
 
   # Disable the breadcrumbs above the title
-  no_breadcrumbs: false
+  no_breadcrumbs: true
 
   # Set to `true` when building with the `--lsi` option
   use_lsi: true

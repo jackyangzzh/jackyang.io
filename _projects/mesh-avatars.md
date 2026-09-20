@@ -20,13 +20,14 @@ links:
 I worked on Microsoft Mesh and Avatars for Teams from June 2022 to September 2024. My focus was the shared UI, avatar editor, and rendering systems. The goal was to let someone use the same avatar in a Teams meeting, a desktop immersive event, or VR without it feeling like a different character each time.
 
 {% include pro/project-video.html id="fSKBHOWOcSM" title="Microsoft Mesh" %}
-{% include pro/project-video.html id="Pk5BVxlKL5w" title="Avatars in Microsoft Teams" %}
 
 ## One avatar, several runtimes
 
 We wanted to bring more body language and a sense of shared space into meetings. That still had to work on an ordinary laptop, not just a dedicated headset.
 
 A small meeting tile, a crowded desktop event, and a Quest session have very different performance budgets and input models. Getting the same avatar to look and move consistently across them was harder than any single 3D scene.
+
+{% include pro/project-video.html id="Pk5BVxlKL5w" title="Avatars in Microsoft Teams" %}
 
 ## What I worked on
 

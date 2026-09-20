@@ -25,6 +25,18 @@
 	// Keep the new page links reachable while scrolling; Hydejack otherwise
 	// translates the entire toolbar offscreen, including focused controls.
 	#_navbar { transform: none !important; }
+	.reading-progress {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 0%;
+		height: 3px;
+		background: var(--accent-strong);
+		box-shadow: 0 0 6px var(--accent-strong);
+		z-index: 100;
+		pointer-events: none;
+		transition: width 60ms linear;
+	}
 	.navbar > .content::before { display: none; }
 	.nav-btn-bar {
 		height: 4.25rem;
@@ -81,10 +93,18 @@
 	.sidebar a:focus-visible { outline-color: #fff; }
 }
 
-// The quick nav duplicates the sidebar nav on desktop; keep the final
-// (hidden) state in lockstep so a wide-viewport first paint doesn't show it.
+// The quick nav and drawer menu button duplicate the sidebar on desktop; keep the final
+// (hidden) state in lockstep so a wide-viewport first paint doesn't show them.
 @media screen and (min-width: 64em) {
+	#_menu { display: none; }
 	.quick-nav { display: none; }
+	.layout-resume .page > .resume-hero {
+		display: block;
+		margin-bottom: 1.25rem;
+	}
+	.layout-resume .resume-hero .avatar {
+		display: none;
+	}
 }
 
 // Resume hero — the first screen (and the LCP) on the home page -----------
@@ -115,11 +135,10 @@
 	}
 
 	.resume-headline {
-		max-width: 32rem;
 		margin: 0;
 		color: var(--body-color);
-		font-size: clamp(1.15rem, 2vw, 1.45rem);
-		line-height: 1.5;
+		font-size: clamp(1.18rem, 2vw, 1.38rem);
+		line-height: 1.45;
 		letter-spacing: -.02em;
 	}
 
@@ -132,15 +151,20 @@
 	}
 
 	.page-title {
-		letter-spacing: -.025em;
+		letter-spacing: -.03em;
+		font-weight: 700;
 	}
 
 	.resume-intro {
-		max-width: 46rem;
-		margin: 2rem 0;
-		line-height: 1.85;
-		> p:first-child { font-size: 1.08rem; }
-		> p + p { color: var(--gray-text); font-size: .95rem; }
+		max-width: 52rem;
+		margin: 1.75rem 0 2rem;
+		line-height: 1.8;
+		p {
+			margin-bottom: 1.15rem;
+			color: var(--body-color);
+			font-size: 1.04rem;
+			line-height: 1.8;
+		}
 	}
 
 	// `.content .avatar` (theme, inline) gives the photo a 1rem border at first
@@ -166,21 +190,33 @@
 			justify-content: center;
 			gap: .5rem;
 			min-height: 44px;
-			padding: .6rem .9rem;
+			padding: .55rem 1.15rem;
 			margin: 0;
-			border-radius: .6rem;
-			font-size: .8rem;
+			border-radius: 9999px;
+			font-size: .82rem;
 			font-weight: 700;
 			box-shadow: none;
 			transition:
-				transform 160ms ease,
-				background-color 160ms ease,
-				border-color 160ms ease,
-				box-shadow 160ms ease;
+				transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+				background-color 180ms ease,
+				border-color 180ms ease,
+				box-shadow 180ms ease;
 
 			&:hover {
-				transform: translateY(-1px);
-				box-shadow: 0 .25rem .6rem rgba(66, 38, 112, .1);
+				transform: translateY(-2px);
+			}
+
+			&:active {
+				transform: scale(0.97);
+			}
+		}
+
+		.btn-primary {
+			background: linear-gradient(180deg, var(--accent-strong-hover) 0%, var(--accent-strong) 100%);
+			border: 1px solid rgba(255, 255, 255, 0.18);
+			box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.32), 0 4px 14px rgba(135, 90, 205, 0.3);
+			&:hover {
+				box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.42), 0 8px 22px rgba(135, 90, 205, 0.45);
 			}
 		}
 
@@ -188,7 +224,11 @@
 			border: 1px solid var(--border-color);
 			background: var(--body-bg);
 			color: var(--body-color);
-			&:hover { background: var(--gray-bg); }
+			box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+			&:hover {
+				background: var(--gray-bg);
+				border-color: var(--accent-strong);
+			}
 		}
 		.btn-quiet { border-color: transparent; color: var(--gray-text); }
 		.button-detail { font-size: .65rem; letter-spacing: .04em; }
@@ -200,10 +240,19 @@
 	// head/css/inline). Without the extra class the theme value would win at
 	// first paint and then flip when the main stylesheet arrived.
 	.columns.contact {
-		margin-top: 1.5rem;
-		padding: 1rem 0 .5rem;
-		border-top: 1px solid var(--border-color);
-		border-bottom: 1px solid var(--border-color);
+		margin-left: 0;
+		margin-right: 0;
+		width: 100%;
+		margin-top: 1.75rem;
+		padding: 1.15rem 1.35rem;
+		border: 1px solid var(--border-color);
+		border-radius: 1.25rem;
+		background: var(--gray-bg);
+		box-shadow: var(--card-shadow);
+
+		.column {
+			padding-left: 0;
+		}
 	}
 
 	// Mirror of the first-screen pieces of the Typographic-finish block in
@@ -235,7 +284,13 @@
 		border-color: var(--border-color);
 		color: var(--body-color);
 	}
-	.layout-resume .columns.contact dd { overflow-wrap: anywhere; }
+	.layout-resume .columns.contact dt { width: 1.5rem; }
+	.layout-resume .columns.contact dd {
+		width: calc(100% - 1.5rem);
+		overflow-wrap: anywhere;
+	}
+	.layout-resume .columns.contact .email { font-size: .9rem; }
+	.layout-resume .columns.contact .copy-email { margin-left: .15rem; }
 	.quick-nav { gap: 0; padding-right: .25rem; }
 	.quick-nav-link { padding: .3rem .5rem; font-size: .75rem; }
 	.nav-btn { flex-basis: 44px; width: 44px; }

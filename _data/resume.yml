@@ -3,14 +3,16 @@
 # See also: <https://jsonresume.org/>.
 basics:
   name: "Jack Yang"
-  label: "AI agents for live conversations"
+  label: "Building Real-Time Multimodal Agents for Live Human-AI Interaction"
   picture: "./assets/img/profile.webp"
   email: "jackyangzzh@gmail.com"
   phone: ""
   website: ""
   summary: >
-    I build systems that have to hold up inside a live conversation. At Microsoft Teams AI, I work on Facilitator: a meeting agent that needs to know when to contribute and when to stay out of the way. <br><br>
-    Before that, I built training tools at Holos and worked on avatars, UI, and rendering for Microsoft Mesh. The thread goes back to a VR interview coach I built in 2020. I'm still interested in the same question: how can a computer join a conversation without taking it over?
+    I build real-time AI agents and interactive systems that have to hold up inside the latency, noise, and unpredictable turn-taking of live human conversation. <br><br>
+    At **Microsoft Teams AI**, I work on Facilitator in Microsoft 365 Copilot, focusing on conversation orchestration, tool execution, context management, and multimodal LLM features for meetings across millions of enterprise users. <br><br>
+    My background spans 0-to-1 startups and deep systems engineering: I built AR/VR interaction and multiplayer platforms at **Holos** (a fast-moving Techstars startup), then led avatar rendering pipelines and shared UI at **Microsoft Mesh**. <br><br>
+    Outside of work, I created **FakeHaul**, an AI-generated marketplace covered by *The New York Times* and *Fast Company*. Bridging low-latency client runtimes with generative models is where I spend my time: building software where deep engineering rigor and polished interaction design cannot be separated.
   location:
     city: "Seattle"
     countryCode: "US"

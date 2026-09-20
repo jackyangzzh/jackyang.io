@@ -53,4 +53,10 @@
 
 @import "my-inline";
 
+// Icon font (font-face + class map) inline in critical CSS. Removes the old
+// render-blocking `assets/icomoon/style.css` request from the production head;
+// see the include for the rationale. Must stay after `@import "my-inline"` and
+// before common so nothing generated later references it implicitly.
+{% include styles/icons.scss %}
+
 {% include styles/common.scss %}

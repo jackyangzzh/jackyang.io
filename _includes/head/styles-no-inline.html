@@ -1,5 +1,13 @@
 {% assign google_fonts = site.google_fonts %}
 {% capture style_url %}{{ 'assets/css/hydejack-9.1.6.css' | relative_url }}?v={{ site.time | date: '%s' }}{% endcapture %}
+{%- comment -%}
+`assets/icomoon/style.css` is now a front-mattered file rendering
+`_includes/styles/icons.scss` — the same source of truth that is rendered into
+the production critical CSS — so the external (no_inline_css / development)
+path is rendered from the same definitions and cannot drift. The SCSS pipeline
+compresses the inline copy, so the two are semantically the same CSS rather
+than byte-identical text.
+{%- endcomment -%}
 {% capture icons_url %}{{ 'assets/icomoon/style.css' | relative_url }}?v={{ site.time | date: '%s' }}{% endcapture %}
 {% if google_fonts %}
   {% capture fonts_url %}{{ site.google_fonts_url | default:'https://fonts.googleapis.com' }}/css?family={{ google_fonts | uri_escape }}&display=swap{% endcapture %}

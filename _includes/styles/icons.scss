@@ -1,0 +1,160 @@
+{% comment %}
+Single source of truth for the icomoon icon font: the @font-face declaration and
+the icon class map. Included from BOTH:
+  1. `_includes/styles/inline.scss` — the production critical CSS inline copy,
+     which removes the old render-blocking `assets/icomoon/style.css` request
+     and closes the CSS -> icon-font chain;
+  2. `assets/icomoon/style.css` — a front-mattered Liquid file so the external
+     stylesheet used by the `no_inline_css` / development path is rendered from
+     the same definitions and cannot drift from them.
+
+The font file is the full icomoon glyph set re-compressed as WOFF2
+(`icomoon-v2.woff2`, built from `icomoon.ttf`). Codepoints and advance widths
+are identical to the originals (verified with fontTools); all existing
+`icon-*` classes, the CSS-generated glyphs in the main stylesheet (the external
+link mark `\ea7e` and the read-more arrow `\2192`), and any future template use
+keep working unchanged. The original TTF/WOFF/EOT/SVG files are kept untouched;
+only the `?8u0bo9` caches on their `@font-face` sources are preserved verbatim.
+
+Font URLs go through `relative_url` so the site works under any `baseurl`.
+
+Note: the inlined copy differs from the external one in form, not content — the
+SCSS pipeline compresses the inline version, so the two are semantically the
+same CSS, not byte-identical text. Define additions in this include so both
+paths pick them up.
+{% endcomment %}
+@font-face {
+  font-family: 'icomoon';
+  src: url('{{ '/assets/icomoon/fonts/icomoon-v2.woff2' | relative_url }}') format('woff2'),
+    url('{{ '/assets/icomoon/fonts/icomoon.ttf' | relative_url }}?8u0bo9') format('truetype'),
+    url('{{ '/assets/icomoon/fonts/icomoon.woff' | relative_url }}?8u0bo9') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Icon spans in the navbar keep the metrics of the fallback font until icomoon
+// arrives (font-display: swap = zero block period; a slow or delayed load must
+// not be papered over by preload). Reserving their width fixes the rendered
+// box so the swap cannot reflow the navbar. Every icomoon glyph used here has
+// a 1024/1024 em advance, so 1em is the final width under either font. Icons
+// outside the navbar are not above the fold and are left unreserved to avoid
+// changing any other layout.
+#_navbar [class^="icon-"],
+#_navbar [class*=" icon-"] {
+  display: inline-block;
+  width: 1em;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.icon-medium:before{content:"\e900"}
+.icon-book:before{content:"\e91f"}
+.icon-library:before{content:"\e921"}
+.icon-phone:before{content:"\e942"}
+.icon-envelop:before{content:"\e945"}
+.icon-location:before{content:"\e947"}
+.icon-bubbles:before{content:"\e96c"}
+.icon-quotes-right:before{content:"\e978"}
+.icon-wrench:before{content:"\e991"}
+.icon-trophy:before{content:"\e99e"}
+.icon-briefcase:before{content:"\e9ae"}
+.icon-earth:before{content:"\e9ca"}
+.icon-link:before{content:"\e9cb"}
+.icon-star-empty:before{content:"\2606"}
+.icon-star-half:before{content:"\272e"}
+.icon-star-full:before{content:"\2605"}
+.icon-heart:before{content:"\e9da"}
+.icon-new-tab:before{content:"\ea7e"}
+.icon-amazon:before{content:"\ea87"}
+.icon-google:before{content:"\ea88"}
+.icon-google-plus:before{content:"\ea8b"}
+.icon-google-drive:before{content:"\ea8f"}
+.icon-facebook:before{content:"\ea90"}
+.icon-instagram:before{content:"\ea92"}
+.icon-whatsapp:before{content:"\ea93"}
+.icon-spotify:before{content:"\ea94"}
+.icon-telegram:before{content:"\ea95"}
+.icon-twitter:before{content:"\ea96"}
+.icon-vine:before{content:"\ea97"}
+.icon-vk:before{content:"\ea98"}
+.icon-renren:before{content:"\ea99"}
+.icon-sina-weibo:before{content:"\ea9a"}
+.icon-rss:before{content:"\ea9b"}
+.icon-youtube:before{content:"\ea9d"}
+.icon-twitch:before{content:"\ea9f"}
+.icon-vimeo:before{content:"\eaa0"}
+.icon-lanyrd:before{content:"\eaa2"}
+.icon-flickr2:before{content:"\eaa4"}
+.icon-dribbble:before{content:"\eaa7"}
+.icon-behance:before{content:"\eaa8"}
+.icon-deviantart:before{content:"\eaaa"}
+.icon-500px:before{content:"\eaab"}
+.icon-steam:before{content:"\eaac"}
+.icon-dropbox:before{content:"\eaae"}
+.icon-onedrive:before{content:"\eaaf"}
+.icon-github:before{content:"\eab0"}
+.icon-npm:before{content:"\eab1"}
+.icon-basecamp:before{content:"\eab2"}
+.icon-trello:before{content:"\eab3"}
+.icon-wordpress:before{content:"\eab4"}
+.icon-joomla:before{content:"\eab5"}
+.icon-ello:before{content:"\eab6"}
+.icon-blogger:before{content:"\eab7"}
+.icon-tumblr:before{content:"\eab9"}
+.icon-yahoo:before{content:"\eabb"}
+.icon-soundcloud:before{content:"\eac3"}
+.icon-skype:before{content:"\eac5"}
+.icon-reddit:before{content:"\eac6"}
+.icon-hackernews:before{content:"\eac7"}
+.icon-wikipedia:before{content:"\eac8"}
+.icon-linkedin2:before{content:"\eaca"}
+.icon-lastfm:before{content:"\eacb"}
+.icon-delicious:before{content:"\eacd"}
+.icon-stumbleupon:before{content:"\eace"}
+.icon-stackoverflow:before{content:"\ead0"}
+.icon-pinterest2:before{content:"\ead2"}
+.icon-xing2:before{content:"\ead4"}
+.icon-flattr:before{content:"\ead5"}
+.icon-foursquare:before{content:"\ead6"}
+.icon-yelp:before{content:"\ead7"}
+.icon-paypal:before{content:"\ead8"}
+.icon-mail:before{content:"\ea83"}
+.icon-rss2:before{content:"\ea9c"}
+.icon-box-add:before{content:"\e95e"}
+.icon-spinner11:before{content:"\21bb"}
+.icon-cog:before{content:"\e994"}
+.icon-power-cord:before{content:"\e9b7"}
+.icon-menu:before{content:"\2630"}
+.icon-arrow-right2:before{content:"\2192"}
+.icon-arrow-left2:before{content:"\2190"}
+.icon-home3:before{content:"\e902"}
+.icon-mail2:before{content:"\ea84"}
+.icon-brightness-contrast:before{content:"\1f506"}
+.icon-search:before{content:"\1f50d"}
+.icon-key:before{content:"\e98d"}
+.icon-quill:before{content:"\e907"}
+.icon-flag:before{content:"\e9cc"}
+.icon-man-woman:before{content:"\e9de"}
+.icon-cross:before{content:"\274e"}
+.icon-file-empty:before{content:"\e924"}
+.icon-printer:before{content:"\e954"}
+.icon-user-plus:before{content:"\e973"}
+.icon-file-pdf:before{content:"\eadf"}
+.icon-copy:before{content:"\1f4cb"}
+.icon-checkmark:before{content:"\2705"}
+.icon-history:before{content:"\1f552"}
