@@ -108,6 +108,10 @@ certifications:
     publisher: "UC San Diego"
     website: "https://www.coursera.org/account/accomplishments/specialization/certificate/WRB5BFC3DYGD"
 publications:
+  - name: "Too Late to Rely: A Self-Concealing Failure in State-Only Transcript Grounding Trackers"
+    publisher: "CHI 2027 (under review)"
+    website: "/assets/files/too-late-to-rely.pdf"
+    summary: "**Under review for CHI 2027.** Used a 264-dialogue benchmark to study how transcript-based grounding trackers can lose action-time warnings when later evidence updates the recorded state."
   - name: "Passive frequency conversion of ultraviolet images into the visible using perovskite nanocrystals"
     publisher: "Journal of Optics (IOP Publishing)"
     releaseDate: "2021-04-08"
