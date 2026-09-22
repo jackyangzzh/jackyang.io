@@ -130,7 +130,8 @@ main:not(.layout-resume) {
       list-style: none;
       display: flex;
       flex-wrap: wrap;
-      gap: .75rem;
+      // Tighter row gap so wrapped pills read as one group.
+      gap: .6rem .75rem;
       padding: 0;
       margin: 0;
     }
@@ -142,7 +143,8 @@ main:not(.layout-resume) {
     .project-link {
       display: inline-flex;
       align-items: center;
-      min-height: 2.5rem;
+      // 44px, in sync with the my-style.scss overrides.
+      min-height: 44px;
       padding: .55rem .9rem;
       border: 1px solid var(--border-color);
       border-radius: 999px;

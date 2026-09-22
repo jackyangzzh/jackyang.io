@@ -28,7 +28,7 @@ These were tools for teaching and early perception experiments, not diagnosis. S
 
 ![Color vision deficiency simulation](/assets/img/projects/colorDeficiencyCover.webp){:loading="lazy"}
 
-I designed chromatic adjustment algorithms to approximate how people with color vision deficiency perceive hyperspectral images. In pilot color tests, the system reached about 90% agreement with the expected adjustments. I then built a color-calibrated VR demo for comparing the transformed image with its reference. That pilot result wasn't a claim that the simulation could reproduce every person's vision.
+I designed chromatic adjustment algorithms to approximate how people with color vision deficiency perceive hyperspectral images, then built a color-calibrated VR demo for comparing the transformed image with its reference. The demo supports comparison, not a claim that the simulation could reproduce every person's vision.
 
 *This work is separate from my co-authored [Journal of Optics paper](https://doi.org/10.1088/2040-8986/abf171) on converting ultraviolet images into visible light.*
 

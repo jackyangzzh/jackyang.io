@@ -76,7 +76,7 @@
       <span class="{{ icons.email | default:'icon-mail2' }}" title="{{ strings.resume.email | default:'Email' }}"></span>
       <span class="sr-only">{{ strings.resume.email | default:"Email" }}</span>
     </dt>
-    <dd class="bold">
+    <dd class="bold email-row">
       <meta property="email" content="{{ basics.email }}"/>
       <a href="mailto:{{ basics.email }}" class="external no-print-link no-mark-external email u-email">{{ basics.email }}</a>
       <button type="button" class="copy-email screen-only" data-copy-email="{{ basics.email | escape }}" aria-label="Copy email address" title="Copy email address" hidden>

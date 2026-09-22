@@ -100,6 +100,13 @@
 	cursor: pointer;
 	-webkit-tap-highlight-color: transparent;
 	transition: background-color 140ms ease, border-color 140ms ease;
+	// Pad the hit area to the 24px WCAG 2.5.8 minimum without changing the
+	// chip's visual size.
+	&::before {
+		content: "";
+		position: absolute;
+		inset: -4px -6px -4px 0;
+	}
 	&:hover {
 		background: var(--border-color);
 		border-color: var(--accent-strong);
@@ -550,7 +557,8 @@
 .project-results {
 	margin: 0 0 1.5rem;
 	color: var(--gray-text);
-	font-size: .78rem;
+	// Match the filter labels above so the live count reads as one cluster.
+	font-size: .82rem;
 }
 
 .layout-projects .project-list > .columns {
@@ -771,7 +779,8 @@ main.layout-blog .posts-grid {
 	display: inline-flex;
 	align-items: center;
 	gap: .4rem;
-	min-height: 2.25rem;
+	// 44px touch target, matching the filter pills.
+	min-height: 44px;
 	margin-bottom: 1.25rem;
 	border: 0 !important;
 	border-bottom: 0 !important;
@@ -812,7 +821,8 @@ main.layout-blog .posts-grid {
 	.project-link {
 		display: inline-flex;
 		align-items: center;
-		min-height: 2.25rem;
+		// 44px target (absolute, so the mobile 15px root can't shrink it).
+		min-height: 44px;
 		padding: .5rem 1.15rem;
 		border: 1px solid var(--border-color);
 		border-radius: 9999px;
@@ -1368,9 +1378,11 @@ body.dark-mode {
 @media screen {
 	.layout-project .project-link {
 		gap: .4rem;
-		min-height: 2.25rem;
+		// 44px target; nowrap wraps whole pills instead of breaking labels.
+		min-height: 44px;
 		padding: .4rem .8rem;
 		font-size: .85rem;
+		white-space: nowrap;
 
 		&::after {
 			content: "↗";

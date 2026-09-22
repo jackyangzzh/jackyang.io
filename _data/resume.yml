@@ -40,8 +40,8 @@ work:
     startDate: "2022-06-01"
     endDate: "2024-09-01"
     highlights:
-      - Built avatar customization systems and shared UI components (input handling, accessibility) behind Microsoft Mesh and Avatars in Teams, supporting weekly releases and 20+ languages for millions of users.
-      - Owned the avatar rendering and performance pipeline across HoloLens, Quest, web, and desktop. Profiled CPU and GPU frame budgets, using LOD switching and GPU instancing to maintain target framerates on constrained hardware.
+      - Built avatar customization systems and shared UI components (input handling, accessibility) behind Microsoft Mesh and Avatars in Teams.
+      - Worked on the avatar rendering and performance pipeline across HoloLens, Quest, web, and desktop. Profiled CPU and GPU frame budgets, using LOD switching and GPU instancing to maintain target framerates on constrained hardware.
 
   - company: "Holos"
     position: "AR/VR Interaction Engineer"
@@ -58,21 +58,21 @@ research:
     startDate: "2017-10-01"
     endDate: "2022-05-01"
     highlights:
-      - Developed a computer vision model that simulates color vision deficiency in hyperspectral images. It reached about 90% agreement in pilot color tests and ran in a color-calibrated Oculus Rift demo.
+      - Developed a computer vision model that simulates color vision deficiency in hyperspectral images, plus a color-calibrated Oculus Rift demo for comparison.
   - company: "UW Graphics Group"
     position: "Graphics Researcher (part-time)"
     website: "https://pages.graphics.cs.wisc.edu/"
     startDate: "2020-09-01"
     endDate: "2022-05-01"
     highlights:
-      - Built a real-time VR control loop mapping hand gestures to remote robotic-arm manipulation, plus a Unity UI for replaying arm motion from 15+ lab-experiment datasets.
+      - Built a real-time VR control loop mapping hand gestures to remote robotic-arm manipulation, plus a Unity UI for replaying recorded arm motion from lab experiments.
   - company: "UW HCI Group, People and Robots Lab"
     position: "HCI Researcher (part-time)"
     website: ""
     startDate: "2017-04-01"
     endDate: "2017-12-01"
     highlights:
-      - Added speech recognition and NLP-driven interaction to children's reading-companion robots; validated in an eight-family trial.
+      - Added speech recognition and NLP-driven interaction to children's reading-companion robots, then tested the interaction with families.
 education:
   - institution: "Georgia Institute of Technology"
     studyType: "M.S. in Computer Science (HCI)"

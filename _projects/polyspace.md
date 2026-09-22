@@ -3,7 +3,7 @@ layout: project
 weight: 8
 title: 'Poly Space VR'
 description: >
-  An open-source social VR app for up to eight people, with voice chat, shared objects, and an in-headset room editor. Released on the Oculus PC VR store.
+  An open-source social VR app for small groups, with voice chat, shared objects, and an in-headset room editor. Released on the Oculus PC VR store.
 date: '01-01-2021'
 category: personal
 image: 
@@ -18,11 +18,11 @@ links:
 ---
 I built Poly Space VR from the first prototype through its Oculus PC VR store release, then open-sourced it. It's a social app for small groups, with voice chat, shared objects, and a room editor you can use without leaving the headset.
 
-## Why eight people?
+## Why small rooms?
 
 I wanted somewhere to hang out with a few friends. Large public VR worlds often felt too noisy, and enterprise meeting tools felt too much like work.
 
-I capped rooms at eight people to keep voice, avatar poses, and shared physics manageable on consumer connections. A smaller session that held together mattered more to me than a larger participant count.
+I kept rooms small to keep voice, avatar poses, and shared physics manageable on consumer connections. A smaller session that held together mattered more to me than a larger participant count.
 
 ## Keeping the room responsive
 

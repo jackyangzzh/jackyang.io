@@ -35,7 +35,7 @@ The iPhone and iPad app handles scanning, menu management, and AR previews. The 
 - **Keep capture in the app.** I built the Apple clients in SwiftUI and wrapped Object Capture in the `USDZScanner` Swift Package. Staff can generate USDZ models and thumbnails locally without opening a separate tool.
 - **Share the data model.** Menu records live in Firestore and model files in Firebase Storage. All three clients use the same schema, with upload progress and a local cache in the app.
 - **Use a window, not a whole world.** The visionOS client uses `RealityView` and volumetric `WindowGroup`s. A menu belongs beside the table, not around the entire diner.
-- **Constrain the gestures.** Dragging rotates a dish around its vertical axis so a plate can't flip upside down. Scaling stops at 1.5x to keep the model inside the window.
+- **Constrain the gestures.** Dragging rotates a dish around its vertical axis so a plate can't flip upside down. Scaling is capped so the model stays inside the window.
 
 ## What took the work
 
