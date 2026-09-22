@@ -9,6 +9,10 @@
 
   var motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
   var reducedMotion = motionQuery.matches;
+  // Only a fine pointer (mouse/trackpad) has a cursor worth following. On
+  // coarse-pointer devices there is no cursor, so the accent blob just drifts
+  // with the rest of the field.
+  var finePointerQuery = window.matchMedia("(pointer: fine)");
   var drawer = document.getElementById("_drawer");
   var isCover = !!(drawer && drawer.classList.contains("cover"));
   var connection =
@@ -45,6 +49,10 @@
   var pointerTargetY = 0;
   var pointerX = 0;
   var pointerY = 0;
+  // How strongly the accent glow is riding the cursor (0 = drift path,
+  // 1 = cursor point). Eased so engaging and pointer-leave both glide.
+  var pointerFollow = 0;
+  var pointerFollowTarget = 0;
 
   // Each colour blob is one radial gradient baked into a small sprite, then
   // blitted per frame at its own drifting position. Baking is what keeps the
@@ -61,9 +69,11 @@
   // flattening into one even tone.
   var blobs = [
     {
+      // The broad accent-purple glow; the only blob that tracks the cursor.
       color: [170, 130, 230],
       alpha: 0.3,
       radius: 0.55,
+      followsPointer: true,
       xAmp: 0.36,
       yAmp: 0.3,
       xSpd: 0.00072,
@@ -220,6 +230,7 @@
   function updateParallax() {
     pointerX += (pointerTargetX - pointerX) * 0.085;
     pointerY += (pointerTargetY - pointerY) * 0.085;
+    pointerFollow += (pointerFollowTarget - pointerFollow) * 0.085;
   }
 
   function sweepAt(x, progress) {
@@ -277,11 +288,16 @@
         blob.radius *
         (1 + 0.05 * Math.sin(colorTime * 0.0018 + i * 1.5));
       var cx =
-        w * (0.5 + blob.xAmp * Math.sin(colorTime * blob.xSpd + blob.xPh)) +
-        pointerX * blob.depth * 18;
+        w * (0.5 + blob.xAmp * Math.sin(colorTime * blob.xSpd + blob.xPh));
       var cy =
-        h * (0.5 + blob.yAmp * Math.cos(colorTime * blob.ySpd + blob.yPh)) +
-        pointerY * blob.depth * 14;
+        h * (0.5 + blob.yAmp * Math.cos(colorTime * blob.ySpd + blob.yPh));
+
+      // The accent glow blends from its drift path toward the lagged cursor
+      // point; every other blob keeps its own drift untouched.
+      if (blob.followsPointer && pointerFollow > 0.001) {
+        cx += (w * (0.5 + pointerX * 0.45) - cx) * pointerFollow;
+        cy += (h * (0.5 + pointerY * 0.4) - cy) * pointerFollow;
+      }
       var glow = 0.92 + 0.08 * Math.sin(colorTime * 0.0026 + i * 1.2);
 
       ctx.globalAlpha = blob.alpha * fieldAlpha * glow;
@@ -337,8 +353,9 @@
         0.88,
       );
 
-      var px = particle.x + pointerX * particle.depth * 4;
-      var py = particle.y + pointerY * particle.depth * 3;
+      // Stars stay independent of the cursor; only the accent glow follows it.
+      var px = particle.x;
+      var py = particle.y;
       var nodeRadius = particle.size + sweep * 0.22;
 
       // Soft halo behind each node. Cheaper than canvas shadowBlur, and it is
@@ -447,20 +464,54 @@
   }
 
   function updatePointer(event) {
-    pointerTargetX = clamp((event.clientX / window.innerWidth) * 2 - 1, -1, 1);
-    pointerTargetY = clamp((event.clientY / window.innerHeight) * 2 - 1, -1, 1);
+    if (!finePointerQuery.matches || event.pointerType === "touch") return;
+
+    // Normalise against the canvas box, not the window: the canvas lives in
+    // the sidebar, so window-relative coordinates misplace the glow whenever
+    // the drawer is not full-bleed.
+    var rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    pointerTargetX = clamp(
+      ((event.clientX - rect.left) / rect.width) * 2 - 1,
+      -1,
+      1,
+    );
+    pointerTargetY = clamp(
+      ((event.clientY - rect.top) / rect.height) * 2 - 1,
+      -1,
+      1,
+    );
+    pointerFollowTarget = 1;
     wakeForInteraction();
   }
 
   function resetPointer() {
     pointerTargetX = 0;
     pointerTargetY = 0;
+    // Ease the glow back onto its drift path instead of snapping it home.
+    pointerFollowTarget = 0;
     wakeForInteraction();
   }
 
   function setupInteraction() {
     window.addEventListener("pointermove", updatePointer, { passive: true });
+    // `pointerleave` doesn't bubble, so a window-level listener alone never
+    // fires in most engines. Leaving the viewport reliably fires `pointerout`
+    // with a null `relatedTarget` — ease the glow home on that (and keep the
+    // element-scoped leave on <html> as a second chance where it does fire).
     window.addEventListener("pointerleave", resetPointer, { passive: true });
+    document.documentElement.addEventListener(
+      "pointerleave",
+      resetPointer,
+      { passive: true },
+    );
+    document.addEventListener(
+      "pointerout",
+      function (event) {
+        if (!event.relatedTarget) resetPointer();
+      },
+      { passive: true },
+    );
 
     var events = ["pointerdown", "wheel", "scroll", "keydown", "touchstart"];
     function onInteraction() {
@@ -562,6 +613,10 @@
       animId = null;
       welcomeActive = false;
       currentWelcomeProgress = -1;
+      pointerFollowTarget = 0;
+      pointerFollow = 0;
+      pointerTargetX = pointerTargetY = 0;
+      pointerX = pointerY = 0;
       render(false, -1);
       return;
     }
