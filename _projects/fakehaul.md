@@ -32,7 +32,7 @@ Sometimes finding the deal feels better than receiving the box. I wanted to test
 
 ## Building the illusion
 
-I built a mobile-first marketplace with [about 1,800 fictional products across eleven categories](https://fakehaul.com/categories). It has the familiar mechanics: low-stock warnings, sold counts, a daily spin wheel, and coupons.
+I built a mobile-first marketplace with [about 1,800 fictional products across eleven categories](https://fakehaul.com/categories). It has the familiar mechanics: low-stock warnings, viewer counts, a daily spin wheel, and five-minute coupons.
 
 The tricky part was making it feel like a store without misleading anyone about what it does. A product card might say "only 6 left," but the header makes clear that checkout never charges a cent. The cart and wishlist stay in the browser. No account is needed.
 
