@@ -794,7 +794,12 @@ main.layout-blog .posts-grid {
 
 .layout-project {
 	.project-header {
-		padding-bottom: 2.25rem;
+		// The rule closes the hero (copy + image + actions row). Above it the
+		// grid row gap already separates the image from the pills, so only a
+		// moderate pad is needed here — the original 2.25rem plus the header
+		// and body margins below stacked into ~5rem of dead air under the
+		// separator.
+		padding-bottom: 1.5rem;
 		border-bottom: 1px solid var(--border-color);
 	}
 
@@ -1202,6 +1207,20 @@ body.dark-mode {
 // `.h4` classes carry different weight in Work, Research and Awards.
 @media screen {
 	.layout-resume section:has(> .npb > #publications) {
+		// Hierarchy: the title and its summary used to render at the same
+		// colour and near enough the same size (both `--body-color`, 16.8 vs
+		// 16px), so a paper and its abstract read as one grey block in this
+		// narrow column. The title takes the heading treatment — full body
+		// colour, bold (the theme's `.h4` already forces it), a notch larger
+		// and tightened — while the summary drops to the secondary tone at
+		// normal weight, so the two separate at a glance.
+		.h4 {
+			color: var(--body-color);
+			font-size: 1.08rem;
+			line-height: 1.4;
+			letter-spacing: -.005em;
+		}
+
 		// Paper titles are long, and this column is narrow, so they routinely
 		// wrap to three or four lines. The theme underlines links with a
 		// `border-bottom`, which redraws once per line box — a wrapped title
@@ -1225,8 +1244,24 @@ body.dark-mode {
 		// A "SUMMARY" eyebrow above each entry labels what the sentence under a
 		// paper title self-evidently is, three times down one column. The
 		// padding it occupied goes back to the entry.
+		//
+		// The summary block replaces the theme's 1px hairline with the same
+		// accent rule the résumé intro uses (thick purple bar + padding), and
+		// drops the negative side margins so the bar lines up with the title's
+		// left edge instead of floating out in the column gutter. Margins are
+		// tight to its own title and clear of the next entry, which keeps the
+		// three entries on an even vertical rhythm.
 		.note::before { content: none; }
-		.note { padding-top: .1rem; }
+		.note {
+			margin: .65rem 0 0;
+			padding: .55rem 0 .6rem .9rem;
+			border-left: .1875rem solid var(--accent-strong);
+			background: transparent;
+			color: var(--gray-text);
+			font-size: .95rem;
+			font-weight: 400;
+			line-height: 1.6;
+		}
 	}
 }
 

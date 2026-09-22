@@ -9,10 +9,9 @@ basics:
   phone: ""
   website: ""
   summary: >
-    I build real-time AI agents and interactive systems that have to hold up inside the latency, noise, and unpredictable turn-taking of live human conversation. <br><br>
-    At **Microsoft Teams AI**, I work on Facilitator in Microsoft 365 Copilot, focusing on conversation orchestration, tool execution, context management, and multimodal LLM features for meetings across millions of enterprise users. <br><br>
-    My background spans 0-to-1 startups and deep systems engineering: I built AR/VR interaction and multiplayer platforms at **Holos** (a fast-moving Techstars startup), then led avatar rendering pipelines and shared UI at **Microsoft Mesh**. <br><br>
-    Outside of work, I created **FakeHaul**, an AI-generated marketplace covered by *The New York Times* and *Fast Company*. Bridging low-latency client runtimes with generative models is where I spend my time: building software where deep engineering rigor and polished interaction design cannot be separated.
+    I build **real-time AI agents** at **Microsoft Teams AI**, working on Facilitator in Microsoft 365 Copilot. My focus is conversation orchestration, tool execution, context management, and multimodal meeting features that hold up in live conversation. <br><br>
+    Previously, I built AR/VR interaction and multiplayer platforms at **Holos**, then was a key contributor to avatar rendering pipelines and shared UI at **Microsoft Mesh**. My background spans early-stage startups and large-scale interactive systems. <br><br>
+    Outside work, I created **FakeHaul**, an AI-generated marketplace covered by *The New York Times* and *Fast Company*. I enjoy connecting low-latency systems with generative models, with as much attention to the interaction as the engineering.
   location:
     city: "Seattle"
     countryCode: "US"

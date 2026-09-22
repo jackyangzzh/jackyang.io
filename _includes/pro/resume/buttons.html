@@ -4,12 +4,6 @@
     View projects <span aria-hidden="true">→</span>
   </a>
   {% endif %}
-  {% if page.buttons.email %} {% assign email = page.buttons.email %}
-  <a href="{{ email }}" class="btn btn-sm btn-secondary mt1 no-mark-external">
-    <small class="icon-envelop" aria-hidden="true"></small>
-    {{ site.data.strings.resume.email_me | default: "Email Me" }}
-  </a>
-  {% endif %}
   {% if page.buttons.print %}
   <button class="btn btn-sm btn-primary mt1" onclick="window.print()">
     <small class="icon-printer"></small>

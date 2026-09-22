@@ -64,17 +64,6 @@ layout: base
       {% endif %}
       {% endif %}
 
-      {% if has_links %}
-      <ul class="project-link-list" aria-label="{{ site.data.strings.links | default:'Project links' }}">
-        {% for link in project.links %}
-        <li>
-          <a class="project-link no-mark-external" href="{{ link.url }}" property="sameAs" target="_blank" rel="noopener noreferrer">{{ link.title
-            }}</a>
-        </li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-
       {% if project.caption %}
       <p class="project-caption fine" property="disambiguatingDescription">{{ project.caption }}</p>
       {% endif %}
@@ -85,7 +74,7 @@ layout: base
         {% if screenshot %}
         {% include_cached components/hy-img.html
         img=screenshot
-        sizes="(min-width: 90em) 48rem, (min-width: 54em) 42rem, (min-width: 42em) 38rem, 100vw"
+        sizes="(min-width: 86em) 28rem, (min-width: 54em) 25rem, (min-width: 42em) 40rem, 100vw"
         alt=screenshot_alt
         property="image"
         width=864
@@ -94,6 +83,26 @@ layout: base
         {% endif %}
       </div>
     </div>
+
+    {% comment %}
+      The link pills get their own row spanning the whole header instead of
+      living in the copy column: inside the narrower left column they wrapped
+      to two rows and stretched it past the hero image, leaving dead space
+      under the image. As a full-width row they sit under both columns on
+      desktop and still fall after the image when the header stacks.
+    {% endcomment %}
+    {% if has_links %}
+    <div class="project-header-actions">
+      <ul class="project-link-list" aria-label="{{ site.data.strings.links | default:'Project links' }}">
+        {% for link in project.links %}
+        <li>
+          <a class="project-link no-mark-external" href="{{ link.url }}" property="sameAs" target="_blank" rel="noopener noreferrer">{{ link.title
+            }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
   </header>
 
   <div class="project-body">

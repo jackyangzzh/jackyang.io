@@ -13,10 +13,3 @@
 
 {% include pro/resume/buttons.html %}
 {% include components/message.html text=page.description hide=page.hide_description %}
-
-{% if basics.summary.size > 0 %}
-  <div class="resume-intro p-note" property="description">
-    {% assign summary_paragraphs = basics.summary | split:'<br><br>' %}
-    {% for paragraph in summary_paragraphs %}{{ paragraph | markdownify }}{% endfor %}
-  </div>
-{% endif %}

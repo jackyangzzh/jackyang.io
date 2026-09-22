@@ -86,7 +86,10 @@ main:not(.layout-resume) {
       display: grid;
       gap: 1.5rem;
       align-items: start;
-      margin-bottom: 2rem;
+      // The header carries its own bottom rule (see .layout-project in
+      // my-style.scss); keep the space around it moderate — the hero used to
+      // push ~5rem of air between the image and the first line of the body.
+      margin-bottom: 1.5rem;
     }
 
     .project-kicker {
@@ -115,13 +118,21 @@ main:not(.layout-resume) {
       line-height: 1.7;
     }
 
+    // The actions row is the last header row and spans both columns (set
+    // below), so it needs no trailing margin of its own — the header's
+    // padding-bottom is the only space between the pills and the rule.
+    .project-header-actions {
+      grid-column: 1 / -1;
+      min-width: 0;
+    }
+
     .project-link-list {
       list-style: none;
       display: flex;
       flex-wrap: wrap;
       gap: .75rem;
       padding: 0;
-      margin: 0 0 1rem;
+      margin: 0;
     }
 
     .project-link-list > li {
@@ -201,8 +212,18 @@ main:not(.layout-resume) {
   @media screen and (min-width: $break-point-2) {
     .project-page {
       .project-header {
-        grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
-        gap: 2rem;
+        // Media column carries the majority (~55%) so the hero screenshot
+        // reads as the lead visual; the copy column keeps enough room for
+        // the title and summary. Below this breakpoint the header stacks
+        // single-column as before.
+        //
+        // The two gaps are set independently: the columns keep the wider
+        // 2rem gutter, while the row that carries the actions sits a touch
+        // closer to the copy/media row so the full-width pill row reads as
+        // part of the hero rather than as another band of whitespace.
+        grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+        column-gap: 2rem;
+        row-gap: 1.5rem;
       }
     }
   }

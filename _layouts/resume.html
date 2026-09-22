@@ -29,10 +29,27 @@ default:site.hydejack.no_third_column | default:false %}
 >
   {% include pro/resume/header.html %}
 
+  {% comment %}
+    Intro left / contact card right — same column machinery as the body below
+    (column-3-5 / column-2-5, $pad gutter, $break-point-5 split, optional
+    columns-break). Stacks intro-then-card below the breakpoint.
+  {% endcomment %}
   <div
-    class="columns contact {% unless no_third_column %}columns-break{% endunless %}"
+    class="columns intro-contact {% unless no_third_column %}columns-break{% endunless %}"
   >
-    {% include pro/resume/basics.html %} {% include pro/resume/profiles.html %}
+    <div class="column column-3-5">
+      {% if basics.summary.size > 0 %}
+        <div class="resume-intro p-note" property="description">
+          {% assign summary_paragraphs = basics.summary | split:'<br><br>' %}
+          {% for paragraph in summary_paragraphs %}{{ paragraph | markdownify }}{% endfor %}
+        </div>
+      {% endif %}
+    </div>
+    <div class="column column-2-5">
+      <div class="contact">
+        {% include pro/resume/basics.html %} {% include pro/resume/profiles.html %}
+      </div>
+    </div>
   </div>
 
   <div class="columns {% unless no_third_column %}columns-break{% endunless %}">

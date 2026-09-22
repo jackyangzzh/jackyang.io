@@ -160,10 +160,26 @@
 		margin: 1.75rem 0 2rem;
 		line-height: 1.8;
 		p {
+			// A hairline accent rule (not a card) marks each paragraph as its
+			// own beat — now/previous/side-project — so the three-beat intro
+			// scans as structure without adding headings. The gap keeps the
+			// text off the rule; the last paragraph drops the bottom margin
+			// so the intro's own margin stays the only trailing space.
+			padding-left: .9rem;
+			border-left: .1875rem solid var(--accent-strong);
 			margin-bottom: 1.15rem;
 			color: var(--body-color);
 			font-size: 1.04rem;
 			line-height: 1.8;
+
+			&:last-child { margin-bottom: 0; }
+		}
+		// Selective bold is the intro's scan structure — key employers and
+		// projects pick up the accent (same token as the eyebrow above) so a
+		// recruiter can skim the names without a heavier heading treatment.
+		strong {
+			color: var(--accent-strong);
+			font-weight: 700;
 		}
 	}
 
@@ -234,24 +250,49 @@
 		.button-detail { font-size: .65rem; letter-spacing: .04em; }
 	}
 
-	// Higher specificity than the theme's `.layout-resume .contact
-	// { margin-top: 2rem }`, which appears *after* this partial inside the
-	// inline critical `<style>` (head/css/resume is appended after
-	// head/css/inline). Without the extra class the theme value would win at
-	// first paint and then flip when the main stylesheet arrived.
-	.columns.contact {
-		margin-left: 0;
-		margin-right: 0;
-		width: 100%;
+	// Intro + contact share one two-column row (`.columns intro-contact`) that
+	// reuses the résumé body's column machinery — column-3-5 / column-2-5 at
+	// $break-point-5, the $pad gutter, optional columns-break — so the split
+	// matches the rest of the page and stacks intro-then-card when narrow.
+	// The row only owns the vertical rhythm; the card surface lives on the
+	// inner `.contact` so the intro column stays unboxed.
+	//
+	// Margin/padding specificity notes vs the theme (same rationale as the
+	// old `.columns.contact` block): `.layout-resume .contact { margin-top:
+	// 2rem }` appears *after* this partial inside the inline critical
+	// `<style>` (head/css/resume is appended after head/css/inline), so the
+	// card's flush-top margin needs the extra `.intro-contact` class to win
+	// at first paint and stay winning when the main stylesheet arrives.
+	.columns.intro-contact {
 		margin-top: 1.75rem;
+	}
+
+	// Top-align with the card: the row already carries the space below the
+	// action buttons that this margin used to provide on its own.
+	.intro-contact .resume-intro {
+		margin-top: 0;
+	}
+
+	.intro-contact .contact {
+		margin-top: 0;
 		padding: 1.15rem 1.35rem;
 		border: 1px solid var(--border-color);
 		border-radius: 1.25rem;
 		background: var(--gray-bg);
 		box-shadow: var(--card-shadow);
 
-		.column {
-			padding-left: 0;
+		// dt/dd still float inside each row; the list itself lost the
+		// .column class when the card narrowed to a single arrangement, so
+		// it needs its own block formatting context to contain them.
+		dl {
+			display: flow-root;
+		}
+
+		// One-third-width card: a long address wraps inside the row instead
+		// of pushing past the column (the copy button then sits on the next
+		// line rather than beside an overflowing link).
+		dd {
+			overflow-wrap: anywhere;
 		}
 	}
 
@@ -284,13 +325,13 @@
 		border-color: var(--border-color);
 		color: var(--body-color);
 	}
-	.layout-resume .columns.contact dt { width: 1.5rem; }
-	.layout-resume .columns.contact dd {
+	.layout-resume .intro-contact .contact dt { width: 1.5rem; }
+	.layout-resume .intro-contact .contact dd {
 		width: calc(100% - 1.5rem);
 		overflow-wrap: anywhere;
 	}
-	.layout-resume .columns.contact .email { font-size: .9rem; }
-	.layout-resume .columns.contact .copy-email { margin-left: .15rem; }
+	.layout-resume .intro-contact .contact .email { font-size: .9rem; }
+	.layout-resume .intro-contact .contact .copy-email { margin-left: .15rem; }
 	.quick-nav { gap: 0; padding-right: .25rem; }
 	.quick-nav-link { padding: .3rem .5rem; font-size: .75rem; }
 	.nav-btn { flex-basis: 44px; width: 44px; }

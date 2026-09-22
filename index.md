@@ -1,6 +1,6 @@
 ---
 layout: resume
-cover: false
+cover: true
 title: "Software Engineer, AI Agents & Multimodal Systems"
 description: >
   Jack Yang is a software engineer at Microsoft Teams AI building real-time multimodal
