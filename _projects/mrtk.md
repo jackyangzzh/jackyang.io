@@ -24,9 +24,9 @@ I contributed to the Leap Motion integration in MRTK 2.7, Microsoft's open-sourc
 
 ## My contribution in MRTK 2.7
 
-My primary public contribution is [PR #9726](https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726). Orientation settings can be hard to understand from a configuration panel. The scene lets developers see how MRTK interprets a tracked hand in each supported mode.
+My main public contribution is [PR #9726](https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726), an example scene for hand-tracking orientation settings. Those settings are hard to understand from a configuration panel, so the scene lets developers see how MRTK interprets a tracked hand in each supported mode.
 
-I removed hard dependencies so the scene could load before the Leap Motion Unity module was installed. Maintainer reviews also helped keep the example consistent with the rest of MRTK. It needed to explain the feature without asking developers to learn another setup process.
+I removed hard dependencies so the scene could load even before the Leap Motion Unity module was installed, since an example should explain the feature without sending developers through another setup process first. Maintainer reviews helped keep it consistent with the rest of MRTK.
 
 ## Integration work
 
@@ -38,4 +38,4 @@ Beyond the example scene, I worked on the surrounding integration:
 
 ## Working in someone else's project
 
-A sample working on my machine wasn't enough. It had to coexist with optional packages, different project setups, and code I hadn't seen. Compatibility checks, tests, and maintainer feedback shaped the contribution as much as the feature did.
+Getting the sample to work on my machine turned out to be the easy part. In a shared toolkit, it also had to coexist with optional packages, other people's project setups, and code I hadn't written. In fact, the compatibility checks, tests, and maintainer feedback shaped the final PR as much as the feature itself.

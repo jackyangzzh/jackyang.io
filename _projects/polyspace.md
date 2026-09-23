@@ -20,7 +20,7 @@ I built Poly Space VR from the first prototype through its Oculus PC VR store re
 
 ## Why eight people?
 
-I wanted somewhere to hang out with a few friends. Large public VR worlds often felt too noisy, and enterprise meeting tools felt too much like work.
+I wanted somewhere to hang out with a few friends in VR. Large public worlds often felt too noisy, and enterprise meeting tools felt too much like work.
 
 I capped rooms at eight people to keep voice, avatar poses, and shared physics manageable on consumer connections. A smaller session that held together mattered more to me than a larger participant count.
 
@@ -28,7 +28,7 @@ I capped rooms at eight people to keep voice, avatar poses, and shared physics m
 
 Low-poly models, baked lighting, and GPU instancing kept scene costs down. Photon handled networking for voice, avatar poses, and physics interactions.
 
-Hosts could rearrange a room and swap its contents at runtime using ScriptableObject templates. They didn't need to write networking code to customize a space. Spatial audio, avatars, and shared objects gave people ways to interact beyond standing in a circle and talking.
+Hosts could rearrange a room and swap its contents at runtime using ScriptableObject templates, without writing any networking code. Spatial audio, avatars, and shared objects gave people ways to interact beyond standing in a circle and talking.
 
 ## Building for hosts
 
@@ -38,6 +38,6 @@ I also published creator guidelines and ran a monthly submission process to brin
 
 ## What I kept small
 
-Room size and scene complexity were deliberate limits. More visual detail wasn't worth making a conversation harder to follow.
+Room size and scene complexity were deliberate limits, because extra visual detail wasn't worth making a conversation harder to follow.
 
 Poly Space became a place to try changes to networking, interactions, and moderation, then see how they affected a small group. Those experiments gave me practical experience I later brought to larger social platforms.

@@ -3,8 +3,8 @@
 
 // --- Self-hosted fonts (latin subset). Files in assets/fonts/. ---
 // Declared here (inlined critical CSS) so @font-face is discovered without an
-// extra render-blocking request. The critical faces (Noto Sans 400, Roboto
-// Slab 700) are also <link rel=preload>ed in _includes/head/links-static.html.
+// extra render-blocking request. The critical faces (Noto Sans 400, Bricolage
+// Grotesque 700) are also <link rel=preload>ed in _includes/head/links-static.html.
 @font-face {
   font-family: "Noto Sans";
   font-style: normal;
@@ -33,12 +33,16 @@
   font-display: swap;
   src: url("/assets/fonts/noto-sans-700-italic.woff2") format("woff2");
 }
+// Headings. The file keeps Bricolage Grotesque's optical-size axis (bold is
+// fixed): the browser picks the cut from the rendered size, so the name at
+// 3.6rem gets the tight display drawing and a card title at 1.1rem the looser
+// text one, from one 40KB request.
 @font-face {
-  font-family: "Roboto Slab";
+  font-family: "Bricolage Grotesque";
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("/assets/fonts/roboto-slab-700.woff2") format("woff2");
+  src: url("/assets/fonts/bricolage-grotesque-700.woff2") format("woff2");
 }
 
 // Metric-adjusted fallbacks: make local Arial occupy the exact same space as
@@ -52,12 +56,15 @@
   descent-override: 25.02%;
   line-gap-override: 0%;
 }
+// Measured against Arial Bold at the mid optical size (28); the widths only
+// drift from 102% to 97% across the whole 18–60px heading range.
 @font-face {
-  font-family: "Roboto Slab Fallback";
-  src: local("Arial");
-  size-adjust: 122.68%;
-  ascent-override: 85.42%;
-  descent-override: 22.09%;
+  font-family: "Bricolage Grotesque Fallback";
+  font-weight: 700;
+  src: local("Arial Bold"), local("Arial-BoldMT");
+  size-adjust: 100.99%;
+  ascent-override: 92.09%;
+  descent-override: 26.73%;
   line-gap-override: 0%;
 }
 
@@ -65,6 +72,13 @@
 // bare Arial) while "Noto Sans" loads. Headings use $font-family-heading.
 body {
   font-family: "Noto Sans", "Noto Sans Fallback", Helvetica, Arial, sans-serif;
+}
+
+// The theme reads every heading's face from this one property (see html.scss,
+// which _config.yml's `font_heading` feeds). Overriding it here, after the
+// theme in both CSS paths, swaps all of them at once.
+html {
+  --font-family-heading: "Bricolage Grotesque", "Bricolage Grotesque Fallback", "Noto Sans", Helvetica, Arial, sans-serif;
 }
 
 // Reserve space for sidebar on mobile to prevent CLS when drawer JS initializes
@@ -145,7 +159,14 @@ hy-drawer.cover:not(.loaded) {
     0 .85rem 1.85rem rgba(32, 20, 48, .09);
 }
 
+// Headings. In dark mode the theme sets titles in the same #ccc as the body
+// copy, so a 3.6rem name reads as greyed out and a section title only stands
+// apart by size. Dark mode lifts them to a near-white (13:1 on the page);
+// light mode never defines the token, so headings fall back to the body color
+// exactly as before. `initial` in the light mixin restores that fallback when
+// the toggle overrides a dark OS preference.
 @mixin accent-strong-dark() {
+  --heading-color: #ecebf1;
   --accent-strong: #b99aec;          // AA contrast on both dark page and raised surfaces
   --accent-strong-hover: #cbb3f2;
   --accent-strong-contrast: var(--dark-mode-body-bg);
@@ -163,6 +184,7 @@ hy-drawer.cover:not(.loaded) {
 }
 
 @mixin accent-strong-light() {
+  --heading-color: initial;
   --accent-strong: #875acd;
   --accent-strong-hover: #6f48b0;
   --accent-strong-contrast: #fff;

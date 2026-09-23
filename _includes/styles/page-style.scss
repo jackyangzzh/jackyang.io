@@ -7,6 +7,11 @@ html {
   --accent-color-highlight: #{fade-out({{ color }}, 0.9)};
   --accent-color-darkened: #{darken({{ color }}, 7.5%)};
   --theme-color: {{ theme_color }};
-  --dark-mode-body-bg: #{hsl(hue({{ theme_color }}), saturation({{ theme_color }}) / 8, 17.5%)};
-  --dark-mode-border-color: #{hsl(hue({{ theme_color }}), saturation({{ theme_color }}) / 8, 22.5%)};
+  // Keep a third of the theme color's saturation (Hydejack keeps an eighth),
+  // so the dark page reads as ink-violet next to the purple sidebar instead of
+  // a neutral grey that belongs to neither. Slightly deeper, too: every light-
+  // on-dark pair gains contrast (body text 8.8 → 9.8:1, accent 6.0 → 6.7:1),
+  // and the dark label on the accent button gains the same amount.
+  --dark-mode-body-bg: #{hsl(hue({{ theme_color }}), saturation({{ theme_color }}) / 3, 15%)};
+  --dark-mode-border-color: #{hsl(hue({{ theme_color }}), saturation({{ theme_color }}) / 3, 20%)};
 }

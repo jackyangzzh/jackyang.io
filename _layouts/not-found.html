@@ -20,6 +20,17 @@ layout: base
 {% assign strings = site.data.strings %}
 
 <div class="page">
+  {% comment %}
+    The same night sky the cover opens with: the lost page is somewhere out
+    there. Pure decoration, so it is hidden from assistive tech; the eyebrow
+    and heading below carry the meaning.
+  {% endcomment %}
+  <div class="lost-sky night-sky" aria-hidden="true">
+    <span class="lost-sky__shooting-star"></span>
+    <span class="lost-sky__shooting-star lost-sky__shooting-star--late"></span>
+    <span class="lost-sky__code">4<span class="lost-sky__planet">0</span>4</span>
+  </div>
+  <p class="lost-eyebrow">404 · Lost in space</p>
   <h1 class="page-title">{{ page.title | default:strings.not_found.title | default: "404: Page Not Found" }}</h1>
   <div class="hr pb0"></div>
 

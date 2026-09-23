@@ -3,15 +3,15 @@
 # See also: <https://jsonresume.org/>.
 basics:
   name: "Jack Yang"
-  label: "Building Real-Time Multimodal Agents for Live Human-AI Interaction"
+  label: "Building real-time AI agents for live conversation"
   picture: "./assets/img/profile.webp"
   email: "jackyangzzh@gmail.com"
   phone: ""
   website: ""
   summary: >
-    I build **real-time AI agents** at **Microsoft Teams AI**, working on Facilitator in Microsoft 365 Copilot. My focus is conversation orchestration, tool execution, context management, and multimodal meeting features that hold up in live conversation. <br><br>
-    Previously, I built AR/VR interaction and multiplayer platforms at **Holos**, then was a key contributor to avatar rendering pipelines and shared UI at **Microsoft Mesh**. My background spans early-stage startups and large-scale interactive systems. <br><br>
-    Outside work, I created **FakeHaul**, an AI-generated marketplace covered by *The New York Times* and *Fast Company*. I enjoy connecting low-latency systems with generative models, with as much attention to the interaction as the engineering.
+    I build [**real-time AI agents**](https://support.microsoft.com/en-us/teams/copilot/facilitator-in-microsoft-teams-meetings){:target="_blank" rel="noopener noreferrer" .no-mark-external} at [**Microsoft Teams AI**](https://support.microsoft.com/en-us/teams/copilot/facilitator-in-microsoft-teams-meetings){:target="_blank" rel="noopener noreferrer" .no-mark-external}, where I work on Facilitator, the Microsoft 365 Copilot agent that runs inside live Teams meetings. My focus is the orchestration, tool execution, context management, and multimodal features that let an agent keep up with a conversation as it happens. <br><br>
+    Before Teams AI, I was a key contributor to the avatar rendering pipelines and shared UI at [**Microsoft Mesh**](/projects/mesh-avatars/), which shipped weekly in 20+ languages to millions of users. Earlier, I built AR/VR interaction and multiplayer systems at [**Holos**](/projects/holos/), a Techstars startup, and helped it secure a $750K U.S. Air Force contract. <br><br>
+    Outside work, I created [**FakeHaul**](/projects/fakehaul/), an AI-generated marketplace where every checkout is $0.00, covered by *The New York Times* and *Fast Company*. I'm also completing an M.S. in HCI at Georgia Tech, with a paper under review at CHI 2027 on how AI systems that track decisions from transcripts can hide their own mistakes. I enjoy connecting low-latency systems with generative models, and I care as much about how the interaction feels as how the system is built.
   location:
     city: "Seattle"
     countryCode: "US"
@@ -28,11 +28,12 @@ basics:
 work:
   - company: "Microsoft"
     position: "Software Engineer II, Teams AI"
-    website: ""
+    website: "https://support.microsoft.com/en-us/teams/copilot/facilitator-in-microsoft-teams-meetings"
     startDate: "2024-09-01"
     endDate: ""
     highlights:
       - Build Facilitator, a meeting agent for Microsoft 365 Copilot that takes live notes, tracks agendas and decisions, and answers questions in Teams.
+      - Design the turn-taking layer of a proactive agent, deciding when and how the AI speaks into a live group conversation without interrupting.
       - Contribute to conversation orchestration, tool calling, context management, observability, and multimodal LLM features.
   - company: "Microsoft"
     position: "Software Engineer II, Mixed Reality (Mesh)"
@@ -40,8 +41,8 @@ work:
     startDate: "2022-06-01"
     endDate: "2024-09-01"
     highlights:
-      - Built avatar customization systems and shared UI components (input handling, accessibility) behind Microsoft Mesh and Avatars in Teams, supporting weekly releases and 20+ languages for millions of users.
-      - Owned the avatar rendering and performance pipeline across HoloLens, Quest, web, and desktop. Profiled CPU and GPU frame budgets, using LOD switching and GPU instancing to maintain target framerates on constrained hardware.
+      - Built avatar customization systems and shared UI components (input handling, accessibility) behind Microsoft Mesh and Avatars in Teams, supporting weekly releases and 20+ languages for millions of users. Satya Nadella showed the outfit-selection flow I built at Microsoft Ignite.
+      - Key contributor to the avatar rendering and performance pipeline across HoloLens, Quest, web, and desktop. Profiled CPU and GPU frame budgets, using LOD switching and GPU instancing to maintain target framerates on constrained hardware.
 
   - company: "Holos"
     position: "AR/VR Interaction Engineer"
@@ -53,26 +54,26 @@ work:
       - Worked with leadership on product and engineering execution, helping Holos secure a $750K U.S. Air Force contract and a place in Techstars.
 research:
   - company: "Kats Research Group"
-    position: "XR Researcher (part-time)"
+    position: "XR Researcher"
     website: "https://katsgroup.ece.wisc.edu/"
     startDate: "2017-10-01"
     endDate: "2022-05-01"
     highlights:
-      - Developed a computer vision model that simulates color vision deficiency in hyperspectral images. It reached about 90% agreement in pilot color tests and ran in a color-calibrated Oculus Rift demo.
+      - Developed a computer vision model that simulates color vision deficiency in hyperspectral images with 90% accuracy, and ran it in a color-calibrated Oculus Rift demo. Co-authored an arXiv publication.
   - company: "UW Graphics Group"
-    position: "Graphics Researcher (part-time)"
+    position: "Graphics Researcher"
     website: "https://pages.graphics.cs.wisc.edu/"
     startDate: "2020-09-01"
     endDate: "2022-05-01"
     highlights:
       - Built a real-time VR control loop mapping hand gestures to remote robotic-arm manipulation, plus a Unity UI for replaying arm motion from 15+ lab-experiment datasets.
-  - company: "UW HCI Group, People and Robots Lab"
-    position: "HCI Researcher (part-time)"
-    website: ""
+  - company: "UW Human-Computer Interaction Group"
+    position: "HCI Researcher"
+    website: "https://hci.cs.wisc.edu/"
     startDate: "2017-04-01"
     endDate: "2017-12-01"
     highlights:
-      - Added speech recognition and NLP-driven interaction to children's reading-companion robots; validated in an eight-family trial.
+      - Added speech recognition and NLP-driven interaction to children's reading-companion robots and validated the interaction in an eight-family trial.
 education:
   - institution: "Georgia Institute of Technology"
     studyType: "M.S. in Computer Science (HCI)"
@@ -110,7 +111,7 @@ publications:
   - name: "Too Late to Rely: A Self-Concealing Failure in State-Only Transcript Grounding Trackers"
     publisher: "CHI 2027 (under review)"
     website: "/assets/files/too-late-to-rely.pdf"
-    summary: "**Under review for CHI 2027.** Used a 264-dialogue benchmark to study how transcript-based grounding trackers can lose action-time warnings when later evidence updates the recorded state."
+    summary: "**Under review for CHI 2027.** Transcript-based trackers that keep only the latest state can hide their own failures: if someone acts on a decision before the conversation supports it, later agreement overwrites the warning that they acted too early. Used a 264-dialogue benchmark to show the failure and test an event-sourced record that preserves those warnings."
   - name: "Passive frequency conversion of ultraviolet images into the visible using perovskite nanocrystals"
     publisher: "Journal of Optics (IOP Publishing)"
     releaseDate: "2021-04-08"
@@ -134,7 +135,7 @@ skills:
       - "Retrieval-Augmented Generation (RAG)"
       - "Multimodal AI"
       - "Agent Interoperability (MCP / A2A)"
-      - "Python / PyTorch"
+      - "PyTorch"
 
   - name: "Software & Cloud"
     keywords:

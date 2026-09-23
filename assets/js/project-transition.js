@@ -2,15 +2,44 @@
   const pushState = document.getElementById("_pushState");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const easing = "cubic-bezier(0.22, 1, 0.36, 1)";
+  // A clone is only removed once the new page has arrived and the morph has
+  // run. Hydejack fires `-error` / `-networkerror` instead of `-after` when a
+  // page fails to load (a dev server mid-rebuild, a dropped connection), and
+  // the clone used to stay pinned over the error page. Those events now fade
+  // it out, and a watchdog does the same for anything unforeseen: no page
+  // swap within STALE_MS of the click, or no finished morph within SETTLE_MS
+  // of it starting.
+  const STALE_MS = 5000;
+  const SETTLE_MS = 2500;
   let activeTransition;
 
   if (!pushState || typeof Element.prototype.animate !== "function") return;
 
   const removeTransition = () => {
     if (!activeTransition) return;
+    window.clearTimeout(activeTransition.watchdog);
     activeTransition.target?.classList.remove("project-transition-target");
     activeTransition.clone.remove();
     activeTransition = undefined;
+  };
+
+  const fadeOutTransition = () => {
+    const transition = activeTransition;
+    if (!transition) return;
+    activeTransition = undefined;
+    window.clearTimeout(transition.watchdog);
+    transition.target?.classList.remove("project-transition-target");
+    const done = () => transition.clone.remove();
+    transition.clone
+      .animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, easing: "ease-out", fill: "forwards" })
+      .finished.then(done, done);
+  };
+
+  const armWatchdog = (transition, ms) => {
+    window.clearTimeout(transition.watchdog);
+    transition.watchdog = window.setTimeout(() => {
+      if (activeTransition === transition) fadeOutTransition();
+    }, ms);
   };
 
   const finalRect = (element) => {
@@ -34,9 +63,18 @@
     };
   };
 
+  // Every wait here is capped. The hero is lazy-loaded, and a lazy image that
+  // is still off screen (arriving from the foot of a long page) may not start
+  // loading at all, so an uncapped decode() could leave the clone waiting.
+  const within = (promise, ms) => Promise.race([
+    promise,
+    new Promise((resolve) => window.setTimeout(resolve, ms)),
+  ]);
+
   const waitForImage = (container) => {
     const image = container.querySelector("img");
     if (!image) return Promise.resolve();
+    image.loading = "eager";
 
     const loaded = image.complete && image.naturalWidth > 0
       ? Promise.resolve()
@@ -48,7 +86,7 @@
           new Promise((resolve) => window.setTimeout(resolve, 800)),
         ]);
 
-    return loaded.then(() => image.decode?.().catch(() => {}));
+    return loaded.then(() => within(image.decode?.().catch(() => {}), 400));
   };
 
   const afterPaint = () => new Promise((resolve) => {
@@ -86,7 +124,14 @@
 
       clone.classList.add("project-transition-clone");
       clone.setAttribute("aria-hidden", "true");
+      // Positioning is set inline as well as in .project-transition-clone, so
+      // the clone can never fall back into the page flow (appended after the
+      // footer, under the sidebar) if that rule is ever missing.
       Object.assign(clone.style, {
+        position: "fixed",
+        zIndex: "5",
+        margin: "0",
+        pointerEvents: "none",
         left: `${sourceRect.left}px`,
         top: `${sourceRect.top}px`,
         width: `${sourceRect.width}px`,
@@ -109,7 +154,8 @@
         { duration: 220, easing, fill: "forwards" },
       );
 
-      activeTransition = { clone, cloneImage, hold, target: undefined };
+      activeTransition = { clone, cloneImage, hold, target: undefined, watchdog: 0 };
+      armWatchdog(activeTransition, STALE_MS);
     },
     true,
   );
@@ -126,6 +172,7 @@
 
     target.classList.add("project-transition-target");
     transition.target = target;
+    armWatchdog(transition, SETTLE_MS);
     const start = transition.clone.getBoundingClientRect();
     transition.hold.cancel();
     Object.assign(transition.clone.style, {
@@ -177,5 +224,7 @@
       });
   });
 
+  pushState.addEventListener("hy-push-state-error", fadeOutTransition);
+  pushState.addEventListener("hy-push-state-networkerror", fadeOutTransition);
   window.addEventListener("pagehide", removeTransition);
 })();

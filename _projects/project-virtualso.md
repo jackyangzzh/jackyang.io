@@ -49,8 +49,8 @@ I used intent classification and guided dialogue branches rather than open-ended
 
 ## Testing and limits
 
-I shared working prototypes with professional career-coaching nonprofits to explore whether this kind of role-play could make practice more accessible. Presentation tests captured pacing, filler-word frequency, and confidence-related signals. I treated those as prompts for a conversation with a human coach, not an objective verdict on someone's ability.
+I shared working prototypes with professional career-coaching nonprofits to explore whether this kind of role-play could make practice more accessible. Presentation tests captured pacing, filler-word frequency, and confidence-related signals. I treated those signals as prompts for a conversation with a human coach, since they couldn't give an objective verdict on someone's ability.
 
 {% include pro/project-video.html id="3KgdJZlMepo" title="Virtual Public Speaking Training Demonstration" %}
 
-The audience feedback stuck with me. A character didn't need bigger reactions to feel present; it needed reactions that fit the moment. That question of timing has followed me from VR coaches to the meeting agents I work on today.
+That audience feedback stuck with me. My first version assumed bigger reactions would make a character feel more present, when what mattered was reacting at the right moment. That question of timing has followed me from VR coaches to the meeting agents I work on today.

@@ -25,6 +25,13 @@
   status = 301
   force = true
 
+# The resume PDF was renamed; keep old links working.
+[[redirects]]
+  from = "/assets/Yang_Resume.pdf"
+  to = "/assets/Jack_Yang_Resume.pdf"
+  status = 301
+  force = true
+
 # Security headers
 [[headers]]
   for = "/*"

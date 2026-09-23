@@ -22,13 +22,13 @@ At the Kats Research Group, I led two VR research prototypes: one for simulating
 
 Specialized optics equipment gives researchers control, but its cost and setup requirements can make it difficult to use for teaching. I wanted to see which parts of an experiment a consumer headset could reproduce well enough to be useful.
 
-These were tools for teaching and early perception experiments, not diagnosis. Someone without an optics background should be able to compare the images and understand what had changed.
+These were built for teaching and early perception experiments, and diagnosis was out of scope. Someone without an optics background should be able to compare the images and understand what had changed.
 
-## Color-vision deficiency
+## Color vision deficiency
 
 ![Color vision deficiency simulation](/assets/img/projects/colorDeficiencyCover.webp){:loading="lazy"}
 
-I designed chromatic adjustment algorithms to approximate how people with color vision deficiency perceive hyperspectral images. In pilot color tests, the system reached about 90% agreement with the expected adjustments. I then built a color-calibrated VR demo for comparing the transformed image with its reference. That pilot result wasn't a claim that the simulation could reproduce every person's vision.
+I designed chromatic adjustment algorithms to approximate how people with color vision deficiency perceive hyperspectral images. The system reached 90% accuracy in simulating color vision deficiency. I then built a color-calibrated VR demo for comparing the transformed image with its reference. That result doesn't mean the simulation can reproduce every person's vision.
 
 *This work is separate from my co-authored [Journal of Optics paper](https://doi.org/10.1088/2040-8986/abf171) on converting ultraviolet images into visible light.*
 
@@ -37,7 +37,7 @@ I designed chromatic adjustment algorithms to approximate how people with color 
 <video src="/assets/img/projects/staticRivalry.webm" autoplay loop muted playsinline preload="metadata" aria-label="Static rivalry demonstration"></video>
 <video src="/assets/img/projects/dynamicRivalry.webm" autoplay loop muted playsinline preload="metadata" aria-label="Dynamic rivalry demonstration"></video>
 
-Our visual system normally combines information from both eyes. I showed different static and moving content to each eye to produce controlled rivalry effects, using the headset instead of a mirror stereoscope.
+Normally, the visual system merges what each eye sees into a single image. Using the headset in place of a mirror stereoscope, I showed each eye different static and moving content to produce controlled rivalry effects.
 
 ## What I built
 
@@ -47,6 +47,6 @@ Our visual system normally combines information from both eyes. I showed differe
 
 ## The limits matter
 
-Consumer displays can't reproduce the full range of human perception. I documented those limits and kept the scope narrow rather than present the demos as a complete simulation of someone's vision.
+Consumer displays can't reproduce the full range of human perception, so I documented those limits and kept the scope narrow.
 
-Within that scope, VR gave me a practical way to explain color perception and accessibility concepts to people outside optics. The comparison needed to be understandable, and its limitations needed to be just as clear.
+Within that scope, VR gave me a practical way to explain color perception and accessibility to people outside optics, as long as I explained the demo's limitations as clearly as the comparison itself.

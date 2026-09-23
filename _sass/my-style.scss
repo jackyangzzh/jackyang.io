@@ -351,6 +351,39 @@
 	}
 }
 
+// The current role's dot breathes: a ring eases out of it and fades, once
+// every few seconds, the way a "live" indicator does. It is the only moving
+// thing on the résumé, so it quietly marks which role is the current one. The
+// target is semantic — the one entry the include marks `worksFor` because it
+// has no end date — so it follows the data rather than list position.
+//
+// The ring starts at the same 3px spread as the page-coloured halo stacked
+// above it, so it emerges from under the halo rather than popping in.
+// Browsers without `color-mix()` drop the keyframes and keep the still dot.
+@keyframes timeline-live {
+	0% {
+		box-shadow:
+			0 0 0 3px var(--body-bg),
+			0 0 8px var(--accent-strong),
+			0 0 0 3px color-mix(in srgb, var(--accent-strong) 55%, transparent);
+	}
+	60%,
+	100% {
+		box-shadow:
+			0 0 0 3px var(--body-bg),
+			0 0 8px var(--accent-strong),
+			0 0 0 12px color-mix(in srgb, var(--accent-strong) 0%, transparent);
+	}
+}
+
+@media screen and (prefers-reduced-motion: no-preference) {
+	// First entry sits inside `.npb` with the heading; the rest follow it.
+	.layout-resume .column > section:has(> .npb > h2#work) > .npb > section:has(> header[property="worksFor"])::after,
+	.layout-resume .column > section:has(> .npb > h2#work) > section:has(> header[property="worksFor"])::after {
+		animation: timeline-live 3.2s cubic-bezier(.2, .6, .3, 1) infinite;
+	}
+}
+
 // Skills: turn the floated <dt> group labels into eyebrow subheadings so the
 // three groups read as a hierarchy instead of a chip wall. The theme appends
 // a " :" via dt::after, which no longer fits the design.
@@ -403,10 +436,18 @@
 			transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
 	}
 
-	// Keep the theme's external-link glyph, but dock it to the card corner
-	// instead of letting it drop onto its own line below the block spans.
+	// Keep the external-link marker (see "External-link marker" below), but
+	// dock it to the card corner instead of letting it drop onto its own line
+	// below the block spans.
+	//
+	// The border colour is restated on `a.cert-link` to tie the theme's
+	// `.content a:not(.btn):not(.no-hover)` (0,3,1), which tints every link's
+	// border with the faded accent — making these the only lavender-edged
+	// cards on the page. Later in the cascade, this wins and the cards rest on
+	// the same hairline as the contact card beside them; hover still accents.
 	a.cert-link {
 		position: relative;
+		border-color: var(--border-color);
 		&::after {
 			position: absolute;
 			top: .55rem;
@@ -423,7 +464,7 @@
 
 	.cert-name {
 		display: block;
-		color: var(--body-color);
+		color: var(--heading-color, var(--body-color));
 		font-size: .85rem;
 		font-weight: 700;
 		line-height: 1.4;
@@ -466,7 +507,7 @@
 	}
 
 	.page-title {
-		letter-spacing: -.03em;
+		letter-spacing: -.02em;
 		font-weight: 700;
 		font-size: clamp(2rem, 4vw, 2.8rem);
 	}
@@ -577,6 +618,25 @@
 main.layout-blog .posts-grid {
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 1.5rem;
+}
+
+// "Other Projects" at the foot of a project page used the theme's float
+// columns, whose gutters are built from a negative margin: the pair of cards
+// stuck out 1rem past both edges of the text column, and past the edges of
+// their own heading. Same grid as the Projects index, so the cards line up
+// with everything above them.
+.layout-project .other-projects > .columns {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1.5rem;
+	width: auto;
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: 0;
+	padding-right: 0;
+	contain: none;
+	&::after { display: none; }
+	> .column { float: none; width: auto; min-width: 0; margin: 0; padding: 0; }
 }
 
 // Category tags -------------------------------------------------------------
@@ -733,10 +793,10 @@ main.layout-blog .posts-grid {
 .post-card > .post-card__body > .post-card__title {
 	display: block !important;
 	margin-bottom: .55rem !important;
-	color: var(--body-color) !important;
+	color: var(--heading-color, var(--body-color)) !important;
 	font-size: 1.12rem !important;
 	font-weight: 700 !important;
-	letter-spacing: -.02em !important;
+	letter-spacing: -.01em !important;
 	line-height: 1.35;
 	a { color: inherit; border-bottom: 0; text-decoration: none; }
 	a:hover { color: var(--accent-strong); }
@@ -754,6 +814,7 @@ main.layout-blog .posts-grid {
 
 .project-card-cta a,
 .post-card__cta a {
+	position: relative;
 	display: inline-flex;
 	align-items: center;
 	gap: .35rem;
@@ -761,6 +822,17 @@ main.layout-blog .posts-grid {
 	color: var(--accent-strong) !important;
 	font-weight: 700;
 	text-decoration: none !important;
+
+	// The link is one line of small text, 22px tall — under the 24px minimum
+	// on a phone, where it is the obvious thing to tap. Pad the hit area out
+	// to ~40px without moving anything (same technique as the copy-email
+	// chip). It stays inside the card body's padding, so the card's
+	// `overflow: hidden` never clips it.
+	&::before {
+		content: "";
+		position: absolute;
+		inset: -.6rem -.5rem;
+	}
 }
 
 .project-card-cta a::after {
@@ -892,6 +964,18 @@ main.layout-blog .posts-grid {
 		img:not(.avatar) {
 			border-radius: .5rem;
 		}
+
+		// Inline demo clips (the binocular-rivalry pair). Left at their
+		// natural 600px they sat stacked against the left edge of an 832px
+		// column, beside figures and embeds that all span it. Match those:
+		// full width, same corners.
+		> video {
+			display: block;
+			width: 100%;
+			height: auto;
+			margin: 1.5rem 0;
+			border-radius: .5rem;
+		}
 	}
 
 	// Press quotes callout grid (e.g. on FakeHaul)
@@ -965,6 +1049,22 @@ main.layout-blog .posts-grid {
 	}
 }
 
+// Where the column is at its widest, a pair of clips sits side by side: the
+// two read as the comparison they are (static vs moving rivalry), each still
+// plays at or below its natural 600px, and the pair takes half the height.
+// Narrower columns keep them stacked, where side by side would shrink each
+// stereo view too far to read.
+@media screen and (min-width: $break-point-5) {
+	.layout-project .project-body > video:has(+ video),
+	.layout-project .project-body > video + video {
+		width: calc(50% - .5rem);
+	}
+
+	.layout-project .project-body > video:has(+ video) { float: left; }
+	.layout-project .project-body > video + video { float: right; }
+	.layout-project .project-body > video + video + * { clear: both; }
+}
+
 body.dark-mode {
 	a:focus-visible,
 	button:focus-visible,
@@ -990,7 +1090,7 @@ body.dark-mode {
 	padding-top: clamp(1rem, 5vw, 3rem);
 
 	.page-title {
-		letter-spacing: -.025em;
+		letter-spacing: -.02em;
 	}
 
 	p {
@@ -1020,6 +1120,7 @@ body.dark-mode {
 
 @media screen and (max-width: 41.99em) {
 	.layout-projects .project-list > .columns,
+	.layout-project .other-projects > .columns,
 	main.layout-blog .posts-grid {
 		grid-template-columns: 1fr !important;
 	}
@@ -1225,7 +1326,7 @@ body.dark-mode {
 		// and tightened — while the summary drops to the secondary tone at
 		// normal weight, so the two separate at a glance.
 		.h4 {
-			color: var(--body-color);
+			color: var(--heading-color, var(--body-color));
 			font-size: 1.08rem;
 			line-height: 1.4;
 			letter-spacing: -.005em;
@@ -1239,7 +1340,7 @@ body.dark-mode {
 		// project and post card titles already do.
 		.h4 a {
 			border-bottom: 0;
-			color: var(--body-color);
+			color: var(--heading-color, var(--body-color));
 			text-decoration: none;
 		}
 
@@ -1486,8 +1587,6 @@ body.dark-mode {
 // so it is safe to apply broadly. Unsupported browsers simply wrap as before.
 @media screen {
 	.page-title,
-	.project-card-title,
-	.post-card__title,
 	.project-summary,
 	.resume-headline,
 	.project-body h2,
@@ -1502,6 +1601,11 @@ body.dark-mode {
 	// `pretty` leaves the body of a paragraph alone and only works the last
 	// couple of lines, so it costs nothing on long text while preventing a
 	// single word stranded on its own line.
+	// Card titles too. Balanced, a three-line headline in a card narrowed to
+	// ~60% of the card's width and stood a line taller than it needed to,
+	// next to an excerpt that fills the full measure below it.
+	.project-card-title,
+	.post-card__title,
 	.project-body p,
 	.project-card-text,
 	.post-card__excerpt,
@@ -1538,7 +1642,33 @@ body.dark-mode {
 // what the opt-out asks for. On this site that is the résumé email address,
 // which is a `mailto:` and gets an "opens externally" arrow it has no use for.
 // Re-assert the opt-out the theme's own selector is missing.
+//
+// The glyph itself changes too. The theme draws a boxed "new tab" icon from
+// the icon font, which at this size reads as a broken-image square, while
+// every link this site styles itself — project pills, "Read on Medium",
+// "Read article", "Schedule a Call" — already ends in a plain ↗. One marker
+// now means one thing everywhere: muted at rest, accent on hover. Same
+// selectors as the theme and later in the cascade, and `!important` only
+// where the theme used it (the font family).
 @media screen {
+	a.external,
+	a[href*="://"]:not(.no-mark-external):not(.no-mark),
+	a.no-push-state:not(.no-mark-external):not(.no-mark) {
+		&::after {
+			content: "\2009\2197";
+			font-family: inherit !important;
+			font-size: .8em;
+			font-weight: 400;
+			color: var(--gray-text);
+			transition: color 140ms ease;
+		}
+
+		&:hover::after,
+		&:focus-visible::after {
+			color: var(--accent-strong);
+		}
+	}
+
 	a.external.no-mark-external::after,
 	a.external.no-mark::after {
 		content: none;
@@ -1561,5 +1691,202 @@ body.dark-mode {
 	.layout-resume .contact dt .brand-icon {
 		font-size: 1.05rem;
 		color: var(--gray-text);
+	}
+}
+
+// Timeline, drawn as you read ----------------------------------------------
+//
+// Each Experience and Research entry owns the stretch of rail between its dot
+// and the next one. With scroll-driven animations that stretch draws itself
+// downward as the entry travels up the screen, finishing as the entry reaches
+// the middle, so the rail keeps pace with the reader instead of standing
+// there complete. Each entry declares its own named view timeline, which its
+// ::before picks up. Browsers without scroll timelines, print, and anyone who
+// asked for reduced motion get the finished rail exactly as before. The dots
+// are left alone: the current role's dot already carries the live pulse.
+@keyframes timeline-rail-draw {
+	from { transform: scaleY(0); }
+	to { transform: scaleY(1); }
+}
+
+@supports (animation-timeline: view()) {
+	@media screen and (prefers-reduced-motion: no-preference) {
+		.layout-resume .column > section:has(> .npb > h2#work),
+		.layout-resume .column > section:has(> .npb > h2#research) {
+			> .npb > section,
+			> section {
+				view-timeline: --timeline-entry block;
+			}
+
+			> .npb > section::before,
+			> section::before {
+				transform-origin: top;
+				animation: timeline-rail-draw linear both;
+				animation-timeline: --timeline-entry;
+				animation-range: cover 5% cover 50%;
+			}
+		}
+	}
+}
+
+// Theme switch ----------------------------------------------------------------
+//
+// site-polish.js wraps the theme toggle in a view transition: the new scheme
+// spreads out of the toggle button in a growing circle over the old one. The
+// browser's default cross-fade is switched off so only the circle moves, and
+// the theme's own colour transitions are suspended for the duration so the
+// "after" snapshot is the finished scheme rather than the first frame of a
+// fade. Browsers without view transitions switch instantly, as before.
+html.is-theme-switching,
+html.is-theme-switching *,
+html.is-theme-switching *::before,
+html.is-theme-switching *::after {
+	transition: none !important;
+}
+
+html.is-theme-switching::view-transition-old(root),
+html.is-theme-switching::view-transition-new(root) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+
+// Project filters -------------------------------------------------------------
+//
+// Choosing a category used to make cards vanish and the rest jump into the
+// gaps. site-polish.js now runs the change as a view transition with every
+// visible card named, so cards that stay glide to their new slots, cards that
+// leave shrink out, and cards that arrive grow in. The names only exist for
+// the length of the transition, so nothing else (the theme switch, the
+// project-page morph) ever sees them.
+@keyframes filter-card-in {
+	from { opacity: 0; transform: scale(.94); }
+}
+
+@keyframes filter-card-out {
+	to { opacity: 0; transform: scale(.94); }
+}
+
+html.is-filtering::view-transition-group(*) {
+	animation-duration: 420ms;
+	animation-timing-function: cubic-bezier(.2, .8, .2, 1);
+}
+
+html.is-filtering::view-transition-group(root) {
+	animation-duration: 240ms;
+}
+
+html.is-filtering::view-transition-new(*):only-child {
+	animation: filter-card-in 320ms cubic-bezier(.2, .8, .2, 1) 80ms both;
+}
+
+html.is-filtering::view-transition-old(*):only-child {
+	animation: filter-card-out 200ms ease both;
+}
+
+// Video posters ---------------------------------------------------------------
+//
+// See pro/project-video.html: the video's own thumbnail, its title on a soft
+// scrim, and a play button in the site accent, standing in for YouTube's
+// player until someone chooses to watch.
+@media screen {
+	.project-video-frame .video-poster {
+		position: absolute;
+		inset: 0;
+		display: block;
+		overflow: hidden;
+		border: 0;
+		background: #0e0b1c;
+		color: #fff;
+		text-decoration: none;
+
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			background: linear-gradient(180deg, transparent 50%, rgba(8, 6, 18, .72));
+			pointer-events: none;
+		}
+
+		&:focus-visible { outline-offset: -3px; }
+	}
+
+	.layout-project .project-video-frame img.video-poster__thumb {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		border-radius: 0;
+		object-fit: cover;
+		transition: transform 500ms cubic-bezier(.2, .7, .2, 1), filter 300ms ease;
+	}
+
+	.video-poster__play {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		z-index: 1;
+		display: grid;
+		place-items: center;
+		width: 4.25rem;
+		height: 4.25rem;
+		margin: -2.125rem 0 0 -2.125rem;
+		border-radius: 50%;
+		background: var(--accent-strong);
+		color: var(--accent-strong-contrast);
+		box-shadow:
+			0 .5rem 1.5rem rgba(0, 0, 0, .35),
+			0 0 0 .45rem rgba(255, 255, 255, .16);
+		transition:
+			transform 260ms cubic-bezier(.16, 1, .3, 1),
+			box-shadow 260ms ease;
+
+		svg {
+			width: 1.7rem;
+			height: 1.7rem;
+			margin-left: .15rem;
+		}
+	}
+
+	.video-poster__title {
+		position: absolute;
+		right: 1rem;
+		bottom: .85rem;
+		left: 1rem;
+		z-index: 1;
+		font-size: .95rem;
+		font-weight: 700;
+		line-height: 1.35;
+		text-shadow: 0 1px 3px rgba(0, 0, 0, .55);
+	}
+
+	.video-poster:hover,
+	.video-poster:focus-visible {
+		.video-poster__thumb { transform: scale(1.035); }
+
+		.video-poster__play {
+			transform: scale(1.08);
+			box-shadow:
+				0 .75rem 2rem rgba(0, 0, 0, .4),
+				0 0 0 .7rem rgba(255, 255, 255, .2);
+		}
+	}
+
+	.project-video-frame.is-playing { background: #000; }
+}
+
+@media screen and (max-width: 41.99em) {
+	.video-poster__play {
+		width: 3.5rem;
+		height: 3.5rem;
+		margin: -1.75rem 0 0 -1.75rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.layout-project .project-video-frame img.video-poster__thumb,
+	.video-poster__play {
+		transition: none !important;
+		transform: none !important;
 	}
 }

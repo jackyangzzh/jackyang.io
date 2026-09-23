@@ -15,7 +15,7 @@ links:
     url: https://www.holos.io/
 
 ---
-I was an AR/VR Interaction Engineer at Holos in Madison, Wisconsin, from February 2019 to May 2022. During that time, we turned individual XR demos into a reusable training platform. My work centered on interaction, multiplayer sessions, and getting customer models into usable training scenes.
+I was an AR/VR Interaction Engineer at Holos in Madison, Wisconsin, from February 2019 to May 2022. Over those three years, we turned one-off XR demos into a reusable training platform. My work centered on interaction, multiplayer sessions, and getting customer models into usable training scenes.
 
 {% include pro/project-video.html id="s3_ax616TCo" title="Holos AR/VR training platform demonstration" %}
 
@@ -37,7 +37,7 @@ I worked on the shared simulation layer and networking for instructor and traine
 
 ## What instructor testing exposed
 
-Imported models turned out to matter much more than I'd expected. A scene could look convincing in a demo and still fail in use because an object's scale, origin, or collision data was wrong. Those checks belonged in the import process, not in a last-minute cleanup pass.
+Imported models turned out to matter much more than I'd expected. A scene could look convincing in a demo and still fail in use because an object's scale, origin, or collision data was wrong. So we moved those checks into the import process instead of leaving them for a last-minute cleanup pass.
 
 Shared objects needed clear ownership rules so two people wouldn't fight over the same prop. Gestures needed a similar kind of restraint: a clever gesture wasn't useful if a trainee couldn't repeat it reliably under pressure.
 
@@ -45,4 +45,4 @@ Shared objects needed clear ownership rules so two people wouldn't fight over th
 
 I helped turn the early prototypes into a platform used for networked training with enterprise and government customers. I also worked with leadership on the product and engineering work that helped Holos secure a $750K U.S. Air Force contract and a place in Techstars.
 
-The headset gets most of the attention in XR. At Holos, asset cleanup, network state, and reliable input were what made the difference between a convincing demo and a tool someone could use for training.
+Even though the headset gets most of the attention in XR, at Holos the difference between a convincing demo and a tool someone could train with came down to asset cleanup, network state, and reliable input.

@@ -54,5 +54,6 @@ The snippet below will run the code on every `hy-push-state-load` event instead.
 </script>
 {% endcomment %}
 
-<script src="{{ '/assets/js/project-transition.js' | relative_url }}?v=2" type="module"></script>
+{% comment %}Versioned per build, like site-polish.js: /assets/* is served with a one-year immutable cache, so a hand-bumped ?v= that is forgotten strands every returning visitor on the old script.{% endcomment %}
+<script src="{{ '/assets/js/project-transition.js' | relative_url }}?v={{ site.time | date: '%s' }}" type="module"></script>
 <script src="{{ '/assets/js/site-polish.js' | relative_url }}?v={{ site.time | date: '%s' }}" type="module"></script>
