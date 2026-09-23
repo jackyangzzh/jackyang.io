@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="VR headset displaying different color-adjusted scenes to the left and right eyes" />
 <meta property="twitter:title" content="Color Vision &amp; Binocular Rivalry in VR" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-22T15:56:27+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"Two research prototypes using consumer VR headsets to explore color vision deficiency and binocular rivalry.","headline":"Color Vision &amp; Binocular Rivalry in VR","image":{"alt":"VR headset displaying different color-adjusted scenes to the left and right eyes","url":"https://jackyang.io/assets/img/projects/kats.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/vision-disorder/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-23T03:27:27+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"Two research prototypes using consumer VR headsets to explore color vision deficiency and binocular rivalry.","headline":"Color Vision &amp; Binocular Rivalry in VR","image":{"alt":"VR headset displaying different color-adjusted scenes to the left and right eyes","url":"https://jackyang.io/assets/img/projects/kats.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/vision-disorder/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -81,7 +81,7 @@
 
 
 <link rel="preload" href="/assets/fonts/noto-sans-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/roboto-slab-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/bricolage-grotesque-700.woff2" as="font" type="font/woff2" crossorigin>
 
 
 <link rel="preload" href="/assets/icomoon/fonts/icomoon-v2.woff2" as="font" type="font/woff2" crossorigin>
@@ -114,7 +114,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-09-22T15:57:07+00:00',
+    INDEX_KEY: 'index--2026-09-23T03:28:04+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -127,15 +127,15 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1790092627" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1790092627" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1790134084" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1790134084" id="_iconsPreload">
 
 
 
 
   <style id="_pageStyle">
 
-html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5);--accent-color-highlight: rgba(170,130,230,0.1);--accent-color-darkened: #9462e0;--theme-color: rgb(32,28,58);--dark-mode-body-bg: #2b2b2f;--dark-mode-border-color: #38373c}
+html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5);--accent-color-highlight: rgba(170,130,230,0.1);--accent-color-darkened: #9462e0;--theme-color: rgb(32,28,58);--dark-mode-body-bg: #23222b;--dark-mode-border-color: #2f2d39}
 
 </style>
 
@@ -312,13 +312,13 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <p>Specialized optics equipment gives researchers control, but its cost and setup requirements can make it difficult to use for teaching. I wanted to see which parts of an experiment a consumer headset could reproduce well enough to be useful.</p>
 
-<p>These were tools for teaching and early perception experiments, not diagnosis. Someone without an optics background should be able to compare the images and understand what had changed.</p>
+<p>These were built for teaching and early perception experiments, and diagnosis was out of scope. Someone without an optics background should be able to compare the images and understand what had changed.</p>
 
-<h2 id="color-vision-deficiency">Color-vision deficiency</h2>
+<h2 id="color-vision-deficiency">Color vision deficiency</h2>
 
 <p><img src="/assets/img/projects/colorDeficiencyCover.webp" alt="Color vision deficiency simulation" loading="lazy" /></p>
 
-<p>I designed chromatic adjustment algorithms to approximate how people with color vision deficiency perceive hyperspectral images. In pilot color tests, the system reached about 90% agreement with the expected adjustments. I then built a color-calibrated VR demo for comparing the transformed image with its reference. That pilot result wasn’t a claim that the simulation could reproduce every person’s vision.</p>
+<p>I designed chromatic adjustment algorithms to approximate how people with color vision deficiency perceive hyperspectral images. The system reached 90% accuracy in simulating color vision deficiency. I then built a color-calibrated VR demo for comparing the transformed image with its reference. That result doesn’t mean the simulation can reproduce every person’s vision.</p>
 
 <p><em>This work is separate from my co-authored <a href="https://doi.org/10.1088/2040-8986/abf171">Journal of Optics paper</a> on converting ultraviolet images into visible light.</em></p>
 
@@ -327,7 +327,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 <video src="/assets/img/projects/staticRivalry.webm" autoplay="" loop="" muted="" playsinline="" preload="metadata" aria-label="Static rivalry demonstration"></video>
 <video src="/assets/img/projects/dynamicRivalry.webm" autoplay="" loop="" muted="" playsinline="" preload="metadata" aria-label="Dynamic rivalry demonstration"></video>
 
-<p>Our visual system normally combines information from both eyes. I showed different static and moving content to each eye to produce controlled rivalry effects, using the headset instead of a mirror stereoscope.</p>
+<p>Normally, the visual system merges what each eye sees into a single image. Using the headset in place of a mirror stereoscope, I showed each eye different static and moving content to produce controlled rivalry effects.</p>
 
 <h2 id="what-i-built">What I built</h2>
 
@@ -339,9 +339,9 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <h2 id="the-limits-matter">The limits matter</h2>
 
-<p>Consumer displays can’t reproduce the full range of human perception. I documented those limits and kept the scope narrow rather than present the demos as a complete simulation of someone’s vision.</p>
+<p>Consumer displays can’t reproduce the full range of human perception, so I documented those limits and kept the scope narrow.</p>
 
-<p>Within that scope, VR gave me a practical way to explain color perception and accessibility concepts to people outside optics. The comparison needed to be understandable, and its limitations needed to be just as clear.</p>
+<p>Within that scope, VR gave me a practical way to explain color perception and accessibility to people outside optics, as long as I explained the demo’s limitations as clearly as the comparison itself.</p>
 
   </div>
 </article>
@@ -411,7 +411,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     
       <p class="">
-        Building Real-Time Multimodal Agents for Live Human-AI Interaction
+        Building real-time AI agents for live conversation
 
       </p>
     
@@ -564,8 +564,9 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
   
 
-<script src="/assets/js/project-transition.js?v=2" type="module"></script>
-<script src="/assets/js/site-polish.js?v=1790092627" type="module"></script>
+
+<script src="/assets/js/project-transition.js?v=1790134084" type="module"></script>
+<script src="/assets/js/site-polish.js?v=1790134084" type="module"></script>
 
   
 

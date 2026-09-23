@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="Poly Space VR logo" />
 <meta property="twitter:title" content="Poly Space VR" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-22T15:56:27+00:00","datePublished":"2021-01-01T00:00:00+00:00","description":"An open-source social VR app for up to eight people, with voice chat, shared objects, and an in-headset room editor. Released on the Oculus PC VR store.","headline":"Poly Space VR","image":{"alt":"Poly Space VR logo","url":"https://jackyang.io/assets/img/projects/PolySpaceLogo.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/polyspace/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-23T03:27:27+00:00","datePublished":"2021-01-01T00:00:00+00:00","description":"An open-source social VR app for up to eight people, with voice chat, shared objects, and an in-headset room editor. Released on the Oculus PC VR store.","headline":"Poly Space VR","image":{"alt":"Poly Space VR logo","url":"https://jackyang.io/assets/img/projects/PolySpaceLogo.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/polyspace/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -81,7 +81,7 @@
 
 
 <link rel="preload" href="/assets/fonts/noto-sans-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/roboto-slab-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/bricolage-grotesque-700.woff2" as="font" type="font/woff2" crossorigin>
 
 
 <link rel="preload" href="/assets/icomoon/fonts/icomoon-v2.woff2" as="font" type="font/woff2" crossorigin>
@@ -114,7 +114,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-09-22T15:57:07+00:00',
+    INDEX_KEY: 'index--2026-09-23T03:28:04+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -127,15 +127,15 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1790092627" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1790092627" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1790134084" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1790134084" id="_iconsPreload">
 
 
 
 
   <style id="_pageStyle">
 
-html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5);--accent-color-highlight: rgba(170,130,230,0.1);--accent-color-darkened: #9462e0;--theme-color: rgb(32,28,58);--dark-mode-body-bg: #2b2b2f;--dark-mode-border-color: #38373c}
+html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5);--accent-color-highlight: rgba(170,130,230,0.1);--accent-color-darkened: #9462e0;--theme-color: rgb(32,28,58);--dark-mode-body-bg: #23222b;--dark-mode-border-color: #2f2d39}
 
 </style>
 
@@ -310,7 +310,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <h2 id="why-eight-people">Why eight people?</h2>
 
-<p>I wanted somewhere to hang out with a few friends. Large public VR worlds often felt too noisy, and enterprise meeting tools felt too much like work.</p>
+<p>I wanted somewhere to hang out with a few friends in VR. Large public worlds often felt too noisy, and enterprise meeting tools felt too much like work.</p>
 
 <p>I capped rooms at eight people to keep voice, avatar poses, and shared physics manageable on consumer connections. A smaller session that held together mattered more to me than a larger participant count.</p>
 
@@ -318,7 +318,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <p>Low-poly models, baked lighting, and GPU instancing kept scene costs down. Photon handled networking for voice, avatar poses, and physics interactions.</p>
 
-<p>Hosts could rearrange a room and swap its contents at runtime using ScriptableObject templates. They didn’t need to write networking code to customize a space. Spatial audio, avatars, and shared objects gave people ways to interact beyond standing in a circle and talking.</p>
+<p>Hosts could rearrange a room and swap its contents at runtime using ScriptableObject templates, without writing any networking code. Spatial audio, avatars, and shared objects gave people ways to interact beyond standing in a circle and talking.</p>
 
 <h2 id="building-for-hosts">Building for hosts</h2>
 
@@ -328,7 +328,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <h2 id="what-i-kept-small">What I kept small</h2>
 
-<p>Room size and scene complexity were deliberate limits. More visual detail wasn’t worth making a conversation harder to follow.</p>
+<p>Room size and scene complexity were deliberate limits, because extra visual detail wasn’t worth making a conversation harder to follow.</p>
 
 <p>Poly Space became a place to try changes to networking, interactions, and moderation, then see how they affected a small group. Those experiments gave me practical experience I later brought to larger social platforms.</p>
 
@@ -347,7 +347,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">        <article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/mrtk/#project" >  <meta property="name" content="MRTK for Unity" />    <meta property="image" content="/assets/img/projects/mrtk_unity.webp" />  <a href="/projects/mrtk/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/mrtk_unity.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Mixed Reality Toolkit for Unity logo"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-personal">Personal</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2021-01-01T00:00:00+00:00">2021</time>                </p>        <h2 class="project-card-title">      <a href="/projects/mrtk/" class="project-transition" property="mainEntityOfPage">MRTK for Unity</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      Leap Motion integration work and a merged orientation example for Microsoft’s Mixed Reality Toolkit 2.7.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/mrtk/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>                  <div class="column column-1-2">        <article class="project-card" data-category="professional" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/mesh-avatars/#project" >  <meta property="name" content="Microsoft Mesh & Avatars for Teams" />    <meta property="image" content="/assets/img/projects/mesh-avatars.webp" />  <a href="/projects/mesh-avatars/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/mesh-avatars.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Microsoft Mesh immersive event with avatars gathered around a shared presentation"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-professional">Professional</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2022-06-01T00:00:00+00:00">2022</time>            – <time datetime="2024-09-01T00:00:00+00:00">2024</time>                </p>        <h2 class="project-card-title">      <a href="/projects/mesh-avatars/" class="project-transition" property="mainEntityOfPage">Microsoft Mesh & Avatars for Teams</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      My work on the shared UI, avatar editor, and rendering systems behind Microsoft Mesh and Avatars in Teams.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/mesh-avatars/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>      </div></aside>
+  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">        <article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/mrtk/#project" >  <meta property="name" content="MRTK for Unity" />    <meta property="image" content="/assets/img/projects/mrtk_unity.webp" />  <a href="/projects/mrtk/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/mrtk_unity.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Mixed Reality Toolkit for Unity logo"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-personal">Personal</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2021-01-01T00:00:00+00:00">2021</time>                </p>        <h2 class="project-card-title">      <a href="/projects/mrtk/" class="project-transition" property="mainEntityOfPage">MRTK for Unity</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      Leap Motion integration work and a merged orientation example for Microsoft’s Mixed Reality Toolkit 2.7.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/mrtk/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>                  <div class="column column-1-2">        <article class="project-card" data-category="professional" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/mesh-avatars/#project" >  <meta property="name" content="Microsoft Mesh & Avatars for Teams" />    <meta property="image" content="/assets/img/projects/mesh-avatars.webp" />  <a href="/projects/mesh-avatars/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/mesh-avatars.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Microsoft Mesh immersive event with avatars gathered around a shared presentation"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-professional">Professional</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2022-06-01T00:00:00+00:00">2022</time>            – <time datetime="2024-09-01T00:00:00+00:00">2024</time>                </p>        <h2 class="project-card-title">      <a href="/projects/mesh-avatars/" class="project-transition" property="mainEntityOfPage">Microsoft Mesh & Avatars for Teams</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      The shared UI, avatar editor, and rendering systems I worked on for Microsoft Mesh and Avatars in Teams, shipped weekly in 20+ languages to millions of users.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/mesh-avatars/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>      </div></aside>
 
 
 
@@ -400,7 +400,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     
       <p class="">
-        Building Real-Time Multimodal Agents for Live Human-AI Interaction
+        Building real-time AI agents for live conversation
 
       </p>
     
@@ -553,8 +553,9 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
   
 
-<script src="/assets/js/project-transition.js?v=2" type="module"></script>
-<script src="/assets/js/site-polish.js?v=1790092627" type="module"></script>
+
+<script src="/assets/js/project-transition.js?v=1790134084" type="module"></script>
+<script src="/assets/js/site-polish.js?v=1790134084" type="module"></script>
 
   
 

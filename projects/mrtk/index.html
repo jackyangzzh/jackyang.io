@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="Mixed Reality Toolkit for Unity logo" />
 <meta property="twitter:title" content="MRTK for Unity" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-22T15:56:27+00:00","datePublished":"2021-01-01T00:00:00+00:00","description":"Leap Motion integration work and a merged orientation example for Microsoft’s Mixed Reality Toolkit 2.7.","headline":"MRTK for Unity","image":{"alt":"Mixed Reality Toolkit for Unity logo","url":"https://jackyang.io/assets/img/projects/mrtk_unity.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/mrtk/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-23T03:27:27+00:00","datePublished":"2021-01-01T00:00:00+00:00","description":"Leap Motion integration work and a merged orientation example for Microsoft’s Mixed Reality Toolkit 2.7.","headline":"MRTK for Unity","image":{"alt":"Mixed Reality Toolkit for Unity logo","url":"https://jackyang.io/assets/img/projects/mrtk_unity.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/mrtk/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -81,7 +81,7 @@
 
 
 <link rel="preload" href="/assets/fonts/noto-sans-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/roboto-slab-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/bricolage-grotesque-700.woff2" as="font" type="font/woff2" crossorigin>
 
 
 <link rel="preload" href="/assets/icomoon/fonts/icomoon-v2.woff2" as="font" type="font/woff2" crossorigin>
@@ -114,7 +114,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-09-22T15:57:07+00:00',
+    INDEX_KEY: 'index--2026-09-23T03:28:04+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -127,15 +127,15 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1790092627" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1790092627" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1790134084" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1790134084" id="_iconsPreload">
 
 
 
 
   <style id="_pageStyle">
 
-html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5);--accent-color-highlight: rgba(170,130,230,0.1);--accent-color-darkened: #9462e0;--theme-color: rgb(32,28,58);--dark-mode-body-bg: #2b2b2f;--dark-mode-border-color: #38373c}
+html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5);--accent-color-highlight: rgba(170,130,230,0.1);--accent-color-darkened: #9462e0;--theme-color: rgb(32,28,58);--dark-mode-body-bg: #23222b;--dark-mode-border-color: #2f2d39}
 
 </style>
 
@@ -314,16 +314,22 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <figure class="project-video">
     <div class="project-video-frame">
-        <iframe src="https://www.youtube.com/embed/-E4QYB3zIm0" title="MRTK for Unity" loading="lazy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <a class="video-poster no-mark-external" href="https://www.youtube.com/watch?v=-E4QYB3zIm0" data-video-id="-E4QYB3zIm0" data-video-title="MRTK for Unity" target="_blank" rel="noopener noreferrer">
+            <img class="video-poster__thumb" src="https://i.ytimg.com/vi/-E4QYB3zIm0/hqdefault.jpg" srcset="https://i.ytimg.com/vi/-E4QYB3zIm0/mqdefault.jpg 320w, https://i.ytimg.com/vi/-E4QYB3zIm0/maxresdefault.jpg 1280w" sizes="(min-width: 86em) 52rem, (min-width: 42em) 40rem, 100vw" alt="" width="1280" height="720" loading="lazy" decoding="async" />
+            <span class="video-poster__play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="24" height="24" focusable="false"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" /></svg>
+            </span>
+            <span class="video-poster__title">MRTK for Unity<span class="sr-only"> (play video)</span></span>
+        </a>
     </div>
     
 </figure>
 
 <h2 id="my-contribution-in-mrtk-27">My contribution in MRTK 2.7</h2>
 
-<p>My primary public contribution is <a href="https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726">PR #9726</a>. Orientation settings can be hard to understand from a configuration panel. The scene lets developers see how MRTK interprets a tracked hand in each supported mode.</p>
+<p>My main public contribution is <a href="https://github.com/microsoft/MixedRealityToolkit-Unity/pull/9726">PR #9726</a>, an example scene for hand-tracking orientation settings. Those settings are hard to understand from a configuration panel, so the scene lets developers see how MRTK interprets a tracked hand in each supported mode.</p>
 
-<p>I removed hard dependencies so the scene could load before the Leap Motion Unity module was installed. Maintainer reviews also helped keep the example consistent with the rest of MRTK. It needed to explain the feature without asking developers to learn another setup process.</p>
+<p>I removed hard dependencies so the scene could load even before the Leap Motion Unity module was installed, since an example should explain the feature without sending developers through another setup process first. Maintainer reviews helped keep it consistent with the rest of MRTK.</p>
 
 <h2 id="integration-work">Integration work</h2>
 
@@ -337,7 +343,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <h2 id="working-in-someone-elses-project">Working in someone else’s project</h2>
 
-<p>A sample working on my machine wasn’t enough. It had to coexist with optional packages, different project setups, and code I hadn’t seen. Compatibility checks, tests, and maintainer feedback shaped the contribution as much as the feature did.</p>
+<p>Getting the sample to work on my machine turned out to be the easy part. In a shared toolkit, it also had to coexist with optional packages, other people’s project setups, and code I hadn’t written. In fact, the compatibility checks, tests, and maintainer feedback shaped the final PR as much as the feature itself.</p>
 
   </div>
 </article>
@@ -407,7 +413,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
     
     
       <p class="">
-        Building Real-Time Multimodal Agents for Live Human-AI Interaction
+        Building real-time AI agents for live conversation
 
       </p>
     
@@ -560,8 +566,9 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <script src="/assets/js/LEGACY-hydejack-9.1.6.js" nomodule defer></script>
   
 
-<script src="/assets/js/project-transition.js?v=2" type="module"></script>
-<script src="/assets/js/site-polish.js?v=1790092627" type="module"></script>
+
+<script src="/assets/js/project-transition.js?v=1790134084" type="module"></script>
+<script src="/assets/js/site-polish.js?v=1790134084" type="module"></script>
 
   
 

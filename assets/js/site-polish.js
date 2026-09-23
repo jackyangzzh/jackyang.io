@@ -169,15 +169,85 @@
       const button = event.target instanceof Element && event.target.closest("[data-filter]");
       if (!button) return;
       const filter = button.dataset.filter;
-      applyFilter(filter);
+      runFilterTransition(items, () => {
+        applyFilter(filter);
+        setupReveal();
+      });
       const url = new URL(location.href);
       if (filter === "all") url.searchParams.delete("category");
       else url.searchParams.set("category", filter);
       // Keep the selection shareable without reloading or adding a history entry
       // for each button press. Preserve the theme's own history-state data.
       history.replaceState(history.state, "", url);
-      setupReveal();
     });
+  };
+
+  /* ------------------------------------------------------- view transitions */
+
+  const canTransition = () =>
+    typeof document.startViewTransition === "function" && !(reducedMotion && reducedMotion.matches);
+
+  // Cards that stay glide to their new slots; the rest shrink out or grow in
+  // (see "Project filters" in my-style.scss). Every card gets a unique name
+  // only for the life of the transition, so no other view transition (the
+  // theme switch) ever sees them.
+  const runFilterTransition = (items, update) => {
+    if (!canTransition()) {
+      update();
+      return;
+    }
+    items.forEach((item, index) => {
+      item.style.viewTransitionName = `project-card-${index}`;
+    });
+    root.classList.add("is-filtering");
+    const cleanUp = () => {
+      root.classList.remove("is-filtering");
+      for (const item of items) item.style.viewTransitionName = "";
+    };
+    try {
+      document.startViewTransition(update).finished.finally(cleanUp);
+    } catch {
+      cleanUp();
+      update();
+    }
+  };
+
+  // The theme's toggle flips body classes synchronously in its own click
+  // handler. Catch the click first, start a view transition, and replay the
+  // click inside it, so the theme still owns the switch (and the `t` shortcut,
+  // which clicks the same button, gets the effect for free). The new scheme is
+  // then revealed as a circle growing out of the button.
+  let themeClickReplay = false;
+  const onThemeToggleClick = (event) => {
+    if (themeClickReplay || !canTransition()) return;
+    const button = event.target instanceof Element && event.target.closest("#_dark-mode");
+    if (!button) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    const rect = button.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+
+    root.classList.add("is-theme-switching");
+    const transition = document.startViewTransition(() => {
+      themeClickReplay = true;
+      try {
+        button.click();
+      } finally {
+        themeClickReplay = false;
+      }
+    });
+    transition.ready
+      .then(() => {
+        root.animate(
+          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+          { duration: 560, easing: "cubic-bezier(.4, 0, .2, 1)", pseudoElement: "::view-transition-new(root)" }
+        );
+      })
+      .catch(() => {});
+    transition.finished.finally(() => root.classList.remove("is-theme-switching"));
   };
 
   /* ------------------------------------------------------- copy email address */
@@ -444,6 +514,50 @@
     }
   };
 
+  /* ------------------------------------------------------------ video posters */
+
+  // YouTube serves a 120px grey placeholder (not an error) when a video has
+  // no high-resolution thumbnail; either way, fall back to the one that
+  // always exists.
+  const setupVideoPosters = () => {
+    for (const poster of document.querySelectorAll(".video-poster[data-video-id]")) {
+      const img = poster.querySelector(".video-poster__thumb");
+      if (!img || img.dataset.fallbackReady) continue;
+      img.dataset.fallbackReady = "true";
+      const fallback = () => {
+        if (img.dataset.fellBack) return;
+        img.dataset.fellBack = "true";
+        img.removeAttribute("srcset");
+        img.src = `https://i.ytimg.com/vi/${encodeURIComponent(poster.dataset.videoId)}/hqdefault.jpg`;
+      };
+      const check = () => {
+        if (img.naturalWidth > 0 && img.naturalWidth <= 120) fallback();
+      };
+      img.addEventListener("error", fallback);
+      img.addEventListener("load", check);
+      if (img.complete) check();
+    }
+  };
+
+  // Swap the poster for the real player. Modified clicks (new tab, new window)
+  // keep the link's own behaviour and open the video on YouTube.
+  const onVideoPosterClick = (event) => {
+    if (event.defaultPrevented || event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const poster = event.target instanceof Element && event.target.closest(".video-poster[data-video-id]");
+    if (!poster) return;
+    event.preventDefault();
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(poster.dataset.videoId)}?autoplay=1&rel=0&playsinline=1`;
+    iframe.title = poster.dataset.videoTitle || "Video";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    poster.parentElement.classList.add("is-playing");
+    poster.replaceWith(iframe);
+    iframe.focus();
+  };
+
   /* -------------------------------------------------------------------- init */
 
   const init = () => {
@@ -454,6 +568,7 @@
     setupReadingProgress();
     setupKeyboardShortcuts();
     setupCardSpotlight();
+    setupVideoPosters();
   };
 
   if (document.readyState === "loading") {
@@ -463,6 +578,10 @@
   }
 
   document.addEventListener("click", onDocumentClick);
+  document.addEventListener("click", onVideoPosterClick);
+  // Capture phase, so the theme's own handler on the button runs only on the
+  // replayed click inside the transition.
+  document.addEventListener("click", onThemeToggleClick, true);
 
   // The sidebar and toolbar persist while the main content is replaced.
   if (pushState) {
