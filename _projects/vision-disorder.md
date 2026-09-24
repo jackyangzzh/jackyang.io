@@ -8,6 +8,10 @@ date: '01-01-2020'
 category: research
 image: 
   path: /assets/img/projects/kats.webp
+  srcset:
+    - [480, /assets/img/projects/kats-480.webp]
+    - [720, /assets/img/projects/kats-720.webp]
+    - [854, /assets/img/projects/kats.webp]
   alt: VR headset displaying different color-adjusted scenes to the left and right eyes
 links:
   - title: Technical Report
@@ -26,7 +30,7 @@ These were built for teaching and early perception experiments, and diagnosis wa
 
 ## Color vision deficiency
 
-![Color vision deficiency simulation](/assets/img/projects/colorDeficiencyCover.webp){:loading="lazy"}
+<img src="/assets/img/projects/colorDeficiencyCover.webp" srcset="/assets/img/projects/colorDeficiencyCover-480.webp 480w, /assets/img/projects/colorDeficiencyCover-720.webp 720w, /assets/img/projects/colorDeficiencyCover.webp 837w" sizes="(min-width: 42em) 40rem, 100vw" alt="Color vision deficiency simulation" loading="lazy" decoding="async" width="837" height="276">
 
 I designed chromatic adjustment algorithms to approximate how people with color vision deficiency perceive hyperspectral images. The system reached 90% accuracy in simulating color vision deficiency. I then built a color-calibrated VR demo for comparing the transformed image with its reference. That result doesn't mean the simulation can reproduce every person's vision.
 
@@ -34,8 +38,8 @@ I designed chromatic adjustment algorithms to approximate how people with color 
 
 ## Binocular rivalry
 
-<video src="/assets/img/projects/staticRivalry.webm" autoplay loop muted playsinline preload="metadata" aria-label="Static rivalry demonstration"></video>
-<video src="/assets/img/projects/dynamicRivalry.webm" autoplay loop muted playsinline preload="metadata" aria-label="Dynamic rivalry demonstration"></video>
+<video src="/assets/img/projects/staticRivalry.webm" loop muted playsinline controls preload="none" poster="/assets/img/projects/kats.webp" data-deferred-video data-autoplay="true" aria-label="Static rivalry demonstration"></video>
+<video src="/assets/img/projects/dynamicRivalry.webm" loop muted playsinline controls preload="none" poster="/assets/img/projects/kats.webp" data-deferred-video data-autoplay="true" aria-label="Dynamic rivalry demonstration"></video>
 
 Normally, the visual system merges what each eye sees into a single image. Using the headset in place of a mirror stereoscope, I showed each eye different static and moving content to produce controlled rivalry effects.
 

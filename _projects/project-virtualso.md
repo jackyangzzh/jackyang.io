@@ -8,6 +8,10 @@ date: '01-01-2020'
 category: personal
 image: 
   path: /assets/img/projects/virtualso.webp
+  srcset:
+    - [480, /assets/img/projects/virtualso-480.webp]
+    - [720, /assets/img/projects/virtualso-720.webp]
+    - [854, /assets/img/projects/virtualso.webp]
   alt: Project Virtualso interview simulation with a virtual interviewer in an office
 links:
   - title: Interview demo

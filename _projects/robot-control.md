@@ -8,6 +8,10 @@ date: '01-01-2020'
 category: research
 image: 
   path: /assets/img/projects/mimicry.webp
+  srcset:
+    - [480, /assets/img/projects/mimicry-480.webp]
+    - [720, /assets/img/projects/mimicry-720.webp]
+    - [854, /assets/img/projects/mimicry.webp]
   alt: VR simulation of an industrial robotic arm moving objects between worktables
 links:
   - title: Teleoperation demo

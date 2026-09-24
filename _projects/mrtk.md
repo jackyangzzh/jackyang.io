@@ -8,6 +8,10 @@ date: '01-01-2021'
 category: personal
 image: 
   path: /assets/img/projects/mrtk_unity.webp
+  srcset:
+    - [480, /assets/img/projects/mrtk_unity-480.webp]
+    - [720, /assets/img/projects/mrtk_unity-720.webp]
+    - [731, /assets/img/projects/mrtk_unity.webp]
   alt: Mixed Reality Toolkit for Unity logo
 links:
   - title: Merged contribution

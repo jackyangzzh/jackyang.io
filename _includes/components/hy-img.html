@@ -3,7 +3,7 @@
   {% assign srcset = null %}
 
   {% if include.img.srcset %}
-    {% capture srcset %}{% for hash in include.img.srcset %}{% assign tmp = hash[1] %}{% include_cached smart-url url=tmp %} {{ hash[0] }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
+    {% capture srcset %}{% for hash in include.img.srcset %}{% assign tmp = hash[1] %}{% include_cached smart-url url=tmp %} {{ hash[0] }}w{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
   {% endif %}
 
   {% assign src = include.img.src | default:include.img.path %}
@@ -25,5 +25,7 @@
   {% if include.property %}property="{{ include.property }}"{% endif %}
   {% if include.width %}width="{{ include.width }}"{% endif %}
   {% if include.height %}height="{{ include.height }}"{% endif %}
-  loading="lazy"
+  loading="{{ include.loading | default: 'lazy' }}"
+  {% if include.fetchpriority and include.fetchpriority != '' %}fetchpriority="{{ include.fetchpriority }}"{% endif %}
+  decoding="{{ include.decoding | default: 'async' }}"
 />

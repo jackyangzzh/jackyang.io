@@ -16,11 +16,14 @@
         <a class="video-poster no-mark-external" href="https://www.youtube.com/watch?v={{ video_id }}"
             data-video-id="{{ video_id }}" data-video-title="{{ video_title | escape }}"
             target="_blank" rel="noopener noreferrer">
-            <img class="video-poster__thumb"
-                src="https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg"
-                srcset="https://i.ytimg.com/vi/{{ video_id }}/mqdefault.jpg 320w, https://i.ytimg.com/vi/{{ video_id }}/maxresdefault.jpg 1280w"
-                sizes="(min-width: 86em) 52rem, (min-width: 42em) 40rem, 100vw"
-                alt="" width="1280" height="720" loading="lazy" decoding="async">
+            <picture>
+                <source media="(min-width: 42em)" srcset="https://i.ytimg.com/vi/{{ video_id }}/maxresdefault.jpg 1280w" sizes="(min-width: 86em) 52rem, 40rem">
+                <img class="video-poster__thumb"
+                    src="https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg"
+                    srcset="https://i.ytimg.com/vi/{{ video_id }}/mqdefault.jpg 320w, https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg 480w"
+                    sizes="100vw"
+                    alt="" width="1280" height="720" loading="lazy" decoding="async" fetchpriority="low">
+            </picture>
             <span class="video-poster__play" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="24" height="24" focusable="false"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
             </span>

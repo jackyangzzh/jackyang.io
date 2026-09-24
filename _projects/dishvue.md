@@ -8,6 +8,12 @@ date: '01-01-2024'
 category: personal
 image: 
   path: /assets/img/projects/DishVue.webp
+  srcset:
+    - [480, /assets/img/projects/DishVue-480.webp]
+    - [720, /assets/img/projects/DishVue-720.webp]
+    - [960, /assets/img/projects/DishVue-960.webp]
+    - [1440, /assets/img/projects/DishVue-1440.webp]
+    - [1672, /assets/img/projects/DishVue.webp]
   alt: DishVue wordmark over a scanned 3D dish displayed in translucent spatial menu panels
 links:
   - title: Demo

@@ -9,6 +9,12 @@ end_date: '2022-05-01'
 category: professional
 image:
   path: /assets/img/projects/holos.webp
+  srcset:
+    - [480, /assets/img/projects/holos-480.webp]
+    - [720, /assets/img/projects/holos-720.webp]
+    - [960, /assets/img/projects/holos-960.webp]
+    - [1440, /assets/img/projects/holos-1440.webp]
+    - [2000, /assets/img/projects/holos.webp]
   alt: Holos immersive training scene with an aircraft cockpit model and interactive instruction panels
 links:
   - title: Holos

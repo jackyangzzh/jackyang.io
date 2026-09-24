@@ -9,6 +9,12 @@ end_date: '2024-09-01'
 category: professional
 image:
   path: /assets/img/projects/mesh-avatars.webp
+  srcset:
+    - [480, /assets/img/projects/mesh-avatars-480.webp]
+    - [720, /assets/img/projects/mesh-avatars-720.webp]
+    - [960, /assets/img/projects/mesh-avatars-960.webp]
+    - [1440, /assets/img/projects/mesh-avatars-1440.webp]
+    - [2560, /assets/img/projects/mesh-avatars.webp]
   alt: Microsoft Mesh immersive event with avatars gathered around a shared presentation
 links:
   - title: Immersive events in Teams
@@ -38,7 +44,7 @@ I contributed to the shared UI toolkit used across desktop, web-hosted surfaces,
 I built the main editor for bodies, faces, hair, outfits, and accessories, working with design and art teams. We needed enough choice for people to represent themselves without making the first visit overwhelming. I also tuned loading and asset swaps to keep the live preview responsive within the memory limits of lower-end hardware.
 
 <figure>
-<img src="/assets/img/projects/mesh-avatars-outfit-selection.webp" alt="Microsoft Teams avatar builder showing the Choose an outfit step on a large screen behind Satya Nadella during a Microsoft presentation" loading="lazy" width="1694" height="948">
+<img src="/assets/img/projects/mesh-avatars-outfit-selection.webp" srcset="/assets/img/projects/mesh-avatars-outfit-selection-480.webp 480w, /assets/img/projects/mesh-avatars-outfit-selection-720.webp 720w, /assets/img/projects/mesh-avatars-outfit-selection-960.webp 960w, /assets/img/projects/mesh-avatars-outfit-selection-1440.webp 1440w, /assets/img/projects/mesh-avatars-outfit-selection.webp 1694w" sizes="(min-width: 42em) 40rem, 100vw" alt="Microsoft Teams avatar builder showing the Choose an outfit step on a large screen behind Satya Nadella during a Microsoft presentation" loading="lazy" decoding="async" width="1694" height="948">
 <figcaption class="figcaption">The outfit-selection page I built for Teams avatar customization, shown by Satya Nadella (Microsoft CEO) at Ignite. <a href="https://youtu.be/FZhbJZEgKQ4?si=-ymHCWmR4zGCshEm&amp;t=2703">Watch the segment at 45:03</a>.</figcaption>
 </figure>
 

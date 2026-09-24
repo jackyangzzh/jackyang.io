@@ -7,7 +7,7 @@
     {% endif %}
   </div>
   {% if basics.picture.size > 0 %}
-    <img src="{{ basics.picture | relative_url }}" class="avatar photo u-photo" alt="{{ basics.name }}" property="image" width="120" height="120" loading="eager" decoding="async" />
+    <img src="{{ basics.picture | relative_url }}" srcset="/assets/img/profile128.webp 128w, /assets/img/profile256.webp 256w, /assets/img/profile.webp 694w" sizes="120px" class="avatar photo u-photo" alt="{{ basics.name }}" property="image" width="120" height="120" loading="eager" decoding="async" />
   {% endif %}
 </header>
 

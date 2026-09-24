@@ -8,6 +8,10 @@ date: '01-01-2021'
 category: personal
 image: 
   path: /assets/img/projects/PolySpaceLogo.webp
+  srcset:
+    - [480, /assets/img/projects/PolySpaceLogo-480.webp]
+    - [720, /assets/img/projects/PolySpaceLogo-720.webp]
+    - [854, /assets/img/projects/PolySpaceLogo.webp]
   alt: Poly Space VR logo
 links:
   - title: Meta PC VR Store

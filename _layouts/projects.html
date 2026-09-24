@@ -86,7 +86,7 @@ default:false %}
       class="column {% if featured %}column-1{% else %}column-1-2{% endif %} project-column"
       data-category="{{ card_category }}"
     >
-      {% include_cached pro/project-card.html project=project featured=featured
+      {% include_cached pro/project-card.html project=project featured=featured first=forloop.first
       %}
     </div>
 

@@ -9,6 +9,11 @@ date: '07-01-2026'
 category: personal
 image:
   path: /assets/img/projects/fakehaul.webp
+  srcset:
+    - [480, /assets/img/projects/fakehaul-480.webp]
+    - [720, /assets/img/projects/fakehaul-720.webp]
+    - [960, /assets/img/projects/fakehaul-960.webp]
+    - [1200, /assets/img/projects/fakehaul.webp]
   alt: FakeHaul checkout graphic showing a $1,248.50 cart reduced to $0.00
 links:
   - title: Live site

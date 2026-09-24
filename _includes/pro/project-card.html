@@ -13,13 +13,13 @@
 {% capture sizes %}(min-width: {{ break_point_5 }}em) {{ content_width_5 | plus:2 }}rem,
 (min-width: {{ break_point_2 }}em) {{ content_width_2 | plus:2 }}rem,
 (min-width: {{ break_point_1 }}em) {{ content_width | plus:2 }}rem,
-{{ content_width }}rem
+100vw
 {% endcapture %}
 {% else %}
 {% capture sizes %}(min-width: {{ break_point_5 }}em) {{ content_width_5 | plus:2 | divided_by:2 | minus:0.5 }}rem,
 (min-width: {{ break_point_2 }}em) {{ content_width_2 | plus:2 | divided_by:2 | minus:0.5 }}rem,
 (min-width: {{ break_point_1 }}em) {{ content_width | plus:2 | divided_by:2 | minus:0.5 }}rem,
-{{ content_width }}rem
+100vw
 {% endcapture %}
 {% endif %}
 {% assign sizes = sizes | strip_newlines %}
@@ -29,8 +29,15 @@
 {% assign image_alt = screenshot.alt | default:project.title %}
 {% assign proj_format = site.data.strings.date_formats.project | default:"%Y" %}
 
-{% assign project_category = project.category | default:'other' | downcase %}
-{% case project_category %}
+  {% assign project_category = project.category | default:'other' | downcase %}
+  {% if include.first %}
+    {% assign image_loading = 'eager' %}
+    {% assign image_fetchpriority = 'high' %}
+  {% else %}
+    {% assign image_loading = 'lazy' %}
+    {% assign image_fetchpriority = '' %}
+  {% endif %}
+  {% case project_category %}
   {% when 'professional' %}{% assign project_category_label = 'Professional' %}
   {% when 'personal' %}{% assign project_category_label = 'Personal' %}
   {% when 'research' %}{% assign project_category_label = 'Research' %}
@@ -46,7 +53,7 @@
   <a href="{{ project.url | relative_url }}" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">
     <div class="project-card-img aspect-ratio sixteen-nine flip-project-img {% unless screenshot %}fallback-img{% endunless %}">
       {% if screenshot %}
-      {% include_cached components/hy-img.html img=screenshot alt=image_alt sizes=sizes width=864 height=486 %}
+      {% include_cached components/hy-img.html img=screenshot alt=image_alt sizes=sizes width=864 height=486 loading=image_loading fetchpriority=image_fetchpriority %}
       {% endif %}
     </div>
   </a>
