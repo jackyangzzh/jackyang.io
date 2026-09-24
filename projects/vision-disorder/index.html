@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="VR headset displaying different color-adjusted scenes to the left and right eyes" />
 <meta property="twitter:title" content="Color Vision &amp; Binocular Rivalry in VR" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-23T03:27:27+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"Two research prototypes using consumer VR headsets to explore color vision deficiency and binocular rivalry.","headline":"Color Vision &amp; Binocular Rivalry in VR","image":{"alt":"VR headset displaying different color-adjusted scenes to the left and right eyes","url":"https://jackyang.io/assets/img/projects/kats.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/vision-disorder/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-24T14:59:29+00:00","datePublished":"2020-01-01T00:00:00+00:00","description":"Two research prototypes using consumer VR headsets to explore color vision deficiency and binocular rivalry.","headline":"Color Vision &amp; Binocular Rivalry in VR","image":{"srcset":[[480,"/assets/img/projects/kats-480.webp"],[720,"/assets/img/projects/kats-720.webp"],[854,"/assets/img/projects/kats.webp"]],"alt":"VR headset displaying different color-adjusted scenes to the left and right eyes","url":"https://jackyang.io/assets/img/projects/kats.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/vision-disorder/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -114,7 +114,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-09-23T03:28:04+00:00',
+    INDEX_KEY: 'index--2026-09-24T15:00:15+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -127,8 +127,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1790134084" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1790134084" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1790262015" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1790262015" id="_iconsPreload">
 
 
 
@@ -272,7 +272,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 <img
   
     src="/assets/img/projects/kats.webp"
-    
+    srcset="/assets/img/projects/kats-480.webp 480w,/assets/img/projects/kats-720.webp 720w,/assets/img/projects/kats.webp 854w"
     sizes="(min-width:86em)28rem,(min-width:54em)25rem,(min-width:42em)40rem,100vw"
   
   alt="VR headset displaying different color-adjusted scenes to the left and right eyes"
@@ -280,7 +280,9 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   property="image"
   width="864"
   height="486"
-  loading="lazy"
+  loading="eager"
+  fetchpriority="high"
+  decoding="async"
 />
 
         
@@ -316,7 +318,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <h2 id="color-vision-deficiency">Color vision deficiency</h2>
 
-<p><img src="/assets/img/projects/colorDeficiencyCover.webp" alt="Color vision deficiency simulation" loading="lazy" /></p>
+<p><img src="/assets/img/projects/colorDeficiencyCover.webp" srcset="/assets/img/projects/colorDeficiencyCover-480.webp 480w, /assets/img/projects/colorDeficiencyCover-720.webp 720w, /assets/img/projects/colorDeficiencyCover.webp 837w" sizes="(min-width: 42em) 40rem, 100vw" alt="Color vision deficiency simulation" loading="lazy" decoding="async" width="837" height="276" /></p>
 
 <p>I designed chromatic adjustment algorithms to approximate how people with color vision deficiency perceive hyperspectral images. The system reached 90% accuracy in simulating color vision deficiency. I then built a color-calibrated VR demo for comparing the transformed image with its reference. That result doesn’t mean the simulation can reproduce every person’s vision.</p>
 
@@ -324,8 +326,8 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 <h2 id="binocular-rivalry">Binocular rivalry</h2>
 
-<video src="/assets/img/projects/staticRivalry.webm" autoplay="" loop="" muted="" playsinline="" preload="metadata" aria-label="Static rivalry demonstration"></video>
-<video src="/assets/img/projects/dynamicRivalry.webm" autoplay="" loop="" muted="" playsinline="" preload="metadata" aria-label="Dynamic rivalry demonstration"></video>
+<video src="/assets/img/projects/staticRivalry.webm" loop="" muted="" playsinline="" controls="" preload="none" poster="/assets/img/projects/kats.webp" data-deferred-video="" data-autoplay="true" aria-label="Static rivalry demonstration"></video>
+<video src="/assets/img/projects/dynamicRivalry.webm" loop="" muted="" playsinline="" controls="" preload="none" poster="/assets/img/projects/kats.webp" data-deferred-video="" data-autoplay="true" aria-label="Dynamic rivalry demonstration"></video>
 
 <p>Normally, the visual system merges what each eye sees into a single image. Using the headset in place of a mirror stereoscope, I showed each eye different static and moving content to produce controlled rivalry effects.</p>
 
@@ -358,7 +360,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">        <article class="project-card" data-category="research" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/robot-control/#project" >  <meta property="name" content="Robot Control Through VR" />    <meta property="image" content="/assets/img/projects/mimicry.webp" />  <a href="/projects/robot-control/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/mimicry.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="VR simulation of an industrial robotic arm moving objects between worktables"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-research">Research</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2020-01-01T00:00:00+00:00">2020</time>                </p>        <h2 class="project-card-title">      <a href="/projects/robot-control/" class="project-transition" property="mainEntityOfPage">Robot Control Through VR</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      A research prototype for controlling a robotic arm with hand movements in VR, plus a replay tool for recorded lab experiments.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/robot-control/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>                  <div class="column column-1-2">        <article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/mrtk/#project" >  <meta property="name" content="MRTK for Unity" />    <meta property="image" content="/assets/img/projects/mrtk_unity.webp" />  <a href="/projects/mrtk/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/mrtk_unity.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Mixed Reality Toolkit for Unity logo"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-personal">Personal</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2021-01-01T00:00:00+00:00">2021</time>                </p>        <h2 class="project-card-title">      <a href="/projects/mrtk/" class="project-transition" property="mainEntityOfPage">MRTK for Unity</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      Leap Motion integration work and a merged orientation example for Microsoft’s Mixed Reality Toolkit 2.7.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/mrtk/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>      </div></aside>
+  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">              <article class="project-card" data-category="research" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/robot-control/#project" >  <meta property="name" content="Robot Control Through VR" />    <meta property="image" content="/assets/img/projects/mimicry.webp" />  <a href="/projects/robot-control/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/mimicry.webp"    srcset="/assets/img/projects/mimicry-480.webp 480w,/assets/img/projects/mimicry-720.webp 720w,/assets/img/projects/mimicry.webp 854w"    sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,100vw"    alt="VR simulation of an industrial robotic arm moving objects between worktables"      width="864"  height="486"  loading="eager"  fetchpriority="high"  decoding="async"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-research">Research</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2020-01-01T00:00:00+00:00">2020</time>                </p>        <h2 class="project-card-title">      <a href="/projects/robot-control/" class="project-transition" property="mainEntityOfPage">Robot Control Through VR</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      A research prototype for controlling a robotic arm with hand movements in VR, plus a replay tool for recorded lab experiments.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/robot-control/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>                  <div class="column column-1-2">              <article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/mrtk/#project" >  <meta property="name" content="MRTK for Unity" />    <meta property="image" content="/assets/img/projects/mrtk_unity.webp" />  <a href="/projects/mrtk/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/mrtk_unity.webp"    srcset="/assets/img/projects/mrtk_unity-480.webp 480w,/assets/img/projects/mrtk_unity-720.webp 720w,/assets/img/projects/mrtk_unity.webp 731w"    sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,100vw"    alt="Mixed Reality Toolkit for Unity logo"      width="864"  height="486"  loading="eager"  fetchpriority="high"  decoding="async"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-personal">Personal</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2021-01-01T00:00:00+00:00">2021</time>                </p>        <h2 class="project-card-title">      <a href="/projects/mrtk/" class="project-transition" property="mainEntityOfPage">MRTK for Unity</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      Leap Motion integration work and a merged orientation example for Microsoft’s Mixed Reality Toolkit 2.7.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/mrtk/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>      </div></aside>
 
 
 
@@ -404,7 +406,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <div class="sidebar-about">
     
       <a class="no-hover" href="/" tabindex="-1">
-        <img src="/assets/img/profile.webp" class="avatar" alt="Jack Yang" width="120" height="120" loading="eager" fetchpriority="high" decoding="async" />
+        <img src="/assets/img/profile.webp" srcset="/assets/img/profile128.webp 128w, /assets/img/profile256.webp 256w, /assets/img/profile.webp 694w" sizes="120px" class="avatar" alt="Jack Yang" width="120" height="120" loading="eager" fetchpriority="high" decoding="async" />
       </a>
     
     <a class="sidebar-title" href="/"><h2 class="h1">Jack Yang</h2></a>
@@ -565,8 +567,8 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   
 
 
-<script src="/assets/js/project-transition.js?v=1790134084" type="module"></script>
-<script src="/assets/js/site-polish.js?v=1790134084" type="module"></script>
+<script src="/assets/js/project-transition.js?v=1790262015" type="module"></script>
+<script src="/assets/js/site-polish.js?v=1790262015" type="module"></script>
 
   
 

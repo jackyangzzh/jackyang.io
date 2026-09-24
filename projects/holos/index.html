@@ -37,7 +37,7 @@
 <meta name="twitter:image:alt" content="Holos immersive training scene with an aircraft cockpit model and interactive instruction panels" />
 <meta property="twitter:title" content="Holos" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-23T03:27:27+00:00","datePublished":"2019-02-01T00:00:00+00:00","description":"Hand interaction, multiplayer networking, and 3D content workflows I built for Holos’s AR and VR training platform.","headline":"Holos","image":{"alt":"Holos immersive training scene with an aircraft cockpit model and interactive instruction panels","url":"https://jackyang.io/assets/img/projects/holos.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/holos/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Jack Yang"},"dateModified":"2026-09-24T14:59:29+00:00","datePublished":"2019-02-01T00:00:00+00:00","description":"Hand interaction, multiplayer networking, and 3D content workflows I built for Holos’s AR and VR training platform.","headline":"Holos","image":{"srcset":[[480,"/assets/img/projects/holos-480.webp"],[720,"/assets/img/projects/holos-720.webp"],[960,"/assets/img/projects/holos-960.webp"],[1440,"/assets/img/projects/holos-1440.webp"],[2000,"/assets/img/projects/holos.webp"]],"alt":"Holos immersive training scene with an aircraft cockpit model and interactive instruction panels","url":"https://jackyang.io/assets/img/projects/holos.webp","@type":"imageObject"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://jackyang.io/assets/img/profile.webp"},"name":"Jack Yang"},"url":"https://jackyang.io/projects/holos/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -114,7 +114,7 @@
   w._search = {
     DATA_URL: '/assets/sitedata.json?no-cache',
     STORAGE_KEY: 'mini-search/',
-    INDEX_KEY: 'index--2026-09-23T03:28:04+00:00',
+    INDEX_KEY: 'index--2026-09-24T15:00:15+00:00',
   };
   w._clapButton = true;
 }(window);</script>
@@ -127,8 +127,8 @@
 
 
 
-<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1790134084" id="_stylePreload">
-<link rel="stylesheet" href="/assets/icomoon/style.css?v=1790134084" id="_iconsPreload">
+<link rel="stylesheet" href="/assets/css/hydejack-9.1.6.css?v=1790262015" id="_stylePreload">
+<link rel="stylesheet" href="/assets/icomoon/style.css?v=1790262015" id="_iconsPreload">
 
 
 
@@ -275,7 +275,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 <img
   
     src="/assets/img/projects/holos.webp"
-    
+    srcset="/assets/img/projects/holos-480.webp 480w,/assets/img/projects/holos-720.webp 720w,/assets/img/projects/holos-960.webp 960w,/assets/img/projects/holos-1440.webp 1440w,/assets/img/projects/holos.webp 2000w"
     sizes="(min-width:86em)28rem,(min-width:54em)25rem,(min-width:42em)40rem,100vw"
   
   alt="Holos immersive training scene with an aircraft cockpit model and interactive instruction panels"
@@ -283,7 +283,9 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   property="image"
   width="864"
   height="486"
-  loading="lazy"
+  loading="eager"
+  fetchpriority="high"
+  decoding="async"
 />
 
         
@@ -310,7 +312,10 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 <figure class="project-video">
     <div class="project-video-frame">
         <a class="video-poster no-mark-external" href="https://www.youtube.com/watch?v=s3_ax616TCo" data-video-id="s3_ax616TCo" data-video-title="Holos AR/VR training platform demonstration" target="_blank" rel="noopener noreferrer">
-            <img class="video-poster__thumb" src="https://i.ytimg.com/vi/s3_ax616TCo/hqdefault.jpg" srcset="https://i.ytimg.com/vi/s3_ax616TCo/mqdefault.jpg 320w, https://i.ytimg.com/vi/s3_ax616TCo/maxresdefault.jpg 1280w" sizes="(min-width: 86em) 52rem, (min-width: 42em) 40rem, 100vw" alt="" width="1280" height="720" loading="lazy" decoding="async" />
+            <picture>
+                <source media="(min-width: 42em)" srcset="https://i.ytimg.com/vi/s3_ax616TCo/maxresdefault.jpg 1280w" sizes="(min-width: 86em) 52rem, 40rem" />
+                <img class="video-poster__thumb" src="https://i.ytimg.com/vi/s3_ax616TCo/hqdefault.jpg" srcset="https://i.ytimg.com/vi/s3_ax616TCo/mqdefault.jpg 320w, https://i.ytimg.com/vi/s3_ax616TCo/hqdefault.jpg 480w" sizes="100vw" alt="" width="1280" height="720" loading="lazy" decoding="async" fetchpriority="low" />
+            </picture>
             <span class="video-poster__play" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="24" height="24" focusable="false"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" /></svg>
             </span>
@@ -365,7 +370,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
 
 
 
-  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">        <article class="project-card" data-category="research" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/robot-control/#project" >  <meta property="name" content="Robot Control Through VR" />    <meta property="image" content="/assets/img/projects/mimicry.webp" />  <a href="/projects/robot-control/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/mimicry.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="VR simulation of an industrial robotic arm moving objects between worktables"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-research">Research</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2020-01-01T00:00:00+00:00">2020</time>                </p>        <h2 class="project-card-title">      <a href="/projects/robot-control/" class="project-transition" property="mainEntityOfPage">Robot Control Through VR</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      A research prototype for controlling a robotic arm with hand movements in VR, plus a replay tool for recorded lab experiments.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/robot-control/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>                  <div class="column column-1-2">        <article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/project-virtualso/#project" >  <meta property="name" content="Project Virtualso" />    <meta property="image" content="/assets/img/projects/virtualso.webp" />  <a href="/projects/project-virtualso/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/virtualso.webp"        sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,42rem"    alt="Project Virtualso interview simulation with a virtual interviewer in an office"      width="864"  height="486"  loading="lazy"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-personal">Personal</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2020-01-01T00:00:00+00:00">2020</time>                </p>        <h2 class="project-card-title">      <a href="/projects/project-virtualso/" class="project-transition" property="mainEntityOfPage">Project Virtualso</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      VR interview and presentation coaches that listen, ask follow-up questions, and react through facial expressions and gaze.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/project-virtualso/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>      </div></aside>
+  <aside class="other-projects related mb4" role="complementary">  <h2>Other Projects</h2>  <div class="columns">              <div class="column column-1-2">              <article class="project-card" data-category="research" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/robot-control/#project" >  <meta property="name" content="Robot Control Through VR" />    <meta property="image" content="/assets/img/projects/mimicry.webp" />  <a href="/projects/robot-control/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/mimicry.webp"    srcset="/assets/img/projects/mimicry-480.webp 480w,/assets/img/projects/mimicry-720.webp 720w,/assets/img/projects/mimicry.webp 854w"    sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,100vw"    alt="VR simulation of an industrial robotic arm moving objects between worktables"      width="864"  height="486"  loading="eager"  fetchpriority="high"  decoding="async"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-research">Research</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2020-01-01T00:00:00+00:00">2020</time>                </p>        <h2 class="project-card-title">      <a href="/projects/robot-control/" class="project-transition" property="mainEntityOfPage">Robot Control Through VR</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      A research prototype for controlling a robotic arm with hand movements in VR, plus a replay tool for recorded lab experiments.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/robot-control/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>                  <div class="column column-1-2">              <article class="project-card" data-category="personal" vocab="http://schema.org/" typeof="CreativeWork" resource="/projects/project-virtualso/#project" >  <meta property="name" content="Project Virtualso" />    <meta property="image" content="/assets/img/projects/virtualso.webp" />  <a href="/projects/project-virtualso/" class="no-hover no-print-link project-transition" tabindex="-1" aria-hidden="true">    <div class="project-card-img aspect-ratio sixteen-nine flip-project-img ">            <img      src="/assets/img/projects/virtualso.webp"    srcset="/assets/img/projects/virtualso-480.webp 480w,/assets/img/projects/virtualso-720.webp 720w,/assets/img/projects/virtualso.webp 854w"    sizes="(min-width:86em)27.5rem,(min-width:54em)24.5rem,(min-width:42em)21.5rem,100vw"    alt="Project Virtualso interview simulation with a virtual interviewer in an office"      width="864"  height="486"  loading="eager"  fetchpriority="high"  decoding="async"/>          </div>  </a>  <div class="project-card-body">        <p class="project-card-meta">            <span class="project-tag project-tag-personal">Personal</span>                  <span class="project-card-meta-separator">|</span>      <time datetime="2020-01-01T00:00:00+00:00">2020</time>                </p>        <h2 class="project-card-title">      <a href="/projects/project-virtualso/" class="project-transition" property="mainEntityOfPage">Project Virtualso</a>    </h2>            <p class="project-card-text fine" property="disambiguatingDescription">      VR interview and presentation coaches that listen, ask follow-up questions, and react through facial expressions and gaze.    </p>        <p class="project-card-cta" aria-hidden="true"><a href="/projects/project-virtualso/" class="project-transition" tabindex="-1">View project</a></p>  </div></article>      </div>      </div></aside>
 
 
 
@@ -411,7 +416,7 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   <div class="sidebar-about">
     
       <a class="no-hover" href="/" tabindex="-1">
-        <img src="/assets/img/profile.webp" class="avatar" alt="Jack Yang" width="120" height="120" loading="eager" fetchpriority="high" decoding="async" />
+        <img src="/assets/img/profile.webp" srcset="/assets/img/profile128.webp 128w, /assets/img/profile256.webp 256w, /assets/img/profile.webp 694w" sizes="120px" class="avatar" alt="Jack Yang" width="120" height="120" loading="eager" fetchpriority="high" decoding="async" />
       </a>
     
     <a class="sidebar-title" href="/"><h2 class="h1">Jack Yang</h2></a>
@@ -572,8 +577,8 @@ html{--accent-color: rgb(170,130,230);--accent-color-faded: rgba(170,130,230,0.5
   
 
 
-<script src="/assets/js/project-transition.js?v=1790134084" type="module"></script>
-<script src="/assets/js/site-polish.js?v=1790134084" type="module"></script>
+<script src="/assets/js/project-transition.js?v=1790262015" type="module"></script>
+<script src="/assets/js/site-polish.js?v=1790262015" type="module"></script>
 
   
 

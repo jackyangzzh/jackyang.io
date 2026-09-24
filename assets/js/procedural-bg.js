@@ -38,7 +38,8 @@
   var animId = null;
   var resizeTimer = null;
   var lastFrameTime = 0;
-  var isVisible = true;
+  var isVisible = false;
+  var hasIntersectionObserver = "IntersectionObserver" in window;
   var pageVisible = !document.hidden;
   var initialized = false;
   var welcomeActive = false;
@@ -543,7 +544,7 @@
   }
 
   function init() {
-    if (initialized) return;
+    if (initialized || (hasIntersectionObserver && !isVisible)) return;
     resize();
     initialized = true;
     setupInteraction();
@@ -560,14 +561,14 @@
     requestNextFrame();
   }
 
-  if ("IntersectionObserver" in window) {
+  if (hasIntersectionObserver) {
     var observer = new IntersectionObserver(
       function (entries) {
-        for (var i = 0; i < entries.length; i++) {
-          isVisible = entries[i].isIntersecting;
-        }
+        var entry = entries[entries.length - 1];
+        isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.25;
 
         if (isVisible) {
+          init();
           startWelcome();
           requestNextFrame();
         } else if (animId) {
@@ -575,9 +576,11 @@
           animId = null;
         }
       },
-      { threshold: 0 },
+      { threshold: [0, 0.25] },
     );
     observer.observe(canvas);
+  } else {
+    isVisible = true;
   }
 
   document.addEventListener("visibilitychange", function () {
@@ -630,11 +633,17 @@
     motionQuery.addListener(onMotionChange);
   }
 
-  if ("requestIdleCallback" in window) {
-    requestIdleCallback(init, { timeout: 800 });
+  function scheduleInit() {
+    if ("requestIdleCallback" in window) {
+      requestIdleCallback(init);
+    } else {
+      setTimeout(init, 0);
+    }
+  }
+
+  if (document.readyState === "complete") {
+    scheduleInit();
   } else {
-    requestAnimationFrame(function () {
-      requestAnimationFrame(init);
-    });
+    window.addEventListener("load", scheduleInit, { once: true });
   }
 })();
