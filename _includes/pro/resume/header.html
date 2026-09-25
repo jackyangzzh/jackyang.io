@@ -2,8 +2,18 @@
   <div class="resume-hero-copy">
     <p class="resume-eyebrow">Software engineer{% if basics.location.city %}<span aria-hidden="true"> / </span>{{ basics.location.city }}{% endif %}</p>
     <h1 class="page-title fn p-name" property="name">{{ basics.name }}</h1>
+    {% comment %}
+      The line under the name is the page's own `headline`, so it can say
+      something other than the sidebar tagline beside it. `basics.label`
+      stays the job title in the structured data (and in resume.json).
+    {% endcomment %}
+    {% assign headline = page.headline | default:basics.label %}
+    {% if headline %}
+      <p class="resume-headline">{{ headline }}</p>
+    {% endif %}
     {% if basics.label %}
-      <p class="resume-headline title p-job-title" property="jobTitle">{{ basics.label }}</p>
+      <meta property="jobTitle" content="{{ basics.label | escape }}"/>
+      <data class="p-job-title" value="{{ basics.label | escape }}"></data>
     {% endif %}
   </div>
   {% if basics.picture.size > 0 %}

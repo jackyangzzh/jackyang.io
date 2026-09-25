@@ -8,6 +8,10 @@ description: >
 redirect_from:
   - /about/
 hide_description: true
+# The line under the name in the hero. The sidebar tagline (_config.yml)
+# and the structured-data job title (basics.label in _data/resume.yml) are
+# separate, so this one can say something they don't.
+headline: Real-time AI for real conversations.
 left_column:
   - work
   - research

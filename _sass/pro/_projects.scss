@@ -97,9 +97,7 @@ main:not(.layout-resume) {
       flex-wrap: wrap;
       gap: .35rem;
       margin: 0 0 .75rem;
-      font-size: .75rem;
-      letter-spacing: .05em;
-      text-transform: uppercase;
+      font-size: .85rem;
       color: var(--gray-text);
     }
 
@@ -290,9 +288,7 @@ main:not(.layout-resume) {
     > .project-card-body > .project-card-meta {
       margin: 0 0 .35rem;
       color: var(--gray-text);
-      font-size: .82rem;
-      letter-spacing: .04em;
-      text-transform: uppercase;
+      font-size: .85rem;
     }
 
     > .project-card-body > .project-card-meta > .project-card-meta-separator {
@@ -376,9 +372,7 @@ main:not(.layout-resume) {
     > .post-card__body > .post-card__meta {
       margin: 0 0 .35rem;
       color: var(--gray-text);
-      font-size: .82rem;
-      letter-spacing: .04em;
-      text-transform: uppercase;
+      font-size: .85rem;
     }
 
     > .post-card__body > .post-card__meta > .post-card__meta-separator {

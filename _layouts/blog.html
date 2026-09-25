@@ -10,12 +10,29 @@ layout: default
 {% endif %}
 
 {% if site.data.medium_posts and site.data.medium_posts.size > 0 %}
+{% comment %}
+  The newest post leads, full width, the way the featured project leads the
+  Projects page. It is the first thing on the page, so its image loads
+  eagerly; the rest of the grid stays lazy.
+
+  Eleven posts: the lead plus five full rows of two. With fewer on hand
+  (say the feed fetch failed and only the cache is left), drop one if needed
+  so the grid under the lead never ends on a card by itself.
+{% endcomment %}
+{% assign post_count = site.data.medium_posts.size | at_most: 11 %}
+{% assign grid_remainder = post_count | minus: 1 | modulo: 2 %}
+{% if grid_remainder == 1 %}{% assign post_count = post_count | minus: 1 %}{% endif %}
 <ul class="posts-grid" aria-label="Articles from Medium">
-  {% for post in site.data.medium_posts %}
-  <li class="post-card">
+  {% for post in site.data.medium_posts limit: post_count %}
+  <li class="post-card{% if forloop.first %} post-card--featured{% endif %}">
     {% if post.thumbnail %}
     <a class="post-card__thumb no-hover no-mark-external" href="{{ post.url }}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+      {% if forloop.first %}
+      <img class="post-card__backdrop" src="{{ post.thumbnail }}" alt="" width="640" height="360" loading="eager" decoding="async" />
+      <img src="{{ post.thumbnail }}" alt="" width="640" height="360" loading="eager" fetchpriority="high" decoding="async" />
+      {% else %}
       <img src="{{ post.thumbnail }}" alt="" width="640" height="360" loading="lazy" decoding="async" />
+      {% endif %}
     </a>
     {% endif %}
     <div class="post-card__body">

@@ -97,6 +97,10 @@
 // in my-inline.scss) and fall back to the body color everywhere else. Faded
 // headings keep their muted tone; `.bc` is the résumé's "body color" span that
 // carries a role and employer inside one, so those names brighten with it.
+// An employer or lab with a website renders as a link instead of a `.bc`
+// span, and links take the plain body colour, so "Microsoft" sat a step
+// greyer than the "Software Engineer II" beside it in dark mode. The link
+// joins the rule; its underline still marks it as one.
 //
 // `[class~="faded"]` rather than `.faded`: the theme `@extend`s `.faded` into
 // several classes, and Sass answers a `:not(.faded)` by appending a `:not()`
@@ -106,7 +110,8 @@
 // is invisible to `@extend`, so the rule stays at (0,2,1).
 @media screen {
 	.content :is(h1, h2, h3, h4, h5, h6):not([class~="faded"]),
-	.layout-resume .h4 .bc {
+	.layout-resume .h4 .bc,
+	.layout-resume .h4 a:not(.permalink) {
 		color: var(--heading-color, var(--body-color));
 	}
 }
@@ -136,14 +141,14 @@
 		border: 0;
 	}
 
+	// A muted byline in sentence case. Not tracked capitals (the stock
+	// template opener), and not bold accent either: in the intro right below,
+	// bold accent text is a link, and the role and city are not.
 	.resume-eyebrow {
-		margin: 0 0 .75rem;
-		color: var(--accent-strong);
-		font-size: .72rem;
-		font-weight: 700;
-		letter-spacing: .12em;
-		text-transform: uppercase;
-		span { padding: 0 .35rem; color: var(--gray-text); }
+		margin: 0 0 .6rem;
+		color: var(--gray-text);
+		font-size: .95rem;
+		span { padding: 0 .3rem; color: var(--border-color); }
 	}
 
 	.resume-hero .page-title {
@@ -446,7 +451,7 @@
 	.layout-resume .page > .resume-hero { grid-template-columns: minmax(0, 1fr) 4.5rem; gap: 1rem; }
 	.layout-resume .resume-hero .avatar { width: 4.5rem; height: 4.5rem; align-self: start; }
 	.layout-resume .resume-headline { font-size: 1.15rem; }
-	.layout-resume .resume-eyebrow { font-size: .65rem; letter-spacing: .06em; }
+	.layout-resume .resume-eyebrow { font-size: .85rem; }
 	.layout-resume #resume > .resume-actions {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -603,15 +608,6 @@ $night-sky-stars-b:
 		top: 58%;
 		left: 8%;
 		width: 5rem;
-	}
-
-	.lost-eyebrow {
-		margin: 0 0 .5rem;
-		color: var(--accent-strong);
-		font-size: .72rem;
-		font-weight: 700;
-		letter-spacing: .12em;
-		text-transform: uppercase;
 	}
 }
 

@@ -4,8 +4,17 @@
 
   <div class="site-footer__bottom">
     {% if site.copyright.size > 0 %}
-      <p><small class="copyright">{{ site.copyright | markdownify | replace:'<p>','' | replace:'</p>','' }}</small></p>
+      {% assign year = site.time | date:'%Y' %}
+      <p><small class="copyright">{{ site.copyright | replace:'<!--year-->', year | markdownify | replace:'<p>','' | replace:'</p>','' }}</small></p>
     {% endif %}
+
+    {% comment %}
+      The heart is a small easter egg: pressing it makes it beat and throw off
+      a burst of stars and hearts (site-polish.js). It is a real button, so
+      it is reachable by keyboard, and it reads as "Built with love in …".
+    {% endcomment %}
+    {% assign home_city = site.data.resume.basics.location.city | default:'Seattle' %}
+    <p><small class="site-footer__credit">Built with <button type="button" class="footer-heart" aria-label="love"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button> in {{ home_city }}</small></p>
 
     {% if site.legal.size > 0 %}
       <nav class="legal" aria-label="{{ site.data.strings.legal | default:'Legal' }}"><small>

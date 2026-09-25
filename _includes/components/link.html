@@ -3,6 +3,11 @@
 {% if include.href contains '://' or include.href contains 'mailto:' %}
 {% assign is_external = true %}
 {% endif %}
+{% comment %}A PDF hosted here (a paper, a report) leaves the page just like an outside link, so it opens the same way.{% endcomment %}
+{% assign href_down = include.href | downcase %}
+{% if href_down contains '.pdf' %}
+{% assign is_external = true %}
+{% endif %}
 <a class="{{ include.class }} {{ include.a_class }}" href="{{ include.href }}" {% if is_external %}target="_blank" {% endif %} {% if include.rel
   %}rel="{{ include.rel }}" {% elsif is_external %}rel="noopener noreferrer" {% endif %} {% if include.property %}property="{{ include.property }}" {%
   endif %}>

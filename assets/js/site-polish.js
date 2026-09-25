@@ -492,28 +492,6 @@
     });
   };
 
-  /* ---------------------------------------------------------- card spotlight */
-
-  const setupCardSpotlight = () => {
-    if ((reducedMotion && reducedMotion.matches) || (window.matchMedia && window.matchMedia("(pointer: coarse)").matches)) return;
-    const cards = document.querySelectorAll(".project-card, .post-card");
-    for (const card of cards) {
-      if (card.dataset.spotlightReady) continue;
-      card.dataset.spotlightReady = "true";
-      card.addEventListener(
-        "pointermove",
-        (event) => {
-          const rect = card.getBoundingClientRect();
-          const x = event.clientX - rect.left;
-          const y = event.clientY - rect.top;
-          card.style.setProperty("--mouse-x", `${x.toFixed(1)}px`);
-          card.style.setProperty("--mouse-y", `${y.toFixed(1)}px`);
-        },
-        { passive: true }
-      );
-    }
-  };
-
   /* ------------------------------------------------------------ video posters */
 
   // YouTube serves a 120px grey placeholder (not an error) when a video has
@@ -591,6 +569,101 @@
     for (const video of videos) deferredVideoObserver.observe(video);
   };
 
+  /* ------------------------------------------------------------ footer heart */
+
+  // The easter egg: the heart in "Built with ♥ in Seattle" beats and throws
+  // off a small burst of stars and hearts, the night sky's stars in the
+  // accent colours. Particles are fixed to the viewport, move by transform
+  // and opacity only, and remove themselves; a cap keeps a flurry of clicks
+  // from piling up hundreds. With reduced motion the heart only changes
+  // colour for a moment.
+  const SVG_NS = "http://www.w3.org/2000/svg";
+  const HEART_PATH =
+    "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z";
+  const STAR_PATH = "M12 1.5 14.6 9.4 22.5 12 14.6 14.6 12 22.5 9.4 14.6 1.5 12 9.4 9.4Z";
+  // Saturated enough to read on the white page and the dark one alike: the
+  // theme accent, a mid lavender, a pink for the hearts and a warm gold for
+  // the odd star.
+  const SPARK_COLORS = ["var(--accent-strong)", "#9d74e6", "#e2609c", "#e8a93a"];
+  const SPARKS_PER_BURST = 14;
+  const MAX_LIVE_SPARKS = 90;
+  let liveSparks = 0;
+
+  const launchSpark = (x, y) => {
+    const isHeart = Math.random() < 0.4;
+    const size = (isHeart ? 11 : 9) + Math.random() * 9;
+    const spark = document.createElementNS(SVG_NS, "svg");
+    const path = document.createElementNS(SVG_NS, "path");
+    spark.setAttribute("viewBox", "0 0 24 24");
+    spark.setAttribute("aria-hidden", "true");
+    spark.classList.add("love-spark");
+    path.setAttribute("d", isHeart ? HEART_PATH : STAR_PATH);
+    spark.appendChild(path);
+    Object.assign(spark.style, {
+      width: `${size}px`,
+      height: `${size}px`,
+      left: `${x - size / 2}px`,
+      top: `${y - size / 2}px`,
+      color: SPARK_COLORS[Math.floor(Math.random() * SPARK_COLORS.length)],
+    });
+    document.body.appendChild(spark);
+    liveSparks += 1;
+
+    // An upward fan, so the burst rises off the footer instead of spraying
+    // into the bottom edge of the screen.
+    const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.25;
+    const distance = 38 + Math.random() * 58;
+    const dx = Math.cos(angle) * distance;
+    const dy = Math.sin(angle) * distance;
+    const spin = (Math.random() - 0.5) * 160;
+    const animation = spark.animate(
+      [
+        { transform: "translate(0, 0) scale(.3) rotate(0deg)", opacity: 0 },
+        { transform: `translate(${dx * 0.65}px, ${dy * 0.65}px) scale(1) rotate(${spin / 2}deg)`, opacity: 1, offset: 0.3 },
+        { transform: `translate(${dx}px, ${dy - 22}px) scale(.55) rotate(${spin}deg)`, opacity: 0 },
+      ],
+      { duration: 750 + Math.random() * 450, delay: Math.random() * 70, easing: "cubic-bezier(.2, .7, .3, 1)" }
+    );
+    const done = () => {
+      spark.remove();
+      liveSparks -= 1;
+    };
+    animation.onfinish = done;
+    animation.oncancel = done;
+  };
+
+  const onHeartClick = (event) => {
+    const heart = event.target instanceof Element && event.target.closest(".footer-heart");
+    if (!heart) return;
+
+    if ((reducedMotion && reducedMotion.matches) || typeof heart.animate !== "function") {
+      heart.classList.add("is-loved");
+      window.setTimeout(() => heart.classList.remove("is-loved"), 700);
+      return;
+    }
+
+    const icon = heart.querySelector("svg") || heart;
+    icon.animate(
+      [{ transform: "scale(1)" }, { transform: "scale(1.4)" }, { transform: "scale(.92)" }, { transform: "scale(1)" }],
+      { duration: 460, easing: "ease-out" }
+    );
+
+    const rect = heart.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const count = Math.min(SPARKS_PER_BURST, MAX_LIVE_SPARKS - liveSparks);
+    for (let i = 0; i < count; i += 1) launchSpark(x, y);
+  };
+
+  // A hello for anyone who opens the console, and a hint at the heart.
+  const greetConsole = () => {
+    console.log("%c✦ Hi there!", "font: 700 15px/1.6 system-ui, sans-serif; color: #875acd;");
+    console.log(
+      "Thanks for looking under the hood! If you want to talk about real-time AI agents, " +
+        "I'd love to hear from you: jackyangzzh@gmail.com\n\nP.S. The heart in the footer does something."
+    );
+  };
+
   const init = () => {
     setupNavigation();
     setupFilters();
@@ -598,7 +671,6 @@
     setupReveal();
     setupReadingProgress();
     setupKeyboardShortcuts();
-    setupCardSpotlight();
     setupVideoPosters();
     setupDeferredVideos();
   };
@@ -609,8 +681,11 @@
     init();
   }
 
+  greetConsole();
+
   document.addEventListener("click", onDocumentClick);
   document.addEventListener("click", onVideoPosterClick);
+  document.addEventListener("click", onHeartClick);
   // Capture phase, so the theme's own handler on the button runs only on the
   // replayed click inside the transition.
   document.addEventListener("click", onThemeToggleClick, true);

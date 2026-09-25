@@ -263,11 +263,12 @@
 		letter-spacing: -.01em;
 	}
 
+	// Dates in sentence case ("Sep 2024 – Present"). Size and the muted tone
+	// already set them apart from the role below; tracked capitals only made
+	// the column read like a form.
 	section section > header > p.faded {
-		margin-bottom: .25rem;
-		font-size: .78rem;
-		letter-spacing: .045em;
-		text-transform: uppercase;
+		margin-bottom: .2rem;
+		font-size: .85rem;
 	}
 
 	section section > ul {
@@ -291,26 +292,21 @@
 		margin: .45rem 0 1.35rem;
 	}
 
+	// Skill chips are labels, not controls, so they have no hover state: a
+	// lift and an accent border promised a click that did nothing.
+	//
+	// A fixed 1rem radius rather than 9999px: on one line it still draws a
+	// full pill, but a long skill that wraps in the narrow column ("Retrieval-
+	// Augmented Generation (RAG)") becomes a rounded rectangle instead of a
+	// stretched lozenge.
 	.tag {
 		margin: 0;
 		padding: .28rem .65rem;
 		border: 1px solid var(--border-color);
-		border-radius: 9999px;
+		border-radius: 1rem;
 		background: var(--gray-bg);
 		color: var(--gray-text);
 		line-height: 1.35;
-		box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
-		transition:
-			transform 140ms ease,
-			color 140ms ease,
-			border-color 140ms ease,
-			box-shadow 140ms ease;
-
-		&:hover {
-			border-color: var(--accent-strong);
-			color: var(--body-color);
-			transform: translateY(-1px);
-		}
 	}
 
 	// Timeline rail on Experience and Research
@@ -384,19 +380,19 @@
 	}
 }
 
-// Skills: turn the floated <dt> group labels into eyebrow subheadings so the
-// three groups read as a hierarchy instead of a chip wall. The theme appends
-// a " :" via dt::after, which no longer fits the design.
+// Skills: turn the floated <dt> group labels into small subheadings so the
+// three groups read as a hierarchy instead of a chip wall. Heading colour and
+// weight mark them, in the title case they are written in; bold accent text
+// is how the page draws a link, so they stay out of it. The theme appends a
+// " :" via dt::after, which no longer fits the design.
 .layout-resume .skills {
 	> dt {
 		float: none;
 		width: auto;
-		margin: 1.35rem 0 .1rem;
-		color: var(--accent-strong);
-		font-size: .78rem;
+		margin: 1.35rem 0 .15rem;
+		color: var(--heading-color, var(--body-color));
+		font-size: .92rem;
 		font-weight: 700;
-		letter-spacing: .06em;
-		text-transform: uppercase;
 		&::after { content: none; }
 	}
 	> dd {
@@ -528,7 +524,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: .6rem;
-	margin: 0 0 .85rem;
+	margin: 0 0 1.5rem;
 	padding: 0;
 	list-style: none;
 	align-items: center;
@@ -595,11 +591,21 @@
 
 .filter-count { font-size: .7rem; }
 .project-filters[hidden], .copy-email[hidden] { display: none; }
+// The filter pills already print their counts, so "Showing all 9 projects"
+// only repeated the active pill on screen. It stays in the page as the
+// live region that announces a filter change, visually hidden, and the grid
+// moves up to sit under the pills.
 .project-results {
-	margin: 0 0 1.5rem;
-	color: var(--gray-text);
-	// Match the filter labels above so the live count reads as one cluster.
-	font-size: .82rem;
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
 }
 
 .layout-projects .project-list > .columns {
@@ -650,17 +656,18 @@ main.layout-blog .posts-grid {
 // text on its own tint, rather than on the page. Light runs 5.6:1–7.2:1; dark
 // composites the translucent tint over the card (rgb(43,43,47)) first and runs
 // 5.2:1–6.0:1. All well clear of the 4.5:1 minimum for text this size.
+//
+// Sentence case at a readable size: the tint and weight already mark these
+// as tags, so capitals and tracking were only adding volume.
 .project-tag {
 	display: inline-block;
-	padding: .2rem .62rem;
+	padding: .16rem .6rem;
 	border-radius: 9999px;
 	background: var(--tag-bg);
 	color: var(--tag-fg);
-	font-size: .68rem;
+	font-size: .75rem;
 	font-weight: 700;
-	letter-spacing: .045em;
 	line-height: 1.4;
-	text-transform: uppercase;
 	box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
 	border: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -715,31 +722,14 @@ main.layout-blog .posts-grid {
 		border-color 200ms ease,
 		box-shadow 200ms ease !important;
 
+	// Lift, border tint, and the artwork's slight zoom are the whole hover.
+	// A cursor-tracking glow ring used to ride along the border too; it was
+	// the fourth effect on one gesture, so it came off.
 	&:hover,
 	&:focus-within {
 		transform: translateY(-3px);
 		border-color: var(--accent-color-faded) !important;
 		box-shadow: var(--card-shadow-hover) !important;
-	}
-
-	&::after {
-		content: "";
-		position: absolute;
-		inset: 0;
-		border-radius: inherit;
-		padding: 1.2px;
-		background: radial-gradient(380px circle at var(--mouse-x, -999px) var(--mouse-y, -999px), var(--accent-strong), transparent 60%);
-		-webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-		-webkit-mask-composite: xor;
-		mask-composite: exclude;
-		pointer-events: none;
-		opacity: 0;
-		transition: opacity 240ms ease;
-		z-index: 2;
-	}
-
-	&:hover::after {
-		opacity: 0.65;
 	}
 }
 
@@ -948,11 +938,15 @@ main.layout-blog .posts-grid {
 			font-size: 1rem;
 			line-height: 1.7;
 
+			// The note's title ("In the press"), as written: sentence case
+			// in the accent, no tracked capitals.
 			&::before {
-				top: .95rem;
+				top: .85rem;
 				left: 1.25rem;
 				color: var(--accent-strong);
-				letter-spacing: .08em;
+				font-size: .82rem;
+				letter-spacing: 0;
+				text-transform: none;
 			}
 		}
 
@@ -1009,11 +1003,11 @@ main.layout-blog .posts-grid {
 			}
 		}
 
+		// Publication names are proper nouns with their own capitalisation;
+		// set as written, bold in the accent.
 		.press-source {
-			font-size: .72rem;
-			font-weight: 800;
-			text-transform: uppercase;
-			letter-spacing: .08em;
+			font-size: .85rem;
+			font-weight: 700;
 			color: var(--accent-strong);
 		}
 
@@ -1115,6 +1109,57 @@ body.dark-mode {
 		.project-card-img img { object-fit: contain; }
 		.project-card-title { font-size: 1.5rem !important; }
 		.project-card-text { display: block; }
+	}
+}
+
+// The newest post leads the Writing grid the same way: full width, and from
+// the same breakpoint up, artwork and copy side by side at the same split
+// and title size as the featured project. Selectors are pinned to
+// `main.layout-blog` so they tie the theme's `main:not(.layout-resume)
+// .post-card …` rules and win on order.
+//
+// Whatever the newest post is supplies the artwork, in whatever shape Medium
+// has it: a landscape photo one month, a portrait book cover the next. A
+// crop to fill the frame cuts a cover's title in half, and a bare letterbox
+// leaves grey bars. So the whole image sits centred (`contain`) over a
+// blurred copy of itself (`.post-card__backdrop`, same URL, one request):
+// a cover gets a soft field of its own colours either side, a landscape
+// photo covers the backdrop almost entirely.
+main.layout-blog .post-card--featured {
+	grid-column: 1 / -1;
+
+	> .post-card__thumb img {
+		position: absolute;
+		inset: 0;
+		border-radius: 0;
+		object-fit: contain;
+	}
+
+	// Scaled so the blur's soft, see-through rim falls outside the frame.
+	// Out-ranks the hover zoom and the dark-mode dimming that target every
+	// card image, which would otherwise replace this transform and filter.
+	> .post-card__thumb > .post-card__backdrop {
+		object-fit: cover;
+		filter: blur(28px);
+		opacity: .5;
+		transform: scale(1.2);
+	}
+}
+
+@media screen and (min-width: 42em) {
+	main.layout-blog .post-card--featured {
+		display: grid;
+		grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+
+		> .post-card__thumb {
+			display: block;
+			aspect-ratio: auto;
+			min-height: 16rem;
+			border-bottom: 0;
+			border-right: 1px solid var(--border-color);
+		}
+
+		> .post-card__body > .post-card__title { font-size: 1.5rem !important; }
 	}
 }
 
@@ -1268,6 +1313,72 @@ body.dark-mode {
 		.legal { font-size: .8rem; }
 	}
 
+	.site-footer__credit {
+		color: var(--gray-text);
+		font-size: .8rem;
+	}
+
+	// The heart in "Built with ♥ in Seattle" is the easter egg's button (the
+	// burst itself is site-polish.js). It sits in the line like a glyph; a
+	// transparent ::before pads the hit area to the 24px minimum without
+	// moving the text around it. The accent says there is something to press,
+	// and the hover swell says it again for anyone who points at it.
+	.footer-heart {
+		position: relative;
+		display: inline-block;
+		width: 1.1em;
+		height: 1.1em;
+		margin: 0 .08em;
+		padding: 0;
+		border: 0;
+		background: none;
+		color: var(--accent-strong);
+		vertical-align: -.2em;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: -.45rem;
+		}
+
+		svg {
+			display: block;
+			width: 100%;
+			height: 100%;
+			fill: currentColor;
+			transition: transform 180ms cubic-bezier(.16, 1, .3, 1), color 200ms ease;
+		}
+
+		&:hover svg,
+		&:focus-visible svg { transform: scale(1.18); }
+
+		// Reduced motion keeps the answer, drops the movement: the heart
+		// deepens to a warm pink for a moment instead of beating.
+		&.is-loved { color: #d9468a; }
+
+		@media (prefers-reduced-motion: reduce) {
+			svg { transition: color 200ms ease; }
+			&:hover svg,
+			&:focus-visible svg { transform: none; }
+		}
+	}
+}
+
+// Burst particles: fixed to the viewport at the heart's position, animated
+// with transform and opacity only, removed when they finish.
+.love-spark {
+	position: fixed;
+	z-index: 1000;
+	pointer-events: none;
+	fill: currentColor;
+	will-change: transform, opacity;
+
+	@media print { display: none; }
+}
+
+@media screen {
 	.site-footer__top-link {
 		display: inline-flex;
 		align-items: center;
@@ -1424,10 +1535,15 @@ body.dark-mode {
 // image a boundary, and in dark mode the artwork rests very slightly dimmed
 // and comes up to full strength on hover — which doubles as the focus cue for
 // whichever card you are pointing at.
+//
+// The well itself is tinted, so a lazy thumbnail still on its way (the
+// Writing grid loads each one as it nears the viewport) shows a quiet
+// placeholder the size of the image rather than a blank white slab.
 @media screen {
 	.project-card-img,
 	.post-card__thumb {
 		border-bottom: 1px solid var(--border-color);
+		background-color: var(--gray-bg);
 	}
 
 	// The featured card turns side-by-side at this width, so the boundary
@@ -1556,24 +1672,32 @@ body.dark-mode {
 		dd a:not(.btn):focus-visible {
 			text-decoration-color: var(--accent-strong);
 		}
+
+		// "GitHub  jackyangzzh ↗": the whole row is one link, but only the
+		// platform name is underlined. An underline cannot be switched off
+		// on a descendant, only kept from reaching an atomic inline, so the
+		// handle and the arrow are inline-blocks.
+		.profile-handle {
+			display: inline-block;
+			margin-left: .45rem;
+			color: var(--gray-text);
+			font-size: .9em;
+			font-weight: 400;
+		}
+
+		.profile-link::after { display: inline-block; }
 	}
 }
 
 // Section symbols -----------------------------------------------------------
 //
-// Each resume section header carries a glyph at the far end of its rule — a
-// briefcase, a wrench, a trophy. At full size in the menu grey they read as
-// clip art pinned to an otherwise restrained page. Smaller, accent-tinted and
-// held back, they become a quiet marker for the section instead of an
-// illustration competing with its title.
-@media screen {
-	.layout-resume h2 > .symbol,
-	.layout-resume .h3 > .symbol {
-		margin-top: 6px;
-		color: var(--accent-strong);
-		font-size: .82rem;
-		opacity: .45;
-	}
+// The theme pins a glyph to the far end of each résumé section rule — a
+// briefcase, a wrench, a trophy. Even shrunk and faded they only restated the
+// heading beside them, and Research's magnifying glass sat in the corner
+// looking exactly like a search button. The headings stand on their own.
+.layout-resume h2 > .symbol,
+.layout-resume .h3 > .symbol {
+	display: none;
 }
 
 // Typographic finish --------------------------------------------------------
@@ -1650,9 +1774,16 @@ body.dark-mode {
 // now means one thing everywhere: muted at rest, accent on hover. Same
 // selectors as the theme and later in the cascade, and `!important` only
 // where the theme used it (the font family).
+//
+// The theme only recognises a link as outbound by its `://`, so a PDF hosted
+// on this site (two of the papers under Publications) opened in a new tab
+// with nothing saying so, while the papers either side of it carried the
+// arrow. PDFs join the list; the Resume button and project pills opt out
+// with `.no-mark-external` because they draw their own.
 @media screen {
 	a.external,
 	a[href*="://"]:not(.no-mark-external):not(.no-mark),
+	a[href$=".pdf"]:not(.no-mark-external):not(.no-mark),
 	a.no-push-state:not(.no-mark-external):not(.no-mark) {
 		&::after {
 			content: "\2009\2197";

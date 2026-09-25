@@ -244,6 +244,14 @@ select:focus-visible,
   outline-color: var(--accent-strong) !important;
 }
 
+// The theme's reboot outlines every `button:focus`, which a mouse click also
+// triggers, so a clicked filter pill or the footer heart wore a focus ring
+// until the next click elsewhere. Keep the ring for keyboard focus only.
+// Browsers without `:focus-visible` drop this rule and keep the old ring.
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
 // Scroll reveal -------------------------------------------------------------
 //
 // Hidden state is scoped to an explicit per-element `reveal-pending` class that

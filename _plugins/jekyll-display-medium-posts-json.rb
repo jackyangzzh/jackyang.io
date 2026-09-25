@@ -1,5 +1,6 @@
 require "nokogiri"
 require "open3"
+require "time"
 
 module Jekyll
   class MediumPostsGenerator < Generator
@@ -33,7 +34,12 @@ module Jekyll
       fetched_posts.reject! { |post| post["title"].empty? || post["url"].empty? }
 
       if fetched_posts.any?
-        site.data["medium_posts"] = fetched_posts
+        # Medium's feed stops at the 10 newest posts. The cache still holds
+        # older ones, so fill in behind the live posts from it (the feed wins
+        # on any post both have) to keep the archive deeper than the feed.
+        live_urls = fetched_posts.map { |post| post["url"] }
+        older_posts = cached_posts.reject { |post| live_urls.include?(post["url"]) }
+        site.data["medium_posts"] = (fetched_posts + older_posts).sort_by { |post| post_time(post) }.reverse
       elsif cached_posts.any?
         Jekyll.logger.warn "MediumPosts:", "parsed 0 items; using #{cached_posts.size} cached posts."
       else
@@ -50,6 +56,14 @@ module Jekyll
     end
 
     private
+
+    # Feed dates are RFC 822 ("Mon, 03 Aug 2026 14:33:32 GMT"), cached ones
+    # ISO ("2025-12-13"); Time.parse reads both. Unparseable dates sort last.
+    def post_time(post)
+      Time.parse(post["date"].to_s)
+    rescue ArgumentError
+      Time.at(0)
+    end
 
     def build_post(item)
       content_html = item.at_xpath("encoded")&.text.to_s
