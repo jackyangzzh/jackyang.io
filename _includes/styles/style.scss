@@ -31,13 +31,9 @@
   @import "pooleparty/__link__/type";
   @import "pooleparty/__link__/table";
   @import "pooleparty/__link__/footer";
-  @import "pooleparty/__link__/footnotes";
   @import "pooleparty/__link__/code";
   @import "pooleparty/__link__/posts";
-  @import "pooleparty/__link__/related";
-  @import "pooleparty/__link__/read-more";
   @import "pooleparty/__link__/message";
-  @import "pooleparty/__link__/pagination";
 
   @import "hydejack/__link__/base";
   @import "hydejack/__link__/utilities";
@@ -49,13 +45,11 @@
   @import "hydejack/__link__/toc";
   @import "hydejack/__link__/content";
   @import "hydejack/__link__/avatar";
-  @import "hydejack/__link__/katex";
   @import "hydejack/__link__/footer";
 
   @import "pro/projects";
   @import "pro/resume";
   @import "pro/bootstrap-mod/bootstrap";
-  @import "pro/message-newsletter";
 
   {% unless site.hydejack.no_search %}
     @import "pro/search";
@@ -77,13 +71,9 @@
   @import "pooleparty/_type.pre.scss";
   @import "pooleparty/_table.pre.scss";
   @import "pooleparty/_footer.pre.scss";
-  @import "pooleparty/_footnotes.pre.scss";
   @import "pooleparty/_code.pre.scss";
   @import "pooleparty/_posts.pre.scss";
-  @import "pooleparty/_related.pre.scss";
-  @import "pooleparty/_read-more.pre.scss";
   @import "pooleparty/_message.pre.scss";
-  @import "pooleparty/_pagination.pre.scss";
 
   @import "hydejack/_base.pre.scss";
   @import "hydejack/_utilities.pre.scss";
@@ -95,13 +85,11 @@
   @import "hydejack/_toc.pre.scss";
   @import "hydejack/_content.pre.scss";
   @import "hydejack/_avatar.pre.scss";
-  @import "hydejack/_katex.pre.scss";
   @import "hydejack/_footer.pre.scss";
 
   @import "pro/projects";
   @import "pro/resume";
   @import "pro/bootstrap-mod/bootstrap";
-  @import "pro/message-newsletter";
 
   {% unless site.hydejack.no_search %}
     @import "pro/_search.scss";
@@ -124,8 +112,3 @@
 @import "spinner";
 @import "tippy";
 
-@import "syntax";
-@import "pro/syntax-dark";
-{% if site.hydejack.dark_mode.dynamic %}
-  @import "pro/dark-mode-dynamic-syntax";
-{% endif %}

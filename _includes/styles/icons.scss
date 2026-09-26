@@ -13,7 +13,7 @@ The font file is the full icomoon glyph set re-compressed as WOFF2
 are identical to the originals (verified with fontTools); all existing
 `icon-*` classes, the CSS-generated glyphs in the main stylesheet (the external
 link mark `\ea7e` and the read-more arrow `\2192`), and any future template use
-keep working unchanged. The original TTF/WOFF/EOT/SVG files are kept untouched;
+keep working unchanged. The original TTF/WOFF files are kept untouched (they are also the @font-face fallbacks);
 only the `?8u0bo9` caches on their `@font-face` sources are preserved verbatim.
 
 Font URLs go through `relative_url` so the site works under any `baseurl`.

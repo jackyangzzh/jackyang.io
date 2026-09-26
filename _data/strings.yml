@@ -43,23 +43,11 @@ redirecting:           Redirecting…
 continue_reading:      >
   Continue reading <!--post_title-->
 
-cookies_banner:
-  text:                >
-    This site uses cookies. [Cookies Policy](/cookies-policy/).
-  okay:                Okay
-
 not_found:
   title:               'Page not found'
   message:             |
     That page is not here or the link is out of date.
     <!--home_link--> to keep exploring.
-  home_link:           Return home
-
-offline:
-  title:               'You are offline'
-  message:             |
-    This page is not available without a connection.
-    <!--home_link--> once you are back online.
   home_link:           Return home
 
 error:
@@ -79,8 +67,6 @@ category_spearator:    ' / '
 tag_start:             'on '
 tag_separator:         ', '
 from_to_separator:     '–'
-breadcrumbs_home:      'home'
-breadcrumbs_separator: '/'
 
 # Date formats
 # ---------------------------------------------------------------------------------------

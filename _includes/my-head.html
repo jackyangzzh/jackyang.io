@@ -1,19 +1,5 @@
-{% comment %}
-<!--
-Using `preload` so that page rendering doesn't get blocked.
-Fill in `href`. You may have to adjust `as` and `onload`/`rel`, depending on content.
--->
-<link href="<path/to/content.css>" rel="preload" as="style" onload="this.rel='stylesheet'">
-
-<!--
-Fallback in case JavaScript isn't enabled.
-Fill in `href`. You may have to adjust `rel`.
--->
-<noscript><link href="<path/to/content.css>" rel="stylesheet"></noscript>
-{% endcomment %}
-
-{% comment %}Preload the home cover avatar — the LCP candidate on mobile. Matches the sidebar <img src> so the fetch is reused (no double download).{% endcomment %}
-{% if page.cover and site.logo %}<link rel="preload" href="{% include smart-url url=site.logo %}" as="image" type="image/webp" fetchpriority="high">{% endif %}
+{% comment %}Preload the home cover avatar — the LCP candidate on mobile. imagesrcset/imagesizes mirror the avatar <img> (sidebar-sticky.html, resume/header.html) so the preload fetches the same candidate the image picks and is reused, not downloaded twice.{% endcomment %}
+{% if page.cover and site.logo %}<link rel="preload" href="{% include smart-url url=site.logo %}" imagesrcset="/assets/img/profile128.webp 128w, /assets/img/profile256.webp 256w, /assets/img/profile.webp 694w" imagesizes="120px" as="image" type="image/webp" fetchpriority="high">{% endif %}
 
 {% comment %}
 Scroll reveals no longer need a pre-paint gate: site-polish.js opts each markup

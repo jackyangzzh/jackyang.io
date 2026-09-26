@@ -19,8 +19,6 @@
 	#_main { scroll-margin-top: 5rem; }
 	#_main:focus { outline: none; }
 	#_main :is(h2, h3, section) { scroll-margin-top: 5rem; }
-	#breadcrumbs > ul { color: var(--gray-text); }
-	#breadcrumbs > ul > li a { color: var(--gray-text); text-decoration: underline; text-underline-offset: .2em; }
 
 	// Keep the new page links reachable while scrolling; Hydejack otherwise
 	// translates the entire toolbar offscreen, including focused controls.

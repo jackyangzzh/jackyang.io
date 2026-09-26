@@ -12,29 +12,7 @@
 {% comment %}Preload the icon font: its @font-face is inline in critical CSS and the navbar icon glyphs are above the fold; swap must find the font already resident to avoid a navbar reflow (font-display: swap = zero block period).{% endcomment %}
 <link rel="preload" href="{{ '/assets/icomoon/fonts/icomoon-v2.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
 
-{% if site.google_fonts %}
-  {%- capture google_fonts_url %}{{ site.google_fonts_url | default:'https://fonts.googleapis.com' }}{%- endcapture -%}
-  <link rel="dns-prefetch" href="{{ google_fonts_url }}">
-  {%- if google_fonts_url == 'https://fonts.googleapis.com' -%}
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-  {%- endif -%}
-{% endif %}
-
-{% if site.google_analytics %}
-  <link rel="dns-prefetch" href="https://www.google-analytics.com">
-{% endif %}
-
 <link rel="preload" href="{{ '/assets/img/swipe.svg' | relative_url }}" as="image" id="_hrefSwipeSVG">
 
 {% comment %}The search module requires this element as its feature flag; keep its URL aligned with the bundled worker.{% endcomment %}
 <link rel="dns-prefetch" href="{{ '/assets/js/0-hydejack-9.1.6.worker.js' | relative_url }}" as="worker" id="_hrefSearch">
-{% if site.kramdown.math_engine == 'katex' %}
-  {% capture katex_url %}{{ 'assets/bower_components/katex/dist/katex.min.css' | relative_url }}{% endcapture %}
-  <link rel="dns-prefetch" href="{{ katex_url }}" id="_katexPreload">
-  <noscript><link rel="stylesheet" href="{{ katex_url }}"></noscript>
-{% endif %}
-
-{% assign disqus = site.disqus | default:site.disqus_shortname %}
-{% if disqus %}
-<link rel="dns-prefetch" href="https://{{ disqus }}.disqus.com" id="_hrefDisqus">
-{% endif %}

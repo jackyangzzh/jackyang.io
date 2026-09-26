@@ -480,18 +480,10 @@
 }
 
 // Desktop: the sidebar already shows the main nav, so the duplicate
-// quick-nav links in the top bar only add noise. The footer nav is the same
-// duplication at the other end of the page — it earns its place on mobile,
-// where the sidebar is a closed drawer and these are the only links at the
-// end of a long scroll, but not beside a permanently visible sidebar.
+// quick-nav links in the top bar only add noise.
 @media screen and (min-width: 64em) {
 	#_menu { display: none; }
 	.quick-nav { display: none; }
-	.site-footer__nav { display: none; }
-
-	// Without the nav on its left, the social row would sit alone against the
-	// right edge of a wide footer. Pull it back to the start.
-	.site-footer__top { justify-content: flex-start; }
 }
 
 // Collection pages ---------------------------------------------------------
@@ -1078,8 +1070,7 @@ body.dark-mode {
 	}
 }
 
-.layout-not-found .page,
-.layout-offline .page {
+.layout-not-found .page {
 	max-width: 42rem;
 	padding-top: clamp(1rem, 5vw, 3rem);
 
@@ -1378,22 +1369,6 @@ main.layout-blog .post-card--featured {
 	@media print { display: none; }
 }
 
-@media screen {
-	.site-footer__top-link {
-		display: inline-flex;
-		align-items: center;
-		gap: .35rem;
-		min-height: 44px;
-		border: 0;
-		color: var(--gray-text);
-		font-size: .8rem;
-		font-weight: 700;
-		text-decoration: none;
-
-		&:hover { color: var(--accent-strong); }
-	}
-}
-
 // The trailing dingbat divides an article from what follows it (about box,
 // related projects, comments). The collection index pages have no such
 // section, so it reads as a decorative rule floating in empty space above the
@@ -1404,23 +1379,6 @@ main.layout-blog .post-card--featured {
 	.layout-blog + hr.dingbat {
 		display: none;
 	}
-}
-
-@media screen and (max-width: 41.99em) {
-	// Both rows still fit on one line at 390px, so keep them pushed to the
-	// edges; `flex-wrap` handles the narrower phones on its own.
-	.site-footer__top {
-		gap: .25rem 1rem;
-	}
-
-	.site-footer__nav > ul {
-		gap: .25rem 1rem;
-	}
-}
-
-@media print {
-	.site-footer__top,
-	.site-footer__top-link { display: none; }
 }
 
 // Publications --------------------------------------------------------------
@@ -1494,8 +1452,7 @@ main.layout-blog .post-card--featured {
 // stray fragment rather than as the caption for the image above it. Align it
 // to the measure and give it enough size and contrast to be read.
 @media screen {
-	.project-body .figcaption,
-	.post .figcaption {
+	.project-body .figcaption {
 		margin-top: .6rem;
 		margin-bottom: 2rem;
 		color: var(--gray-text);

@@ -16,7 +16,7 @@ sitemap: false
   ], 
   "documents": [
     {% for doc in docs %}{
-      {% if doc.image       %}"image": {{       doc.image       | jsonify }},{% endif %}
+      {% if doc.image       %}"image": {% if doc.image.srcset %}{% comment %}Project front matter lists srcset as [width, url] pairs (see components/hy-img.html); the search module expects a {"480w": url} map.{% endcomment %}{"path": {{ doc.image.path | jsonify }}, "srcset": { {% for s in doc.image.srcset %}{{ s[0] | append:'w' | jsonify }}: {{ s[1] | jsonify }}{% unless forloop.last %}, {% endunless %}{% endfor %} }}{% else %}{{ doc.image | jsonify }}{% endif %},{% endif %}
       {% if doc.title       %}"title": {{       doc.title       | jsonify }},{% endif %}
       {% if doc.date        %}"date": {{        doc.date        | jsonify }},{% endif %}
       {% if doc.description %}"description": {{ doc.description | markdownify | strip_html | jsonify }},{% endif %}

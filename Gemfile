@@ -15,22 +15,18 @@ gem "webrick"
 
 # Required for Medium posts plugin
 gem "nokogiri"
-gem "faraday-retry"
+
+# Standard-library gems Jekyll 3.9 loads; newer Rubies no longer ship them as defaults
 gem "base64"
 gem "bigdecimal"
 gem "csv"
+gem "json"
+gem "logger"
 
 group :jekyll_plugins do
   gem "jekyll-include-cache"
-  gem "jekyll-compose"
   gem "jekyll-seo-tag"
   gem "jekyll-sitemap"
-  gem "jekyll-gist"
-  gem "jekyll-commonmark-ghpages"
-  gem "jekyll-relative-links"
-  gem "jekyll-optional-front-matter"
-  gem "jekyll-readme-index"
-  gem "jekyll-default-layout"
   gem "jekyll-titles-from-headings"
   gem "jekyll-redirect-from"
   gem "jekyll-last-modified-at"

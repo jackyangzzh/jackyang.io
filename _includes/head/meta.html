@@ -3,11 +3,7 @@
 {% endif %}
 
 {% unless page.redirect %}
-  {% if plugins contains 'jekyll-seo-tag' %}
-    {% include head/seo-tag.html %}
-  {% else %}
-    {% include head/seo-fallback.html %}
-  {% endif %}
+  {% include head/seo-tag.html %}
 
   {% if site.keywords.size > 0 or page.keywords.size > 0 %}
     <meta name="keywords" content="{{ page.keywords | default:site.keywords | join:',' }}">

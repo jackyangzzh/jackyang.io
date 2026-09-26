@@ -1,14 +1,13 @@
-{% assign google_fonts = site.google_fonts %}
-{% assign font_heading = site.font_heading %}
-{% assign font         = site.font         %}
-
 {% include        head/meta.html %}
 {% include_cached head/meta-static.html %}
 
 {% include        head/links.html lang=page.lang %}
 {% include_cached head/links-static.html %}
 
-{% include_cached head/scripts.html %}
+{% comment %}The TOC module only makes a `{:toc}` list sticky, so it is loaded on the pages that have one.{% endcomment %}
+{% assign no_toc = site.hydejack.no_toc | default:false %}
+{% unless content contains 'id="markdown-toc"' %}{% assign no_toc = true %}{% endunless %}
+{% include_cached head/scripts.html no_toc=no_toc %}
 
 {% include_cached head/styles.html layout=page.layout color=color theme_color=theme_color %}
 
