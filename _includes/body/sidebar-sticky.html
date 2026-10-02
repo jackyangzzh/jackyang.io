@@ -1,14 +1,18 @@
 <div class="sidebar-sticky">
-  <div class="sidebar-about">
+  <div class="sidebar-about{% if site.sidebar_role %} has-role{% endif %}">
     {% if site.logo %}
-      <a class="no-hover" href="{{ '/' | relative_url }}" tabindex="-1">
-        <img src="{% include_cached smart-url url=site.logo %}" srcset="/assets/img/profile128.webp 128w, /assets/img/profile256.webp 256w, /assets/img/profile.webp 694w" sizes="120px" class="avatar" alt="{{ site.short_title | default:site.title }}" width="120" height="120" loading="eager" fetchpriority="high" decoding="async" />
+      {% comment %}`avatar-link` hosts the "speaking" rings (see "Avatar" in my-critical.scss).{% endcomment %}
+      <a class="no-hover avatar-link" href="{{ '/' | relative_url }}" tabindex="-1">
+        <img src="{% include_cached smart-url url=site.logo %}" class="avatar" alt="{{ site.short_title | default:site.title }}" width="120" height="120" loading="eager" fetchpriority="high" decoding="async" />
       </a>
     {% endif %}
+    {% comment %}The role is an eyebrow over the name, as on the résumé hero.{% endcomment %}
+    {% if site.sidebar_role %}<p class="sidebar-role">{{ site.sidebar_role }}</p>{% endif %}
     <a class="sidebar-title" href="{{ '/' | relative_url }}"><h2 class="h1">{{ site.short_title | default:site.title }}</h2></a>
     {% assign text = site.tagline | default:site.description %}
     {% if text %}
-      <p class="{% if text.size > 100 %}fine{% endif %}">
+      {% comment %}A tagline this short is set on one line (see "Sidebar tagline" in my-critical.scss); longer ones wrap as usual.{% endcomment %}
+      <p class="{% if text.size > 100 %}fine{% endif %}{% if text.size <= 52 %} sidebar-tagline-one-line{% endif %}">
         {{ text | markdownify | replace:'<p>','' | replace:'</p>','' }}
       </p>
     {% endif %}

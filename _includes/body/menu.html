@@ -16,6 +16,11 @@
           {% if node.rel %}rel="{{ node.rel }}"{% endif %}>{{ node.name | default:node.title }}</a>
         {% endfor %}
       </nav>
+      {% comment %}Opens the ⌘K command menu. Hidden until site-polish.js, which owns the menu, is running; it also fills in ⌘ or Ctrl.{% endcomment %}
+      <button type="button" class="cmdk-trigger" data-command-palette hidden>
+        <span class="sr-only">Open command menu</span>
+        <kbd aria-hidden="true"><span data-command-palette-mod>⌘</span>K</kbd>
+      </button>
     </div>
   </div>
 </div>

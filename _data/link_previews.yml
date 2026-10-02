@@ -1,0 +1,11 @@
+# Hover previews for links in the résumé intro that leave the site (project
+# links preview from the projects themselves). site-polish.js shows one when
+# a link's href matches `url` exactly; see "Link previews" there.
+#
+# `title` and `description` are the page's own og:title and og:description,
+# so the card says what the visitor will find on the other side. Recheck them
+# if the page changes.
+- url: https://www.microsoft.com/en-us/microsoft-teams/teams-ai
+  site: microsoft.com
+  title: Boost teamwork with AI in Microsoft Teams
+  description: Discover how AI-powered features in Microsoft Teams enhance productivity, simplify collaboration, and automate tasks effortlessly.

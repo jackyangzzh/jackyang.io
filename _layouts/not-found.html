@@ -30,6 +30,12 @@ layout: base
     <span class="lost-sky__shooting-star"></span>
     <span class="lost-sky__shooting-star lost-sky__shooting-star--late"></span>
     <span class="lost-sky__code">4<span class="lost-sky__planet">0</span>4</span>
+    {% comment %}Typed in by site-polish.js ("404 terminal"): `cd` to the missing address, and the shell's reply. Its row is reserved even before then, so nothing shifts when it appears.{% endcomment %}
+    <span class="lost-sky__terminal">
+      <span class="lost-sky__line"><span class="lost-sky__prompt">~ $</span> <span data-terminal-input></span><span class="lost-sky__caret"></span></span>
+      <span class="lost-sky__line lost-sky__answer" data-terminal-output hidden>cd: no such file or directory</span>
+      <span class="lost-sky__line" data-terminal-next hidden><span class="lost-sky__prompt">~ $</span> </span>
+    </span>
   </div>
   <h1 class="page-title">{{ page.title | default:strings.not_found.title | default: "404: Page Not Found" }}</h1>
   <div class="hr pb0"></div>

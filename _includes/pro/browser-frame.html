@@ -1,0 +1,29 @@
+{% comment %}
+A screenshot of a live website inside a browser window, after cult-ui's
+mock-browser-window: traffic lights, an address bar with the site's URL, and
+the capture underneath. Only for real captures of the site named in `url`.
+
+Parameters:
+  src      largest image (also the fallback src)
+  srcset   comma-separated "path width" candidates, as in <img srcset>
+  url      address shown in the bar, without the scheme
+  href     optional link for the address bar (opens in a new tab)
+  alt      what the screenshot shows
+  width / height   intrinsic size of `src`, for layout before it loads
+  caption  optional
+{% endcomment %}
+<figure class="browser-frame">
+  <div class="browser-frame__bar">
+    <span class="browser-frame__lights" aria-hidden="true"><span></span><span></span><span></span></span>
+    {% if include.href %}
+    <a class="browser-frame__url no-hover no-mark-external" href="{{ include.href }}" target="_blank" rel="noopener noreferrer">
+      <svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4.5 7V5.5a3.5 3.5 0 0 1 7 0V7h.5a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1zm1.5 0h4V5.5a2 2 0 0 0-4 0z"/></svg>
+      {{ include.url }}<span class="sr-only"> (opens in a new tab)</span>
+    </a>
+    {% else %}
+    <span class="browser-frame__url">{{ include.url }}</span>
+    {% endif %}
+  </div>
+  <img src="{{ include.src | relative_url }}" srcset="{{ include.srcset }}" sizes="(min-width: 86em) 54rem, (min-width: 54em) 48rem, (min-width: 42em) 42rem, 100vw" alt="{{ include.alt | escape }}" width="{{ include.width }}" height="{{ include.height }}" loading="lazy" decoding="async">
+  {% if include.caption %}<figcaption>{{ include.caption }}</figcaption>{% endif %}
+</figure>

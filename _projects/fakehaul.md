@@ -26,7 +26,7 @@ links:
 ---
 I launched FakeHaul in July 2026 to find out whether shopping can feel satisfying without buying anything. You can browse, hunt for deals, check out, track an order, and open a virtual package, but you never pay and nothing ships. At its peak, FakeHaul reached 3,000 daily active users.
 
-FakeHaul has been covered by The New York Times, Fast Company, Digital Trends, Newser, t3n, Cybernews, and The Cool Down. [Read the coverage and the questions it raised](#press-and-uncertainty).
+FakeHaul has been covered by The New York Times, Fast Company, and Digital Trends, and mentioned by NPR, Vice, CBC, and Futurism, among others. [Read the coverage and the questions it raised](#press-and-uncertainty).
 {:.note title="In the press"}
 
 ## The idea
@@ -38,6 +38,15 @@ Sometimes finding the deal feels better than receiving the box. I wanted to test
 ## Building the illusion
 
 I built a mobile-first marketplace with [about 1,800 fictional products across eleven categories](https://fakehaul.com/categories). It has the familiar mechanics: low-stock warnings, viewer counts, a daily spin wheel, and five-minute coupons.
+
+{% include pro/browser-frame.html
+  url="fakehaul.com"
+  href="https://fakehaul.com/"
+  src="/assets/img/projects/fakehaul-site-1440.webp"
+  srcset="/assets/img/projects/fakehaul-site-480.webp 480w, /assets/img/projects/fakehaul-site-960.webp 960w, /assets/img/projects/fakehaul-site-1440.webp 1440w, /assets/img/projects/fakehaul-site-1920.webp 1920w"
+  width="1440" height="900"
+  alt="The FakeHaul storefront: a search bar, a banner reading “Haul it all. Pay $0.00.”, the Daily Spin, category pills and a row of Lightning Deals"
+%}
 
 The tricky part was making it feel like a real store without misleading anyone about what it is. A product card might say "only 6 left," but the header makes clear that checkout never charges a cent. The cart and wishlist stay in your browser, so you don't need an account.
 
@@ -79,9 +88,15 @@ Coverage started in July 2026, during a wider conversation about "dopamine sites
 
 Additional coverage and commentary:
 
+- [NPR's Planet Money](https://www.npr.org/sections/planet-money/2026/09/25/nx-s1-5980393/why-this-pokemon-set-is-dropping-in-value) included it in a newsletter roundup of sites that simulate online shopping, alongside FoodNeverComes and ImaginAir.
+- [Vice](https://www.vice.com/en/article/the-internet-has-invented-fake-online-shopping-and-theres-a-wild-reason-why-people-love-it/) described it as a way to "experience the thrilling ritual of buying a thing that doesn't exist."
+- [CBC Radio's The Current](https://www.cbc.ca/radio/thecurrent/fake-shopping-website-app-dopamine-9.7313588) covered it among the mock shopping sites spreading beyond South Korea.
+- [Futurism](https://futurism.com/future-society/bizarre-websites-dopamine-brain) called it a dopamine site that "convincingly imitates shopping on Temu."
+- [Money Talks News](https://www.moneytalksnews.com/the-free-fake-shopping-sites-designed-to-cure-your-spending-and-the-catch-nobody-mentions/) called it "the biggest U.S. entry" in the trend and focused on its guardrails, including my plan to shut it down if the evidence turns against it.
 - [Newser](https://www.newser.com/story/393338/site-lets-you-gleefully-shop-without-spending-money.html) focused on how completely the catalog is invented.
 - [t3n](https://t3n.de/news/fake-shop-bestellung-dopamin-1749518/) read it as a parody of online retail mechanics.
 - [Cybernews](https://cybernews.com/tech/digital-diy-ai-projects/) explored what AI makes possible for personal projects. We also discussed my choice not to collect accounts, email addresses, or IP-based tracking data. That leaves me without retention data, a trade-off I'm comfortable with.
 - [The Cool Down](https://www.thecooldown.com/green-tech/dopamine-sites-south-korea-shopping-trend/) looked at shopping without spending, with the caveat that redirecting a habit isn't the same as resolving it.
+- [Gizbot](https://www.gizbot.com/features/dopamine-sites-fake-food-delivery-foodnevercomes-128777.html) in India and [Oti Simveni](https://otisimveni.gr/2026/07/27/fakehaul-ti-einai-to-pseftiko-temu-opou-psonizeis-choris-na-agorazeis-tipota/) in Greece wrote it up for readers abroad.
 
 I don't know whether FakeHaul helps people change their shopping habits. The friend I built it for says it helps; a moderator of a shopping-addiction community warned me that rehearsing the ritual could reinforce it. Neither is enough to establish a broader outcome. FakeHaul is an entertainment product exploring an idea, and I don't present it as a treatment. If people tell me it's making things worse, I'm prepared to take it down.

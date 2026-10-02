@@ -1,0 +1,56 @@
+---
+sitemap: false
+---
+{% comment %}
+A small index of the site for site-polish.js: the hover previews on project
+links and the ⌘K command menu both read it. Fetched only when one of them is
+first used, and with the build's `?v=` on the URL, since /assets/* is served
+with a one-year immutable cache.
+{% endcomment %}
+{%- assign home = site.pages | where:"url","/" | first -%}
+{%- assign resume = site.data.resume -%}
+{%- assign projects = site.projects | sort:"weight" -%}
+{
+  "projects": [
+    {%- for p in projects -%}
+    {%- assign shot = p.screenshot | default:p.image -%}
+    {%- assign thumb = shot.srcset.first.last | default:shot.path | default:shot -%}
+    {%- capture years -%}{{ p.date | date:"%Y" }}{% if p.end_date and p.end_date.size > 0 %} – {{ p.end_date | date:"%Y" }}{% endif %}{%- endcapture -%}
+    {
+      "url": {{ p.url | relative_url | jsonify }},
+      "title": {{ p.title | jsonify }},
+      "tagline": {{ p.tagline | default:p.caption | default:p.description | markdownify | strip_html | strip | jsonify }},
+      "category": {{ p.category | default:"other" | downcase | jsonify }},
+      "years": {{ years | jsonify }},
+      "image": {{ thumb | relative_url | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ],
+  "links": [
+    {%- for link in site.data.link_previews -%}
+    {
+      "url": {{ link.url | jsonify }},
+      "site": {{ link.site | jsonify }},
+      "title": {{ link.title | jsonify }},
+      "tagline": {{ link.description | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ],
+  "posts": [
+    {%- for post in site.data.medium_posts limit:6 -%}
+    {
+      "title": {{ post.title | jsonify }},
+      "url": {{ post.url | jsonify }},
+      "date": {{ post.date | date:"%b %Y" | jsonify }}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ],
+  "email": {{ resume.basics.email | default:site.author.email | jsonify }},
+  "resume": {{ home.buttons.pdf | relative_url | jsonify }},
+  "schedule": {{ home.buttons.schedule | jsonify }},
+  "profiles": [
+    {%- for pro in resume.basics.profiles -%}
+    { "network": {{ pro.network | jsonify }}, "url": {{ pro.url | jsonify }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}

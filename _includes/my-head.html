@@ -1,5 +1,5 @@
-{% comment %}Preload the home cover avatar — the LCP candidate on mobile. imagesrcset/imagesizes mirror the avatar <img> (sidebar-sticky.html, resume/header.html) so the preload fetches the same candidate the image picks and is reused, not downloaded twice.{% endcomment %}
-{% if page.cover and site.logo %}<link rel="preload" href="{% include smart-url url=site.logo %}" imagesrcset="/assets/img/profile128.webp 128w, /assets/img/profile256.webp 256w, /assets/img/profile.webp 694w" imagesizes="120px" as="image" type="image/webp" fetchpriority="high">{% endif %}
+{% comment %}Preload the home cover avatar — the LCP candidate on mobile. The avatar <img> (sidebar-sticky.html, resume/header.html) uses this one file at every density: the 694px export weighs the same as the 128/256px ones (~9 KB) and is much sharper on a high-density screen, so there is no srcset to mirror and the preload is reused, not downloaded twice.{% endcomment %}
+{% if page.cover and site.logo %}<link rel="preload" href="{% include smart-url url=site.logo %}" as="image" type="image/webp" fetchpriority="high">{% endif %}
 
 {% comment %}
 Scroll reveals no longer need a pre-paint gate: site-polish.js opts each markup
