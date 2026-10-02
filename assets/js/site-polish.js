@@ -114,19 +114,183 @@
     }
   };
 
+  /* -------------------------------------------------------- sliding highlight */
+
+  // After cult-ui's direction-aware tabs: a group of options shares one
+  // highlight that slides to whichever is chosen, instead of each option
+  // lighting up its own background. The highlight is the track's ::before,
+  // placed by four inset properties; CSS owns its look and its motion (see
+  // "Sliding highlight" in my-critical.scss). The edge facing the way it
+  // travels leaves first and the trailing edge follows a beat later, so the
+  // bubble stretches toward its destination and then catches up.
+  //
+  // Measured with offset* rather than getBoundingClientRect, so a pill's own
+  // hover lift or press scale never ends up in the geometry. Each track is
+  // `position: relative` in CSS, which makes it its options' offsetParent.
+  // A track only takes `has-bubble` once it has been measured, so without
+  // script every option keeps its own active style.
+  const BUBBLE_LAG_MS = 70;
+  const bubbleTargets = new WeakMap();
+  const bubbleTracks = new Set();
+  let bubbleResizeObserver;
+
+  const placeBubble = (track, target, animate) => {
+    // Gone, or not laid out (the quick nav is display: none on desktop):
+    // fade out where it stands. A ResizeObserver brings it back when the
+    // target appears.
+    if (!target || target.offsetParent !== track) {
+      track.classList.add("bubble-hidden");
+      return;
+    }
+    const style = track.style;
+    const top = target.offsetTop;
+    const left = target.offsetLeft;
+    const right = track.clientWidth - left - target.offsetWidth;
+    const bottom = track.clientHeight - top - target.offsetHeight;
+    const lag = (trailing) => (trailing ? `${BUBBLE_LAG_MS}ms` : "0ms");
+    const was = (name) => parseFloat(style.getPropertyValue(`--bubble-${name}`));
+    const moving = animate && track.classList.contains("has-bubble");
+    style.setProperty("--bubble-lag-left", lag(moving && left > was("left")));
+    style.setProperty("--bubble-lag-right", lag(moving && right > was("right")));
+    style.setProperty("--bubble-lag-top", lag(moving && top > was("top")));
+    style.setProperty("--bubble-lag-bottom", lag(moving && bottom > was("bottom")));
+    track.classList.toggle("bubble-instant", !animate);
+    style.setProperty("--bubble-top", `${top}px`);
+    style.setProperty("--bubble-right", `${right}px`);
+    style.setProperty("--bubble-bottom", `${bottom}px`);
+    style.setProperty("--bubble-left", `${left}px`);
+    track.classList.add("has-bubble");
+    track.classList.remove("bubble-hidden");
+  };
+
+  // Re-place without motion when anything in a track changes size: web fonts
+  // arriving, the window crossing a breakpoint, the filter row wrapping.
+  const observeBubbleTrack = (track) => {
+    if (!("ResizeObserver" in window)) return;
+    if (!bubbleResizeObserver) {
+      bubbleResizeObserver = new ResizeObserver((entries) => {
+        const tracks = new Set();
+        for (const entry of entries) {
+          const track = entry.target.closest(".bubble-track");
+          if (track) tracks.add(track);
+        }
+        for (const track of tracks) placeBubble(track, bubbleTargets.get(track), false);
+      });
+    }
+    if (bubbleTracks.has(track)) return;
+    // A page swap throws away the filter row; stop watching the old one.
+    for (const old of bubbleTracks) {
+      if (old.isConnected) continue;
+      bubbleResizeObserver.unobserve(old);
+      for (const option of old.children) bubbleResizeObserver.unobserve(option);
+      bubbleTracks.delete(old);
+    }
+    bubbleTracks.add(track);
+    track.classList.add("bubble-track");
+    bubbleResizeObserver.observe(track);
+    for (const option of track.children) bubbleResizeObserver.observe(option);
+  };
+
+  // The option under the bubble is marked `bubble-target`, which is what CSS
+  // keys its see-through state on. Not `aria-current`: during a page load the
+  // bubble is already on the new link while that still names the old one.
+  const moveBubble = (track, target, animate) => {
+    if (!track) return;
+    observeBubbleTrack(track);
+    const previous = bubbleTargets.get(track);
+    if (previous === target && track.classList.contains("has-bubble")) return;
+    if (previous) previous.classList.remove("bubble-target");
+    if (target) target.classList.add("bubble-target");
+    bubbleTargets.set(track, target);
+    placeBubble(track, target, animate);
+  };
+
   /* --------------------------------------------------------------- navigation */
 
+  const NAV_TRACKS = [
+    [".sidebar-nav > ul", ".sidebar-nav-item"],
+    [".quick-nav", ".quick-nav-link"],
+  ];
+
+  const normalizePath = (pathname) => pathname.replace(/\/$/, "") || "/";
+
+  // "page" for the link to this very page, "location" for a section it sits
+  // in (a project under Projects), or null.
+  const navCurrent = (link, path) => {
+    const url = new URL(link.href, location.href);
+    if (url.origin !== location.origin) return null;
+    const target = normalizePath(url.pathname);
+    if (target === path) return "page";
+    if (target !== "/" && path.startsWith(`${target}/`)) return "location";
+    return null;
+  };
+
+  // Where each track's highlight belongs when nothing is being pointed at.
+  const navHome = new WeakMap();
+
+  const moveNavBubbles = (path, animate) => {
+    for (const [trackSelector, linkSelector] of NAV_TRACKS) {
+      const track = document.querySelector(trackSelector);
+      if (!track) continue;
+      const links = [...track.querySelectorAll(linkSelector)];
+      const home = links.find((link) => navCurrent(link, path));
+      navHome.set(track, home);
+      moveBubble(track, home, animate);
+    }
+  };
+
+  // After cult-ui's direction-aware tabs, whose highlight follows the
+  // pointer: in the sidebar it slides to whichever link the pointer (or
+  // keyboard focus) is on, and back to the current page's link when it
+  // leaves. Touch has nothing to follow. The sidebar persists across page
+  // swaps, so this is wired once.
+  const setupNavFollow = () => {
+    const track = document.querySelector(".sidebar-nav > ul");
+    if (!track || track.dataset.followReady) return;
+    track.dataset.followReady = "true";
+    const linkAt = (target) => target instanceof Element && target.closest(".sidebar-nav-item");
+    const goHome = () => moveBubble(track, navHome.get(track), true);
+
+    track.addEventListener("pointerover", (event) => {
+      const link = event.pointerType !== "touch" && linkAt(event.target);
+      if (link) moveBubble(track, link, true);
+    });
+    track.addEventListener("pointerleave", (event) => {
+      // Keyboard focus keeps it; a link merely clicked earlier does not.
+      if (event.pointerType !== "touch" && !track.querySelector(":focus-visible")) goHome();
+    });
+    track.addEventListener("focusin", (event) => {
+      const link = linkAt(event.target);
+      if (link && link.matches(":focus-visible")) moveBubble(track, link, true);
+    });
+    track.addEventListener("focusout", (event) => {
+      if (!track.contains(event.relatedTarget) && !track.matches(":hover")) goHome();
+    });
+  };
+
   const setupNavigation = () => {
-    const path = location.pathname.replace(/\/$/, "") || "/";
+    const path = normalizePath(location.pathname);
     for (const link of document.querySelectorAll(".sidebar-nav-item, .quick-nav-link")) {
-      const url = new URL(link.href, location.href);
-      const target = url.pathname.replace(/\/$/, "") || "/";
-      link.removeAttribute("aria-current");
-      if (url.origin !== location.origin) continue;
-      if (target === path) link.setAttribute("aria-current", "page");
-      else if (target !== "/" && path.startsWith(`${target}/`)) {
-        link.setAttribute("aria-current", "location");
-      }
+      const current = navCurrent(link, path);
+      if (current) link.setAttribute("aria-current", current);
+      else link.removeAttribute("aria-current");
+    }
+    // Animated, so back and forward (which arrive here via popstate) slide
+    // too. A first placement has no earlier position to slide from, and
+    // after a push-state swap the bubble is already in place.
+    moveNavBubbles(path, true);
+  };
+
+  // The sidebar and the top bar survive page swaps, so the highlight can
+  // leave for the new page the moment it is requested rather than jumping
+  // once it has loaded. setupNavigation then finds it already in place.
+  const onNavigationStart = (event) => {
+    const url = event.detail && event.detail.url;
+    if (!url) return;
+    try {
+      moveNavBubbles(normalizePath(new URL(url, location.href).pathname), true);
+    } catch {
+      // Cosmetic only; setupNavigation still corrects it after the swap.
     }
   };
 
@@ -139,12 +303,13 @@
     const items = [...document.querySelectorAll(".project-list .project-column")];
     const status = document.querySelector(".project-results");
 
-    const applyFilter = (filter) => {
+    const applyFilter = (filter, animate) => {
       let count = 0;
       for (const button of buttons) {
         const active = button.dataset.filter === filter;
         button.classList.toggle("is-active", active);
         button.setAttribute("aria-pressed", String(active));
+        if (active) moveBubble(filters, button, animate);
       }
       for (const item of items) {
         const match = filter === "all" || item.dataset.category === filter;
@@ -159,8 +324,9 @@
     };
 
     const requested = new URL(location.href).searchParams.get("category");
-    applyFilter(buttons.some((button) => button.dataset.filter === requested) ? requested : "all");
+    // Unhidden first: the highlight is measured against the laid-out pills.
     filters.hidden = false;
+    applyFilter(buttons.some((button) => button.dataset.filter === requested) ? requested : "all", false);
 
     // A cached page may be initialized again; do not stack click handlers.
     if (filters.dataset.ready) return;
@@ -169,8 +335,8 @@
       const button = event.target instanceof Element && event.target.closest("[data-filter]");
       if (!button) return;
       const filter = button.dataset.filter;
-      runFilterTransition(items, () => {
-        applyFilter(filter);
+      runFilterTransition(filters, items, () => {
+        applyFilter(filter, true);
         setupReveal();
       });
       const url = new URL(location.href);
@@ -190,18 +356,21 @@
   // Cards that stay glide to their new slots; the rest shrink out or grow in
   // (see "Project filters" in my-style.scss). Every card gets a unique name
   // only for the life of the transition, so no other view transition (the
-  // theme switch) ever sees them.
-  const runFilterTransition = (items, update) => {
+  // theme switch) ever sees them. The filter row is named too and shown live,
+  // so its sliding highlight is not cross-faded with a snapshot of itself.
+  const runFilterTransition = (bar, items, update) => {
     if (!canTransition()) {
       update();
       return;
     }
+    bar.style.viewTransitionName = "project-filters";
     items.forEach((item, index) => {
       item.style.viewTransitionName = `project-card-${index}`;
     });
     root.classList.add("is-filtering");
     const cleanUp = () => {
       root.classList.remove("is-filtering");
+      bar.style.viewTransitionName = "";
       for (const item of items) item.style.viewTransitionName = "";
     };
     try {
@@ -464,6 +633,13 @@
     window.__shortcutsReady = true;
 
     window.addEventListener("keydown", (event) => {
+      // ⌘K / Ctrl+K works everywhere, even mid-typing, as it does in apps.
+      if ((event.metaKey || event.ctrlKey) && !event.altKey && !event.shiftKey && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        togglePalette();
+        return;
+      }
+
       // Don't intercept when user is typing or using modifier keys
       if (
         event.metaKey ||
@@ -569,6 +745,541 @@
     for (const video of videos) deferredVideoObserver.observe(video);
   };
 
+  /* ------------------------------------------------------------- social dock */
+
+  // After cult-ui's dock: the sidebar's social icons swell under the pointer
+  // the way the macOS Dock does, the nearest one most and its neighbours a
+  // little. Only the glyph inside each link scales, from its foot, so hit
+  // areas and the row's layout never move; CSS smooths the steps (see
+  // "Social dock" in my-style.scss). Mouse only: touch has no hover to follow.
+  const DOCK_MAX_SCALE = 1.55;
+  // Pixels: the spread of the swell either side of the pointer. Neighbours
+  // sit 48px apart, so one under the pointer lifts the next to about 1.2.
+  const DOCK_SPREAD = 36;
+
+  const setupDock = () => {
+    const row = document.querySelector(".sidebar-social > ul");
+    // The sidebar persists across page swaps; wire it once.
+    if (!row || row.dataset.dockReady) return;
+    row.dataset.dockReady = "true";
+    const links = [...row.querySelectorAll(":scope > li > a")];
+    let frame = 0;
+    let pointerX = 0;
+
+    const swell = () => {
+      frame = 0;
+      for (const link of links) {
+        const rect = link.getBoundingClientRect();
+        const distance = pointerX - (rect.left + rect.width / 2);
+        const reach = Math.exp(-(distance * distance) / (2 * DOCK_SPREAD * DOCK_SPREAD));
+        link.style.setProperty("--dock-scale", (1 + (DOCK_MAX_SCALE - 1) * reach).toFixed(3));
+      }
+    };
+
+    row.addEventListener("pointermove", (event) => {
+      if (event.pointerType !== "mouse" || (reducedMotion && reducedMotion.matches)) return;
+      pointerX = event.clientX;
+      row.classList.add("is-docking");
+      if (!frame) frame = requestAnimationFrame(swell);
+    });
+
+    row.addEventListener("pointerleave", () => {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      row.classList.remove("is-docking");
+      for (const link of links) link.style.removeProperty("--dock-scale");
+    });
+  };
+
+  /* --------------------------------------------------------- cover scroll cue */
+
+  // See "Cover scroll cue" in my-critical.scss. Added beside the theme's
+  // swipe hand while the cover is open, and removed, as the theme removes
+  // the hand, once it has opened; CSS decides which of the two shows.
+  const setupCoverCue = () => {
+    const drawer = document.getElementById("_drawer");
+    const sidebar = document.getElementById("_sidebar");
+    if (!drawer || !sidebar || !drawer.classList.contains("cover") || !drawer.hasAttribute("opened")) return;
+    if (sidebar.querySelector(".cover-cue")) return;
+
+    const cue = document.createElement("button");
+    cue.type = "button";
+    cue.className = "cover-cue";
+    cue.innerHTML =
+      '<span class="cover-cue__mouse" aria-hidden="true"><span class="cover-cue__wheel"></span></span>' +
+      '<span aria-hidden="true">Scroll</span><span class="sr-only">Show the résumé</span>';
+    cue.addEventListener("click", () => {
+      if (typeof drawer.close === "function") drawer.close();
+    });
+    sidebar.appendChild(cue);
+    drawer.addEventListener("hy-drawer-transitioned", (event) => {
+      if (!event.detail) cue.remove();
+    });
+  };
+
+  /* -------------------------------------------------------------- cover hello */
+
+  // After cult-ui's speech bubble: a moment after the cover appears, the
+  // photo "speaks" (its ring lights; see "Avatar: speaking rings" in
+  // my-critical.scss) and a chat bubble pops out of it, typing for a beat
+  // before it says hi, then drifts away. Once per visit (session), and not
+  // over the first-visit welcome sweep, which it waits out. Pointing at the
+  // photo brings the hello back for as long as the pointer stays. The bubble
+  // is decoration, so it is aria-hidden; with reduced motion it only appears
+  // on hover, without the pop.
+  const HELLO_DELAY_MS = 1200;
+  const HELLO_TYPING_MS = 950;
+  const HELLO_HOLD_MS = 3400;
+  const HELLO_RETRY_MS = 500;
+  const HELLO_SESSION_KEY = "jackyang-cover-hello-v1";
+  const helloTimers = new Set();
+
+  const helloLater = (fn, delay) => {
+    const id = setTimeout(() => {
+      helloTimers.delete(id);
+      fn();
+    }, delay);
+    helloTimers.add(id);
+  };
+
+  const clearHello = (link, bubble) => {
+    for (const id of helloTimers) clearTimeout(id);
+    helloTimers.clear();
+    bubble.classList.remove("is-open", "is-typing");
+    link.classList.remove("is-speaking");
+  };
+
+  const sayHello = (link, bubble, { typing, hold }) => {
+    clearHello(link, bubble);
+    void bubble.offsetWidth; // replay the pop from the top
+    link.classList.add("is-speaking");
+    bubble.classList.toggle("is-typing", typing);
+    bubble.classList.add("is-open");
+    if (typing) helloLater(() => bubble.classList.remove("is-typing"), HELLO_TYPING_MS);
+    if (hold) helloLater(() => clearHello(link, bubble), (typing ? HELLO_TYPING_MS : 0) + hold);
+  };
+
+  const setupCoverHello = () => {
+    const link = document.querySelector(".sidebar-about > .avatar-link");
+    if (!link) return;
+    let bubble = link.querySelector(".hello-bubble");
+    if (!bubble) {
+      bubble = document.createElement("span");
+      bubble.className = "hello-bubble";
+      bubble.setAttribute("aria-hidden", "true");
+      bubble.innerHTML =
+        '<span class="hello-bubble__typing"><i></i><i></i><i></i></span>' +
+        '<span class="hello-bubble__text">Hi there! <span class="hello-bubble__wave">👋</span></span>';
+      link.appendChild(bubble);
+      link.addEventListener("pointerenter", (event) => {
+        if (event.pointerType === "mouse") sayHello(link, bubble, { typing: false, hold: 0 });
+      });
+      link.addEventListener("pointerleave", (event) => {
+        if (event.pointerType === "mouse") clearHello(link, bubble);
+      });
+    }
+
+    const drawer = document.getElementById("_drawer");
+    if (!drawer || !drawer.classList.contains("cover") || !drawer.hasAttribute("opened")) return;
+    if (reducedMotion && reducedMotion.matches) return;
+    try {
+      if (sessionStorage.getItem(HELLO_SESSION_KEY)) return;
+      sessionStorage.setItem(HELLO_SESSION_KEY, "1");
+    } catch {
+      // Without storage it greets on each visit to the cover; still harmless.
+    }
+
+    const greet = () => {
+      if (!drawer.hasAttribute("opened") || link.matches(":hover")) return;
+      if (document.hidden || root.classList.contains("cover-welcome")) {
+        helloLater(greet, HELLO_RETRY_MS);
+        return;
+      }
+      sayHello(link, bubble, { typing: true, hold: HELLO_HOLD_MS });
+    };
+    helloLater(greet, HELLO_DELAY_MS);
+  };
+
+  /* ------------------------------------------------------------ cover meteors */
+
+  // Every so often a shooting star crosses the cover's sky: nothing to look
+  // at on purpose, just a small reward for anyone who lingers. One at a time,
+  // at a random height and angle, and only while the cover is open and the
+  // tab is in view. The streak moves by transform and opacity only.
+  const METEOR_FIRST_MS = 3500;
+  const METEOR_GAP_MS = [7000, 15000];
+
+  const launchMeteor = (sky) => {
+    const meteor = document.createElement("span");
+    meteor.className = "cover-meteor";
+    meteor.setAttribute("aria-hidden", "true");
+    const angle = 18 + Math.random() * 16;
+    const length = 5 + Math.random() * 4;
+    Object.assign(meteor.style, {
+      top: `${4 + Math.random() * 38}%`,
+      left: `${Math.random() * 55}%`,
+      width: `${length}rem`,
+    });
+    sky.appendChild(meteor);
+    const travel = Math.min(sky.clientWidth * 0.45, 520);
+    const animation = meteor.animate(
+      [
+        { transform: `rotate(${angle}deg) translateX(0)`, opacity: 0 },
+        { opacity: 1, offset: 0.2 },
+        { transform: `rotate(${angle}deg) translateX(${travel}px)`, opacity: 0 },
+      ],
+      { duration: 900 + Math.random() * 500, easing: "cubic-bezier(.3, .1, .6, 1)" }
+    );
+    animation.onfinish = () => meteor.remove();
+    animation.oncancel = () => meteor.remove();
+  };
+
+  const setupCoverMeteors = () => {
+    const drawer = document.getElementById("_drawer");
+    const sky = document.querySelector("#_drawer.cover .sidebar-bg");
+    if (!drawer || !sky || sky.dataset.meteors || !drawer.hasAttribute("opened")) return;
+    if ((reducedMotion && reducedMotion.matches) || typeof sky.animate !== "function") return;
+    sky.dataset.meteors = "true";
+    const [shortest, longest] = METEOR_GAP_MS;
+    const next = () => {
+      // The cover opens once; after that the sky is the sidebar's, so stop.
+      if (!drawer.hasAttribute("opened")) return;
+      if (!document.hidden) launchMeteor(sky);
+      setTimeout(next, shortest + Math.random() * (longest - shortest));
+    };
+    setTimeout(next, METEOR_FIRST_MS);
+  };
+
+  /* -------------------------------------------------------------- site index */
+
+  // assets/site-index.json: projects, recent writing and contact links, for
+  // the project previews and the command menu. Fetched once, on first use,
+  // with this script's own `?v=`, since /assets/* is served with a one-year
+  // immutable cache and an unversioned URL would outlive the next build.
+  const BUILD_QUERY = new URL(import.meta.url).search;
+  let siteIndex;
+
+  const loadSiteIndex = () => {
+    siteIndex ||= fetch(new URL(`../site-index.json${BUILD_QUERY}`, import.meta.url))
+      .then((response) => {
+        if (!response.ok) throw new Error(`site index: ${response.status}`);
+        return response.json();
+      })
+      .catch((error) => {
+        // Let the next use try again rather than caching the failure.
+        siteIndex = undefined;
+        throw error;
+      });
+    return siteIndex;
+  };
+
+  /* -------------------------------------------------------- project previews */
+
+  // After cult-ui's floating panel: pointing at (or tabbing to) a project name
+  // in the résumé intro grows a small card out of the link, with the
+  // project's artwork, years and one-line summary. A link that leaves the
+  // site gets the same card without artwork, if _data/link_previews.yml has
+  // an entry for it: the site's name and the page's own title and
+  // description. Either way it repeats what is on the other side of the
+  // link, so it is aria-hidden and never takes focus. It stays while the
+  // pointer is on the link or on the card itself, so it can be reached and
+  // clicked; Escape, scrolling or moving away put it away. Mouse and
+  // keyboard only: on touch the link is simply a link. Intro links with
+  // nothing to preview just never open a card.
+  const PREVIEW_SELECTOR = ".resume-intro a[href]";
+  const PREVIEW_SHOW_MS = 120;
+  const PREVIEW_HIDE_MS = 160;
+  // Space between the link and the card, and the card and the window edge.
+  const PREVIEW_GAP = 10;
+  const PREVIEW_MARGIN = 8;
+  // Wait this long at most for the artwork to decode before opening.
+  const PREVIEW_IMAGE_WAIT_MS = 250;
+  const CATEGORY_LABELS = { professional: "Professional", personal: "Personal", research: "Research" };
+
+  let peek;
+  let peekLink = null;
+  let peekTimer = 0;
+  let peekToken = 0;
+
+  const buildPeek = () => {
+    peek = document.createElement("div");
+    peek.className = "project-peek";
+    peek.setAttribute("aria-hidden", "true");
+    peek.innerHTML =
+      '<div class="project-peek__art"><img alt="" width="480" height="270" decoding="async"></div>' +
+      '<div class="project-peek__body">' +
+      '<p class="project-peek__meta"><span class="project-tag"></span><span class="project-peek__years"></span></p>' +
+      '<p class="project-peek__title"></p><p class="project-peek__text"></p></div>';
+    // The card is a shortcut to the link it previews; the link keeps the
+    // click, so the theme's page transition still runs.
+    peek.addEventListener("click", () => {
+      if (peekLink) peekLink.click();
+    });
+    document.body.appendChild(peek);
+  };
+
+  // A link that wraps onto two lines has two boxes; anchor to the one the
+  // pointer is in, or the first for keyboard focus.
+  const anchorRect = (link, x, y) => {
+    const rects = [...link.getClientRects()];
+    if (x !== undefined) {
+      const hit = rects.find((r) => x >= r.left && x <= r.right && y >= r.top && y <= r.bottom);
+      if (hit) return hit;
+    }
+    return rects[0] || link.getBoundingClientRect();
+  };
+
+  const placePeek = (rect) => {
+    const width = peek.offsetWidth;
+    const height = peek.offsetHeight;
+    const fitsBelow = rect.bottom + PREVIEW_GAP + height <= innerHeight - PREVIEW_MARGIN;
+    const fitsAbove = rect.top - PREVIEW_GAP - height >= PREVIEW_MARGIN;
+    const below = fitsBelow || !fitsAbove;
+    const center = rect.left + rect.width / 2;
+    const left = Math.min(Math.max(PREVIEW_MARGIN, center - width / 2), innerWidth - width - PREVIEW_MARGIN);
+    peek.style.left = `${Math.round(left)}px`;
+    peek.style.top = `${Math.round(below ? rect.bottom + PREVIEW_GAP : rect.top - PREVIEW_GAP - height)}px`;
+    // Grow out of the link.
+    peek.style.transformOrigin = `${Math.round(center - left)}px ${below ? 0 : height}px`;
+  };
+
+  // What a link previews: one of the site's projects (by path), or an entry
+  // from _data/link_previews.yml (by exact address, give or take a slash).
+  const previewFor = (index, link) => {
+    const url = new URL(link.href, location.href);
+    if (url.origin === location.origin) {
+      const path = normalizePath(url.pathname);
+      const project = index.projects.find((item) => normalizePath(item.url) === path);
+      return project && { ...project, label: CATEGORY_LABELS[project.category] || project.category };
+    }
+    const href = url.href.replace(/\/$/, "");
+    const external = (index.links || []).find((item) => item.url.replace(/\/$/, "") === href);
+    return external && { ...external, category: "other", label: `${external.site} ↗`, years: "", image: "" };
+  };
+
+  const showPeek = async (link, rect) => {
+    const token = ++peekToken;
+    let preview;
+    try {
+      preview = previewFor(await loadSiteIndex(), link);
+    } catch {
+      return;
+    }
+    if (token !== peekToken || !link.isConnected) return;
+    // Nothing to show for this link: put away the card for the last one.
+    if (!preview) {
+      hidePeek();
+      return;
+    }
+    if (!peek) buildPeek();
+
+    const img = peek.querySelector("img");
+    peek.classList.toggle("is-link", !preview.image);
+    if (preview.image && img.getAttribute("src") !== preview.image) img.src = preview.image;
+    const tag = peek.querySelector(".project-tag");
+    tag.className = `project-tag project-tag-${preview.category}`;
+    tag.textContent = preview.label;
+    peek.querySelector(".project-peek__years").textContent = preview.years;
+    peek.querySelector(".project-peek__title").textContent = preview.title;
+    peek.querySelector(".project-peek__text").textContent = preview.tagline;
+
+    // Open with the artwork in place rather than popping in a beat later.
+    if (preview.image) {
+      await Promise.race([
+        img.decode().catch(() => {}),
+        new Promise((resolve) => setTimeout(resolve, PREVIEW_IMAGE_WAIT_MS)),
+      ]);
+    }
+    if (token !== peekToken || !link.isConnected) return;
+
+    // Moving straight from one project name to another replays the grow.
+    peek.classList.remove("is-open");
+    placePeek(rect || anchorRect(link));
+    void peek.offsetWidth;
+    peekLink = link;
+    peek.classList.add("is-open");
+  };
+
+  const hidePeek = () => {
+    clearTimeout(peekTimer);
+    peekTimer = 0;
+    peekToken += 1;
+    peekLink = null;
+    if (peek) peek.classList.remove("is-open");
+  };
+
+  // One timer for both directions, so a pass across a link that never
+  // settles on it cancels the show it scheduled.
+  const schedulePeek = (fn, delay) => {
+    clearTimeout(peekTimer);
+    peekTimer = setTimeout(fn, delay);
+  };
+
+  const inPeekZone = (el) =>
+    el instanceof Element && ((peek && peek.contains(el)) || Boolean(el.closest(PREVIEW_SELECTOR)));
+
+  const onPeekPointerOver = (event) => {
+    if (event.pointerType === "touch" || !(event.target instanceof Element)) return;
+    if (peek && peek.contains(event.target)) {
+      clearTimeout(peekTimer);
+      return;
+    }
+    const link = event.target.closest(PREVIEW_SELECTOR);
+    if (!link) return;
+    if (link === peekLink) {
+      clearTimeout(peekTimer);
+      return;
+    }
+    // Warm the index while the hover intent delay runs.
+    loadSiteIndex().catch(() => {});
+    const { clientX: x, clientY: y } = event;
+    schedulePeek(() => showPeek(link, anchorRect(link, x, y)), PREVIEW_SHOW_MS);
+  };
+
+  const onPeekPointerOut = (event) => {
+    if (event.pointerType === "touch" || !inPeekZone(event.target)) return;
+    // Within the link, from the link to the card, or back: nothing to do.
+    // Over to another project name: its own pointerover takes the timer.
+    if (inPeekZone(event.relatedTarget)) return;
+    schedulePeek(hidePeek, PREVIEW_HIDE_MS);
+  };
+
+  const onPeekFocusIn = (event) => {
+    const link = event.target instanceof Element && event.target.closest(PREVIEW_SELECTOR);
+    if (!link || link === peekLink || !link.matches(":focus-visible")) return;
+    clearTimeout(peekTimer);
+    showPeek(link);
+  };
+
+  const onPeekFocusOut = (event) => {
+    const link = event.target instanceof Element && event.target.closest(PREVIEW_SELECTOR);
+    if (link && link === peekLink && !link.matches(":hover")) hidePeek();
+  };
+
+  const onPeekKeydown = (event) => {
+    if (event.key === "Escape" && peekLink) hidePeek();
+  };
+
+  /* --------------------------------------------------------------- edge blur */
+
+  // The top bar is frosted glass (see "Edge blur" in my-critical.scss). The
+  // soft fade below it only appears once the page has scrolled, so at rest
+  // nothing under the bar is ever blurred. Scrolling also puts a project
+  // preview away, since it would otherwise drift off its link.
+  let scrollTicking = false;
+
+  const updateScrolled = () => {
+    scrollTicking = false;
+    root.classList.toggle("is-scrolled", window.scrollY > 2);
+  };
+
+  const onScroll = () => {
+    if (peekLink) hidePeek();
+    if (!scrollTicking) {
+      scrollTicking = true;
+      requestAnimationFrame(updateScrolled);
+    }
+  };
+
+  /* ------------------------------------------------------------ 404 terminal */
+
+  // After cult-ui's typewriter: on the 404 page a prompt in the corner of the
+  // night sky types `cd` to the address that was asked for, and the shell
+  // answers the way a shell would, then waits at a fresh prompt. It is part
+  // of the decorative sky (aria-hidden; the heading says what happened).
+  // With reduced motion the whole exchange is simply there.
+  const TERMINAL_START_MS = 700;
+  const TERMINAL_KEY_MS = [45, 95];
+  const TERMINAL_ENTER_MS = 420;
+  const TERMINAL_MAX_PATH = 34;
+
+  const terminalPath = () => {
+    let path = location.pathname;
+    try {
+      path = decodeURIComponent(path);
+    } catch {
+      // A malformed escape: show it as it was typed.
+    }
+    return path.length > TERMINAL_MAX_PATH ? `${path.slice(0, TERMINAL_MAX_PATH - 1)}…` : path;
+  };
+
+  const setupLostTerminal = () => {
+    const terminal = document.querySelector(".lost-sky__terminal");
+    if (!terminal || terminal.dataset.typed) return;
+    terminal.dataset.typed = "true";
+    const typed = terminal.querySelector("[data-terminal-input]");
+    const answer = terminal.querySelector("[data-terminal-output]");
+    const next = terminal.querySelector("[data-terminal-next]");
+    const caret = terminal.querySelector(".lost-sky__caret");
+    const command = `cd ${terminalPath()}`;
+
+    const finish = () => {
+      typed.textContent = command;
+      answer.hidden = false;
+      next.hidden = false;
+      next.appendChild(caret);
+      terminal.classList.remove("is-typing");
+    };
+
+    terminal.classList.add("is-ready");
+    if ((reducedMotion && reducedMotion.matches) || !typed || !answer || !next || !caret) {
+      finish();
+      return;
+    }
+
+    let shown = 0;
+    const [fast, slow] = TERMINAL_KEY_MS;
+    const key = () => {
+      if (!terminal.isConnected) return;
+      shown += 1;
+      typed.textContent = command.slice(0, shown);
+      if (shown < command.length) setTimeout(key, fast + Math.random() * (slow - fast));
+      else setTimeout(() => terminal.isConnected && finish(), TERMINAL_ENTER_MS);
+    };
+    setTimeout(() => {
+      terminal.classList.add("is-typing");
+      key();
+    }, TERMINAL_START_MS);
+  };
+
+  /* ------------------------------------------------------------ command menu */
+
+  // ⌘K (Ctrl+K elsewhere), or the key hint in the top bar, opens a command
+  // menu: pages, projects, recent writing, copy email, switch theme, the
+  // résumé PDF, profiles, and a hand-off to the site search. The menu lives
+  // in assets/js/command-palette.js and is fetched on first use, so it costs
+  // nothing until someone reaches for it.
+  // `userAgentData` says "macOS", `navigator.platform` "MacIntel".
+  const isMac = /mac|iphone|ipad/i.test(
+    (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || ""
+  );
+  let palette;
+
+  const togglePalette = () => {
+    palette ||= import(new URL(`command-palette.js${BUILD_QUERY}`, import.meta.url).href).catch((error) => {
+      palette = undefined;
+      throw error;
+    });
+    palette
+      .then((module) => module.toggle({ loadSiteIndex, pushState, reducedMotion }))
+      .catch(() => {});
+  };
+
+  const setupPaletteTrigger = () => {
+    for (const button of document.querySelectorAll("[data-command-palette]")) {
+      if (button.dataset.ready) continue;
+      button.dataset.ready = "true";
+      const mod = button.querySelector("[data-command-palette-mod]");
+      if (mod) mod.textContent = isMac ? "⌘" : "Ctrl ";
+      button.setAttribute("aria-keyshortcuts", isMac ? "Meta+K" : "Control+K");
+      button.hidden = false;
+    }
+  };
+
+  const onPaletteTriggerClick = (event) => {
+    if (event.target instanceof Element && event.target.closest("[data-command-palette]")) togglePalette();
+  };
+
   /* ------------------------------------------------------------ footer heart */
 
   // The easter egg: the heart in "Built with ♥ in Seattle" beats and throws
@@ -660,11 +1371,13 @@
     console.log("%c✦ Hi there!", "font: 700 15px/1.6 system-ui, sans-serif; color: #875acd;");
     console.log(
       "Thanks for looking under the hood! If you want to talk about real-time AI agents, " +
-        "I'd love to hear from you: jackyangzzh@gmail.com\n\nP.S. The heart in the footer does something."
+        "I'd love to hear from you: jackyangzzh@gmail.com\n\nP.S. The heart in the footer does something." +
+        `\nP.P.S. ${isMac ? "⌘K" : "Ctrl+K"} gets you anywhere on the site.`
     );
   };
 
   const init = () => {
+    hidePeek();
     setupNavigation();
     setupFilters();
     setupCopyEmail();
@@ -673,6 +1386,14 @@
     setupKeyboardShortcuts();
     setupVideoPosters();
     setupDeferredVideos();
+    setupDock();
+    setupPaletteTrigger();
+    setupLostTerminal();
+    setupNavFollow();
+    setupCoverCue();
+    setupCoverHello();
+    setupCoverMeteors();
+    updateScrolled();
   };
 
   if (document.readyState === "loading") {
@@ -686,12 +1407,24 @@
   document.addEventListener("click", onDocumentClick);
   document.addEventListener("click", onVideoPosterClick);
   document.addEventListener("click", onHeartClick);
+  document.addEventListener("click", onPaletteTriggerClick);
   // Capture phase, so the theme's own handler on the button runs only on the
   // replayed click inside the transition.
   document.addEventListener("click", onThemeToggleClick, true);
 
+  document.addEventListener("pointerover", onPeekPointerOver);
+  document.addEventListener("pointerout", onPeekPointerOut);
+  document.addEventListener("focusin", onPeekFocusIn);
+  document.addEventListener("focusout", onPeekFocusOut);
+  document.addEventListener("keydown", onPeekKeydown);
+  window.addEventListener("scroll", onScroll, { passive: true });
+
   // The sidebar and toolbar persist while the main content is replaced.
   if (pushState) {
+    pushState.addEventListener("hy-push-state-start", (event) => {
+      hidePeek();
+      onNavigationStart(event);
+    });
     pushState.addEventListener("hy-push-state-after", init);
   }
   window.addEventListener("popstate", init);

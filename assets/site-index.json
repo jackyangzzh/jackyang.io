@@ -1,0 +1,101 @@
+{
+  "projects": [{
+      "url": "/projects/fakehaul/",
+      "title": "FakeHaul",
+      "tagline": "A pretend shopping marketplace where every checkout is $0.00 and nothing ships. The ritual of online shopping, without spending money.",
+      "category": "personal",
+      "years": "2026",
+      "image": "/assets/img/projects/fakehaul-480.webp"
+    },{
+      "url": "/projects/mesh-avatars/",
+      "title": "Microsoft Mesh & Avatars for Teams",
+      "tagline": "The shared UI, avatar editor, and rendering systems I worked on for Microsoft Mesh and Avatars in Teams, shipped weekly in 20+ languages to millions of users.",
+      "category": "professional",
+      "years": "2022 – 2024",
+      "image": "/assets/img/projects/mesh-avatars-480.webp"
+    },{
+      "url": "/projects/holos/",
+      "title": "Holos",
+      "tagline": "Hand interaction, multiplayer networking, and 3D content workflows I built for Holos’s AR and VR training platform.",
+      "category": "professional",
+      "years": "2019 – 2022",
+      "image": "/assets/img/projects/holos-480.webp"
+    },{
+      "url": "/projects/dishvue/",
+      "title": "DishVue",
+      "tagline": "A 3D menu spanning iPhone, iPad, Apple Vision Pro, and the web. Scan a dish once, then let diners see it at table scale.",
+      "category": "personal",
+      "years": "2024",
+      "image": "/assets/img/projects/DishVue-480.webp"
+    },{
+      "url": "/projects/project-virtualso/",
+      "title": "Project Virtualso",
+      "tagline": "VR interview and presentation coaches that listen, ask follow-up questions, and react through facial expressions and gaze.",
+      "category": "personal",
+      "years": "2020",
+      "image": "/assets/img/projects/virtualso-480.webp"
+    },{
+      "url": "/projects/mrtk/",
+      "title": "MRTK for Unity",
+      "tagline": "Leap Motion integration work and a merged orientation example for Microsoft’s Mixed Reality Toolkit 2.7.",
+      "category": "personal",
+      "years": "2021",
+      "image": "/assets/img/projects/mrtk_unity-480.webp"
+    },{
+      "url": "/projects/robot-control/",
+      "title": "Robot Control Through VR",
+      "tagline": "A research prototype for controlling a robotic arm with hand movements in VR, plus a replay tool for recorded lab experiments.",
+      "category": "research",
+      "years": "2020",
+      "image": "/assets/img/projects/mimicry-480.webp"
+    },{
+      "url": "/projects/vision-disorder/",
+      "title": "Color Vision & Binocular Rivalry in VR",
+      "tagline": "Two research prototypes using consumer VR headsets to explore color vision deficiency and binocular rivalry.",
+      "category": "research",
+      "years": "2020",
+      "image": "/assets/img/projects/kats-480.webp"
+    },{
+      "url": "/projects/polyspace/",
+      "title": "Poly Space VR",
+      "tagline": "An open-source social VR app for up to eight people, with voice chat, shared objects, and an in-headset room editor. Released on the Oculus PC VR store.",
+      "category": "personal",
+      "years": "2021",
+      "image": "/assets/img/projects/PolySpaceLogo-480.webp"
+    }],
+  "links": [{
+      "url": "https://www.microsoft.com/en-us/microsoft-teams/teams-ai",
+      "site": "microsoft.com",
+      "title": "Boost teamwork with AI in Microsoft Teams",
+      "tagline": "Discover how AI-powered features in Microsoft Teams enhance productivity, simplify collaboration, and automate tasks effortlessly."
+    }],
+  "posts": [{
+      "title": "I leave AI models constantly. I have never once left the platform.",
+      "url": "https://jackyangzzh.medium.com/i-leave-ai-models-constantly-i-have-never-once-left-the-platform-2bd1f0b857eb",
+      "date": "Aug 2026"
+    },{
+      "title": "I built a fake shopping app. Nothing ships. It might be the most useful thing I’ve made.",
+      "url": "https://jackyangzzh.medium.com/i-built-a-fake-shopping-app-nothing-ships-it-might-be-the-most-useful-thing-ive-made-220919e6b6ce",
+      "date": "Jul 2026"
+    },{
+      "title": "My Top 5 Books of 2025",
+      "url": "https://jackyangzzh.medium.com/mt-top-5-books-of-2025-cffeffe6078b",
+      "date": "Dec 2025"
+    },{
+      "title": "Making a Comeback",
+      "url": "https://medium.com/antaeus-ar/making-a-comeback-a0fee67d9b2a",
+      "date": "May 2025"
+    },{
+      "title": "My Top 5 Books of 2024",
+      "url": "https://jackyangzzh.medium.com/my-top-5-books-of-2024-fec79743f1e6",
+      "date": "May 2025"
+    },{
+      "title": "The Spatial Computing Killer App is Finally Here",
+      "url": "https://medium.com/antaeus-ar/the-spatial-computing-killer-app-is-finally-here-171b745820e5",
+      "date": "May 2024"
+    }],
+  "email": "jackyangzzh@gmail.com",
+  "resume": "/assets/Jack_Yang_Resume.pdf",
+  "schedule": "https://calendly.com/jackyangzzh/30min",
+  "profiles": [{ "network": "GitHub", "url": "https://github.com/jackyangzzh" },{ "network": "Medium", "url": "https://medium.com/@jackyangzzh" },{ "network": "LinkedIn", "url": "https://www.linkedin.com/in/jackyangzzh/" }]
+}

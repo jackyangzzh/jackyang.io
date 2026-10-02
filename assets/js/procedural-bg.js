@@ -539,8 +539,24 @@
     welcomeActive = true;
     currentWelcomeProgress = 0;
     welcomeStart = performance.now();
+    announceWelcome();
     render(false, 0);
     requestNextFrame();
+  }
+
+  // Lets the cover's own content join the sweep: the photo speaks and the
+  // name catches the light as the band passes (see "Cover welcome" in
+  // my-critical.scss). The class outlives the sweep long enough for the
+  // photo's rings to settle.
+  var WELCOME_AFTERGLOW_MS = 2600;
+
+  function announceWelcome() {
+    var root = document.documentElement;
+    root.style.setProperty("--welcome-ms", welcomeDuration + "ms");
+    root.classList.add("cover-welcome");
+    setTimeout(function () {
+      root.classList.remove("cover-welcome");
+    }, welcomeDuration + WELCOME_AFTERGLOW_MS);
   }
 
   function init() {
