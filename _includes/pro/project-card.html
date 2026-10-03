@@ -64,11 +64,9 @@
       <span class="project-tag project-tag-{{ project_category }}">{{ project_category_label }}</span>
       {% endif %}
       {% if project.date %}
-      {% if project.category %}<span class="project-card-meta-separator">{{ site.data.strings.separator | default:'|' }}</span>{% endif %}
-      <time datetime="{{ project.date | date_to_xmlschema }}">{{ project.date | date:proj_format }}</time>
-      {% if project.end_date and project.end_date.size > 0 %}
-      – <time datetime="{{ project.end_date | date_to_xmlschema }}">{{ project.end_date | date:proj_format }}</time>
-      {% endif %}
+      {% if project.category %}<span class="project-card-meta-separator" aria-hidden="true">·</span>{% endif %}
+      <span class="project-card-period"><time datetime="{{ project.date | date_to_xmlschema }}">{{ project.date | date:proj_format }}</time>
+      {%- if project.end_date and project.end_date.size > 0 %} – <time datetime="{{ project.end_date | date_to_xmlschema }}">{{ project.end_date | date:proj_format }}</time>{% endif %}</span>
       {% endif %}
     </p>
     {% endif %}

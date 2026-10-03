@@ -56,6 +56,11 @@
 
 // Copy-to-clipboard confirmation --------------------------------------------
 //
+// The button says what it does, "Copy", beside the icon. The icon alone sat
+// under the address like a stray mark wherever the contact card is too narrow
+// for both on one line (most desktop widths); a word reads as the action it
+// is, after the address or under it.
+//
 // The confirmation happens inside the button: the label fades to a checkmark
 // and the surface briefly takes on the accent colour. All three labels share one grid cell,
 // so the button always reserves the width of the widest one and the definition
@@ -82,16 +87,16 @@
 	position: relative;
 	isolation: isolate;
 	min-height: 0;
-	height: 1.1rem;
-	padding: 0 .35rem;
+	height: 1.35rem;
+	padding: 0 .55rem;
 	margin-left: .35rem;
 	border: 1px solid var(--border-color);
 	border-radius: 9999px;
 	background: var(--gray-bg);
 	color: var(--accent-strong);
 	font: inherit;
-	font-size: .62rem;
-	font-weight: 600;
+	font-size: .7rem;
+	font-weight: 700;
 	line-height: 1;
 	vertical-align: .1rem;
 	display: inline-flex;
@@ -424,10 +429,9 @@
 		border-radius: 1rem;
 		background: var(--gray-bg);
 		text-decoration: none;
-		box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08), 0 2px 8px rgba(0, 0, 0, 0.15);
+		box-shadow: var(--card-shadow);
 		transition:
 			border-color 180ms ease,
-			background-color 180ms ease,
 			box-shadow 180ms ease,
 			transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
 	}
@@ -451,11 +455,12 @@
 		}
 	}
 
+	// The same lift as every other card link (the press cards, the project
+	// and post cards): the card shadow tokens and a faded-accent edge.
 	a.cert-link:hover {
-		border-color: var(--accent-strong);
-		background: var(--body-bg);
+		border-color: var(--accent-color-faded);
 		transform: translateY(-2px);
-		box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15), 0 6px 18px rgba(0, 0, 0, 0.25);
+		box-shadow: var(--card-shadow-hover);
 	}
 
 	.cert-name {
@@ -562,29 +567,47 @@
 		font-size: clamp(2rem, 4vw, 2.8rem);
 	}
 
+	// The line under the title is the page's lede, set like a project's
+	// summary (and the theme's own .page-intro): body colour, 1.05rem.
 	.note-sm {
 		max-width: 43rem;
 		margin: 1rem 0 0;
 		padding: 0;
 		border: 0;
-		font-size: 1rem;
-		color: var(--gray-text);
+		font-size: 1.05rem;
+		color: var(--body-color);
 		line-height: 1.7;
 		&::before { display: none; }
 	}
 }
 
+// The filters say where you are in the list, as the nav says where you are
+// on the site, so they speak its language: the four words in a row and the
+// travelling line under the chosen one (see "Sliding line" in
+// my-critical.scss), in the page's colours, the accent line and the chosen
+// word in the body colour. They used to be pills, the chosen one a glowing
+// accent lozenge: the loudest thing on the page, and on a phone a two-by-two
+// block of buttons above the first project. Each count stays beside its
+// word, small and muted. The row hangs into the gutter by the buttons' side
+// padding, so the first word lines up with the text above it, and each
+// button keeps a 44px target.
 .project-filters {
+	--line-inset: .75rem;
+	--line-lift: calc(.7rem - 5px);
+	position: relative;
 	display: flex;
 	flex-wrap: wrap;
-	gap: .6rem;
-	margin: 0 0 1.5rem;
+	gap: 0 .25rem;
+	margin: 0 0 1.25rem -.75rem;
 	padding: 0;
 	list-style: none;
 	align-items: center;
 }
 
-.project-filters li {
+// `li + li` too: the theme spaces list items with `.page li + li`, which
+// out-ranked a plain `li` here and set every filter but the first 2px low.
+.project-filters li,
+.project-filters li + li {
 	display: flex;
 	margin: 0;
 	padding: 0;
@@ -592,88 +615,66 @@
 }
 
 .project-filter-btn {
-	box-sizing: border-box;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
+	display: inline-block;
 	min-height: 44px;
-	gap: .5rem;
-	padding: .45rem 1rem;
-	border: 1px solid var(--border-color);
-	border-radius: 9999px;
-	background: var(--gray-bg);
+	padding: .7rem .75rem;
+	border: 0;
+	border-radius: .6rem;
+	background: none;
 	color: var(--gray-text);
 	font: inherit;
-	font-size: .82rem;
-	font-weight: 600;
-	line-height: 1;
+	font-size: .9rem;
+	font-weight: 700;
+	line-height: 1.5;
+	white-space: nowrap;
 	cursor: pointer;
-	box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-	transition:
-		transform 160ms cubic-bezier(0.16, 1, 0.3, 1),
-		color 160ms ease,
-		background-color 160ms ease,
-		border-color 160ms ease,
-		box-shadow 160ms ease;
+	transition: color 160ms ease;
 }
 
-.project-filter-btn:hover {
-	transform: translateY(-1.5px);
-	border-color: var(--accent-strong);
+.project-filter-btn:hover,
+.project-filter-btn.is-active {
 	color: var(--body-color);
-}
-
-.project-filter-btn:active {
-	transform: scale(0.97);
 }
 
 .project-filter-btn:focus-visible {
 	outline: 3px solid var(--accent-strong);
-	outline-offset: 3px;
+	outline-offset: 0;
 }
-
-.project-filter-btn.is-active {
-	border-color: var(--accent-strong);
-	background: linear-gradient(180deg, var(--accent-strong-hover) 0%, var(--accent-strong) 100%);
-	color: var(--accent-strong-contrast);
-	box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.32), 0 4px 14px rgba(135, 90, 205, 0.35);
-}
-
-.project-filter-btn.is-active span {
-	color: inherit;
-}
-
-// One accent pill slides between the filters (see "Sliding highlight" in
-// my-critical.scss) and the chosen button turns see-through over it. Every
-// pill's resting fill is translucent, so the bubble shows through any it
-// passes behind on the way. The chosen label waits a beat before turning
-// white, so it never goes pale on the bare page ahead of the bubble.
-.project-filters { position: relative; }
 
 .project-filters.has-bubble::before {
-	border-radius: 9999px;
-	background: linear-gradient(180deg, var(--accent-strong-hover) 0%, var(--accent-strong) 100%);
-	box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.32), 0 4px 14px rgba(135, 90, 205, 0.35);
+	background: var(--accent-strong);
+	box-shadow: 0 0 8px var(--accent-color-faded);
 }
 
-.project-filters.has-bubble .project-filter-btn.bubble-target {
-	border-color: transparent;
-	background: transparent;
-	box-shadow: none;
-	transform: none;
-	transition:
-		color 200ms ease 110ms,
-		background-color 160ms ease,
-		border-color 160ms ease,
-		box-shadow 160ms ease;
+// A narrow phone (360px, 375px) fits all four on one row with a little less
+// air round each; at the usual padding "Research" wrapped onto a row of its
+// own. The row still hangs by exactly the padding, so the first word keeps
+// its line with the title, and each button stays 44px tall.
+@media screen and (max-width: 25em) {
+	.project-filters {
+		--line-inset: .5rem;
+		gap: 0;
+		margin-left: -.5rem;
+	}
+
+	.project-filter-btn {
+		padding-right: .5rem;
+		padding-left: .5rem;
+	}
 }
 
-.filter-count { font-size: .7rem; }
+.filter-count {
+	margin-left: .35rem;
+	color: var(--gray-text);
+	font-size: .75em;
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+}
 .project-filters[hidden], .copy-email[hidden] { display: none; }
-// The filter pills already print their counts, so "Showing all 9 projects"
-// only repeated the active pill on screen. It stays in the page as the
+// The filters already print their counts, so "Showing all 9 projects"
+// only repeated the chosen filter on screen. It stays in the page as the
 // live region that announces a filter change, visually hidden, and the grid
-// moves up to sit under the pills.
+// moves up to sit under the filters.
 .project-results {
 	position: absolute;
 	width: 1px;
@@ -726,29 +727,55 @@ main.layout-blog .posts-grid {
 
 // Category tags -------------------------------------------------------------
 //
-// These were four saturated fills carrying white text, which made the category
-// the loudest thing on a card — louder than the project title and competing
-// with the artwork above it. Tonal pills keep each category just as
-// distinguishable while letting the image and the title lead.
+// A category is a label, not a control, so it is set as one: the first word
+// of the eyebrow over a card or a project's title, "● Personal · 2026", in
+// the same small type and the same "·" as the sidebar's role line and the
+// résumé's byline. The colour that tells the categories apart moved into the
+// dot, which wears its old pill's tint as a soft halo. These were tinted
+// pills, and saturated fills before that: a shape in front of every title,
+// and the one boxed thing left in a card's text.
 //
-// Every pair is checked against the surface it actually sits on: the tinted
-// text on its own tint, rather than on the page. Light runs 5.6:1–7.2:1; dark
-// composites the translucent tint over the card (rgb(43,43,47)) first and runs
-// 5.2:1–6.0:1. All well clear of the 4.5:1 minimum for text this size.
-//
-// Sentence case at a readable size: the tint and weight already mark these
-// as tags, so capitals and tracking were only adding volume.
+// Only the dot is coloured, so the words take the eyebrow's own colours (the
+// category in the body colour, the rest muted), which clear 4.5:1 in both
+// schemes.
 .project-tag {
-	display: inline-block;
-	padding: .16rem .6rem;
-	border-radius: 9999px;
-	background: var(--tag-bg);
-	color: var(--tag-fg);
-	font-size: .75rem;
+	display: inline-flex;
+	align-items: center;
+	gap: .5em;
+	color: var(--body-color);
 	font-weight: 700;
-	line-height: 1.4;
-	box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
-	border: 1px solid rgba(255, 255, 255, 0.08);
+
+	&::before {
+		content: "";
+		flex: none;
+		width: .5em;
+		height: .5em;
+		border-radius: 50%;
+		background: var(--tag-fg);
+		box-shadow: 0 0 0 .2em var(--tag-bg);
+	}
+}
+
+// The meta line under a card's artwork, and the project page's kicker: one
+// eyebrow, in the body face (the kicker wears the theme's `.heading` class,
+// which would set it in the display face), with a muted "·" between its parts.
+.project-card > .project-card-body > .project-card-meta,
+.project-page .project-kicker {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0 .4em;
+	color: var(--gray-text);
+	font-family: inherit;
+	font-size: .85rem;
+	font-weight: 400;
+	line-height: 1.5;
+}
+
+.project-card > .project-card-body > .project-card-meta > .project-card-meta-separator,
+.project-page .project-header-separator {
+	margin: 0;
+	color: var(--gray-text);
 }
 
 @mixin project-tags-light() {
@@ -920,7 +947,7 @@ main.layout-blog .posts-grid {
 	display: inline-flex;
 	align-items: center;
 	gap: .4rem;
-	// 44px touch target, matching the filter pills.
+	// 44px touch target, matching the filters.
 	min-height: 44px;
 	margin-bottom: 1.25rem;
 	border: 0 !important;
@@ -945,7 +972,7 @@ main.layout-blog .posts-grid {
 .layout-project {
 	.project-header {
 		// The rule closes the hero (copy + image + actions row). Above it the
-		// grid row gap already separates the image from the pills, so only a
+		// grid row gap already separates the image from the links, so only a
 		// moderate pad is needed here — the original 2.25rem plus the header
 		// and body margins below stacked into ~5rem of dead air under the
 		// separator.
@@ -957,41 +984,6 @@ main.layout-blog .posts-grid {
 		max-width: 42rem;
 		font-size: 1.05rem;
 		line-height: 1.7;
-	}
-
-	.project-link {
-		display: inline-flex;
-		align-items: center;
-		// 44px target (absolute, so the mobile 15px root can't shrink it).
-		min-height: 44px;
-		padding: .5rem 1.15rem;
-		border: 1px solid var(--border-color);
-		border-radius: 9999px;
-		background: var(--gray-bg);
-		color: var(--body-color);
-		font-size: .82rem;
-		font-weight: 600;
-		text-decoration: none !important;
-		border-bottom: 0 !important;
-		box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-		transition:
-			transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
-			color 180ms ease,
-			background-color 180ms ease,
-			border-color 180ms ease,
-			box-shadow 180ms ease;
-
-		&:hover,
-		&:focus-visible {
-			transform: translateY(-2px);
-			border-color: var(--accent-strong);
-			background: var(--body-bg);
-			box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.16), 0 4px 14px rgba(0, 0, 0, 0.22);
-		}
-
-		&:active {
-			transform: scale(0.97);
-		}
 	}
 
 	.project-body {
@@ -1051,6 +1043,12 @@ main.layout-blog .posts-grid {
 		}
 	}
 
+	// "Other Projects" closes the page in the same voice as its section
+	// headings: tracked like them.
+	.other-projects > h2 {
+		letter-spacing: -.015em;
+	}
+
 	// Press quotes callout grid (e.g. on FakeHaul)
 	.press-quotes-grid {
 		display: grid;
@@ -1058,13 +1056,21 @@ main.layout-blog .posts-grid {
 		gap: 1rem;
 		margin: 1.75rem 0 2rem;
 
-		.press-quote-card {
+		// `a.` to tie the theme's `.content a:not(.btn):not(.no-hover)`
+		// (0,3,1) and win on order, as the cert cards do: it tints every
+		// link's border with the faded accent, which left these the only
+		// lavender-edged cards on the site. They rest on the same hairline
+		// as every other card, and take the accent on hover like them.
+		//
+		// Inside, the outlet, its quote straight under it, and "Read article"
+		// held to the foot: spread evenly, a longer quote started higher than
+		// its neighbours', and the three no longer read across as one row.
+		a.press-quote-card {
 			display: flex;
 			flex-direction: column;
-			justify-content: space-between;
 			padding: 1.25rem 1.25rem 1.1rem;
 			border: 1px solid var(--border-color);
-			border-radius: 1.15rem;
+			border-radius: 1.25rem;
 			background: var(--gray-bg);
 			box-shadow: var(--card-shadow);
 			text-decoration: none !important;
@@ -1104,6 +1110,7 @@ main.layout-blog .posts-grid {
 		}
 
 		.press-link-label {
+			margin-top: auto;
 			font-size: .75rem;
 			font-weight: 700;
 			color: var(--gray-text);
@@ -1178,13 +1185,20 @@ body.dark-mode {
 	}
 }
 
-@media screen and (min-width: 42em) {
+// The featured project: artwork and copy side by side, but only where the
+// column is at its widest (832px, from $break-point-5 up). Its artwork is
+// filled, like every other card's, and wide (1.9:1): the copy beside it
+// sets the card's height, so the artwork's half must be about twice as wide
+// as that to keep it whole. Narrower, the side-by-side card cropped up to a
+// fifth off each side of the art (or, contained, sat it between grey bars),
+// so there it stacks like every other card, full width, as on a phone.
+@media screen and (min-width: $break-point-5) {
 	.layout-projects .column-1 > .project-card {
 		display: grid;
-		grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+		grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
 		> a { display: flex; border: 0; }
 		.project-card-img { width: 100%; min-height: 16rem; height: 100%; padding-bottom: 0; background: var(--gray-bg); }
-		.project-card-img img { object-fit: contain; }
+		.project-card-img img { object-fit: cover; }
 		.project-card-title { font-size: 1.5rem !important; }
 		.project-card-text { display: block; }
 	}
@@ -1192,7 +1206,8 @@ body.dark-mode {
 
 // The newest post leads the Writing grid the same way: full width, and from
 // the same breakpoint up, artwork and copy side by side at the same split
-// and title size as the featured project. Selectors are pinned to
+// and title size as the featured project; stacked below it, where the copy
+// beside the artwork had a column too narrow for its title. Selectors are pinned to
 // `main.layout-blog` so they tie the theme's `main:not(.layout-resume)
 // .post-card …` rules and win on order.
 //
@@ -1224,10 +1239,10 @@ main.layout-blog .post-card--featured {
 	}
 }
 
-@media screen and (min-width: 42em) {
+@media screen and (min-width: $break-point-5) {
 	main.layout-blog .post-card--featured {
 		display: grid;
-		grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+		grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
 
 		> .post-card__thumb {
 			display: block;
@@ -1248,16 +1263,6 @@ main.layout-blog .post-card--featured {
 		grid-template-columns: 1fr !important;
 	}
 	.layout-resume .cert-list { grid-template-columns: 1fr; }
-}
-
-@media screen and (max-width: 25em) {
-	.project-filters li {
-		flex: 1 1 calc(50% - .6rem);
-	}
-
-	.project-filter-btn {
-		width: 100%;
-	}
 }
 
 @media print {
@@ -1282,7 +1287,6 @@ main.layout-blog .post-card--featured {
 	.project-card:focus-within,
 	.post-card:hover,
 	.post-card:focus-within,
-	.project-filter-btn:hover,
 	.project-link:hover,
 	.project-link:focus-visible {
 		transform: none;
@@ -1593,7 +1597,7 @@ main.layout-blog .post-card--featured {
 	// The featured card turns side-by-side at this width, so the boundary
 	// between artwork and copy is vertical there. A bottom border would draw a
 	// rule that runs halfway across the card and stops.
-	@media (min-width: 42em) {
+	@media (min-width: $break-point-5) {
 		.layout-projects .column-1 > .project-card .project-card-img {
 			border-bottom: 0;
 			border-right: 1px solid var(--border-color);
@@ -1632,18 +1636,41 @@ main.layout-blog .post-card--featured {
 
 // Project links -------------------------------------------------------------
 //
-// These pills are the only outbound links in a project header, but nothing
-// said so — they read as inert buttons. A trailing arrow marks them as leaving
-// the site, and trimming the padding lets two of them sit on one line in the
-// header's left column instead of stacking into a tall ragged stack.
+// A project's links (the live site, a demo, the code) are its secondary
+// actions, so they look like the résumé's "Resume PDF" and "Schedule a Call":
+// words and an arrow with nothing drawn round them, until the pointer finds
+// one and the same quiet pill comes up behind it (see `.btn-quiet` in
+// my-critical.scss). They were filled pills, a row of buttons as heavy as
+// the title above them. The row hangs into the gutter by the links' side
+// padding, so the first word lines up with the summary over it. The arrow
+// marks them as leaving the site; each keeps a 44px target (absolute, so the
+// mobile 15px root can't shrink it), and nowrap wraps whole links instead of
+// breaking a label. `#_main` out-ranks the theme's `main:not(.layout-resume)
+// .project-page .project-link-list` (0,3,1), which zeroes the row's margin.
 @media screen {
+	#_main .project-link-list {
+		gap: 0 .25rem;
+		margin-left: -.8rem;
+	}
+
 	.layout-project .project-link {
+		display: inline-flex;
+		align-items: center;
 		gap: .4rem;
-		// 44px target; nowrap wraps whole pills instead of breaking labels.
 		min-height: 44px;
 		padding: .4rem .8rem;
-		font-size: .85rem;
+		border: 0 !important;
+		border-radius: 9999px;
+		background: transparent;
+		color: var(--body-color);
+		font-size: .88rem;
+		font-weight: 700;
 		white-space: nowrap;
+		text-decoration: none !important;
+		transition:
+			transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+			background-color 180ms ease,
+			box-shadow 180ms ease;
 
 		&::after {
 			content: "↗";
@@ -1652,11 +1679,20 @@ main.layout-blog .post-card--featured {
 			transition: transform 160ms ease, color 160ms ease;
 		}
 
+		&:hover,
+		&:focus-visible {
+			background: var(--gray-bg);
+			box-shadow: inset 0 0 0 1px var(--accent-strong);
+			transform: translateY(-2px);
+		}
+
 		&:hover::after,
 		&:focus-visible::after {
 			color: var(--accent-strong);
 			transform: translate(.1em, -.1em);
 		}
+
+		&:active { transform: scale(0.97); }
 	}
 }
 
@@ -1996,7 +2032,8 @@ main.layout-blog .post-card--featured {
 // The ⌘K menu (assets/js/command-palette.js): a modal <dialog> near the top of
 // the window. The panel drops in with a little give, the backdrop dims and
 // softens the page, and a tinted highlight slides between rows as the arrow
-// keys move, the same motion as the site's other sliding highlights. All
+// keys move: a list's selection, so a fill rather than the line that marks
+// the current place in the site's rows of links (see "Sliding line"). All
 // colours are the site's tokens, so it follows the theme.
 @media screen {
 	.cmdk {

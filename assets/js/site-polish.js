@@ -114,18 +114,19 @@
     }
   };
 
-  /* -------------------------------------------------------- sliding highlight */
+  /* ------------------------------------------------------------- sliding line */
 
   // After cult-ui's direction-aware tabs: a group of options shares one
-  // highlight that slides to whichever is chosen, instead of each option
-  // lighting up its own background. The highlight is the track's ::before,
-  // placed by four inset properties; CSS owns its look and its motion (see
-  // "Sliding highlight" in my-critical.scss). The edge facing the way it
-  // travels leaves first and the trailing edge follows a beat later, so the
-  // bubble stretches toward its destination and then catches up.
+  // mark, a line under the chosen one's words, that slides to whichever is
+  // chosen, instead of each option marking itself. The line is the track's
+  // ::before, placed by four inset properties; CSS owns its look and its
+  // motion (see "Sliding line" in my-critical.scss). The edge facing the way
+  // it travels sets off with the shorter duration and the trailing edge
+  // takes longer, so the line draws out toward its destination and gathers
+  // itself as it lands.
   //
-  // Measured with offset* rather than getBoundingClientRect, so a pill's own
-  // hover lift or press scale never ends up in the geometry. Each track is
+  // Measured with offset* rather than getBoundingClientRect, so an option's
+  // own hover lift or press scale never ends up in the geometry. Each track is
   // `position: relative` in CSS, which makes it its options' offsetParent.
   // A track only takes `has-bubble` once it has been measured, so without
   // script every option keeps its own active style.
@@ -357,7 +358,7 @@
   // (see "Project filters" in my-style.scss). Every card gets a unique name
   // only for the life of the transition, so no other view transition (the
   // theme switch) ever sees them. The filter row is named too and shown live,
-  // so its sliding highlight is not cross-faded with a snapshot of itself.
+  // so its sliding line is not cross-faded with a snapshot of itself.
   const runFilterTransition = (bar, items, update) => {
     if (!canTransition()) {
       update();
@@ -815,89 +816,6 @@
     drawer.addEventListener("hy-drawer-transitioned", (event) => {
       if (!event.detail) cue.remove();
     });
-  };
-
-  /* -------------------------------------------------------------- cover hello */
-
-  // After cult-ui's speech bubble: a moment after the cover appears, the
-  // photo "speaks" (its ring lights; see "Avatar: speaking rings" in
-  // my-critical.scss) and a chat bubble pops out of it, typing for a beat
-  // before it says hi, then drifts away. Once per visit (session), and not
-  // over the first-visit welcome sweep, which it waits out. Pointing at the
-  // photo brings the hello back for as long as the pointer stays. The bubble
-  // is decoration, so it is aria-hidden; with reduced motion it only appears
-  // on hover, without the pop.
-  const HELLO_DELAY_MS = 1200;
-  const HELLO_TYPING_MS = 950;
-  const HELLO_HOLD_MS = 3400;
-  const HELLO_RETRY_MS = 500;
-  const HELLO_SESSION_KEY = "jackyang-cover-hello-v1";
-  const helloTimers = new Set();
-
-  const helloLater = (fn, delay) => {
-    const id = setTimeout(() => {
-      helloTimers.delete(id);
-      fn();
-    }, delay);
-    helloTimers.add(id);
-  };
-
-  const clearHello = (link, bubble) => {
-    for (const id of helloTimers) clearTimeout(id);
-    helloTimers.clear();
-    bubble.classList.remove("is-open", "is-typing");
-    link.classList.remove("is-speaking");
-  };
-
-  const sayHello = (link, bubble, { typing, hold }) => {
-    clearHello(link, bubble);
-    void bubble.offsetWidth; // replay the pop from the top
-    link.classList.add("is-speaking");
-    bubble.classList.toggle("is-typing", typing);
-    bubble.classList.add("is-open");
-    if (typing) helloLater(() => bubble.classList.remove("is-typing"), HELLO_TYPING_MS);
-    if (hold) helloLater(() => clearHello(link, bubble), (typing ? HELLO_TYPING_MS : 0) + hold);
-  };
-
-  const setupCoverHello = () => {
-    const link = document.querySelector(".sidebar-about > .avatar-link");
-    if (!link) return;
-    let bubble = link.querySelector(".hello-bubble");
-    if (!bubble) {
-      bubble = document.createElement("span");
-      bubble.className = "hello-bubble";
-      bubble.setAttribute("aria-hidden", "true");
-      bubble.innerHTML =
-        '<span class="hello-bubble__typing"><i></i><i></i><i></i></span>' +
-        '<span class="hello-bubble__text">Hi there! <span class="hello-bubble__wave">👋</span></span>';
-      link.appendChild(bubble);
-      link.addEventListener("pointerenter", (event) => {
-        if (event.pointerType === "mouse") sayHello(link, bubble, { typing: false, hold: 0 });
-      });
-      link.addEventListener("pointerleave", (event) => {
-        if (event.pointerType === "mouse") clearHello(link, bubble);
-      });
-    }
-
-    const drawer = document.getElementById("_drawer");
-    if (!drawer || !drawer.classList.contains("cover") || !drawer.hasAttribute("opened")) return;
-    if (reducedMotion && reducedMotion.matches) return;
-    try {
-      if (sessionStorage.getItem(HELLO_SESSION_KEY)) return;
-      sessionStorage.setItem(HELLO_SESSION_KEY, "1");
-    } catch {
-      // Without storage it greets on each visit to the cover; still harmless.
-    }
-
-    const greet = () => {
-      if (!drawer.hasAttribute("opened") || link.matches(":hover")) return;
-      if (document.hidden || root.classList.contains("cover-welcome")) {
-        helloLater(greet, HELLO_RETRY_MS);
-        return;
-      }
-      sayHello(link, bubble, { typing: true, hold: HELLO_HOLD_MS });
-    };
-    helloLater(greet, HELLO_DELAY_MS);
   };
 
   /* ------------------------------------------------------------ cover meteors */
@@ -1391,7 +1309,6 @@
     setupLostTerminal();
     setupNavFollow();
     setupCoverCue();
-    setupCoverHello();
     setupCoverMeteors();
     updateScrolled();
   };

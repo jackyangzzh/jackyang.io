@@ -9,6 +9,12 @@
   when the poster is clicked. Without JavaScript the poster is simply a link
   to the video on YouTube. A project page with two videos no longer loads two
   full players before the reader has decided to watch either.
+
+  On a phone the poster spans the screen, so a 2x or 3x display needs the
+  1280px thumbnail too: YouTube's 480px one is 4:3 with the letterbox baked
+  in, which left about 480x270 real pixels for a 1000+ pixel-wide poster.
+  The small files stay in the set for 1x screens. Every video here has a
+  maxresdefault, which the desktop source already relies on.
 {% endcomment %}
 {% if video_id and video_src == nil %}
 <figure class="project-video">
@@ -20,7 +26,7 @@
                 <source media="(min-width: 42em)" srcset="https://i.ytimg.com/vi/{{ video_id }}/maxresdefault.jpg 1280w" sizes="(min-width: 86em) 52rem, 40rem">
                 <img class="video-poster__thumb"
                     src="https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg"
-                    srcset="https://i.ytimg.com/vi/{{ video_id }}/mqdefault.jpg 320w, https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg 480w"
+                    srcset="https://i.ytimg.com/vi/{{ video_id }}/mqdefault.jpg 320w, https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg 480w, https://i.ytimg.com/vi/{{ video_id }}/maxresdefault.jpg 1280w"
                     sizes="100vw"
                     alt="" width="1280" height="720" loading="lazy" decoding="async" fetchpriority="low">
             </picture>

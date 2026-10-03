@@ -30,7 +30,7 @@ These were built for teaching and early perception experiments, and diagnosis wa
 
 ## Color vision deficiency
 
-<img src="/assets/img/projects/colorDeficiencyCover.webp" srcset="/assets/img/projects/colorDeficiencyCover-480.webp 480w, /assets/img/projects/colorDeficiencyCover-720.webp 720w, /assets/img/projects/colorDeficiencyCover.webp 837w" sizes="(min-width: 42em) 40rem, 100vw" alt="Color vision deficiency simulation" loading="lazy" decoding="async" width="837" height="276">
+<img src="/assets/img/projects/colorDeficiencyCover.webp" srcset="/assets/img/projects/colorDeficiencyCover-480.webp 480w, /assets/img/projects/colorDeficiencyCover-720.webp 720w, /assets/img/projects/colorDeficiencyCover.webp 837w" sizes="(min-width: 86em) 52rem, (min-width: 54em) 46rem, (min-width: 42em) 40rem, 100vw" alt="Color vision deficiency simulation" loading="lazy" decoding="async" width="837" height="276">
 
 I designed chromatic adjustment algorithms to approximate how people with color vision deficiency perceive hyperspectral images. The system reached 90% accuracy in simulating color vision deficiency. I then built a color-calibrated VR demo for comparing the transformed image with its reference. That result doesn't mean the simulation can reproduce every person's vision.
 

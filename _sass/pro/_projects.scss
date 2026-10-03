@@ -118,46 +118,24 @@ main:not(.layout-resume) {
 
     // The actions row is the last header row and spans both columns (set
     // below), so it needs no trailing margin of its own — the header's
-    // padding-bottom is the only space between the pills and the rule.
+    // padding-bottom is the only space between the links and the rule.
     .project-header-actions {
       grid-column: 1 / -1;
       min-width: 0;
     }
 
+    // The links themselves, and the row's spacing, are styled in
+    // my-style.scss ("Project links").
     .project-link-list {
       list-style: none;
       display: flex;
       flex-wrap: wrap;
-      // Tighter row gap so wrapped pills read as one group.
-      gap: .6rem .75rem;
       padding: 0;
       margin: 0;
     }
 
     .project-link-list > li {
       margin: 0;
-    }
-
-    .project-link {
-      display: inline-flex;
-      align-items: center;
-      // 44px, in sync with the my-style.scss overrides.
-      min-height: 44px;
-      padding: .55rem .9rem;
-      border: 1px solid var(--border-color);
-      border-radius: 999px;
-      background: var(--gray-bg);
-      color: var(--body-color);
-      font-weight: 600;
-      text-decoration: none;
-      box-shadow: none;
-      border-bottom: 0;
-    }
-
-    .project-link:hover,
-    .project-link:focus {
-      border-color: var(--accent-color);
-      text-decoration: none;
     }
 
     .project-caption {
@@ -172,8 +150,10 @@ main:not(.layout-resume) {
     // The theme's "large headings" rule widens `.content h1` into the right
     // margin from $break-point-dynamic up. Inside this two-column header that
     // pushes the project title under the hero image, so keep it in its column.
+    // -.02em, as every page title has (see .page-title in my-critical.scss).
     .page-title {
       width: auto;
+      letter-spacing: -.02em;
     }
 
     .project-hero {
@@ -209,22 +189,48 @@ main:not(.layout-resume) {
     }
   }
 
-  @media screen and (min-width: $break-point-2) {
+  // Wherever the text column has room for the pair (~43rem and up): from
+  // $break-point-2 until the sidebar takes its share of the window at
+  // $break-point-3, and again from $break-point-4. In between (1024px to
+  // ~1150px beside the sidebar) the column is only ~35rem, which left the
+  // summary six lines deep beside a thumbnail and the links stacked one
+  // per line, so the header stacks there, as on a phone.
+  @media screen and (min-width: $break-point-2) and (max-width: $break-point-3 - 0.01em), screen and (min-width: $break-point-4) {
     .project-page {
+      // The title runs across the whole header, a headline on one line, and
+      // under it the summary and the hero image sit side by side as one
+      // block: the summary from the image's top edge, the links on its
+      // bottom edge. Beside the image in a narrow column, as it used to be,
+      // the title broke over two or three lines, and the copy never ended
+      // where the image did, leaving a gap under one or the other.
+      //
+      // The image stays this size because most project shots are only
+      // ~850px wide: at ~420px a 2x screen still gets one image pixel per
+      // device pixel, and any wider (a full-width hero) they go soft.
+      //
+      // The copy wrapper steps out of the grid (`display: contents`) so its
+      // eyebrow, title and summary can be placed on their own. Empty rows
+      // (no caption, no links) collapse to nothing. Below this breakpoint
+      // the header stacks single-column as before.
       .project-header {
-        // Media column carries the majority (~55%) so the hero screenshot
-        // reads as the lead visual; the copy column keeps enough room for
-        // the title and summary. Below this breakpoint the header stacks
-        // single-column as before.
-        //
-        // The two gaps are set independently: the columns keep the wider
-        // 2rem gutter, while the row that carries the actions sits a touch
-        // closer to the copy/media row so the full-width pill row reads as
-        // part of the hero rather than as another band of whitespace.
-        grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+        grid-template-areas:
+          "kicker  kicker"
+          "title   title"
+          "summary media"
+          "caption media"
+          "actions media";
         column-gap: 2rem;
-        row-gap: 1.5rem;
+        row-gap: 0;
       }
+
+      .project-header-copy { display: contents; }
+      .project-kicker { grid-area: kicker; }
+      .project-header .page-title { grid-area: title; margin-bottom: 1.25rem; }
+      .project-summary { grid-area: summary; align-self: start; margin: 0; }
+      .project-caption { grid-area: caption; align-self: start; margin-top: .75rem; }
+      .project-header-media { grid-area: media; align-self: start; }
+      .project-header-actions { grid-area: actions; align-self: end; padding-top: 1rem; }
     }
   }
 
@@ -439,13 +445,4 @@ main:not(.layout-resume) {
     -webkit-line-clamp: 4;
   }
 
-  .column-1 > .project-card {
-    > .project-card-body > .project-card-title {
-      font-size: 1.2rem;
-    }
-
-    > .project-card-body > .project-card-text {
-      font-size: 1rem;
-    }
-  }
 }

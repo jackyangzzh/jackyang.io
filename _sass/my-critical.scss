@@ -47,13 +47,22 @@
 		border: 0;
 		color: var(--gray-text);
 	}
+	// Quick nav: the sidebar's three links, in the top bar wherever the
+	// sidebar is folded away. The same row as in the sidebar, three words and
+	// the line under the current one (see "Sliding line" below), in the
+	// page's colours: muted words, the current one in the body colour, the
+	// line in the accent. Each link draws its own line until the script's
+	// travelling one takes over, in the same place.
 	.quick-nav {
+		--line-inset: .65rem;
+		--line-lift: 7px;
 		display: flex;
 		justify-content: flex-end;
 		gap: .25rem;
 		padding-right: .5rem;
 	}
 	.quick-nav-link {
+		position: relative;
 		display: inline-flex;
 		align-items: center;
 		min-height: 44px;
@@ -63,67 +72,113 @@
 		color: var(--gray-text);
 		font-size: .82rem;
 		font-weight: 700;
+		line-height: 1.5;
 		text-decoration: none;
+		transition: color 160ms ease;
 	}
 	.quick-nav-link:hover,
 	.quick-nav-link[aria-current] {
-		color: var(--accent-strong);
-		background: var(--gray-bg);
+		color: var(--body-color);
 		text-decoration: none;
 	}
-	// One row, not three: the links sit side by side in a pill-shaped track
-	// (after cult-ui's direction-aware tabs), and the highlight slides along
-	// it. Three short words fit the narrow sidebar and a phone alike. The
-	// track is a shallow groove, an inset shadow with no outline, so the
-	// raised highlight (below) is the only edge in the control.
-	.sidebar-nav { text-align: center; }
+	.quick-nav-link[aria-current]::after {
+		content: "";
+		position: absolute;
+		right: var(--line-inset);
+		bottom: var(--line-lift);
+		left: var(--line-inset);
+		height: 2px;
+		border-radius: 1px;
+		background: var(--accent-strong);
+		box-shadow: 0 0 8px var(--accent-color-faded);
+	}
+	// One row, not three: three words side by side, with a short line under
+	// the current page's. Nothing is drawn round them, no track and no pill,
+	// so the row sits in the sky as freely as the name and the tagline above
+	// it and reads as links, not as a control; the line is its only mark.
+	// Where there is a pointer, the line follows it from word to word (see
+	// "Sliding line" below). Three short words fit the narrow sidebar and a
+	// phone alike.
+	.sidebar-nav {
+		--nav-pad-y: .4rem;
+		text-align: center;
+	}
+	// The line: as wide as the word, 3px under its line box, so it clears
+	// the descender of the "j" in Projects.
 	.sidebar-nav > ul {
+		--line-inset: .95rem;
+		--line-lift: calc(var(--nav-pad-y) - 5px);
 		display: inline-flex;
-		gap: .15rem;
+		gap: .3rem;
 		margin: 0;
-		padding: 3px;
-		border: 1px solid transparent;
-		border-radius: 9999px;
-		background: rgba(10, 6, 28, .26);
-		box-shadow:
-			inset 0 1px 3px rgba(0, 0, 0, .38),
-			0 1px 0 rgba(255, 255, 255, .06);
+		padding: 0;
 	}
 	.sidebar-nav > ul > li { display: block; }
 	.sidebar .sidebar-nav-item {
+		position: relative;
 		margin: 0;
-		padding: .4rem .95rem;
-		border: 1px solid transparent;
+		padding: var(--nav-pad-y) .95rem;
+		border: 0;
 		border-radius: 9999px;
+		color: rgba(255, 255, 255, .7);
 		font-family: "Noto Sans", sans-serif;
 		font-size: .9rem;
+		line-height: 1.5;
 		text-decoration: none;
+		transition: color 200ms ease;
 	}
 	.sidebar .sidebar-nav-item:hover,
 	.sidebar .sidebar-nav-item[aria-current] {
-		border-color: rgba(255, 255, 255, .2);
-		background: rgba(255, 255, 255, .1);
+		color: #fff;
 		text-decoration: none;
+	}
+	// Each link draws its own line until site-polish.js takes over with one
+	// that can travel (`has-bubble`, below, in the same place), so the row
+	// looks the same before the script, after it, and without it.
+	.sidebar .sidebar-nav-item[aria-current]::after {
+		content: "";
+		position: absolute;
+		right: var(--line-inset);
+		bottom: var(--line-lift);
+		left: var(--line-inset);
+		height: 2px;
+		border-radius: 1px;
+		background: #fff;
+		box-shadow: 0 0 8px rgba(255, 255, 255, .45);
 	}
 	.sidebar-about > p { font-size: .9rem; line-height: 1.75; }
 	// The theme underlines each social icon, which drew a rule under the row:
 	// one more line of chrome. The dock's swell is the hover now.
 	.sidebar-social { margin-top: .2rem; }
 	.sidebar-social > ul > li > a { border-bottom: 0; }
-	.sidebar a:focus-visible { outline-color: #fff; }
+	// White, not the site's deep purple ring, which is there for contrast on
+	// white pages and is next to invisible on the purple sky. That ring is
+	// !important (see my-inline.scss), so this has to be as well.
+	.sidebar a:focus-visible,
+	.sidebar button:focus-visible { outline-color: #fff !important; }
 }
 
-// Sliding highlight ------------------------------------------------------------
+// Sliding line -----------------------------------------------------------------
 //
-// After cult-ui's direction-aware tabs. site-polish.js measures the current
-// option and writes its four edges onto the track as `--bubble-*`; the
-// track's ::before is the highlight, sitting behind the options. Each edge
-// has its own transition so the one facing the way the bubble travels can
-// leave first (the script sets `--bubble-lag-*` on the trailing pair): it
-// stretches toward the new option, then the tail catches up and settles
-// with a small overshoot. Each track adds its own colours below and turns
-// off its current option's own background once `has-bubble` is on, so
-// without script, or before it runs, every option looks exactly as before.
+// One mark for "you are here", wherever the site offers a few places side by
+// side: the sidebar nav, the top bar's quick nav, the project filters. A short
+// line under the current option's words, which travels when that changes
+// (after cult-ui's direction-aware tabs). Nothing is drawn round the options
+// themselves, so each row stays as light as the text around it.
+//
+// site-polish.js measures the current option and writes its four edges onto
+// the track as `--bubble-*`; the track's ::before is the line. It spans the
+// option's text, not its box: each track says how far its options' text sits
+// inside them (`--line-inset`, their side padding) and how far above their
+// bottom edge the line sits (`--line-lift`), and gives it its colour.
+//
+// It glides rather than springs: both ends set off at once and the trailing
+// one takes longer (the script's `--bubble-lag-*` lengthens its duration
+// rather than delaying it), so the line draws out a little as it travels and
+// gathers itself as it lands, in about 300ms, with no bounce for the eye to
+// wait out. Each track also turns off its current option's own line once
+// `has-bubble` is on: without script, or before it runs, every option
+// already looks exactly as it will.
 //
 // Tracks are `position: relative` unconditionally: that makes them their
 // options' offsetParent, which is what the script measures against.
@@ -132,25 +187,18 @@
 	position: relative;
 }
 
-.has-bubble {
-	isolation: isolate;
-}
-
 .has-bubble::before {
 	content: "";
 	position: absolute;
-	top: var(--bubble-top);
-	right: var(--bubble-right);
-	bottom: var(--bubble-bottom);
-	left: var(--bubble-left);
-	z-index: -1;
-	box-sizing: border-box;
+	right: calc(var(--bubble-right) + var(--line-inset, 0px));
+	bottom: calc(var(--bubble-bottom) + var(--line-lift, 0px));
+	left: calc(var(--bubble-left) + var(--line-inset, 0px));
+	height: 2px;
+	border-radius: 1px;
 	pointer-events: none;
 	transition:
-		top 440ms cubic-bezier(.3, 1.2, .5, 1) var(--bubble-lag-top, 0ms),
-		right 440ms cubic-bezier(.3, 1.2, .5, 1) var(--bubble-lag-right, 0ms),
-		bottom 440ms cubic-bezier(.3, 1.2, .5, 1) var(--bubble-lag-bottom, 0ms),
-		left 440ms cubic-bezier(.3, 1.2, .5, 1) var(--bubble-lag-left, 0ms),
+		left calc(280ms + var(--bubble-lag-left, 0ms) * 2) cubic-bezier(.22, 1, .36, 1),
+		right calc(280ms + var(--bubble-lag-right, 0ms) * 2) cubic-bezier(.22, 1, .36, 1),
 		opacity 200ms ease;
 }
 
@@ -163,38 +211,26 @@
 }
 
 @media screen {
-	// The highlight is a softly lit, raised pill: lighter at the top, a
-	// hairline of light along its upper edge, a shadow under it. The labels
-	// it isn't on step back, so the current page reads at a glance.
+	// White on the sidebar's sky. Whichever word the line is under is white
+	// and the others step back, so the word being pointed at brightens with it.
 	.sidebar-nav > ul.has-bubble::before {
-		border-radius: 9999px;
-		background: linear-gradient(180deg, rgba(255, 255, 255, .19), rgba(255, 255, 255, .1));
-		box-shadow:
-			inset 0 1px 0 rgba(255, 255, 255, .22),
-			0 2px 8px rgba(0, 0, 0, .28);
+		background: #fff;
+		box-shadow: 0 0 8px rgba(255, 255, 255, .45);
 	}
-	.sidebar .sidebar-nav > ul.has-bubble .sidebar-nav-item {
-		color: rgba(255, 255, 255, .68);
-		transition: color 200ms ease;
-	}
+	.sidebar .sidebar-nav > ul.has-bubble .sidebar-nav-item { color: rgba(255, 255, 255, .7); }
 	.sidebar .sidebar-nav > ul.has-bubble .sidebar-nav-item.bubble-target { color: #fff; }
-	// The link the bubble sits on, and, until the next page has loaded and
-	// moved `aria-current`, the one it just left.
-	.sidebar .sidebar-nav > ul.has-bubble .sidebar-nav-item.bubble-target,
-	.sidebar .sidebar-nav > ul.has-bubble .sidebar-nav-item[aria-current]:not(:hover) {
-		border-color: transparent;
-		background: transparent;
-	}
+	.sidebar .sidebar-nav > ul.has-bubble .sidebar-nav-item::after { content: none; }
 
+	// On the page itself the line takes the accent, with the same soft glow,
+	// and the current word the body colour (see "Quick nav" above).
 	.quick-nav.has-bubble::before {
-		border-radius: .5rem;
-		background: var(--gray-bg);
+		background: var(--accent-strong);
+		box-shadow: 0 0 8px var(--accent-color-faded);
 	}
-	.quick-nav.has-bubble .quick-nav-link.bubble-target,
-	.quick-nav.has-bubble .quick-nav-link[aria-current]:not(:hover) {
-		background: transparent;
-	}
-	.quick-nav-link { transition: color 160ms ease; }
+	.quick-nav.has-bubble .quick-nav-link { color: var(--gray-text); }
+	.quick-nav.has-bubble .quick-nav-link:hover,
+	.quick-nav.has-bubble .quick-nav-link.bubble-target { color: var(--body-color); }
+	.quick-nav.has-bubble .quick-nav-link::after { content: none; }
 }
 
 // Edge blur --------------------------------------------------------------------
@@ -309,12 +345,13 @@ $sidebar-name-gradient: linear-gradient(180deg, #fff 28%, #e6d6ff 68%, #f3c4e2 1
 
 // Avatar: speaking rings ------------------------------------------------------------
 //
-// Pointing at the sidebar photo lights the ring Teams draws round whoever is
-// talking: an accent ring that swells and settles in the uneven rhythm of
-// speech, with a soft halo rippling out behind it. It also speaks once on the
-// very first visit to the cover, while the welcome light crosses the sky (see
-// "Cover welcome" below). The rings are the link's pseudo-elements, so the
-// photo itself, the page's LCP image, is untouched.
+// Pointing at the sidebar photo makes it say hi (see "Cover hello" below) and
+// lights the ring Teams draws round whoever is talking: an accent ring that
+// swells and settles in the uneven rhythm of speech, with a soft halo
+// rippling out behind it. The ring alone also pulses once on the very first
+// visit to the cover, while the welcome light crosses the sky (see "Cover
+// welcome" below). The rings are the link's pseudo-elements, so the photo
+// itself, the page's LCP image, is untouched.
 @keyframes avatar-speak {
 	0%, 100% { transform: scale(1); }
 	12% { transform: scale(1.045); }
@@ -369,22 +406,6 @@ $sidebar-name-gradient: linear-gradient(180deg, #fff 28%, #e6d6ff 68%, #f3c4e2 1
 
 @media screen and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
 	.sidebar-about > .avatar-link:hover {
-		&::before { animation: avatar-speak 1.4s ease-in-out infinite; }
-		&::after { animation: avatar-ripple 1.6s ease-out infinite; }
-	}
-}
-
-// `is-speaking` is the same ring, set by site-polish.js while the photo says
-// hi (see "Cover hello" below), on any device.
-@media screen {
-	.sidebar-about > .avatar-link.is-speaking {
-		&::before,
-		&::after { opacity: 1; }
-	}
-}
-
-@media screen and (prefers-reduced-motion: no-preference) {
-	.sidebar-about > .avatar-link.is-speaking {
 		&::before { animation: avatar-speak 1.4s ease-in-out infinite; }
 		&::after { animation: avatar-ripple 1.6s ease-out infinite; }
 	}
@@ -484,7 +505,6 @@ $sidebar-name-gradient: linear-gradient(180deg, #fff 28%, #e6d6ff 68%, #f3c4e2 1
 
 		&:hover,
 		&:focus-visible { color: rgba(255, 255, 255, .9); }
-		&:focus-visible { outline-color: #fff; }
 	}
 
 	.cover-cue__mouse {
@@ -512,16 +532,11 @@ $sidebar-name-gradient: linear-gradient(180deg, #fff 28%, #e6d6ff 68%, #f3c4e2 1
 
 // Cover hello --------------------------------------------------------------------
 //
-// The chat bubble site-polish.js pops out of the sidebar photo (after cult-ui's
-// speech bubble): it grows from its tail at the photo's upper right, shows a
-// typing indicator, then "Hi there!" with a wave. Typing dots and text share
-// one grid cell; while typing, the bubble is held to the width of the dots,
-// and when the words arrive it widens and unrolls them, as a chat app does.
-@keyframes hello-dot {
-	0%, 60%, 100% { transform: translateY(0); opacity: .55; }
-	30% { transform: translateY(-3px); opacity: 1; }
-}
-
+// The chat bubble that pops out of the sidebar photo while the pointer is on
+// it (after cult-ui's speech bubble): it grows from its tail at the photo's
+// upper right and says "Hi there!" with a wave. It never appears by itself,
+// and on a touch screen, where a tap on the photo just goes home, not at all.
+// It is decoration, so it is aria-hidden (sidebar-sticky.html).
 @keyframes hello-wave {
 	0%, 60%, 100% { transform: rotate(0); }
 	10%, 30% { transform: rotate(14deg); }
@@ -536,7 +551,8 @@ $sidebar-name-gradient: linear-gradient(180deg, #fff 28%, #e6d6ff 68%, #f3c4e2 1
 		bottom: 80%;
 		left: 80%;
 		z-index: 1;
-		display: grid;
+		display: flex;
+		align-items: center;
 		padding: .38rem .72rem;
 		border-radius: 1rem 1rem 1rem .3rem;
 		background: linear-gradient(180deg, #9a76e0 0%, #7b55c6 100%);
@@ -547,8 +563,6 @@ $sidebar-name-gradient: linear-gradient(180deg, #fff 28%, #e6d6ff 68%, #f3c4e2 1
 		font-size: .78rem;
 		font-weight: 700;
 		line-height: 1.3;
-		max-width: 12rem;
-		overflow: hidden;
 		white-space: nowrap;
 		pointer-events: none;
 		opacity: 0;
@@ -559,45 +573,6 @@ $sidebar-name-gradient: linear-gradient(180deg, #fff 28%, #e6d6ff 68%, #f3c4e2 1
 			opacity 200ms ease,
 			transform 260ms ease,
 			visibility 0s linear 260ms;
-
-		&.is-open {
-			opacity: 1;
-			visibility: visible;
-			transform: none;
-			transition:
-				opacity 160ms ease,
-				transform 440ms cubic-bezier(.3, 1.5, .5, 1),
-				max-width 360ms cubic-bezier(.3, 1.1, .5, 1),
-				visibility 0s;
-		}
-
-		&.is-typing { max-width: 3rem; }
-
-		> * {
-			display: flex;
-			grid-area: 1 / 1;
-			align-items: center;
-			justify-content: center;
-			transition: opacity 160ms ease;
-		}
-	}
-
-	.hello-bubble__typing {
-		gap: 3px;
-		justify-content: flex-start;
-		opacity: 0;
-
-		i {
-			width: 5px;
-			height: 5px;
-			border-radius: 50%;
-			background: currentColor;
-		}
-	}
-
-	.hello-bubble.is-typing {
-		.hello-bubble__typing { opacity: 1; }
-		.hello-bubble__text { opacity: 0; }
 	}
 
 	.hello-bubble__wave {
@@ -607,16 +582,25 @@ $sidebar-name-gradient: linear-gradient(180deg, #fff 28%, #e6d6ff 68%, #f3c4e2 1
 	}
 }
 
-@media screen and (prefers-reduced-motion: no-preference) {
-	.hello-bubble__typing i { animation: hello-dot 1s ease-in-out infinite; }
-	.hello-bubble__typing i:nth-child(2) { animation-delay: .15s; }
-	.hello-bubble__typing i:nth-child(3) { animation-delay: .3s; }
-	.hello-bubble.is-open:not(.is-typing) .hello-bubble__wave { animation: hello-wave 1.6s ease-in-out .1s; }
+@media screen and (hover: hover) and (pointer: fine) {
+	.sidebar-about > .avatar-link:hover .hello-bubble {
+		opacity: 1;
+		visibility: visible;
+		transform: none;
+		transition:
+			opacity 160ms ease,
+			transform 440ms cubic-bezier(.3, 1.5, .5, 1),
+			visibility 0s;
+	}
+}
+
+@media screen and (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+	.sidebar-about > .avatar-link:hover .hello-bubble__wave { animation: hello-wave 1.6s ease-in-out .1s; }
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.hello-bubble,
-	.hello-bubble.is-open {
+	.sidebar-about > .avatar-link:hover .hello-bubble {
 		transform: none;
 		transition: none;
 	}
@@ -709,13 +693,11 @@ $sidebar-name-gradient: linear-gradient(180deg, #fff 28%, #e6d6ff 68%, #f3c4e2 1
 	}
 }
 
-// Fingers rather than a pointer: menu buttons a full tap target tall (the
-// row has no width to spare on a narrow phone, so only their height grows).
+// Fingers rather than a pointer: menu links a full tap target tall (the
+// row has no width to spare on a narrow phone, so only their height grows;
+// the line keeps its distance from the word).
 @media screen and (pointer: coarse) {
-	.sidebar .sidebar-nav-item {
-		padding-top: .62rem;
-		padding-bottom: .62rem;
-	}
+	.sidebar-nav { --nav-pad-y: .62rem; }
 }
 
 // Command menu key hint ----------------------------------------------------------
@@ -812,12 +794,14 @@ $sidebar-name-gradient: linear-gradient(180deg, #fff 28%, #e6d6ff 68%, #f3c4e2 1
 
 	// A muted byline in sentence case. Not tracked capitals (the stock
 	// template opener), and not bold accent either: in the intro right below,
-	// bold accent text is a link, and the role and city are not.
+	// bold accent text is a link, and the role and city are not. Its "·" is
+	// the one every eyebrow on the site uses (the sidebar's role line, the
+	// project cards and headers).
 	.resume-eyebrow {
 		margin: 0 0 .6rem;
 		color: var(--gray-text);
 		font-size: .95rem;
-		span { padding: 0 .3rem; color: var(--border-color); }
+		span { padding: 0 .2rem; }
 	}
 
 	.resume-hero .page-title {
@@ -890,15 +874,14 @@ $sidebar-name-gradient: linear-gradient(180deg, #fff 28%, #e6d6ff 68%, #f3c4e2 1
 		}
 	}
 
-	// `.content .avatar` (theme, inline) gives the photo a 1rem border at first
-	// paint — visibly larger than the final 3px ring. This rule (higher
-	// specificity) states the final border up front, so there is no border
-	// pop-in on the LCP image.
+	// The photo as it is on the cover: no ring round it (the accent ring came
+	// off the sidebar's photo for being too much), only a soft shadow. The
+	// theme's `.content .avatar` (inline) gives it a 1rem border at first
+	// paint; this rule (higher specificity) states the final none up front,
+	// so there is no border pop-in on the LCP image.
 	.avatar {
-		border: 3px solid var(--body-bg);
-		box-shadow:
-			0 0 0 2px var(--accent-color-faded),
-			0 .5rem 1.5rem rgba(0, 0, 0, .14);
+		border: 0;
+		box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .14);
 	}
 
 	#resume > .resume-actions {
@@ -1074,7 +1057,7 @@ $sidebar-name-gradient: linear-gradient(180deg, #fff 28%, #e6d6ff 68%, #f3c4e2 1
 // The hero wears the theme's `.lead` class, which pulls an image 1rem past
 // both sides of the text column. Stacked above the copy that is a deliberate
 // bleed; beside it, in the two-column header, it pushes the image 1rem past
-// the header's rule and the pills row on the right and into the gutter on the
+// the header's rule and the links row on the right and into the gutter on the
 // left. Keep it inside its column there.
 //
 // Below $break-point-1 that same bleed reaches the edges of the screen, where
@@ -1141,7 +1124,7 @@ $sidebar-name-gradient: linear-gradient(180deg, #fff 28%, #e6d6ff 68%, #f3c4e2 1
 	}
 	// Slightly smaller step on phones than the desktop .95rem.
 	.layout-resume .intro-contact .contact .email { font-size: .9rem; }
-	.quick-nav { gap: 0; padding-right: .25rem; }
+	.quick-nav { --line-inset: .5rem; --line-lift: 8.5px; gap: 0; padding-right: .25rem; }
 	.quick-nav-link { padding: .3rem .5rem; font-size: .75rem; }
 	.nav-btn { flex-basis: 44px; width: 44px; }
 }

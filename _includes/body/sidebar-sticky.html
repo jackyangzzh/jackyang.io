@@ -1,13 +1,14 @@
 <div class="sidebar-sticky">
   <div class="sidebar-about{% if site.sidebar_role %} has-role{% endif %}">
     {% if site.logo %}
-      {% comment %}`avatar-link` hosts the "speaking" rings (see "Avatar" in my-critical.scss).{% endcomment %}
+      {% comment %}`avatar-link` hosts the "speaking" rings and the hello bubble, both shown only while the pointer is on the photo (see "Avatar" and "Cover hello" in my-critical.scss).{% endcomment %}
       <a class="no-hover avatar-link" href="{{ '/' | relative_url }}" tabindex="-1">
         <img src="{% include_cached smart-url url=site.logo %}" class="avatar" alt="{{ site.short_title | default:site.title }}" width="120" height="120" loading="eager" fetchpriority="high" decoding="async" />
+        <span class="hello-bubble" aria-hidden="true">Hi there! <span class="hello-bubble__wave">👋</span></span>
       </a>
     {% endif %}
-    {% comment %}The role is an eyebrow over the name, as on the résumé hero.{% endcomment %}
-    {% if site.sidebar_role %}<p class="sidebar-role">{{ site.sidebar_role }}</p>{% endif %}
+    {% comment %}The role is an eyebrow over the name, as on the résumé hero. A div, not a p: compress_html strips every </p>, and an unclosed p swallows the name's link, which is inline.{% endcomment %}
+    {% if site.sidebar_role %}<div class="sidebar-role">{{ site.sidebar_role }}</div>{% endif %}
     <a class="sidebar-title" href="{{ '/' | relative_url }}"><h2 class="h1">{{ site.short_title | default:site.title }}</h2></a>
     {% assign text = site.tagline | default:site.description %}
     {% if text %}
