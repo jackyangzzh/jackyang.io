@@ -314,9 +314,10 @@
 		line-height: 1.35;
 	}
 
-	// Timeline rail on Experience and Research
+	// Timeline rail on Experience, Research and Education
 	.column > section:has(> .npb > h2#work),
-	.column > section:has(> .npb > h2#research) {
+	.column > section:has(> .npb > h2#research),
+	.column > section:has(> .npb > h2#education) {
 		> .npb > section,
 		> section {
 			position: relative;
@@ -2353,7 +2354,8 @@ main.layout-blog .post-card--featured {
 @supports (animation-timeline: view()) {
 	@media screen and (prefers-reduced-motion: no-preference) {
 		.layout-resume .column > section:has(> .npb > h2#work),
-		.layout-resume .column > section:has(> .npb > h2#research) {
+		.layout-resume .column > section:has(> .npb > h2#research),
+		.layout-resume .column > section:has(> .npb > h2#education) {
 			> .npb > section,
 			> section {
 				view-timeline: --timeline-entry block;
