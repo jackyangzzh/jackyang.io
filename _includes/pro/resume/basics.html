@@ -31,18 +31,8 @@
       {% endif %}
 
       {% if location.countryCode.size > 0 %}
-        {% assign countryCode = location.countryCode | upcase %}
-        {% if major >= 4 and minor >= 1 %}
-          {% assign country = site.data.countries | find:"code",countryCode %}
-        {% else %}
-          {% assign country = site.data.countries | where:"code",countryCode | first %}
-        {% endif %}
-        {% if country %}
-          <meta property="addressCountry" content="{{ location.countryCode }}"/>
-          <span class="country-name p-country-name">{{ country.name }}</span>
-        {% else %}
-          <span class="country-name p-country-name" property="addressCountry">{{ location.countryCode }}</span>
-        {% endif %}
+        <meta property="addressCountry" content="{{ location.countryCode }}"/>
+        <span class="country-name p-country-name">{{ location.country | default:location.countryCode }}</span>
       {% endif %}
     </dd>
   {% endif %}

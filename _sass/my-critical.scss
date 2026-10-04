@@ -20,9 +20,6 @@
 	#_main:focus { outline: none; }
 	#_main :is(h2, h3, section) { scroll-margin-top: 5rem; }
 
-	// Keep the new page links reachable while scrolling; Hydejack otherwise
-	// translates the entire toolbar offscreen, including focused controls.
-	#_navbar { transform: none !important; }
 	.reading-progress {
 		position: absolute;
 		top: 0;

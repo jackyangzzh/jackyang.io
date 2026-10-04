@@ -15,6 +15,7 @@ basics:
   location:
     city: "Seattle"
     countryCode: "US"
+    country: "United States"
   profiles:
     - network: "GitHub"
       username: "jackyangzzh"

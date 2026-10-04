@@ -81,7 +81,6 @@
       ySpd: 0.00049,
       xPh: 0,
       yPh: 1.4,
-      depth: 1,
     },
     {
       color: [214, 150, 240],
@@ -93,7 +92,6 @@
       ySpd: 0.0008,
       xPh: 2.1,
       yPh: 0.3,
-      depth: 0.7,
     },
     {
       color: [116, 108, 222],
@@ -105,7 +103,6 @@
       ySpd: 0.00042,
       xPh: 4.2,
       yPh: 2.8,
-      depth: 1.3,
     },
     {
       color: [196, 122, 206],
@@ -117,7 +114,6 @@
       ySpd: 0.00094,
       xPh: 1.1,
       yPh: 4.5,
-      depth: 0.5,
     },
     {
       color: [140, 152, 244],
@@ -129,7 +125,6 @@
       ySpd: 0.00063,
       xPh: 3.3,
       yPh: 5.6,
-      depth: 1.6,
     },
     {
       color: [226, 176, 240],
@@ -141,7 +136,6 @@
       ySpd: 0.00108,
       xPh: 5.4,
       yPh: 3.1,
-      depth: 0.35,
     },
   ];
 
@@ -219,7 +213,6 @@
         vx: (Math.random() - 0.5) * 0.26 * depth,
         vy: ((Math.random() - 0.5) * 0.18 - 0.025) * depth,
         size: (0.7 + Math.random() * 1.15) * (0.75 + depth * 0.3),
-        depth: depth,
         baseAlpha: 0.16 + Math.random() * 0.34,
         twinkleSpd: 0.011 + Math.random() * 0.019,
         twinklePh: Math.random() * Math.PI * 2,
