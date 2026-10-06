@@ -26,7 +26,7 @@ links:
 ---
 I launched FakeHaul in July 2026 to find out whether shopping can feel satisfying without buying anything. You can browse, hunt for deals, check out, track an order, and open a virtual package, but you never pay and nothing ships. At its peak, FakeHaul reached 3,000 daily active users.
 
-{% include pro/project-video.html id="D-TbB6DAiIU" title="FakeHaul demo" %}
+{% include pro/project-video.html id="eoxMVuF7UfM" title="FakeHaul demo" %}
 
 FakeHaul has been covered by The New York Times, Fast Company, and Digital Trends, and mentioned by NPR, Vice, CBC, and Futurism, among others. [Read the coverage and the questions it raised](#press-and-uncertainty).
 {:.note title="In the press"}
