@@ -797,9 +797,31 @@
   // See "Cover scroll cue" in my-critical.scss. Added beside the theme's
   // swipe hand while the cover is open, and removed, as the theme removes
   // the hand, once it has opened; CSS decides which of the two shows.
+  const syncDrawerPeek = (drawer) => {
+    window.setTimeout(() => {
+      const contentWidth = drawer.contentEl ? drawer.contentEl.clientWidth : window.innerWidth;
+      const peekWidth = drawer.peekEl ? drawer.peekEl.clientWidth : drawer.clientWidth;
+      const drawerWidth = contentWidth - peekWidth;
+      if (drawer.opacity === undefined && typeof drawer.updateDOM === "function" && drawerWidth >= 0) {
+        const translateX = drawer.opened ? drawerWidth * (drawer.side === "left" ? 1 : -1) : 0;
+        drawer.updateDOM(translateX, drawerWidth);
+      }
+      if (drawer.$ && drawer.$.opened) {
+        drawer.$.opened.next(drawer.opened);
+      }
+      drawer.dispatchEvent(new CustomEvent("peek-width-change", { detail: peekWidth }));
+      drawer.dispatchEvent(new CustomEvent("peek-width-change", { detail: peekWidth }));
+    }, 0);
+  };
+
   const setupCoverCue = () => {
     const drawer = document.getElementById("_drawer");
     const sidebar = document.getElementById("_sidebar");
+    if (drawer && !drawer.dataset.peekSyncReady) {
+      drawer.dataset.peekSyncReady = "true";
+      if (drawer.classList.contains("loaded")) syncDrawerPeek(drawer);
+      else drawer.addEventListener("hy-drawer-init", () => syncDrawerPeek(drawer), { once: true });
+    }
     if (!drawer || !sidebar || !drawer.classList.contains("cover") || !drawer.hasAttribute("opened")) return;
     if (sidebar.querySelector(".cover-cue")) return;
 
@@ -809,8 +831,22 @@
     cue.innerHTML =
       '<span class="cover-cue__mouse" aria-hidden="true"><span class="cover-cue__wheel"></span></span>' +
       '<span aria-hidden="true">Scroll</span><span class="sr-only">Show the résumé</span>';
-    cue.addEventListener("click", () => {
+    const closeCover = () => {
       if (typeof drawer.close === "function") drawer.close();
+      window.setTimeout(() => {
+        if (!drawer.hasAttribute("opened")) return;
+        const contentWidth = drawer.contentEl ? drawer.contentEl.clientWidth : window.innerWidth;
+        const peekWidth = drawer.peekEl ? drawer.peekEl.clientWidth : drawer.clientWidth;
+        const drawerWidth = Math.max(0, contentWidth - peekWidth);
+        if (typeof drawer.updateDOM === "function") drawer.updateDOM(0, drawerWidth);
+        if (typeof drawer.transitioned === "function") drawer.transitioned(false);
+        else drawer.removeAttribute("opened");
+        drawer.dispatchEvent(new CustomEvent("hy-drawer-move", { detail: { translateX: 0, opacity: 0 } }));
+      }, 450);
+    };
+    cue.addEventListener("click", () => {
+      if (typeof drawer.close === "function") closeCover();
+      else drawer.addEventListener("hy-drawer-init", closeCover, { once: true });
     });
     sidebar.appendChild(cue);
     drawer.addEventListener("hy-drawer-transitioned", (event) => {
