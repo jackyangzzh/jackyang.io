@@ -28,7 +28,7 @@ I launched FakeHaul in July 2026 to find out whether shopping can feel satisfyin
 
 {% include pro/project-video.html id="eoxMVuF7UfM" title="FakeHaul demo" %}
 
-FakeHaul has been covered by The New York Times, Fast Company, and Digital Trends, and mentioned by NPR, Vice, CBC, and Futurism, among others. [Read the coverage and the questions it raised](#press-and-uncertainty).
+FakeHaul has been covered by The New York Times, Fast Company, MarketWatch, and Digital Trends, and mentioned by the BBC, NPR, Vice, CBC, and Futurism, among others. [Read the coverage and the questions it raised](#press-and-uncertainty).
 {:.note title="In the press"}
 
 ## The idea
@@ -68,7 +68,7 @@ I kept coming back to the same problem: the app borrows pressure tactics from on
 
 ## Press and uncertainty
 
-Coverage started in July 2026, during a wider conversation about "dopamine sites" that simulate consumption without selling anything, and it continued into September.
+Coverage started in July 2026, during a wider conversation about "dopamine sites" that simulate consumption without selling anything, and it continued into October.
 
 <div class="press-quotes-grid">
   <a href="https://www.nytimes.com/2026/09/11/world/asia/dopamine-sites-popularity.html" class="press-quote-card no-mark-external" target="_blank" rel="noopener noreferrer">
@@ -76,20 +76,22 @@ Coverage started in July 2026, during a wider conversation about "dopamine sites
     <span class="press-quote">Placed FakeHaul within the trend and traced the idea back to the friend I built it for.</span>
     <span class="press-link-label">Read article ↗</span>
   </a>
+  <a href="https://www.bbc.com/news/articles/cwn741v5rdpxo" class="press-quote-card no-mark-external" target="_blank" rel="noopener noreferrer">
+    <span class="press-source">BBC</span>
+    <span class="press-quote">Cited FakeHaul among the sites carrying the trend internationally and examined the psychology of anticipation versus ownership.</span>
+    <span class="press-link-label">Read article ↗</span>
+  </a>
   <a href="https://www.fastcompany.com/91577117/fake-temu-dopamine-site-gives-shoppers-a-boost-without-buying-anything-online-shopping-addiction" class="press-quote-card no-mark-external" target="_blank" rel="noopener noreferrer">
     <span class="press-source">Fast Company</span>
     <span class="press-quote">Questioned whether keeping habit-forming mechanics could undermine the idea.</span>
-    <span class="press-link-label">Read article ↗</span>
-  </a>
-  <a href="https://www.digitaltrends.com/computing/i-tried-the-internets-weirdest-shopping-trend-and-my-brain-fell-for-it-more-than-i-expected/" class="press-quote-card no-mark-external" target="_blank" rel="noopener noreferrer">
-    <span class="press-source">Digital Trends</span>
-    <span class="press-quote">Described feeling urgency from a countdown on a product that didn't exist, and questioned the impulse loops behind it.</span>
     <span class="press-link-label">Read article ↗</span>
   </a>
 </div>
 
 Additional coverage and commentary:
 
+- [MarketWatch](https://www.marketwatch.com/story/fake-shopping-sprees-and-happiness-insurance-the-latest-fintech-apps-reveal-our-financial-anxieties-77770a46) looked at simulated shopping sprees alongside new consumer finance apps shaped by spending fatigue and financial anxiety.
+- [Digital Trends](https://www.digitaltrends.com/computing/i-tried-the-internets-weirdest-shopping-trend-and-my-brain-fell-for-it-more-than-i-expected/) described feeling urgency from a countdown on a product that didn't exist, and questioned the impulse loops behind it.
 - [NPR's Planet Money](https://www.npr.org/sections/planet-money/2026/09/25/nx-s1-5980393/why-this-pokemon-set-is-dropping-in-value) included it in a newsletter roundup of sites that simulate online shopping, alongside FoodNeverComes and ImaginAir.
 - [Vice](https://www.vice.com/en/article/the-internet-has-invented-fake-online-shopping-and-theres-a-wild-reason-why-people-love-it/) described it as a way to "experience the thrilling ritual of buying a thing that doesn't exist."
 - [CBC Radio's The Current](https://www.cbc.ca/radio/thecurrent/fake-shopping-website-app-dopamine-9.7313588) covered it among the mock shopping sites spreading beyond South Korea.
