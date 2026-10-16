@@ -4,7 +4,7 @@ weight: 8
 title: 'Poly Space VR'
 description: >
   An open-source social VR app for up to eight people, with voice chat, shared objects, and an in-headset room editor. Released on the Oculus PC VR store.
-date: '01-01-2021'
+date: '2021-01-01'
 category: personal
 image: 
   path: /assets/img/projects/PolySpaceLogo.webp

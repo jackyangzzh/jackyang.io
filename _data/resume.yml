@@ -112,7 +112,7 @@ publications:
   - name: "Too Late to Rely: A Self-Concealing Failure in State-Only Transcript Grounding Trackers"
     publisher: "CHI 2027 (under review)"
     website: "/assets/files/too-late-to-rely.pdf"
-    summary: "**Under review for CHI 2027.** Transcript-based trackers that keep only the latest state can hide their own failures: if someone acts on a decision before the conversation supports it, later agreement overwrites the warning that they acted too early. Used a 264-dialogue benchmark to show the failure and test an event-sourced record that preserves those warnings."
+    summary: "Transcript-based trackers that keep only the latest state can hide their own failures: if someone acts on a decision before the conversation supports it, later agreement overwrites the warning that they acted too early. Used a 264-dialogue benchmark to show the failure and test an event-sourced record that preserves those warnings."
   - name: "Passive frequency conversion of ultraviolet images into the visible using perovskite nanocrystals"
     publisher: "Journal of Optics (IOP Publishing)"
     releaseDate: "2021-04-08"

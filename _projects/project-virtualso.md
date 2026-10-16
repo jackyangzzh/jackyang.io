@@ -4,7 +4,7 @@ weight: 4
 title: 'Project Virtualso'
 description: >
   VR interview and presentation coaches that listen, ask follow-up questions, and react through facial expressions and gaze.
-date: '01-01-2020'
+date: '2020-01-01'
 category: personal
 image: 
   path: /assets/img/projects/virtualso.webp

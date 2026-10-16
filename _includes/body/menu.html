@@ -6,7 +6,7 @@
     <div class="nav-btn-bar">
       <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
         <span class="sr-only">{{ site.data.strings.navigation | default:"Navigation" }}</span>
-        <span class="icon-menu"></span>
+        <span class="icon-menu" aria-hidden="true"></span>
       </a>
       <nav class="nav-span quick-nav" aria-label="Page navigation">
         {% for node in site.menu %}

@@ -4,7 +4,7 @@ weight: 6
 title: 'Robot Control Through VR'
 description: >
   A research prototype for controlling a robotic arm with hand movements in VR, plus a replay tool for recorded lab experiments.
-date: '01-01-2020'
+date: '2020-01-01'
 category: research
 image: 
   path: /assets/img/projects/mimicry.webp

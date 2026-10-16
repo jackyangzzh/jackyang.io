@@ -26,7 +26,7 @@ layout: default
   {% for post in site.data.medium_posts limit: post_count %}
   <li class="post-card{% if forloop.first %} post-card--featured{% endif %}">
     {% if post.thumbnail %}
-    <a class="post-card__thumb no-hover no-mark-external" href="{{ post.url }}" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">
+    <a class="post-card__thumb no-hover no-mark-external" href="{{ post.url }}" target="_blank" rel="noopener noreferrer" aria-label="{{ post.title | escape }}" tabindex="-1" aria-hidden="true">
       {% if forloop.first %}
       <img class="post-card__backdrop" src="{{ post.thumbnail }}" alt="" width="640" height="360" loading="eager" decoding="async" />
       <img src="{{ post.thumbnail }}" alt="" width="640" height="360" loading="eager" fetchpriority="high" decoding="async" />

@@ -4,7 +4,7 @@ weight: 3
 title: 'DishVue'
 description: >
   A 3D menu spanning iPhone, iPad, Apple Vision Pro, and the web. Scan a dish once, then let diners see it at table scale.
-date: '01-01-2024'
+date: '2024-01-01'
 category: personal
 image: 
   path: /assets/img/projects/DishVue.webp

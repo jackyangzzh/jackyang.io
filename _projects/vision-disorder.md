@@ -4,7 +4,7 @@ weight: 7
 title: 'Color Vision & Binocular Rivalry in VR'
 description: >
   Two research prototypes using consumer VR headsets to explore color vision deficiency and binocular rivalry.
-date: '01-01-2020'
+date: '2020-01-01'
 category: research
 image: 
   path: /assets/img/projects/kats.webp

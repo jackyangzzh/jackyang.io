@@ -665,7 +665,7 @@
 }
 
 .filter-count {
-	margin-left: .35rem;
+	margin-left: .15rem;
 	color: var(--gray-text);
 	font-size: .75em;
 	font-weight: 600;
@@ -895,8 +895,26 @@ main.layout-blog .posts-grid {
 	font-weight: 700 !important;
 	letter-spacing: -.01em !important;
 	line-height: 1.35;
-	a { color: inherit; border-bottom: 0; text-decoration: none; }
+	a {
+		position: static;
+		color: inherit;
+		border-bottom: 0;
+		text-decoration: none;
+		transition: color 160ms ease;
+
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			z-index: 2;
+		}
+	}
 	a:hover { color: var(--accent-strong); }
+}
+
+.project-card:hover > .project-card-body > .project-card-title > a,
+.post-card:hover > .post-card__body > .post-card__title > a {
+	color: var(--accent-strong);
 }
 
 .project-card > .project-card-body > .project-card-text,
@@ -937,9 +955,21 @@ main.layout-blog .posts-grid {
 	transition: transform 160ms ease;
 }
 
+.project-card:hover .project-card-cta a::after,
 .project-card-cta a:hover::after,
 .project-card-cta a:focus-visible::after {
 	transform: translateX(.2rem);
+}
+
+.post-card__cta a > span {
+	display: inline-block;
+	transition: transform 160ms ease;
+}
+
+.post-card:hover .post-card__cta a > span,
+.post-card__cta a:hover > span,
+.post-card__cta a:focus-visible > span {
+	transform: translate(.12rem, -.12rem);
 }
 
 // Project detail pages -----------------------------------------------------
@@ -1760,7 +1790,7 @@ main.layout-blog .post-card--featured {
 		// handle and the arrow are inline-blocks.
 		.profile-handle {
 			display: inline-block;
-			margin-left: .45rem;
+			margin-left: .25rem;
 			color: var(--gray-text);
 			font-size: .9em;
 			font-weight: 400;

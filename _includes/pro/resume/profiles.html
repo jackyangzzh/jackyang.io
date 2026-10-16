@@ -20,7 +20,7 @@
     "jackyangzzh" three times and left the icons to say which was which.
   {% endcomment %}
   {% capture handle_class %}profile-handle{% if forloop.first %} nickname p-nickname{% endif %}{% endcapture %}
-  {% capture profile_title %}{{ name }}<span class="{{ handle_class }}">{{ pro.username }}</span>{% endcapture %}
+  {% capture profile_title %}{{ name }} <span class="{{ handle_class }}">{{ pro.username }}</span>{% endcapture %}
   <dd class="bold">
     {% include components/link.html href=pro.url class="profile-link" title=profile_title property="sameAs" rel="me noopener noreferrer" %}
   </dd>

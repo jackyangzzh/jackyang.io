@@ -1,4 +1,48 @@
 {% comment %}<!--
 Including `seo` in a partial prevents a parse error when `jekyll-seo-tag` is not included
 -->{% endcomment %}
-{% seo %}
+{% capture seo_tag %}{% seo %}{% endcapture %}
+{% assign seo_tag = seo_tag | replace:'"@type":"imageObject"','"@type":"ImageObject"' %}
+{% if page.url == "/" and page.title %}
+  {% capture raw_title %}{{ page.title | escape }}{% endcapture %}
+  {% capture full_title %}{{ site.title }} — {{ raw_title }}{% endcapture %}
+  {% capture default_title %}<title>{{ raw_title }} | {{ site.title }}</title>{% endcapture %}
+  {% capture custom_title %}<title>{{ full_title }}</title>{% endcapture %}
+  {% capture default_og %}<meta property="og:title" content="{{ raw_title }}" />{% endcapture %}
+  {% capture custom_og %}<meta property="og:title" content="{{ full_title }}" />{% endcapture %}
+  {% capture default_tw %}<meta property="twitter:title" content="{{ raw_title }}" />{% endcapture %}
+  {% capture custom_tw %}<meta property="twitter:title" content="{{ full_title }}" />{% endcapture %}
+  {% assign seo_tag = seo_tag | replace:default_title,custom_title | replace:default_og,custom_og | replace:default_tw,custom_tw %}
+{% endif %}
+{{ seo_tag }}
+{% if page.layout == "resume" and site.data.resume.basics %}
+{% assign b = site.data.resume.basics %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "mainEntity": {
+    "@type": "Person",
+    "name": {{ b.name | jsonify }},
+    "jobTitle": "Software Engineer",
+    "description": {{ page.description | default:site.description | strip_newlines | strip | jsonify }},
+    "url": {{ page.url | absolute_url | jsonify }},
+    "image": {{ site.logo | absolute_url | jsonify }},
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": {{ b.location.city | jsonify }},
+      "addressCountry": {{ b.location.countryCode | jsonify }}
+    },
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Microsoft"
+    },
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "Georgia Institute of Technology" },
+      { "@type": "CollegeOrUniversity", "name": "University of Wisconsin–Madison" }
+    ],
+    "sameAs": {{ site.social.links | jsonify }}
+  }
+}
+</script>
+{% endif %}

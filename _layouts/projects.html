@@ -25,7 +25,7 @@ default:false %}
       aria-pressed="true"
       aria-controls="project-list"
     >
-      <span>All</span><span class="filter-count" aria-hidden="true">{{ ordered_projects.size }}</span>
+      <span>All</span> <span class="filter-count" aria-hidden="true">{{ ordered_projects.size }}</span>
     </button>
   </li>
   <li>
@@ -36,7 +36,7 @@ default:false %}
       aria-pressed="false"
       aria-controls="project-list"
     >
-      <span>Professional</span><span class="filter-count" aria-hidden="true">{{ ordered_projects | where:'category','professional' | size }}</span>
+      <span>Professional</span> <span class="filter-count" aria-hidden="true">{{ ordered_projects | where:'category','professional' | size }}</span>
     </button>
   </li>
   <li>
@@ -47,7 +47,7 @@ default:false %}
       aria-pressed="false"
       aria-controls="project-list"
     >
-      <span>Personal</span><span class="filter-count" aria-hidden="true">{{ ordered_projects | where:'category','personal' | size }}</span>
+      <span>Personal</span> <span class="filter-count" aria-hidden="true">{{ ordered_projects | where:'category','personal' | size }}</span>
     </button>
   </li>
   <li>
@@ -58,7 +58,7 @@ default:false %}
       aria-pressed="false"
       aria-controls="project-list"
     >
-      <span>Research</span><span class="filter-count" aria-hidden="true">{{ ordered_projects | where:'category','research' | size }}</span>
+      <span>Research</span> <span class="filter-count" aria-hidden="true">{{ ordered_projects | where:'category','research' | size }}</span>
     </button>
   </li>
 </ul>

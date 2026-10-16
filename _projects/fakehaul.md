@@ -5,7 +5,7 @@ featured: true
 title: 'FakeHaul'
 description: >
   A pretend shopping marketplace where every checkout is $0.00 and nothing ships. The ritual of online shopping, without spending money.
-date: '07-01-2026'
+date: '2026-07-01'
 category: personal
 image:
   path: /assets/img/projects/fakehaul.webp

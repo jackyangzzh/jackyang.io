@@ -37,7 +37,7 @@ layout: base
   {% else %}{% assign project_category_label = project.category %}
 {% endcase %}
 
-<article id="project" class="page mb6 project-page" role="article" {% unless nsd %}vocab="http://schema.org/" typeof="CreativeWork"
+<article id="project" class="page mb6 project-page" role="article" {% unless nsd %}vocab="https://schema.org/" typeof="CreativeWork"
   resource="#project" {% endunless %}>
   <a class="project-back" href="{{ '/projects/' | relative_url }}"><span aria-hidden="true">←</span> All projects</a>
   <header class="project-header">

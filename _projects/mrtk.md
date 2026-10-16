@@ -4,7 +4,7 @@ weight: 5
 title: 'MRTK for Unity'
 description: >
   Leap Motion integration work and a merged orientation example for Microsoft's Mixed Reality Toolkit 2.7.
-date: '01-01-2021'
+date: '2021-01-01'
 category: personal
 image: 
   path: /assets/img/projects/mrtk_unity.webp
