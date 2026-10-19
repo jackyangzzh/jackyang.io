@@ -273,7 +273,7 @@
       const n = Math.floor(W / pitch);
       let seed = 20261018;
       const rnd = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296);
-      let bars = "";
+      const bars = { h: "", a: "", g: "" };
       for (let i = 0; i < n; i++) {
         const tt = ((i + 0.5) / n) * total;
         const seg = segAt(tt);
@@ -287,12 +287,15 @@
         }
         const h = Math.max(2, amp * H);
         const x = i * pitch + (pitch - bw) / 2;
-        const cls = seg.gap ? "h g" : seg.who === "agent" ? "a" : "h";
-        bars += `<rect class="${cls}" x="${x.toFixed(2)}" y="${((H - h) / 2).toFixed(2)}" width="${bw}" height="${h.toFixed(2)}" rx="${bw / 2}"/>`;
+        bars[seg.gap ? "g" : seg.who === "agent" ? "a" : "h"] += `<rect x="${x.toFixed(2)}" y="${((H - h) / 2).toFixed(2)}" width="${bw}" height="${h.toFixed(2)}" rx="${bw / 2}"/>`;
       }
       svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+      // The bars are drawn through <use>, whose clones live in a shadow tree
+      // that page selectors can't reach, so colours go on as inline styles
+      // (copied with the clone; the custom properties still inherit).
       svg.innerHTML =
-        `<defs><g id="sig-bars">${bars}</g>` +
+        `<defs><g id="sig-bars"><g style="fill:var(--ink)">${bars.h}</g>` +
+        `<g style="fill:var(--ink);opacity:.4">${bars.g}</g><g style="fill:var(--signal)">${bars.a}</g></g>` +
         `<clipPath id="sig-a"><rect x="0" y="-4" width="${W}" height="${H + 8}"/></clipPath>` +
         `<clipPath id="sig-b"><rect x="${W}" y="-4" width="0" height="${H + 8}"/></clipPath></defs>` +
         `<use href="#sig-bars" clip-path="url(#sig-a)"/><use href="#sig-bars" class="w-rest" clip-path="url(#sig-b)"/>`;
