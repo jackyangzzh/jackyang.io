@@ -8,6 +8,9 @@ description: >
 image:
   path: /assets/img/projects/fakehaul.webp
   alt: Selected software engineering, AI, and XR projects by Jack Yang
-no_groups: true
+# Projects that were taken down, so old links land here.
+redirect_from:
+  - /projects/mrtk/
+  - /projects/polyspace/
 ---
 

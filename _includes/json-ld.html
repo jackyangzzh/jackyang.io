@@ -1,0 +1,21 @@
+{%- comment -%}Person structured data for the home page, built from _data/resume.yml.{%- endcomment -%}
+{%- assign r = site.data.resume -%}
+{%- assign current = r.work | first -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": {{ r.basics.name | jsonify }},
+  "jobTitle": {{ current.position | jsonify }},
+  "worksFor": { "@type": "Organization", "name": {{ current.company | jsonify }} },
+  "description": {{ site.description | strip | jsonify }},
+  "image": {{ site.logo | absolute_url | jsonify }},
+  "url": {{ site.url | jsonify }},
+  "email": {{ r.basics.email | prepend: "mailto:" | jsonify }},
+  "address": { "@type": "PostalAddress", "addressLocality": {{ r.basics.location.city | jsonify }}, "addressCountry": {{ r.basics.location.countryCode | jsonify }} },
+  {%- assign skills = "" | split: "" -%}{%- for g in r.skills -%}{%- assign skills = skills | concat: g.keywords -%}{%- endfor %}
+  "knowsAbout": {{ skills | jsonify }},
+  "alumniOf": [{% for e in r.education %}{ "@type": "CollegeOrUniversity", "name": {{ e.institution | jsonify }} }{% unless forloop.last %}, {% endunless %}{% endfor %}],
+  "sameAs": [{% for p in r.basics.profiles %}{{ p.url | jsonify }}{% unless forloop.last %}, {% endunless %}{% endfor %}]
+}
+</script>

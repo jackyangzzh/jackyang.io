@@ -32,61 +32,75 @@ basics:
 work:
   - company: "Microsoft"
     position: "Software Engineer II, Teams AI"
+    short: "Teams AI"
+    heading: "Microsoft Teams AI"
     website: "https://support.microsoft.com/en-us/teams/copilot/facilitator-in-microsoft-teams-meetings"
     startDate: "2024-09-01"
     endDate: ""
     highlights:
-      - Build Facilitator, a meeting agent for Microsoft 365 Copilot that takes live notes, tracks agendas and decisions, and answers questions in Teams.
-      - Design the turn-taking layer of a proactive agent, deciding when and how the AI speaks into a live group conversation without interrupting.
-      - Contribute to conversation orchestration, tool calling, context management, observability, and multimodal LLM features.
+      - Build **Facilitator**, a meeting agent for **Microsoft 365 Copilot** that takes live notes, tracks agendas and decisions, and answers questions in Teams.
+      - Design the **turn-taking layer of a proactive agent**, deciding when and how the AI speaks into a live group conversation without interrupting.
+      - Contribute to **conversation orchestration**, tool calling, context management, observability, and **multimodal LLM features**.
   - company: "Microsoft"
     position: "Software Engineer II, Mixed Reality (Mesh)"
+    short: "Mesh"
+    heading: "Microsoft Mesh"
+    project: "/projects/mesh-avatars/"
     website: "https://www.microsoft.com/en-us/microsoft-teams/microsoft-mesh"
     startDate: "2022-06-01"
     endDate: "2024-09-01"
     highlights:
-      - Built avatar customization systems and shared UI components (input handling, accessibility) behind Microsoft Mesh and Avatars in Teams, supporting weekly releases and 20+ languages for millions of users. Satya Nadella showed the outfit-selection flow I built at Microsoft Ignite.
-      - Key contributor to the avatar rendering and performance pipeline across HoloLens, Quest, web, and desktop. Profiled CPU and GPU frame budgets, using LOD switching and GPU instancing to maintain target framerates on constrained hardware.
+      - Built avatar customization systems and shared UI components (input handling, accessibility) behind Microsoft Mesh and Avatars in Teams, supporting weekly releases and **20+ languages for millions of users**. **Satya Nadella** showed the outfit-selection flow I built at Microsoft Ignite.
+      - Key contributor to the **avatar rendering and performance pipeline** across HoloLens, Quest, web, and desktop. Profiled CPU and GPU frame budgets, using LOD switching and GPU instancing to **maintain target framerates on constrained hardware**.
 
   - company: "Holos"
     position: "AR/VR Interaction Engineer"
+    short: "Holos"
+    project: "/projects/holos/"
     website: "https://holos.io/"
     startDate: "2019-02-01"
     endDate: "2022-05-01"
     highlights:
-      - Built core AR and VR training platform capabilities, including hand tracking, gesture recognition, multiplayer networking, and 3D model ingestion workflows.
-      - Worked with leadership on product and engineering execution, helping Holos secure a $750K U.S. Air Force contract and a place in Techstars.
+      - Built **core AR and VR training platform** capabilities, including hand tracking, gesture recognition, multiplayer networking, and 3D model ingestion workflows.
+      - Worked with leadership on product and engineering execution, helping Holos secure a **$750K U.S. Air Force contract** and a place in **Techstars**.
 research:
   - company: "Kats Research Group"
     position: "XR Researcher"
+    short: "Kats Group"
+    project: "/projects/vision-disorder/"
     website: "https://katsgroup.ece.wisc.edu/"
     startDate: "2017-10-01"
     endDate: "2022-05-01"
     highlights:
-      - Developed a computer vision model that simulates color vision deficiency in hyperspectral images with 90% accuracy, and ran it in a color-calibrated Oculus Rift demo. Co-authored an arXiv publication.
+      - Developed a **computer vision model** that simulates color vision deficiency in hyperspectral images with **90% accuracy**, and ran it in a color-calibrated Oculus Rift demo. Co-authored an arXiv publication.
   - company: "UW Graphics Group"
     position: "Graphics Researcher"
+    short: "UW Graphics"
+    project: "/projects/robot-control/"
     website: "https://pages.graphics.cs.wisc.edu/"
     startDate: "2020-09-01"
     endDate: "2022-05-01"
     highlights:
-      - Built a real-time VR control loop mapping hand gestures to remote robotic-arm manipulation, plus a Unity UI for replaying arm motion from 15+ lab-experiment datasets.
+      - Built a **real-time VR control loop** mapping hand gestures to remote robotic-arm manipulation, plus a Unity UI for replaying arm motion from **15+ lab-experiment datasets**.
   - company: "UW Human-Computer Interaction Group"
     position: "HCI Researcher"
+    short: "UW HCI"
     website: "https://hci.cs.wisc.edu/"
     startDate: "2017-04-01"
     endDate: "2017-12-01"
     highlights:
-      - Added speech recognition and NLP-driven interaction to children's reading-companion robots and validated the interaction in an eight-family trial.
+      - Added **speech recognition and NLP-driven interaction** to children's reading-companion robots and validated the interaction in an **eight-family trial**.
 education:
   - institution: "Georgia Institute of Technology"
     studyType: "M.S. in Computer Science (HCI)"
+    short: "Georgia Tech"
     startDate: "2025-09-01"
     endDate: "2027-05-01"
     courses:
       - Human-Computer Interaction specialization; in progress, expected May 2027.
   - institution: "University of Wisconsin–Madison"
     studyType: "Bachelor of Science"
+    short: "UW–Madison"
     startDate: "2016-09-01"
     endDate: "2020-06-01"
     courses:

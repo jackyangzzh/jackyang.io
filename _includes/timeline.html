@@ -1,0 +1,57 @@
+{%- comment -%}
+The multitrack career timeline on the home page: one lane per kind of role,
+bars placed by date, a playhead at "now". Everything is positioned here at
+build time, so it renders without JavaScript; site.js adds the tooltip,
+label fitting and the link to the entries below.
+
+The time range follows the data: from just before the earliest start to just
+after the latest end (or today, whichever is later).
+{%- endcomment -%}
+{%- assign r = site.data.resume -%}
+{%- assign now = site.time | date: "%s" | plus: 0 -%}
+{%- assign all = r.work | concat: r.research | concat: r.education -%}
+{%- assign min_s = now -%}
+{%- assign max_e = now -%}
+{%- for it in all -%}
+  {%- assign s = it.startDate | date: "%s" | plus: 0 -%}
+  {%- if s < min_s -%}{%- assign min_s = s -%}{%- endif -%}
+  {%- if it.endDate and it.endDate != "" -%}
+    {%- assign e = it.endDate | date: "%s" | plus: 0 -%}
+    {%- if e > max_e -%}{%- assign max_e = e -%}{%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign pad = 5184000 -%}{%- comment -%}60 days{%- endcomment -%}
+{%- assign t0 = min_s | minus: pad -%}
+{%- assign t1 = max_e | plus: pad -%}
+{%- assign span = t1 | minus: t0 -%}
+{%- assign y0 = t0 | date: "%Y" | plus: 1 -%}
+{%- assign y1 = t1 | date: "%Y" | plus: 0 -%}
+{%- assign now_l = now | minus: t0 | times: 100.0 | divided_by: span | round: 3 -%}
+
+<figure class="tl" data-tl>
+  <div class="tl__scroll" data-tl-scroll>
+    <div class="tl__chart">
+      <div class="tl__grid" aria-hidden="true">
+        {%- for y in (y0..y1) -%}
+        {%- capture jan -%}{{ y }}-01-01{%- endcapture -%}
+        {%- assign yl = jan | date: "%s" | plus: 0 | minus: t0 | times: 100.0 | divided_by: span | round: 3 %}
+        <span class="tl__tick" style="--l: {{ yl }}%"><span>{{ y }}</span></span>
+        {%- endfor %}
+      </div>
+
+      {% include timeline-lane.html label="Work" items=r.work t0=t0 span=span now=now %}
+      {% include timeline-lane.html label="Research" items=r.research t0=t0 span=span now=now %}
+      {% include timeline-lane.html label="Study" items=r.education t0=t0 span=span now=now %}
+
+      <div class="tl__now" style="--l: {{ now_l }}%" aria-hidden="true">
+        <span class="tl__now-label mono">Now · {{ site.time | date: "%b %Y" }}</span>
+      </div>
+    </div>
+  </div>
+  <figcaption class="tl__cap mono">
+    <span><i class="tl__key tl__key--now" aria-hidden="true"></i>Current role</span>
+    <span><i class="tl__key tl__key--future" aria-hidden="true"></i>Expected</span>
+    <span class="tl__hint">Select a bar to jump to the entry</span>
+  </figcaption>
+  <div class="tl__tip mono" data-tl-tip aria-hidden="true" hidden></div>
+</figure>

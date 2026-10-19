@@ -45,9 +45,9 @@ Normally, the visual system merges what each eye sees into a single image. Using
 
 ## What I built
 
-- Implemented the color pipeline in Unity's HDRP, including lookup-table blending and per-eye calibration.
-- Built tools to capture headset sensor data, compare it with hyperspectral reference images, and export reports.
-- Worked with ophthalmology advisors to keep the simulations grounded in the underlying vision science.
+- Implemented the **color pipeline in Unity's HDRP**, including lookup-table blending and per-eye calibration.
+- Built tools to **capture headset sensor data**, compare it with **hyperspectral reference images**, and export reports.
+- Worked with **ophthalmology advisors** to keep the simulations grounded in the underlying vision science.
 
 ## The limits matter
 

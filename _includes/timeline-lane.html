@@ -1,0 +1,44 @@
+{%- comment -%}
+One lane of the career timeline (see timeline.html). Bars that overlap in
+time are stacked greedily onto up to three rows.
+{%- endcomment -%}
+{%- assign items = include.items | sort: "startDate" -%}
+{%- assign t0 = include.t0 -%}
+{%- assign span = include.span -%}
+{%- assign now = include.now -%}
+{%- assign e0 = 0 -%}{%- assign e1 = 0 -%}{%- assign rows = 1 -%}
+{%- capture bars -%}
+{%- for it in items -%}
+  {%- assign s = it.startDate | date: "%s" | plus: 0 -%}
+  {%- assign ongoing = false -%}
+  {%- if it.endDate and it.endDate != "" -%}
+    {%- assign e = it.endDate | date: "%s" | plus: 0 -%}
+  {%- else -%}
+    {%- assign e = now -%}{%- assign ongoing = true -%}
+  {%- endif -%}
+  {%- if s >= e0 -%}{%- assign row = 0 -%}{%- assign e0 = e -%}
+  {%- elsif s >= e1 -%}{%- assign row = 1 -%}{%- assign e1 = e -%}
+  {%- else -%}{%- assign row = 2 -%}{%- endif -%}
+  {%- assign need = row | plus: 1 -%}{%- if need > rows -%}{%- assign rows = need -%}{%- endif -%}
+  {%- assign l = s | minus: t0 | times: 100.0 | divided_by: span | round: 3 -%}
+  {%- assign w = e | minus: s | times: 100.0 | divided_by: span | round: 3 -%}
+  {%- assign org = it.heading | default: it.company | default: it.institution -%}
+  {%- assign role = it.position | default: it.studyType -%}
+  {%- assign id = it.short | slugify | prepend: "exp-" -%}
+  {%- capture dates -%}{{ it.startDate | date: "%b %Y" }} – {% if ongoing %}Present{% else %}{{ it.endDate | date: "%b %Y" }}{% if e > now %} (expected){% endif %}{% endif %}{%- endcapture -%}
+  <a class="tl__bar{% if ongoing %} is-now{% endif %}" href="#{{ id }}" data-target="{{ id }}" style="--l: {{ l }}%; --w: {{ w }}%; --row: {{ row }}"
+     data-tip-title="{{ org | escape }}" data-tip-sub="{{ role | escape }}" data-tip-dates="{{ dates }}"
+     aria-label="{{ org | escape }}, {{ role | escape }}, {{ dates }}">
+    {%- if e > now -%}
+    {%- assign dur = e | minus: s -%}
+    {%- assign fl = now | minus: s | times: 100.0 | divided_by: dur | round: 2 -%}
+    <span class="tl__future" style="--f: {{ fl }}%" aria-hidden="true"></span>
+    {%- endif -%}
+    <span class="tl__label" aria-hidden="true">{{ it.short }}</span>
+  </a>
+{%- endfor -%}
+{%- endcapture -%}
+<div class="tl__lane" style="--rows: {{ rows }}">
+  <span class="tl__lane-label mono">{{ include.label }}</span>
+  <div class="tl__track">{{ bars }}</div>
+</div>

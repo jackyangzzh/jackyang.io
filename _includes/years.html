@@ -1,0 +1,5 @@
+{%- assign p = include.project -%}
+{%- assign y1 = nil -%}
+{%- assign y0 = p.date | date: "%Y" -%}
+{%- if p.end_date and p.end_date != "" -%}{%- assign y1 = p.end_date | date: "%Y" -%}{%- endif -%}
+{{ y0 }}{% if y1 and y1 != y0 %}–{{ y1 }}{% endif %}

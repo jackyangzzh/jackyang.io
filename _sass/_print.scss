@@ -1,0 +1,20 @@
+// Printing the home page gives a clean résumé.
+
+@media print {
+  :root { @include light-tokens; --bg: #fff; --bg-2: #f4f4f4; }
+  body { font-size: 10.5pt; }
+  .hd, .mnav, .signal, .hero__actions, .tl, .ft__word, .ft__base, .cmdk, .skip,
+  .sh__aux, .socials, .about__photo, #work, #writing, .next, .toc,
+  .copy, .entry__case, .ft__col:last-child, [data-cmdk-open] { display: none !important; }
+  .hero { min-height: auto; padding-bottom: 0; }
+  .hero__title { font-size: 34pt; padding-top: 0; }
+  .sec { padding-top: 18pt; break-inside: auto; }
+  .sh { margin-bottom: 10pt; }
+  .sh__title { font-size: 20pt; }
+  .entry, .pub { padding: 8pt 0; break-inside: avoid; }
+  .entry__org { font-size: 14pt; }
+  .reveal--wait { opacity: 1 !important; transform: none !important; }
+  .js .intro { animation: none !important; }
+  a { text-decoration: none !important; }
+  .ft { margin-top: 18pt; padding-top: 10pt; }
+}

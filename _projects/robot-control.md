@@ -36,9 +36,9 @@ The live interface mapped hand movements to the arm through a lightweight ROS br
 
 The prototype included:
 
-- A custom inverse kinematics solver combining Leap Motion hand poses with joint limits and checks for mechanical singularities.
-- Safety interlocks checking joint velocity, collision volumes, and operator intent before commands left the VR client.
-- Overlays showing reachable space and predicted joint poses, so the operator could see the proposed movement before committing to it.
+- A **custom inverse kinematics solver** combining Leap Motion hand poses with joint limits and checks for mechanical singularities.
+- **Safety interlocks** checking joint velocity, collision volumes, and operator intent before commands left the VR client.
+- Overlays showing reachable space and predicted joint poses, so the operator could **see the proposed movement before committing to it**.
 
 ## When the lab closed
 

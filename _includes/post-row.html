@@ -1,0 +1,19 @@
+{%- comment -%}One Medium post. Params: post, excerpt (bool), thumb (bool){%- endcomment -%}
+{%- assign post = include.post -%}
+{%- if post.url contains "medium.com/antaeus-ar" -%}{%- assign src = "Antaeus AR" -%}{%- else -%}{%- assign src = "Medium" -%}{%- endif -%}
+<li class="post reveal">
+  <a class="post__link" href="{{ post.url }}" rel="noopener">
+    <time class="post__date mono" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+    <span class="post__main">
+      <span class="post__title">{{ post.title }}</span>
+      {%- if include.excerpt %}
+      <span class="post__excerpt">{{ post.description | replace: "</p>", "</p> " | replace: "<br>", " " | strip_html | strip_newlines | normalize_whitespace | truncatewords: 28 }}</span>
+      {%- endif %}
+    </span>
+    <span class="post__src mono">{{ src }}<span class="sr-only"> (opens on Medium)</span></span>
+    {%- if include.thumb and post.thumbnail %}
+    <span class="post__thumb"><img src="{{ post.thumbnail }}" alt="" width="320" height="200" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
+    {%- endif %}
+    <span class="post__go" aria-hidden="true">{% include icon.html name="arrow-ur" px="18" %}</span>
+  </a>
+</li>

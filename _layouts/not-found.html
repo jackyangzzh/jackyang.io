@@ -1,54 +1,13 @@
 ---
-# Copyright (c) 2018 Florian Klampfer <https://qwtel.com/>
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 layout: base
 ---
-
-{% assign strings = site.data.strings %}
-
-<div class="page">
-  {% comment %}
-    The same night sky the cover opens with: the lost page is somewhere out
-    there. Pure decoration, so it is hidden from assistive tech; the heading
-    below carries the meaning. (No eyebrow: a "404" label directly under a
-    giant 404 only repeated it.)
-  {% endcomment %}
-  <div class="lost-sky night-sky" aria-hidden="true">
-    <span class="lost-sky__shooting-star"></span>
-    <span class="lost-sky__shooting-star lost-sky__shooting-star--late"></span>
-    <span class="lost-sky__code">4<span class="lost-sky__planet">0</span>4</span>
-    {% comment %}Typed in by site-polish.js ("404 terminal"): `cd` to the missing address, and the shell's reply. Its row is reserved even before then, so nothing shifts when it appears.{% endcomment %}
-    <span class="lost-sky__terminal">
-      <span class="lost-sky__line"><span class="lost-sky__prompt">~ $</span> <span data-terminal-input></span><span class="lost-sky__caret"></span></span>
-      <span class="lost-sky__line lost-sky__answer" data-terminal-output hidden>cd: no such file or directory</span>
-      <span class="lost-sky__line" data-terminal-next hidden><span class="lost-sky__prompt">~ $</span> </span>
-    </span>
+<section class="lost wrap">
+  <p class="label lost__code"><span class="live__dot live__dot--off" aria-hidden="true"></span>Error 404 · No signal</p>
+  <h1 class="lost__title">Signal <em>lost.</em></h1>
+  <svg class="lost__line" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path d="M0 60 H520 l14 -34 l16 68 l14 -52 l10 18 H1200" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>
+  </svg>
+  <div class="lost__body prose">
+{{ content }}
   </div>
-  <h1 class="page-title">{{ page.title | default:strings.not_found.title | default: "404: Page Not Found" }}</h1>
-  <div class="hr pb0"></div>
-
-  {% assign test = page.content | strip_newlines %}
-  {% if test != "" %}
-    {{ content }}
-  {% else %}
-    {% capture home_link %}<a href="{{ '/' | relative_url }}">{{ strings.not_found.home_link | default:"Head back home" }}</a>{% endcapture %}
-    {% assign text = strings.not_found.message
-      | default:"Sorry, we've misplaced that URL or it's pointing to something that doesn't exist. <!--home_link--> to try finding it again." %}
-    <p class="lead">
-      {{ text | replace:"<!--home_link-->", home_link }}
-    </p>
-  {% endif %}
-</div>
+</section>

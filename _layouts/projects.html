@@ -1,98 +1,60 @@
 ---
-# Copyright (c) 2018 Florian Klampfer <https://qwtel.com/>
-layout: page
+layout: base
 ---
+{%- assign projects = site.projects | sort: "weight" -%}
+{%- assign cats = "professional,personal,research" | split: "," -%}
 
-{{ content }} {% assign show_collection = page.show_collection |
-default:"projects" %} {% assign empty_col = '' | split:'.' %} {% assign
-ordered_projects = site[show_collection] | default:empty_col | sort:"weight" %}
-{% assign nsd = site.hydejack.no_structured_data |
-default:site.no_structured_data %} {% assign projects_group_by =
-site.data.strings.date_formats.projects_group_by | default:"%Y" %} {% assign
-no_third_column = page.no_third_column | default:site.hydejack.no_third_column |
-default:false %}
-
-<ul
-  class="project-filters"
-  aria-label="Filter projects by category"
-  hidden
->
-  <li>
-    <button
-      type="button"
-      class="project-filter-btn is-active"
-      data-filter="all"
-      aria-pressed="true"
-      aria-controls="project-list"
-    >
-      <span>All</span> <span class="filter-count" aria-hidden="true">{{ ordered_projects.size }}</span>
-    </button>
-  </li>
-  <li>
-    <button
-      type="button"
-      class="project-filter-btn"
-      data-filter="professional"
-      aria-pressed="false"
-      aria-controls="project-list"
-    >
-      <span>Professional</span> <span class="filter-count" aria-hidden="true">{{ ordered_projects | where:'category','professional' | size }}</span>
-    </button>
-  </li>
-  <li>
-    <button
-      type="button"
-      class="project-filter-btn"
-      data-filter="personal"
-      aria-pressed="false"
-      aria-controls="project-list"
-    >
-      <span>Personal</span> <span class="filter-count" aria-hidden="true">{{ ordered_projects | where:'category','personal' | size }}</span>
-    </button>
-  </li>
-  <li>
-    <button
-      type="button"
-      class="project-filter-btn"
-      data-filter="research"
-      aria-pressed="false"
-      aria-controls="project-list"
-    >
-      <span>Research</span> <span class="filter-count" aria-hidden="true">{{ ordered_projects | where:'category','research' | size }}</span>
-    </button>
-  </li>
-</ul>
-
-<p class="project-results" role="status" aria-live="polite" aria-atomic="true">Showing all {{ ordered_projects.size }} projects</p>
-
-<div class="project-list" id="project-list">
-  {% assign prev_date = 0 %} {% if page.no_groups %}
-  <div class="columns {% unless no_third_column %}columns-break{% endunless %}">
-    {% endif %} {% for project in ordered_projects %} {% assign current_date =
-    project.date | date:projects_group_by %} {% unless page.no_groups %}{% if
-    current_date != prev_date %} {% unless forloop.first %}
+<header class="phead wrap">
+  <h1 class="phead__title intro" style="--d: 0">{{ page.title }}<sup class="phead__count mono">{{ projects.size }}</sup></h1>
+  <div class="phead__row intro" style="--d: 1">
+    <div class="phead__desc">{{ page.description | markdownify }}</div>
+    <nav class="filters" aria-label="Filter projects" data-filters hidden>
+      <ul class="track" data-track>
+        <li><button type="button" data-filter="all" aria-pressed="true">All <span class="mono">{{ projects.size }}</span></button></li>
+        {%- for cat in cats %}
+        {%- assign n = projects | where: "category", cat | size %}
+        {%- if n > 0 %}
+        <li><button type="button" data-filter="{{ cat }}" aria-pressed="false">{{ cat | capitalize }} <span class="mono">{{ n }}</span></button></li>
+        {%- endif %}
+        {%- endfor %}
+      </ul>
+    </nav>
   </div>
-  {% endunless %}
+</header>
 
-  <h2 id="{{ projects_group_by | slugify }}-{{ current_date | slugify }}">
-    {{ current_date }}
-  </h2>
-  <div class="columns {% unless no_third_column %}columns-break{% endunless %}">
-    {% assign prev_date = current_date %} {% endif %}{% endunless %} {% assign
-    featured = page.featured | default:project.featured |
-    default:page.big_project | default:project.big_project %} {% assign
-    card_category = project.category | default:'other' | downcase %}
-    <div
-      class="column {% if featured %}column-1{% else %}column-1-2{% endif %} project-column"
-      data-category="{{ card_category }}"
-    >
-      {% include_cached pro/project-card.html project=project featured=featured first=forloop.first
-      %}
+<section class="pindex wrap" aria-label="All projects">
+  <ol class="plist" data-plist>
+    {%- for proj in projects %}
+    <li class="prow intro" style="--d: {{ forloop.index | plus: 1 }}" data-cat="{{ proj.category }}">
+      <a class="prow__link" href="{{ proj.url | relative_url }}" data-vt-link data-preview="{{ forloop.index0 }}">
+        <span class="prow__no mono">{{ forloop.index | prepend: "0" }}</span>
+        <span class="prow__main">
+          <span class="prow__title">{{ proj.title }}</span>
+          {% include eyebrow.html project=proj %}
+        </span>
+        <span class="prow__media{% if proj.image.position %} card__media--{{ proj.image.position }}{% endif %}">{% include media.html image=proj.image class="prow__img" sizes="(min-width: 64em) 1px, (min-width: 56em) 46vw, calc(100vw - 2.5rem)" alt="" %}</span>
+        <span class="prow__desc">{% include smart.html text=proj.description %}</span>
+        <span class="prow__go" aria-hidden="true">{% include icon.html name="arrow-r" px="20" %}</span>
+      </a>
+    </li>
+    {%- endfor %}
+  </ol>
+
+  <aside class="viewer" data-viewer aria-hidden="true">
+    <div class="viewer__sticky">
+      <div class="viewer__screen">
+        {%- for proj in projects %}
+        <div class="viewer__slide{% if forloop.first %} is-on{% endif %}{% if proj.image.position %} card__media--{{ proj.image.position }}{% endif %}" data-slide="{{ forloop.index0 }}">
+          {% include media.html image=proj.image class="viewer__img" sizes="(min-width: 64em) 38vw, 1px" alt="" %}
+        </div>
+        {%- endfor %}
+        <div class="viewer__hud mono"><span class="viewer__rec"></span><span data-viewer-no>01</span><span class="viewer__of">/ {{ projects.size | prepend: "0" }}</span></div>
+      </div>
+      <div class="viewer__caption">
+        {%- for proj in projects %}
+        <p class="viewer__desc{% if forloop.first %} is-on{% endif %}" data-desc="{{ forloop.index0 }}">{% include smart.html text=proj.description %}</p>
+        {%- endfor %}
+      </div>
     </div>
-
-    {% if forloop.last %}
-  </div>
-  {% endif %} {% endfor %}
-</div>
-{% comment %}Filtering is initialized by site-polish.js on page load and client-side navigation.{% endcomment %}
-
+  </aside>
+</section>

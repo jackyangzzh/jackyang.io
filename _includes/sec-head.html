@@ -1,0 +1,7 @@
+<header class="sh reveal">
+  <span class="sh__no mono" aria-hidden="true">{{ include.no }}</span>
+  <h2 class="sh__title" id="{{ include.id }}">{{ include.title }}</h2>
+  {%- if include.aux_url %}
+  <a class="sh__aux qlink" href="{{ include.aux_url | relative_url }}">{{ include.aux }} {% include icon.html name=include.aux_icon %}</a>
+  {%- endif %}
+</header>

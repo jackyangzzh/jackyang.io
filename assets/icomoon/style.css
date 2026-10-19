@@ -1,7 +1,0 @@
----
-# Processed by Jekyll: renders `_includes/styles/icons.scss` (the single source
-# of truth for the icon font-face + class map) so the external stylesheet used
-# by the `no_inline_css` / development path cannot drift from the copy that is
-# inline in the production critical CSS. See that include for details.
----
-{% include styles/icons.scss %}

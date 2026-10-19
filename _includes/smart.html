@@ -1,0 +1,2 @@
+{%- comment -%}Plain text from front matter or _data with typographic quotes and apostrophes (kramdown smart quotes), without the wrapping <p>.{%- endcomment -%}
+{{ include.text | markdownify | remove: "<p>" | remove: "</p>" | strip }}

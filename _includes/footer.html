@@ -1,0 +1,48 @@
+{%- assign r = site.data.resume -%}
+<footer class="ft">
+  <div class="wrap">
+    <div class="ft__grid">
+      <div class="ft__col ft__contact">
+        <p class="label">Contact</p>
+        <div class="ft__email-row">
+          <a class="ft__email" href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>
+          <button type="button" class="copy" data-copy="{{ site.contact.email }}" hidden>
+            <span class="copy__idle">{% include icon.html name="copy" px="14" %}<span>Copy</span></span>
+            <span class="copy__done" aria-hidden="true">{% include icon.html name="check" px="14" %}<span>Copied</span></span>
+          </button>
+        </div>
+        <ul class="ft__list">
+          <li><a class="qlink" href="{{ site.contact.schedule }}" rel="noopener">Book a 30-minute call {% include icon.html name="arrow-ur" %}</a></li>
+          <li><a class="qlink" href="{{ site.contact.resume | relative_url }}">Résumé (PDF) {% include icon.html name="arrow-d" %}</a></li>
+        </ul>
+      </div>
+
+      <div class="ft__col">
+        <p class="label">Elsewhere</p>
+        <ul class="ft__list">
+          {%- for p in r.basics.profiles %}
+          <li><a class="qlink" href="{{ p.url }}" rel="me noopener">{{ p.network }} {% include icon.html name="arrow-ur" %}</a></li>
+          {%- endfor %}
+        </ul>
+      </div>
+
+      <div class="ft__col">
+        <p class="label">Index</p>
+        <ul class="ft__list">
+          {%- for item in site.menu %}
+          <li><a class="qlink" href="{{ item.url | relative_url }}">{{ item.title }}</a></li>
+          {%- endfor %}
+          <li><button type="button" class="qlink" data-cmdk-open hidden>Command menu <kbd class="kbd"><span data-mod>⌘</span>K</kbd></button></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="ft__base mono">
+      <span>© {{ site.time | date: "%Y" }} {{ site.title }}</span>
+      <span class="ft__colophon">Set in Instrument Serif, Instrument Sans &amp; Geist Mono</span>
+      <span data-clock data-tz="{{ site.location.timezone }}" hidden>{{ site.location.city }} · <time data-clock-time></time></span>
+      <a href="#top" class="ft__top">Back to top {% include icon.html name="arrow-u" px="14" %}</a>
+    </div>
+  </div>
+  <div class="ft__word" aria-hidden="true" data-word="{{ site.title }}"></div>
+</footer>

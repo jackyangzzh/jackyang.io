@@ -1,0 +1,93 @@
+// Design tokens — "Night Signal"
+// Warm paper by day, near-black ink by night, one vermilion signal colour that
+// only ever means "live / now / the agent".
+
+@mixin light-tokens {
+  --bg: #F1EFE9;
+  --bg-2: #E8E5DD;
+  --bg-3: #DAD6CB;
+  --ink: #151413;
+  --ink-2: #45433F;
+  --muted: #67645D;
+  --line: rgba(21, 20, 19, .12);
+  --line-2: rgba(21, 20, 19, .22);
+  --signal: #D9401E;
+  --signal-text: #C2361A;
+  --on-signal: #FFFFFF;
+  --wash: rgba(217, 64, 30, .08);
+  --cat-professional: #2F6BD8;
+  --cat-personal: #B8730F;
+  --cat-research: #1E9468;
+  --shadow: 0 1px 1px rgba(21, 20, 19, .04), 0 18px 40px -18px rgba(21, 20, 19, .28);
+  --dots: rgba(21, 20, 19, .10);
+  color-scheme: light;
+}
+
+@mixin dark-tokens {
+  --bg: #0E0E0D;
+  --bg-2: #181816;
+  --bg-3: #2A2925;
+  --ink: #EDEBE5;
+  --ink-2: #BEBBB3;
+  --muted: #8F8C84;
+  --line: rgba(237, 235, 229, .11);
+  --line-2: rgba(237, 235, 229, .21);
+  --signal: #FF5C3B;
+  --signal-text: #FF6E4F;
+  --on-signal: #0E0E0D;
+  --wash: rgba(255, 92, 59, .09);
+  --cat-professional: #5A8AF5;
+  --cat-personal: #C4801F;
+  --cat-research: #2AAA79;
+  --shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 24px 48px -20px rgba(0, 0, 0, .7);
+  --dots: rgba(237, 235, 229, .09);
+  color-scheme: dark;
+}
+
+:root {
+  @include light-tokens;
+
+  --f-serif: "Instrument Serif", "Instrument Serif Fallback", "Times New Roman", serif;
+  --f-sans: "Instrument Sans", "Instrument Sans Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --f-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --gap: clamp(1rem, 1.8vw, 1.75rem);
+  --max: 88rem;
+  --hd: 4.25rem;
+  --radius: 6px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { @include dark-tokens; }
+}
+:root[data-theme="dark"] { @include dark-tokens; }
+
+// Breakpoints
+$sm: 40em;   // 640
+$md: 56em;   // 896
+$lg: 64em;   // 1024
+$xl: 80em;   // 1280
+
+@mixin up($bp) { @media (min-width: $bp) { @content; } }
+@mixin down($bp) { @media (max-width: $bp - .001em) { @content; } }
+
+// 12-column grid used by every section; col 4 is the content axis.
+@mixin grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gap);
+}
+
+@mixin label {
+  font-family: var(--f-mono);
+  font-size: .75rem;
+  font-weight: 400;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.4;
+}

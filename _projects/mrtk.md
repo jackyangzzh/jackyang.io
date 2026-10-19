@@ -1,4 +1,8 @@
 ---
+# Unpublished on 2026-10-19: hidden from the site (lists, ⌘K, sitemap) but
+# kept here. Set to true (or delete the line) to bring it back. Its old URL
+# redirects to /projects/ (see redirect_from in projects.md).
+published: false
 layout: project
 weight: 5
 title: 'MRTK for Unity'

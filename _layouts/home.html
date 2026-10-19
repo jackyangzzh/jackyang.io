@@ -1,0 +1,205 @@
+---
+layout: base
+---
+{%- assign r = site.data.resume -%}
+{%- assign projects = site.projects | sort: "weight" -%}
+{%- assign featured_count = page.featured_count | default: 4 -%}
+{%- assign summary = r.basics.summary | markdownify | replace: "<br /><br />", "</p><p>" | replace: "<br><br>", "</p><p>" -%}
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero__in">
+    <div class="hero__top mono intro" style="--d: 0">
+      <span class="live"><span class="live__dot" aria-hidden="true"></span>{{ site.role }}</span>
+      <span class="hero__where">Based in {{ r.basics.location.city }}</span>
+    </div>
+
+    <div class="hero__body">
+    <h1 class="hero__title" id="hero-title">
+      <span class="sr-only">{{ r.basics.name }}: </span>
+      {%- for line in page.headline_lines %}
+      <span class="hero__line"><span class="intro" style="--d: {{ forloop.index }}">{{ line | markdownify | remove: "<p>" | remove: "</p>" | strip }}</span></span>
+      {%- endfor %}
+    </h1>
+
+    <div class="hero__foot intro" style="--d: 4">
+      <p class="hero__intro">
+        <span class="hero__face"><img src="{{ '/assets/img/profile128.webp' | relative_url }}" srcset="{{ '/assets/img/profile128.webp' | relative_url }} 128w, {{ '/assets/img/profile256.webp' | relative_url }} 256w" sizes="2.5rem" alt="" width="128" height="128"></span>
+        {{ page.intro | markdownify | remove: "<p>" | remove: "</p>" | strip }}
+      </p>
+      {%- assign linkedin = r.basics.profiles | where: "network", "LinkedIn" | first %}
+      <div class="hero__actions">
+        <div class="hero__btns">
+          <a class="btn" href="{{ site.contact.schedule }}" rel="noopener">Book time with me {% include icon.html name="arrow-ur" %}</a>
+          <a class="btn btn--line" href="{{ site.contact.resume | relative_url }}">Résumé {% include icon.html name="arrow-d" %}</a>
+          {%- if linkedin %}
+          <a class="btn btn--line" href="{{ linkedin.url }}" rel="me noopener">LinkedIn {% include icon.html name="arrow-ur" %}</a>
+          {%- endif %}
+        </div>
+        {%- comment -%}
+        The address copies itself on click: friendlier than mailto: for anyone
+        on webmail. Without JavaScript (or a clipboard) it's a plain email link.
+        {%- endcomment %}
+        <div class="hero__more">
+          <span class="hero__or">or email</span>
+          <button type="button" class="addr" data-copy="{{ site.contact.email }}" title="Copy email address" hidden>
+            <span class="addr__text">{{ site.contact.email }}</span>
+            <span class="addr__icon" aria-hidden="true"><span class="addr__copy">{% include icon.html name="copy" px="14" %}</span><span class="addr__check">{% include icon.html name="check" px="14" %}</span></span>
+            <span class="addr__done" aria-hidden="true">Copied</span>
+            <span class="sr-only">(copy to clipboard)</span>
+          </button>
+          <a class="addr" href="mailto:{{ site.contact.email }}" data-copy-fallback><span class="addr__text">{{ site.contact.email }}</span></a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  {%- if page.signal %}
+  <figure class="signal wrap intro" style="--d: 5" data-signal role="img" aria-label="{{ page.signal.label | escape }}">
+    <div class="signal__stage" data-signal-stage aria-hidden="true">
+      <div class="signal__head" data-signal-head><span class="signal__time mono" data-signal-time>00:00.0</span></div>
+    </div>
+    <figcaption class="signal__cap mono" aria-hidden="true">
+      <span class="signal__fig">Fig. 1</span>
+      <span class="signal__text" data-signal-text data-default="{{ page.signal.caption | escape }}">{{ page.signal.caption }}</span>
+      <span class="signal__hint" data-signal-hint>Hover to scrub</span>
+    </figcaption>
+    <script type="application/json" data-signal-data>{{ page.signal.turns | jsonify }}</script>
+  </figure>
+  {%- endif %}
+</section>
+
+<section class="sec" id="about" aria-labelledby="about-title">
+  <div class="wrap">
+    {% include sec-head.html no="01" title="About" id="about-title" %}
+    <div class="about">
+      <aside class="about__aside reveal">
+        <img class="about__photo" src="{{ site.logo | relative_url }}" srcset="{{ '/assets/img/profile256.webp' | relative_url }} 256w, {{ site.logo | relative_url }} 694w" sizes="10.5rem" alt="{{ page.photo_alt | default: r.basics.name | escape }}" width="694" height="694" loading="lazy" decoding="async">
+        <dl class="facts">
+          {%- for f in page.facts %}
+          <div class="facts__row"><dt class="mono">{{ f.label }}</dt><dd>{{ f.value | markdownify | remove: "<p>" | remove: "</p>" | strip }}</dd></div>
+          {%- endfor %}
+        </dl>
+        <ul class="socials">
+          {%- for p in r.basics.profiles %}
+          <li><a href="{{ p.url }}" rel="me noopener" aria-label="{{ p.network }}">{% capture ic %}{{ p.network | downcase }}{% endcapture %}{% include icon.html name=ic px="18" %}</a></li>
+          {%- endfor %}
+        </ul>
+      </aside>
+      <div class="about__body prose-xl reveal">
+        {{ summary }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="work" aria-labelledby="work-title">
+  <div class="wrap">
+    {%- capture aux %}All {{ projects.size }} projects{% endcapture %}
+    {% include sec-head.html no="02" title="Selected work" id="work-title" aux=aux aux_url="/projects/" aux_icon="arrow-r" %}
+    <ol class="work">
+      {%- for proj in projects limit: featured_count %}
+      <li class="work__item reveal">
+        <a class="card" href="{{ proj.url | relative_url }}" data-vt-link>
+          <div class="card__media{% if proj.image.position %} card__media--{{ proj.image.position }}{% endif %}">
+            {% include media.html image=proj.image class="card__img" sizes="(min-width: 88rem) 41rem, (min-width: 56em) 46vw, calc(100vw - 2.5rem)" %}
+          </div>
+          <div class="card__body">
+            <div class="card__meta"><span class="card__no mono">{{ forloop.index | prepend: "0" }}</span>{% include eyebrow.html project=proj %}</div>
+            <h3 class="card__title"><span>{{ proj.title }}</span></h3>
+            <p class="card__desc">{% include smart.html text=proj.description %}</p>
+          </div>
+        </a>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="sec" id="experience" aria-labelledby="xp-title">
+  <div class="wrap">
+    {% include sec-head.html no="03" title="Experience" id="xp-title" aux="Résumé (PDF)" aux_url=site.contact.resume aux_icon="arrow-d" %}
+    <div class="reveal">{% include timeline.html %}</div>
+
+    {%- comment -%}
+    Two parallel columns of roles, mirroring the timeline's Work and Research
+    lanes. (Skills stay in _data/resume.yml for the PDF, resume.json and the
+    structured data.)
+    {%- endcomment %}
+    <div class="spread">
+      <div class="block">
+        <h3 class="block__label label reveal">Industry</h3>
+        <ol class="entries">
+          {%- for job in r.work %}
+          {% include entry.html item=job level=4 %}
+          {%- endfor %}
+        </ol>
+      </div>
+      <div class="block">
+        <h3 class="block__label label reveal">Research</h3>
+        <ol class="entries">
+          {%- for job in r.research %}
+          {% include entry.html item=job level=4 %}
+          {%- endfor %}
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="education" aria-labelledby="edu-title">
+  <div class="wrap">
+    {% include sec-head.html no="04" title="Education" id="edu-title" %}
+    <div class="spread">
+      <div class="block">
+        <h3 class="block__label label reveal">Degrees</h3>
+        <ol class="entries entries--edu">
+          {%- for ed in r.education %}
+          {% include entry.html item=ed level=4 %}
+          {%- endfor %}
+        </ol>
+      </div>
+      <div class="block">
+        <h3 class="block__label label reveal">Certifications</h3>
+        <ul class="certs">
+          {%- for c in r.certifications %}
+          <li class="reveal"><a class="cert" href="{{ c.website }}" rel="noopener"><span class="cert__name">{{ c.name }}</span><span class="cert__pub mono">{{ c.publisher }}</span><span class="cert__go" aria-hidden="true">{% include icon.html name="arrow-ur" %}</span></a></li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="publications" aria-labelledby="pubs-title">
+  <div class="wrap">
+    {% include sec-head.html no="05" title="Publications" id="pubs-title" %}
+    <ol class="pubs">
+      {%- for pub in r.publications %}
+      {%- if pub.website contains ".pdf" -%}{%- assign kind = "PDF" -%}{%- elsif pub.website contains "doi.org" -%}{%- assign kind = "DOI" -%}{%- elsif pub.website contains "amazon." -%}{%- assign kind = "Book" -%}{%- else -%}{%- assign kind = "Link" -%}{%- endif %}
+      <li class="pub reveal">
+        <div class="pub__meta mono">
+          {%- if pub.releaseDate %}<time datetime="{{ pub.releaseDate }}">{{ pub.releaseDate | date: "%Y" }}</time>{% else %}<span class="tag tag--now"><i aria-hidden="true"></i>Under review</span>{% endif %}
+          <span class="pub__venue">{% if pub.releaseDate %}{{ pub.publisher }}{% else %}{{ pub.publisher | remove: " (under review)" }}{% endif %}</span>
+          <span class="pub__kind" aria-hidden="true">{{ kind }} {% include icon.html name="arrow-ur" px="14" %}</span>
+        </div>
+        <h3 class="pub__title"><a href="{{ pub.website | relative_url }}" rel="noopener">{% include smart.html text=pub.name %}</a></h3>
+        <p class="pub__sum">{% include smart.html text=pub.summary %}</p>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>
+
+{%- if site.data.medium_posts.size > 0 %}
+<section class="sec" id="writing" aria-labelledby="writing-title">
+  <div class="wrap">
+    {% include sec-head.html no="06" title="Writing" id="writing-title" aux="All writing" aux_url="/writing/" aux_icon="arrow-r" %}
+    <ol class="posts">
+      {%- for post in site.data.medium_posts limit: 4 %}
+      {% include post-row.html post=post %}
+      {%- endfor %}
+    </ol>
+  </div>
+</section>
+{%- endif %}

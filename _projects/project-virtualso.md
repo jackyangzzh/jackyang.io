@@ -42,10 +42,10 @@ The presentation mode puts you in front of an audience that reacts as you speak.
 
 ## What I built
 
-- Built the Unity experience, including scenario flow, dialogue logic, telemetry, and character behavior.
-- Connected Azure Cognitive Services speech recognition to a custom NLP pipeline for pacing, tone, topic changes, and confidence-related signals.
-- Implemented facial animation and gaze to make the characters feel attentive.
-- Built a scenario editor so coaches could change question banks, difficulty, and success metrics without editing code.
+- Built the **Unity experience**, including scenario flow, dialogue logic, telemetry, and character behavior.
+- Connected Azure Cognitive Services speech recognition to a **custom NLP pipeline** for pacing, tone, topic changes, and confidence-related signals.
+- Implemented **facial animation and gaze** to make the characters feel attentive.
+- Built a **scenario editor** so coaches could change question banks, difficulty, and success metrics **without editing code**.
 
 ## Keeping the conversation bounded
 

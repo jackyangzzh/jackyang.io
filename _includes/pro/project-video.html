@@ -1,62 +1,21 @@
-{% assign video_id = include.id | default:include.youtube_id %}
-{% assign video_title = include.title | default:"Project video" %}
-{% assign video_src = include.src %}
-
-{% comment %}
-  YouTube videos render as a lightweight poster instead of an embedded player:
-  the video's own thumbnail, its title, and a play button in the site accent.
-  site-polish.js swaps in the real player (privacy-enhanced domain, autoplay)
-  when the poster is clicked. Without JavaScript the poster is simply a link
-  to the video on YouTube. A project page with two videos no longer loads two
-  full players before the reader has decided to watch either.
-
-  On a phone the poster spans the screen, so a 2x or 3x display needs the
-  1280px thumbnail too: YouTube's 480px one is 4:3 with the letterbox baked
-  in, which left about 480x270 real pixels for a 1000+ pixel-wide poster.
-  The small files stay in the set for 1x screens. Every video here has a
-  maxresdefault, which the desktop source already relies on.
-{% endcomment %}
-{% if video_id and video_src == nil %}
-<figure class="project-video">
-    <div class="project-video-frame">
-        <a class="video-poster no-mark-external" href="https://www.youtube.com/watch?v={{ video_id }}"
-            data-video-id="{{ video_id }}" data-video-title="{{ video_title | escape }}"
-            target="_blank" rel="noopener noreferrer">
-            <picture>
-                <source media="(min-width: 42em)" srcset="https://i.ytimg.com/vi/{{ video_id }}/maxresdefault.jpg 1280w" sizes="(min-width: 86em) 52rem, 40rem">
-                <img class="video-poster__thumb"
-                    src="https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg"
-                    srcset="https://i.ytimg.com/vi/{{ video_id }}/mqdefault.jpg 320w, https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg 480w, https://i.ytimg.com/vi/{{ video_id }}/maxresdefault.jpg 1280w"
-                    sizes="100vw"
-                    alt="" width="1280" height="720" loading="lazy" decoding="async" fetchpriority="low">
-            </picture>
-            <span class="video-poster__play" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="24" height="24" focusable="false"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
-            </span>
-            <span class="video-poster__title">{{ video_title }}<span class="sr-only"> (play video)</span></span>
-        </a>
-    </div>
-    {% if include.caption %}
-    <figcaption class="figcaption">{{ include.caption }}</figcaption>
-    {% endif %}
+{%- comment -%}
+A YouTube video as a lightweight poster: the video's own thumbnail, its title
+and a play button. site.js swaps in the privacy-enhanced player on click.
+Without JavaScript the poster is a plain link to the video on YouTube.
+Params: id (or youtube_id), title, caption
+{%- endcomment -%}
+{%- assign video_id = include.id | default: include.youtube_id -%}
+{%- assign video_title = include.title | default: "Project video" -%}
+<figure class="video">
+  <a class="video__poster" href="https://www.youtube.com/watch?v={{ video_id }}" data-video-id="{{ video_id }}" data-video-title="{{ video_title | escape }}" target="_blank" rel="noopener">
+    <picture>
+      <source media="(min-width: 42em)" srcset="https://i.ytimg.com/vi/{{ video_id }}/maxresdefault.jpg">
+      <img src="https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg" srcset="https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg 480w, https://i.ytimg.com/vi/{{ video_id }}/maxresdefault.jpg 1280w" sizes="100vw" alt="" width="1280" height="720" loading="lazy" decoding="async">
+    </picture>
+    <span class="video__play" aria-hidden="true">{% include icon.html name="play" px="22" %}</span>
+    <span class="video__meta mono"><span class="video__rec" aria-hidden="true"></span><span class="video__title">{{ video_title }}</span><span class="sr-only"> (play video)</span></span>
+  </a>
+  {%- if include.caption %}
+  <figcaption>{{ include.caption }}</figcaption>
+  {%- endif %}
 </figure>
-{% else %}
-{% unless video_src %}
-{% if video_id %}
-{% assign video_src = "https://www.youtube.com/embed/" | append:video_id %}
-{% endif %}
-{% endunless %}
-
-{% if video_src %}
-<figure class="project-video">
-    <div class="project-video-frame">
-        <iframe src="{{ video_src }}" title="{{ video_title }}" loading="lazy" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen
-            referrerpolicy="strict-origin-when-cross-origin"></iframe>
-    </div>
-    {% if include.caption %}
-    <figcaption class="figcaption">{{ include.caption }}</figcaption>
-    {% endif %}
-</figure>
-{% endif %}
-{% endif %}

@@ -35,11 +35,11 @@ Building a custom VR app for each procedure took too long and depended on outsid
 
 I worked on the shared simulation layer and networking for instructor and trainee sessions. Procedures change, so editing a scene and running it needed to be closely connected.
 
-- Developed the multiplayer backend to synchronize virtual objects across connected headsets.
-- Built hand tracking and gesture recognition for grabbing, placing, rotating, and operating training objects.
-- Implemented object constraints and physics for assembly and handoffs between users.
-- Created import workflows to clean up model scale, pivots, colliders, and interaction settings.
-- Connected authoring to the simulation runtime so new training content didn't require a separate app.
+- Developed the **multiplayer backend** to synchronize virtual objects across connected headsets.
+- Built **hand tracking and gesture recognition** for grabbing, placing, rotating, and operating training objects.
+- Implemented **object constraints and physics** for assembly and handoffs between users.
+- Created **import workflows** to clean up model scale, pivots, colliders, and interaction settings.
+- Connected authoring to the simulation runtime so **new training content didn't require a separate app**.
 
 ## What instructor testing exposed
 

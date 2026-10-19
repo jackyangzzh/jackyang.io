@@ -1,0 +1,3 @@
+{%- comment -%}"● Personal · 2026" — the category colour lives in the dot only.{%- endcomment -%}
+{%- assign p = include.project -%}
+<span class="eyebrow"><i class="dot dot--{{ p.category | default: 'other' }}" aria-hidden="true"></i>{{ p.category | capitalize }}<span class="eyebrow__sep" aria-hidden="true">·</span>{% include years.html project=p %}</span>

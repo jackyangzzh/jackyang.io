@@ -1,116 +1,77 @@
 ---
-# Copyright (c) 2018 Florian Klampfer <https://qwtel.com/>
 layout: base
 ---
+{%- assign projects = site.projects | sort: "weight" -%}
+{%- assign idx = 0 -%}
+{%- for proj in projects -%}{%- if proj.url == page.url -%}{%- assign idx = forloop.index0 -%}{%- endif -%}{%- endfor -%}
+{%- assign next_i = idx | plus: 1 | modulo: projects.size -%}
+{%- assign next = projects[next_i] -%}
+{%- assign maxw = page.image.srcset | last | first | default: 0 -%}
+{%- if maxw >= 1400 -%}{%- assign hero = "full" -%}{%- else -%}{%- assign hero = "inset" -%}{%- endif -%}
+{%- comment -%}Framed heroes are drawn at ~1.6x their source density, so they stay crisp.{%- endcomment -%}
+{%- assign inset_w = maxw | divided_by: 1.6 | round -%}
+{%- if page.end_date and page.end_date != "" -%}
+  {%- capture when -%}{{ page.date | date: "%b %Y" }} – {{ page.end_date | date: "%b %Y" }}{%- endcapture -%}
+  {%- assign when_label = "Timeline" -%}
+{%- else -%}
+  {%- capture when -%}{{ page.date | date: "%Y" }}{%- endcapture -%}
+  {%- assign when_label = "Year" -%}
+{%- endif -%}
 
-{% assign version = jekyll.version | split:'.' %}
-{% assign major = version[0] | plus:0 %}
-{% assign minor = version[1] | plus:0 %}
-{% assign patch = version[2] | plus:0 %}
-
-{% assign project = page %}
-{% assign nsd = site.hydejack.no_structured_data | default:site.no_structured_data %}
-{% assign proj_format = site.data.strings.date_formats.project | default:"%Y" %}
-{% assign from_to_separator = strings.from_to_separator | default:strings.resume.from_to_separator | default:"–" %}
-{% assign screenshot = project.screenshot | default:project.image %}
-{% assign screenshot_alt = screenshot.alt | default:project.title %}
-{% assign has_links = false %}
-{% if project.links and project.links.size > 0 %}{% assign has_links = true %}{% endif %}
-
-{% capture project_period %}
-<time datetime="{{ project.date | date_to_xmlschema }}">{{ project.date | date:proj_format }}</time>
-{% if project.end_date and project.end_date.size > 0 %}
-{{ from_to_separator }}
-<time datetime="{{ project.end_date | date_to_xmlschema }}">{{ project.end_date | date:proj_format }}</time>
-{% endif %}
-{% endcapture %}
-
-{% capture project_description %}
-{{ project.description | markdownify | replace:'<p>','' | replace:'</p>','' }}
-{% endcapture %}
-
-{% assign project_category = project.category | default:'other' | downcase %}
-{% case project_category %}
-  {% when 'professional' %}{% assign project_category_label = 'Professional' %}
-  {% when 'personal' %}{% assign project_category_label = 'Personal' %}
-  {% when 'research' %}{% assign project_category_label = 'Research' %}
-  {% else %}{% assign project_category_label = project.category %}
-{% endcase %}
-
-<article id="project" class="page mb6 project-page" role="article" {% unless nsd %}vocab="https://schema.org/" typeof="CreativeWork"
-  resource="#project" {% endunless %}>
-  <a class="project-back" href="{{ '/projects/' | relative_url }}"><span aria-hidden="true">←</span> All projects</a>
-  <header class="project-header">
-    <div class="project-header-copy">
-      <p class="project-kicker heading">
-        {% if project.category %}
-        <span class="project-tag project-tag-{{ project_category }}">{{ project_category_label }}</span>
-        {% endif %}
-
-        {% unless site.hydejack.hide_dates %}
-        {% if project.category %}<span class="project-header-separator" aria-hidden="true">·</span>{% endif %}
-        <span class="project-period">{{ project_period | strip }}</span>
-        {% endunless %}
-      </p>
-
-      <h1 class="page-title" property="name">{{ project.title }}</h1>
-
-      {% if project.description %}
-      {% if page.hide_description %}
-      <meta property="description" content="{{ project.description | markdownify | strip_html | strip_newlines | escape_once }}" />
-      {% else %}
-      <p class="project-summary" property="description">{{ project_description | strip }}</p>
-      {% endif %}
-      {% endif %}
-
-      {% if project.caption %}
-      <p class="project-caption fine" property="disambiguatingDescription">{{ project.caption }}</p>
-      {% endif %}
+<article class="cs">
+  <header class="cs__head wrap">
+    <nav class="crumbs mono intro" style="--d: 0" aria-label="Breadcrumb">
+      <a href="{{ '/projects/' | relative_url }}">{% include icon.html name="arrow-l" px="14" %}Projects</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ page.title }}</span>
+    </nav>
+    <h1 class="cs__title intro" style="--d: 1">{{ page.title }}</h1>
+    <div class="cs__intro intro" style="--d: 2">
+      <p class="cs__lede">{% include smart.html text=page.description %}</p>
+      <dl class="cs__meta">
+        <div><dt class="label">Category</dt><dd><i class="dot dot--{{ page.category }}" aria-hidden="true"></i>{{ page.category | capitalize }}</dd></div>
+        <div><dt class="label">{{ when_label }}</dt><dd>{{ when }}</dd></div>
+        {%- if page.links %}
+        <div class="cs__links"><dt class="label">Links</dt><dd><ul>
+          {%- for l in page.links %}
+          <li><a class="qlink" href="{{ l.url | relative_url }}" rel="noopener">{{ l.title }} {% include icon.html name="arrow-ur" %}</a></li>
+          {%- endfor %}
+        </ul></dd></div>
+        {%- endif %}
+      </dl>
     </div>
-
-    <div class="project-header-media">
-      <div class="img-wrapper lead aspect-ratio sixteen-nine project-hero {% unless screenshot %}fallback-img{% endunless %}">
-        {% if screenshot %}
-        {% include_cached components/hy-img.html
-        img=screenshot
-        sizes="(min-width: 86em) 28rem, (min-width: 54em) 25rem, (min-width: 42em) 40rem, 100vw"
-        alt=screenshot_alt
-        property="image"
-        width=864
-        height=486
-        loading="eager"
-        fetchpriority="high"
-        %}
-        {% endif %}
-      </div>
-    </div>
-
-    {% comment %}
-      The links get their own row spanning the whole header instead of
-      living in the copy column: inside the narrower left column they wrapped
-      to two rows and stretched it past the hero image, leaving dead space
-      under the image. As a full-width row they sit under both columns on
-      desktop and still fall after the image when the header stacks.
-    {% endcomment %}
-    {% if has_links %}
-    <div class="project-header-actions">
-      <ul class="project-link-list" aria-label="{{ site.data.strings.links | default:'Project links' }}">
-        {% for link in project.links %}
-        <li>
-          <a class="project-link no-mark-external" href="{{ link.url }}" property="sameAs" target="_blank" rel="noopener noreferrer">{{ link.title
-            }}</a>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
   </header>
 
-  <div class="project-body">
-    {{ content }}
+  <figure class="cs__hero cs__hero--{{ hero }} wrap intro" style="--d: 3">
+    <div class="cs__frame{% if page.image.position %} card__media--{{ page.image.position }}{% endif %}"{% if page.image.ratio or hero == "inset" %} style="{% if page.image.ratio %}--ratio: {{ page.image.ratio }};{% endif %}{% if hero == "inset" %} --inset: {{ inset_w }}px;{% endif %}"{% endif %}>
+      {%- if hero == "full" -%}
+      {% include media.html image=page.image class="cs__img" eager=true vt="hero-media" sizes="(min-width: 86em) 84rem, 100vw" %}
+      {%- else -%}
+      {% include media.html image=page.image class="cs__img" eager=true vt="hero-media" sizes="(min-width: 54em) 40rem, 100vw" %}
+      {%- endif -%}
+    </div>
+  </figure>
+
+  <div class="cs__body wrap">
+    <aside class="toc" data-toc hidden>
+      <div class="toc__in">
+        <p class="label">On this page</p>
+        <ol class="toc__list" data-toc-list></ol>
+      </div>
+    </aside>
+    <div class="prose" data-prose>
+{{ content }}
+    </div>
   </div>
+
+  <nav class="next wrap" aria-label="Next project">
+    <a class="next__link" href="{{ next.url | relative_url }}" data-vt-link>
+      <span class="next__text">
+        <span class="label">Next project</span>
+        <span class="next__title">{{ next.title }} <span class="next__arrow">{% include icon.html name="arrow-r" px="40" %}</span></span>
+        {% include eyebrow.html project=next %}
+      </span>
+      <span class="next__media{% if next.image.position %} card__media--{{ next.image.position }}{% endif %}">{% include media.html image=next.image class="next__img" sizes="(min-width: 54em) 36vw, 100vw" alt="" %}</span>
+    </a>
+  </nav>
 </article>
-
-{% include components/dingbat.html %}
-
-{% include pro/other-projects.html %}

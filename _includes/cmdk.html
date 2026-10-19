@@ -1,0 +1,17 @@
+{%- comment -%}
+Data for the ⌘K command menu (site.js builds the dialog on first open).
+Cached: it's the same on every page, so it's rendered once per build.
+{%- endcomment -%}
+{%- assign r = site.data.resume -%}
+{%- assign projects = site.projects | sort: "weight" -%}
+<script type="application/json" id="cmdk-data">
+{
+  "pages": [{% for item in site.menu %}{ "label": {{ item.title | jsonify }}, "url": {{ item.url | relative_url | jsonify }} }{% unless forloop.last %}, {% endunless %}{% endfor %}],
+  "projects": [{% for p in projects %}{% capture meta %}{{ p.category | capitalize }} · {{ p.date | date: "%Y" }}{% endcapture %}{ "label": {{ p.title | jsonify }}, "url": {{ p.url | relative_url | jsonify }}, "meta": {{ meta | jsonify }} }{% unless forloop.last %}, {% endunless %}{% endfor %}],
+  "posts": [{% for post in site.data.medium_posts limit: 6 %}{ "label": {{ post.title | jsonify }}, "url": {{ post.url | jsonify }}, "meta": {{ post.date | date: "%b %Y" | jsonify }} }{% unless forloop.last %}, {% endunless %}{% endfor %}],
+  "profiles": [{% for p in r.basics.profiles %}{ "label": {{ p.network | jsonify }}, "url": {{ p.url | jsonify }} }{% unless forloop.last %}, {% endunless %}{% endfor %}],
+  "email": {{ site.contact.email | jsonify }},
+  "resume": {{ site.contact.resume | relative_url | jsonify }},
+  "schedule": {{ site.contact.schedule | jsonify }}
+}
+</script>

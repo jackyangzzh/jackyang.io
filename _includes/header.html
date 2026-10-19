@@ -1,0 +1,51 @@
+{%- assign r = site.data.resume -%}
+<header class="hd" data-hd>
+  <div class="hd__in wrap">
+    <a class="hd__mark" href="{{ '/' | relative_url }}" aria-label="{{ site.title }}, home">
+      <span class="hd__name">{{ site.title }}</span><span class="hd__dot" aria-hidden="true"></span>
+    </a>
+
+    <nav class="hd__nav" aria-label="Primary">
+      <ul class="track" data-track>
+        {%- for item in site.menu -%}
+        {%- assign cur = false -%}
+        {%- if page.url == item.url -%}{%- assign cur = true -%}
+        {%- elsif item.url != "/" and page.url contains item.url -%}{%- assign cur = true -%}{%- endif %}
+        <li><a href="{{ item.url | relative_url }}"{% if cur %} aria-current="page"{% endif %}>{{ item.title }}</a></li>
+        {%- endfor %}
+      </ul>
+    </nav>
+
+    <div class="hd__tools">
+      <span class="hd__clock mono" data-clock data-tz="{{ site.location.timezone }}" hidden>{{ site.location.city }} <time data-clock-time></time></span>
+      <button type="button" class="hd__btn hd__k" data-cmdk-open aria-keyshortcuts="Meta+K Control+K" title="Command menu" hidden><span class="sr-only">Command menu </span><kbd data-mod>⌘</kbd><kbd>K</kbd></button>
+      <button type="button" class="hd__btn hd__theme" data-theme-toggle aria-label="Toggle color theme">
+        <span class="hd__sun">{% include icon.html name="sun" px="18" %}</span>
+        <span class="hd__moon">{% include icon.html name="moon" px="18" %}</span>
+      </button>
+      <button type="button" class="hd__btn hd__burger" data-menu-toggle aria-expanded="false" aria-controls="mnav">
+        <span class="sr-only">Menu</span>
+        <span class="hd__burger-lines" aria-hidden="true"><span></span><span></span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mnav" id="mnav" data-menu hidden>
+  <nav class="mnav__nav wrap" aria-label="Mobile">
+    <ol>
+      {%- for item in site.menu %}
+      <li style="--i: {{ forloop.index0 }}"><a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}><span class="mono">0{{ forloop.index }}</span>{{ item.title }}</a></li>
+      {%- endfor %}
+      <li style="--i: {{ site.menu.size }}"><a href="{{ site.contact.resume | relative_url }}"><span class="mono">0{{ site.menu.size | plus: 1 }}</span>Résumé {% include icon.html name="arrow-ur" px="28" %}</a></li>
+    </ol>
+  </nav>
+  <div class="mnav__foot wrap mono">
+    <a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a>
+    <ul>
+      {%- for p in r.basics.profiles %}
+      <li><a href="{{ p.url }}" rel="me noopener">{{ p.network }}</a></li>
+      {%- endfor %}
+    </ul>
+  </div>
+</div>
