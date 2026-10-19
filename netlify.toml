@@ -1,5 +1,6 @@
 [build]
- command = "bundle exec jekyll build"
+ # npm run build = jekyll build, then minify site.js in _site with esbuild.
+ command = "npm run build"
  publish = "_site"
 
 [build.environment]

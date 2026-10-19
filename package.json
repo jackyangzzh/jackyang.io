@@ -22,12 +22,15 @@
     "jekyll"
   ],
   "scripts": {
-    "build:prod": "JEKYLL_ENV=production bundle exec jekyll build",
+    "build": "bundle exec jekyll build && npm run minify:js",
+    "build:prod": "JEKYLL_ENV=production npm run build",
+    "minify:js": "esbuild _site/assets/js/site.js --minify --allow-overwrite --outfile=_site/assets/js/site.js --log-level=warning",
     "lighthouse:mobile": "start-server-and-test 'http-server _site -p 4001 -c-1 --silent' http://localhost:4001 'mkdir -p ./.lighthouse && lighthouse http://localhost:4001/ --only-categories=performance --output=html --output=json --output-path=./.lighthouse/mobile --chrome-flags=\"--headless=new\" --quiet'",
     "lighthouse:desktop": "start-server-and-test 'http-server _site -p 4001 -c-1 --silent' http://localhost:4001 'mkdir -p ./.lighthouse && lighthouse http://localhost:4001/ --preset=desktop --only-categories=performance --output=html --output=json --output-path=./.lighthouse/desktop --chrome-flags=\"--headless=new\" --quiet'",
     "lighthouse": "npm run build:prod && npm run lighthouse:mobile && npm run lighthouse:desktop"
   },
   "devDependencies": {
+    "esbuild": "^0.25.10",
     "http-server": "^14.1.1",
     "lighthouse": "^12.8.2",
     "start-server-and-test": "^2.0.13"
