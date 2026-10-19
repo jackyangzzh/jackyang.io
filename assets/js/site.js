@@ -10,7 +10,6 @@
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   const store = {
-    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch { /* private mode */ } },
     del(k) { try { localStorage.removeItem(k); } catch { /* private mode */ } },
   };
@@ -177,9 +176,42 @@
       })
       .filter(Boolean);
     if (!pairs.length) return;
+    const track = pairs[0][0].closest("[data-track]");
+    const setHere = (link) => {
+      pairs.forEach(([a]) => a.classList.toggle("is-here", a === link));
+      track.dispatchEvent(new Event("track:update"));
+    };
+    // While a click's smooth scroll is in flight, the clicked item keeps the
+    // line instead of the line tracking every section scrolled past.
+    let locked = false;
+    let lockTimer = 0;
+    const unlock = () => { clearTimeout(lockTimer); locked = false; update(); };
+    const lock = () => {
+      locked = true;
+      clearTimeout(lockTimer);
+      lockTimer = setTimeout(unlock, 1500);
+      addEventListener("scrollend", unlock, { once: true });
+    };
+    const plain = (e) => !(e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey);
+    pairs.forEach(([a]) => a.addEventListener("click", (e) => { if (plain(e)) { setHere(a); lock(); } }));
+    // Links to this very page (About, the wordmark) scroll back up and drop
+    // the #hash rather than reloading the page.
+    $$("a[href]").forEach((a) => {
+      const u = new URL(a.href, location.href);
+      if (u.origin !== location.origin || u.pathname !== location.pathname || u.hash || u.search) return;
+      a.addEventListener("click", (e) => {
+        if (!plain(e)) return;
+        e.preventDefault();
+        setHere(null);
+        lock();
+        history.replaceState(null, "", location.pathname);
+        scrollTo({ top: 0, behavior: reduced.matches ? "auto" : "smooth" });
+      });
+    });
     let ticking = false;
     const update = () => {
       ticking = false;
+      if (locked) return;
       const y = innerHeight * 0.35;
       pairs.forEach(([a, sec]) => {
         const r = sec.getBoundingClientRect();
@@ -260,9 +292,10 @@
       }
       svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
       svg.innerHTML =
-        `<defs><clipPath id="sig-a"><rect x="0" y="-4" width="${W}" height="${H + 8}"/></clipPath>` +
+        `<defs><g id="sig-bars">${bars}</g>` +
+        `<clipPath id="sig-a"><rect x="0" y="-4" width="${W}" height="${H + 8}"/></clipPath>` +
         `<clipPath id="sig-b"><rect x="${W}" y="-4" width="0" height="${H + 8}"/></clipPath></defs>` +
-        `<g clip-path="url(#sig-a)">${bars}</g><g class="w-rest" clip-path="url(#sig-b)">${bars}</g>`;
+        `<use href="#sig-bars" clip-path="url(#sig-a)"/><use href="#sig-bars" class="w-rest" clip-path="url(#sig-b)"/>`;
       clipA = svg.querySelector("#sig-a rect");
       clipB = svg.querySelector("#sig-b rect");
     };
@@ -730,19 +763,26 @@
 
   /* ------------------------------------------------------------ go */
 
+  // These only wire up listeners, so they run right away.
   theme();
   clock();
-  header();
   menu();
-  projectsIndex();
-  sectionSpy();
-  tracks();
-  signal();
-  timeline();
   vtLinks();
-  toc();
   videos();
   copy();
   cmdk();
-  reveal();
+
+  // These measure the page. Reading geometry before the first frame would
+  // force the browser to do the whole initial layout inside this script, so
+  // they wait until it has been laid out and painted once.
+  requestAnimationFrame(() => setTimeout(() => {
+    header();
+    projectsIndex();
+    sectionSpy();
+    tracks();
+    signal();
+    timeline();
+    toc();
+    reveal();
+  }, 0));
 })();
