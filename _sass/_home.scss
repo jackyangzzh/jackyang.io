@@ -195,9 +195,6 @@
   -webkit-user-select: none;
   user-select: none;
   svg { width: 100%; height: 100%; overflow: visible; }
-  .h { fill: var(--ink); }
-  .a { fill: var(--signal); }
-  .g { opacity: .4; }
   .w-rest { opacity: .2; }
 }
 .signal__head {
@@ -376,6 +373,9 @@
     line-height: 1.65;
     color: var(--ink-2);
     text-wrap: pretty;
+    // Serif italic is already preloaded for the hero, so publication names
+    // don't pull in the 32 KB sans italic. Sized up to match the sans x-height.
+    em { font-family: var(--f-serif); font-size: 1.12em; line-height: 1; }
   }
   // The first paragraph is a serif lead-in; the next two sit side by side.
   p:first-child {
