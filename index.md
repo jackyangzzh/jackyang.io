@@ -29,7 +29,7 @@ intro: >
   XR systems for Microsoft Mesh.
 
 # How many projects (by weight) get a card on the home page; the rest are listed.
-featured_count: 4
+featured_count: 3
 
 # Quick facts beside the About text.
 facts:

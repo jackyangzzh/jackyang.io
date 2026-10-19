@@ -3,7 +3,7 @@ layout: base
 ---
 {%- assign r = site.data.resume -%}
 {%- assign projects = site.projects | sort: "weight" -%}
-{%- assign featured_count = page.featured_count | default: 4 -%}
+{%- assign featured_count = page.featured_count | default: 3 -%}
 {%- assign summary = r.basics.summary | markdownify | replace: "<br /><br />", "</p><p>" | replace: "<br><br>", "</p><p>" -%}
 
 <section class="hero" aria-labelledby="hero-title">
@@ -55,7 +55,7 @@ layout: base
   </div>
 
   {%- if page.signal %}
-  <figure class="signal wrap intro" style="--d: 5" data-signal role="img" aria-label="{{ page.signal.label | escape }}">
+  <figure class="signal wrap intro" style="--d: 5" data-signal aria-label="{{ page.signal.label | escape }}">
     <div class="signal__stage" data-signal-stage aria-hidden="true">
       <div class="signal__head" data-signal-head><span class="signal__time mono" data-signal-time>00:00.0</span></div>
     </div>
@@ -74,7 +74,7 @@ layout: base
     {% include sec-head.html no="01" title="About" id="about-title" %}
     <div class="about">
       <aside class="about__aside reveal">
-        <img class="about__photo" src="{{ site.logo | relative_url }}" srcset="{{ '/assets/img/profile256.webp' | relative_url }} 256w, {{ site.logo | relative_url }} 694w" sizes="10.5rem" alt="{{ page.photo_alt | default: r.basics.name | escape }}" width="694" height="694" loading="lazy" decoding="async">
+        <img class="about__photo" src="{{ site.logo | relative_url }}" srcset="{{ '/assets/img/profile256.webp' | relative_url }} 256w, {{ site.logo | relative_url }} 694w" sizes="(max-width: 56em) 4.5rem, 7rem" alt="{{ page.photo_alt | default: r.basics.name | escape }}" width="694" height="694" loading="lazy" decoding="async">
         <dl class="facts">
           {%- for f in page.facts %}
           <div class="facts__row"><dt class="mono">{{ f.label }}</dt><dd>{{ f.value | markdownify | remove: "<p>" | remove: "</p>" | strip }}</dd></div>
@@ -86,7 +86,7 @@ layout: base
           {%- endfor %}
         </ul>
       </aside>
-      <div class="about__body prose-xl reveal">
+      <div class="about__body reveal">
         {{ summary }}
       </div>
     </div>
@@ -102,7 +102,7 @@ layout: base
       <li class="work__item reveal">
         <a class="card" href="{{ proj.url | relative_url }}" data-vt-link>
           <div class="card__media{% if proj.image.position %} card__media--{{ proj.image.position }}{% endif %}">
-            {% include media.html image=proj.image class="card__img" sizes="(min-width: 88rem) 41rem, (min-width: 56em) 46vw, calc(100vw - 2.5rem)" %}
+            {% include media.html image=proj.image class="card__img" sizes="(min-width: 88rem) 27rem, (min-width: 56em) 31vw, calc(100vw - 2.5rem)" %}
           </div>
           <div class="card__body">
             <div class="card__meta"><span class="card__no mono">{{ forloop.index | prepend: "0" }}</span>{% include eyebrow.html project=proj %}</div>

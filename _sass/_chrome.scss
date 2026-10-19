@@ -68,9 +68,7 @@
   margin-right: .75rem;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
-  display: none !important;
-  @include up($lg) { display: inline !important; }
-  &[hidden] { display: none !important; }
+  @include down($lg) { display: none; }
 }
 
 .hd__btn {
@@ -187,7 +185,6 @@
   border-radius: 2px;
   background: var(--ink);
   pointer-events: none;
-  transform-origin: left;
   opacity: 0;
   transition:
     left .28s var(--ease) var(--lag-l, 0s),
@@ -317,14 +314,6 @@
   .copy__done { opacity: 0; transform: translateY(6px); color: var(--signal-text); }
   &:hover { border-color: var(--ink); color: var(--ink); }
   &[hidden] { display: none; }
-  &--icon {
-    width: 1.75rem;
-    height: 1.75rem;
-    padding: 0;
-    border-color: transparent;
-    color: var(--muted);
-    &:hover { border-color: var(--line-2); }
-  }
   &.is-done {
     .copy__idle { opacity: 0; transform: translateY(-6px); }
     .copy__done { opacity: 1; transform: none; }

@@ -13,7 +13,7 @@ Params: id (or youtube_id), title, caption
       <img src="https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg" srcset="https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg 480w, https://i.ytimg.com/vi/{{ video_id }}/maxresdefault.jpg 1280w" sizes="100vw" alt="" width="1280" height="720" loading="lazy" decoding="async">
     </picture>
     <span class="video__play" aria-hidden="true">{% include icon.html name="play" px="22" %}</span>
-    <span class="video__meta mono"><span class="video__rec" aria-hidden="true"></span><span class="video__title">{{ video_title }}</span><span class="sr-only"> (play video)</span></span>
+    <span class="video__meta mono"><span class="video__rec" aria-hidden="true"></span>{{ video_title }}<span class="sr-only"> (play video)</span></span>
   </a>
   {%- if include.caption %}
   <figcaption>{{ include.caption }}</figcaption>

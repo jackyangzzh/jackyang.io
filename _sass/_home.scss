@@ -165,7 +165,6 @@
     .addr__done { opacity: 1; transform: none; }
   }
 }
-.hero__addr { user-select: all; -webkit-user-select: all; letter-spacing: .01em; }
 .hero__btns .btn {
   padding: 0 .95rem 0 1.05rem;
 }
@@ -417,15 +416,8 @@
   list-style: none;
   display: grid;
   gap: clamp(3rem, 6vw, 5rem) var(--gap);
-  @include up($md) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    padding-bottom: clamp(2rem, 4.5vw, 4.5rem);
-  }
-}
-.work__item {
-  @include up($md) {
-    &:nth-child(even) { position: relative; top: clamp(2rem, 4.5vw, 4.5rem); }
-  }
+  // Three featured projects, one row from tablet up.
+  @include up($md) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 .card { display: block; }
@@ -468,7 +460,8 @@
   margin: .7rem 0 .6rem;
   font-family: var(--f-serif);
   font-weight: 400;
-  font-size: clamp(2rem, 3.1vw, 2.9rem);
+  font-size: clamp(1.75rem, 2.3vw, 2.4rem);
+  text-wrap: balance;
   line-height: .98;
   letter-spacing: -.02em;
   span {
@@ -707,7 +700,6 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
   }
 }
 .block { min-width: 0; }
-.block--row { margin-top: clamp(3.5rem, 7vw, 5rem); }
 .block__label {
   display: block;
   margin-bottom: 1rem;

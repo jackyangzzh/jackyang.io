@@ -1,0 +1,16 @@
+{%- comment -%}
+The whole stylesheet, compiled from _sass/ and inlined into every page's
+<head>. At ~12 KB gzipped it costs less than the extra round trip a separate
+CSS file would block first render on, and the fonts it names start
+downloading straight from the HTML. Cached: compiled once per build.
+{%- endcomment -%}
+{%- capture scss -%}
+@import "tokens";
+@import "base";
+@import "chrome";
+@import "home";
+@import "pages";
+@import "prose";
+@import "print";
+{%- endcapture -%}
+<style>{{ scss | scssify }}</style>

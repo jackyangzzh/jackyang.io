@@ -32,7 +32,7 @@ layout: base
           <span class="prow__title">{{ proj.title }}</span>
           {% include eyebrow.html project=proj %}
         </span>
-        <span class="prow__media{% if proj.image.position %} card__media--{{ proj.image.position }}{% endif %}">{% include media.html image=proj.image class="prow__img" sizes="(min-width: 64em) 1px, (min-width: 56em) 46vw, calc(100vw - 2.5rem)" alt="" %}</span>
+        <span class="prow__media{% if proj.image.position %} card__media--{{ proj.image.position }}{% endif %}">{% include media.html image=proj.image sizes="(min-width: 64em) 1px, (min-width: 56em) 46vw, calc(100vw - 2.5rem)" alt="" %}</span>
         <span class="prow__desc">{% include smart.html text=proj.description %}</span>
         <span class="prow__go" aria-hidden="true">{% include icon.html name="arrow-r" px="20" %}</span>
       </a>
@@ -45,7 +45,7 @@ layout: base
       <div class="viewer__screen">
         {%- for proj in projects %}
         <div class="viewer__slide{% if forloop.first %} is-on{% endif %}{% if proj.image.position %} card__media--{{ proj.image.position }}{% endif %}" data-slide="{{ forloop.index0 }}">
-          {% include media.html image=proj.image class="viewer__img" sizes="(min-width: 64em) 38vw, 1px" alt="" %}
+          {% include media.html image=proj.image sizes="(min-width: 64em) 38vw, 1px" alt="" %}
         </div>
         {%- endfor %}
         <div class="viewer__hud mono"><span class="viewer__rec"></span><span data-viewer-no>01</span><span class="viewer__of">/ {{ projects.size | prepend: "0" }}</span></div>

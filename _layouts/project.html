@@ -71,7 +71,7 @@ layout: base
         <span class="next__title">{{ next.title }} <span class="next__arrow">{% include icon.html name="arrow-r" px="40" %}</span></span>
         {% include eyebrow.html project=next %}
       </span>
-      <span class="next__media{% if next.image.position %} card__media--{{ next.image.position }}{% endif %}">{% include media.html image=next.image class="next__img" sizes="(min-width: 54em) 36vw, 100vw" alt="" %}</span>
+      <span class="next__media{% if next.image.position %} card__media--{{ next.image.position }}{% endif %}">{% include media.html image=next.image sizes="(min-width: 54em) 36vw, 100vw" alt="" %}</span>
     </a>
   </nav>
 </article>

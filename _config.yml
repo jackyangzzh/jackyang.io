@@ -12,7 +12,8 @@ description: >
   Jack Yang is a software engineer at Microsoft Teams AI building real-time multimodal
   agents for Microsoft 365 Copilot. Previously, he built avatar and XR systems for Microsoft Mesh.
 
-# Short line used in the footer and the command menu.
+# Short positioning line (not shown on the site; kept for reference and for
+# jekyll-seo-tag on any page without a title).
 tagline: Building real-time AI agents for live conversation
 
 # Role line shown above the hero headline.

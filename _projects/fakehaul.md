@@ -27,7 +27,7 @@ links:
     url: https://jackyangzzh.medium.com/i-built-a-fake-shopping-app-nothing-ships-it-might-be-the-most-useful-thing-ive-made-220919e6b6ce
 
 ---
-I launched FakeHaul in July 2026 to find out whether shopping can feel satisfying without buying anything. You can browse, hunt for deals, check out, track an order, and open a virtual package, but you never pay and nothing ships. At its peak, FakeHaul reached 3,000 daily active users.
+I launched FakeHaul in July 2026 to find out whether shopping can feel satisfying without buying anything. You can browse, hunt for deals, check out, track an order, and open a virtual package, but **you never pay and nothing ships**. At its peak, FakeHaul reached **3,000 daily active users**.
 
 {% include pro/project-video.html id="eoxMVuF7UfM" title="FakeHaul demo" %}
 
@@ -36,13 +36,13 @@ FakeHaul has been covered by The New York Times, Fast Company, MarketWatch, and 
 
 ## The idea
 
-I built FakeHaul for a friend who struggles with impulse shopping. My first thought was to block shopping sites or unsubscribe from deal emails, but I wondered whether there was another approach.
+I built FakeHaul for **a friend who struggles with impulse shopping**. My first thought was to block shopping sites or unsubscribe from deal emails, but I wondered whether there was another approach.
 
-Sometimes finding the deal feels better than receiving the box. I wanted to test whether the browsing-and-checkout ritual could stand on its own, with no money spent and no clutter arriving at the door. That is still a hypothesis, and I'm not claiming the app treats compulsive shopping.
+Sometimes finding the deal feels better than receiving the box. I wanted to test whether the **browsing-and-checkout ritual could stand on its own**, with no money spent and no clutter arriving at the door. That is still a hypothesis, and I'm not claiming the app treats compulsive shopping.
 
 ## Building the illusion
 
-I built a mobile-first marketplace with [about 1,800 fictional products across eleven categories](https://fakehaul.com/categories). It has the familiar mechanics: low-stock warnings, viewer counts, a daily spin wheel, and five-minute coupons.
+I built a **mobile-first marketplace** with [about 1,800 fictional products across eleven categories](https://fakehaul.com/categories). It has the familiar mechanics: low-stock warnings, viewer counts, a daily spin wheel, and five-minute coupons.
 
 {% include pro/browser-frame.html
   url="fakehaul.com"
@@ -53,21 +53,21 @@ I built a mobile-first marketplace with [about 1,800 fictional products across e
   alt="The FakeHaul storefront: a search bar, a banner reading “Haul it all. Pay $0.00.”, the Daily Spin, category pills and a row of Lightning Deals"
 %}
 
-The tricky part was making it feel like a real store without misleading anyone about what it is. A product card might say "only 6 left," but the header makes clear that checkout never charges a cent. The cart and wishlist stay in your browser, so you don't need an account.
+The tricky part was making it feel like a real store **without misleading anyone about what it is**. A product card might say "only 6 left," but the header makes clear that checkout never charges a cent. The cart and wishlist stay in your browser, so you don't need an account.
 
-After checkout, the order moves through packed, shipped, and delivered states. A virtual package shakes until you tap it, then opens with confetti and a reveal of the retail value you "scored." I spent time tuning that sequence in Framer Motion, because confetti that fires before the lid moves just feels wrong.
+After checkout, the order moves through packed, shipped, and delivered states. A virtual package shakes until you tap it, then opens with confetti and a reveal of the retail value you "scored." I spent time **tuning that sequence in Framer Motion**, because confetti that fires before the lid moves just feels wrong.
 
 ## Generating the catalog
 
 The catalog took as much writing as engineering, since placeholder text would have given the game away.
 
-I used Azure OpenAI to generate structured records for product names, prices, ratings, and variants, then edited the listings by hand. The model gave me a first draft, and I didn't want people scrolling through the same handful of AI jokes.
+I used **Azure OpenAI** to generate structured records for product names, prices, ratings, and variants, then **edited the listings by hand**. The model gave me a first draft, and I didn't want people scrolling through the same handful of AI jokes.
 
-The live site reads static catalog data and compressed WebP images, so browsing never waits on a model call. The app uses Next.js 16's App Router, React 19, TypeScript, and Tailwind CSS 4. Zustand persists the cart and orders locally, Vercel hosts the app, and Vercel Blob stores the static assets.
+The live site reads static catalog data and compressed WebP images, so **browsing never waits on a model call**. The app uses **Next.js 16's App Router, React 19, TypeScript, and Tailwind CSS 4**. Zustand persists the cart and orders locally, Vercel hosts the app, and Vercel Blob stores the static assets.
 
 ## The tension
 
-I kept coming back to the same problem: the app borrows pressure tactics from online stores, even though it doesn't sell anything. Clear copy and a zero-dollar checkout make the premise explicit. However, they don't settle what repeating the ritual does to someone's habits.
+I kept coming back to the same problem: **the app borrows pressure tactics from online stores**, even though it doesn't sell anything. Clear copy and a zero-dollar checkout make the premise explicit. However, they don't settle what repeating the ritual does to someone's habits.
 
 ## Press and uncertainty
 
@@ -106,4 +106,4 @@ Additional coverage and commentary:
 - [The Cool Down](https://www.thecooldown.com/green-tech/dopamine-sites-south-korea-shopping-trend/) looked at shopping without spending, with the caveat that redirecting a habit isn't the same as resolving it.
 - [Gizbot](https://www.gizbot.com/features/dopamine-sites-fake-food-delivery-foodnevercomes-128777.html) in India and [Oti Simveni](https://otisimveni.gr/2026/07/27/fakehaul-ti-einai-to-pseftiko-temu-opou-psonizeis-choris-na-agorazeis-tipota/) in Greece wrote it up for readers abroad.
 
-I don't know whether FakeHaul helps people change their shopping habits. The friend I built it for says it helps; a moderator of a shopping-addiction community warned me that rehearsing the ritual could reinforce it. Neither is enough to establish a broader outcome. FakeHaul is an entertainment product exploring an idea, and I don't present it as a treatment. If people tell me it's making things worse, I'm prepared to take it down.
+I don't know whether FakeHaul helps people change their shopping habits. The friend I built it for says it helps; a moderator of a shopping-addiction community warned me that rehearsing the ritual could reinforce it. Neither is enough to establish a broader outcome. **FakeHaul is an entertainment product exploring an idea**, and I don't present it as a treatment. If people tell me it's making things worse, I'm prepared to take it down.

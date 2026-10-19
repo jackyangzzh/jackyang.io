@@ -23,7 +23,7 @@ time are stacked greedily onto up to three rows.
   {%- assign l = s | minus: t0 | times: 100.0 | divided_by: span | round: 3 -%}
   {%- assign w = e | minus: s | times: 100.0 | divided_by: span | round: 3 -%}
   {%- assign org = it.heading | default: it.company | default: it.institution -%}
-  {%- assign role = it.position | default: it.studyType -%}
+  {%- assign role = it.role | default: it.position | default: it.studyType -%}
   {%- assign id = it.short | slugify | prepend: "exp-" -%}
   {%- capture dates -%}{{ it.startDate | date: "%b %Y" }} – {% if ongoing %}Present{% else %}{{ it.endDate | date: "%b %Y" }}{% if e > now %} (expected){% endif %}{% endif %}{%- endcapture -%}
   <a class="tl__bar{% if ongoing %} is-now{% endif %}" href="#{{ id }}" data-target="{{ id }}" style="--l: {{ l }}%; --w: {{ w }}%; --row: {{ row }}"
