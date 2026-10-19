@@ -264,8 +264,8 @@ plugins:
 #   yandex:              <verification-id>
 
 # Used for twitter cards
-# twitter:
-#   username:            <username>
+twitter:
+  username: jackyang
 
 # Used for facebook open graph
 # facebook:
@@ -286,6 +286,7 @@ social:
     - https://github.com/jackyangzzh
     - https://www.linkedin.com/in/jackyangzzh/
     - https://medium.com/@jackyangzzh
+    - https://x.com/jackyang
 
 # Plugin Configs
 # ---------------------------------------------------------------------------------------

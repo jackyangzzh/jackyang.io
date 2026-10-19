@@ -9,3 +9,7 @@ linkedin:
 medium:
   name: Medium
   icon: icon-medium
+x:
+  name: X
+  icon: icon-twitter
+  prepend: "https://x.com/"

@@ -26,6 +26,9 @@ basics:
     - network: "LinkedIn"
       username: "jackyangzzh"
       url: "https://www.linkedin.com/in/jackyangzzh/"
+    - network: "X"
+      username: "jackyang"
+      url: "https://x.com/jackyang"
 work:
   - company: "Microsoft"
     position: "Software Engineer II, Teams AI"
