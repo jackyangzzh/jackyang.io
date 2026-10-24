@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="580" viewBox="0 0 1000 580" role="img" aria-labelledby="title desc">
+<title id="title">Live control and recorded replay</title><desc id="desc">Two source paths. Unity publishes controller-derived position with fixed orientation through ROS# and rosbridge to RelaxedIK. The joint solution returns through rosbridge to Unity. CSV replay constructs local clips.</desc>
+<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3.5 L0,7 Z" fill="#edf3fa"/></marker></defs>
+<rect width="1000" height="580" fill="#0d1520"/>
+
+<text x="28" y="30" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700" text-anchor="start">(a)</text>
+<text x="65" y="30" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="600" text-anchor="start">Live position control</text>
+<rect x="28" y="54" width="626" height="304" rx="5" fill="#111e2c" stroke="#2c3e52" stroke-width="1.2" stroke-dasharray="6 4"/>
+<rect x="704" y="54" width="268" height="304" rx="5" fill="#111e2c" stroke="#2c3e52" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="48" y="84" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="600" text-anchor="start">UNITY / WINDOWS</text>
+<text x="724" y="84" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="600" text-anchor="start">ROS / LINUX</text>
+<rect x="48" y="118" width="148" height="100" rx="5" fill="#142b3d" stroke="#8fcaff" stroke-width="1.2"/>
+<text x="122.0" y="147" fill="#8fcaff" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">Vive input</text>
+<text x="122.0" y="173" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Left controller</text>
+<text x="122.0" y="197" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Position + gate</text>
+<rect x="232" y="118" width="170" height="100" rx="5" fill="#142b3d" stroke="#8fcaff" stroke-width="1.2"/>
+<text x="317.0" y="147" fill="#8fcaff" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">Goal update</text>
+<text x="317.0" y="173" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Position deltas</text>
+<text x="317.0" y="197" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Hold / track</text>
+<rect x="438" y="118" width="194" height="100" rx="5" fill="#142b3d" stroke="#8fcaff" stroke-width="1.2"/>
+<text x="535.0" y="147" fill="#8fcaff" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">ROS# publisher</text>
+<text x="535.0" y="173" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Position goal</text>
+<text x="535.0" y="197" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Fixed orientation</text>
+<path d="M196,168 L230,168" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M402,168 L436,168" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="724" y="118" width="228" height="100" rx="5" fill="#172433" stroke="#52657b" stroke-width="1.2"/>
+<text x="838.0" y="147" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">rosbridge</text>
+<text x="838.0" y="173" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">WebSocket transport</text>
+<path d="M632,148 L722,148" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="676" y="137" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" text-anchor="middle">pose</text>
+<rect x="724" y="268" width="228" height="70" rx="5" fill="#172433" stroke="#efbd85" stroke-width="1.2"/>
+<text x="838.0" y="297" fill="#efbd85" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">RelaxedIK</text>
+<text x="838.0" y="323" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">External solver</text>
+<path d="M792,218 L792,266" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="778" y="247" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" text-anchor="end">goal</text>
+<path d="M886,268 L886,220" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="900" y="247" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" text-anchor="start">joints</text>
+<rect x="438" y="268" width="194" height="70" rx="5" fill="#142f31" stroke="#87d7c6" stroke-width="1.2"/>
+<text x="535.0" y="297" fill="#87d7c6" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">ROS# subscriber</text>
+<text x="535.0" y="323" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Joint-angle array</text>
+<path d="M724,194 H678 V303 H634" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<rect x="232" y="268" width="170" height="70" rx="5" fill="#142f31" stroke="#87d7c6" stroke-width="1.2"/>
+<text x="317.0" y="297" fill="#87d7c6" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">UR5 display</text>
+<text x="317.0" y="323" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Joint transforms</text>
+<path d="M438,303 L404,303" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="48" y="279" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="start">Live joint writer</text>
+<text x="48" y="303" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="start">must be enabled</text>
+<text x="48" y="327" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="start">for this path.</text>
+<text x="28" y="404" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700" text-anchor="start">(b)</text>
+<text x="65" y="404" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="600" text-anchor="start">Recorded motion playback</text>
+<rect x="48" y="433" width="250" height="84" rx="5" fill="#142b3d" stroke="#8fcaff" stroke-width="1.2"/>
+<text x="173.0" y="462" fill="#8fcaff" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">CSV recordings</text>
+<text x="173.0" y="488" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Arm angles + gripper scalar</text>
+<rect x="382" y="433" width="250" height="84" rx="5" fill="#172433" stroke="#52657b" stroke-width="1.2"/>
+<text x="507.0" y="462" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">Curve construction</text>
+<text x="507.0" y="488" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Row index → clip key time</text>
+<rect x="716" y="433" width="236" height="84" rx="5" fill="#142f31" stroke="#87d7c6" stroke-width="1.2"/>
+<text x="834.0" y="462" fill="#87d7c6" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">UR5 + gripper display</text>
+<text x="834.0" y="488" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Play and seek controls</text>
+<path d="M298,475 L380,475" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M632,475 L714,475" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="28" y="553" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="start">Select modes by enabling components in the Unity Inspector.</text></svg>

@@ -3,10 +3,10 @@ layout: project
 weight: 4
 title: 'Project Virtualso'
 description: >
-  VR interview and presentation coaches that listen, ask follow-up questions, and react through facial expressions and gaze.
+  Real-time conversation in AR/VR: connecting Unity, cloud speech, and character animation for interview and presentation practice.
 date: '2020-01-01'
 category: personal
-image: 
+image:
   path: /assets/img/projects/virtualso.webp
   srcset:
     - [480, /assets/img/projects/virtualso-480.webp]
@@ -14,47 +14,81 @@ image:
     - [854, /assets/img/projects/virtualso.webp]
   alt: Project Virtualso interview simulation with a virtual interviewer in an office
 links:
+  - title: GitHub
+    url: https://github.com/jackyangzzh/Project-Virtualso
   - title: Interview demo
     url: https://www.youtube.com/watch?v=I1RIFirZeaQ
   - title: Presentation demo
     url: https://www.youtube.com/watch?v=3KgdJZlMepo
-
 ---
-I built Virtualso in 2020 while studying Communication and working in Unity. It was a way to bring those interests together: **VR coaches that let people practice interviews and presentations** with a character that responds to them.
+I started Virtualso in 2020 while studying Communication and building in Unity. I wanted to bring those interests together through **interview and presentation practice in AR/VR**. Rehearsing an answer is one thing; saying it while an interviewer waits, or a room of people watches, adds a different kind of pressure.
 
-## Practicing the uncomfortable parts
+Getting a character to speak was only part of the work. I also needed to coordinate the microphone, cloud requests, audio playback, and animation so the person could tell **when to speak and when to wait**.
 
-A script lets you rehearse an answer. A recording lets you review how you delivered it. Neither gives you an unexpected follow-up question or an audience reaction to deal with in the moment.
+{% include pro/project-video.html id="I1RIFirZeaQ" title="Virtualso — virtual interview demonstration" %}
 
-I wanted to see whether a virtual character could **add some of that pressure to solo practice**. COVID-19 lockdowns had also made in-person coaching harder to access, so a repeatable exercise felt worth exploring.
+## Keeping Unity and speech in sync
 
-## Training modes
+I connected **IBM Watson Speech to Text → Assistant → Text to Speech** in Unity 2020.3, with the reply playing through the character's `AudioSource`. Unity updates the scene every frame, while those service calls complete asynchronously. The conversation has to work across both.
 
-### Virtual interview
+The recognizer streams audio, but only a **final transcript** goes to the dialogue service. `SimpleBot` sends it to a Watson Assistant session and passes the reply into the synthesis queue. I connected these stages through Unity `InputField` listeners, so the references wired in the scene matter alongside the C# code. Conversation configuration lives in Watson Assistant; Unity handles the audio and the character.
 
-The interview coach uses **speech recognition and intent parsing** to respond to an answer, choose follow-up questions, and react with facial expressions.
+{% include pro/diagram.html
+  src="/assets/img/projects/virtualso/01-runtime.svg"
+  height="925"
+  mobile="/assets/img/projects/virtualso/01-runtime-mobile.svg"
+  mobile_height="1510"
+  title="The spoken interview runtime"
+  alt="Unity SpeechToText, SimpleBot, and TextToSpeech exchange audio and text with three IBM Watson services. BotControl gates recognition; CharacterController maps playback and recognition state to Animator parameters."
+  caption="The Unity components behind the interview: speech recognition, dialogue, synthesis, and the controls that coordinate them."
+%}
 
-{% include pro/project-video.html id="I1RIFirZeaQ" title="Virtual Interview AI Agent Demonstration" %}
+## A turn is longer than an audio clip
 
-### Virtual presentation
+I used `BotControl` to pause recognition while Assistant is processing or TTS reports unfinished work. The intention is to keep the interviewer from hearing its own reply and treating it as a new answer. Pausing recognition is separate from stopping Unity's microphone capture.
 
-The presentation mode puts you in front of an audience that reacts as you speak. My first version made those reactions too expressive. **Professionals who tried it found the audience distracting**, so I toned down the body language. Attention and confusion needed to be readable without becoming a performance of their own.
+There is a gap in this version: synthesis removes the last text item **before** its audio arrives. Both queues can then be empty while playback is idle. `IsFinished()` checks those conditions but misses the synthesis request still in flight, which means recognition can reopen too early.
 
-## What I built
+I would fix that by tracking **dialogue pending, synthesis pending, queued speech, and playback** under one turn controller. A turn is complete only when all four are idle. Giving each turn an ID would also let me discard a late callback after the user cancels or restarts.
 
-- Built the **Unity experience**, including scenario flow, dialogue logic, telemetry, and character behavior.
-- Connected Azure Cognitive Services speech recognition to a **custom NLP pipeline** for pacing, tone, topic changes, and confidence-related signals.
-- Implemented **facial animation and gaze** to make the characters feel attentive.
-- Built a **scenario editor** so coaches could change question banks, difficulty, and success metrics **without editing code**.
+{% include pro/diagram.html
+  src="/assets/img/projects/virtualso/02-turn-lifecycle.svg"
+  height="933"
+  mobile="/assets/img/projects/virtualso/02-turn-lifecycle-mobile.svg"
+  mobile_height="1730"
+  title="A turn is longer than an audio clip"
+  alt="A final transcript goes through Assistant, a text queue, synthesis in flight, an audio queue, and playback. The existing completion check ignores in-flight synthesis, allowing recognition to resume before the reply is ready."
+  caption="The critical gap is between dequeuing text and receiving audio. Empty queues do not prove that a turn has finished."
+%}
 
-## Keeping the conversation bounded
+## Latency is more than frame rate
 
-I used **intent classification and guided dialogue branches** rather than open-ended generation. That gave the interviewer room to respond while keeping the exercise and its evaluation criteria predictable.
+The capture loop reads a one-second, **22,050 Hz** microphone buffer in alternating halves, sending approximately **0.5 seconds of audio per block**. That describes the audio chunks. The person also waits for recognition to finalize, Assistant to respond, speech to be synthesized, and playback to begin.
 
-## Testing and limits
+The delay I care about is **from the user's last word to the character's first audible reply**. To evaluate it, I would timestamp each stage and look at the slow turns as well as the typical ones. Unity frame time needs a separate measurement: the character can animate smoothly and still take too long to answer. I also want its waiting behavior to make that delay understandable.
 
-I shared working prototypes with **professional career-coaching nonprofits** to explore whether this kind of role-play could make practice more accessible. Presentation tests captured **pacing, filler-word frequency, and confidence-related signals**. I treated those signals as prompts for a conversation with a human coach, since they couldn't give an objective verdict on someone's ability.
+## Connecting speech to character behavior
 
-{% include pro/project-video.html id="3KgdJZlMepo" title="Virtual Public Speaking Training Demonstration" %}
+I tied the interviewer's animation to the conversation state. The custom `CharacterController` maps `AudioSource.isPlaying` to `isTalking`; when playback stops, `isListening` follows the recognizer's active state. This gives the person a visible cue about what the system is doing.
 
-That audience feedback stuck with me. My first version assumed bigger reactions would make a character feel more present, when what mattered was **reacting at the right moment**. That question of timing has followed me from VR coaches to the meeting agents I work on today.
+For presentation practice, I used a different approach. Twelve audience randomizers choose among authored animation states on repeating timers, each sampling its interval once at startup between five and ten seconds. The audience stays animated, but those movements do not interpret the speaker's words. I used a desktop texture to show presentation content on a monitor inside the scene.
+
+{% include pro/diagram.html
+  src="/assets/img/projects/virtualso/03-animation.svg"
+  height="1008"
+  mobile="/assets/img/projects/virtualso/03-animation-mobile.svg"
+  mobile_height="1580"
+  title="What drives the animation"
+  alt="The interviewer sets talking and listening Animator flags from playback and recognizer state. Twelve presentation audience components independently update randomValue to zero, one, or two on a repeating schedule."
+  caption="Conversation state drives the interviewer; timers drive the audience. The object icons represent components, not a reconstructed scene layout."
+%}
+
+{% include pro/project-video.html id="3KgdJZlMepo" title="Virtualso — presentation practice demonstration" %}
+
+## What I learned about embodied conversation
+
+The main lesson for me is that **voice and body need to follow the same turn state**. If I add interruption, it needs to cancel pending synthesis, queued clips, and playback together. Leaving the exercise needs to release capture and service state. A failed request also needs a visible way to retry; otherwise, the person is left waiting for a character that has nothing to say.
+
+Audio placement is another part I would improve in Virtualso. The synthesis helper sets `spatialBlend = 0`, so playback is 2D even though the `AudioSource` belongs to the character. I would test positioned voice, headset microphone routing, and acoustic feedback together, because what sounds correct in the editor still needs to work in the headset.
+
+What interests me most about this project is how these implementation details shape the interaction. A queue finishing too early changes when the character appears to listen. A delayed reply changes how long someone waits before speaking again. **Making the character feel attentive starts with getting those transitions right.**
