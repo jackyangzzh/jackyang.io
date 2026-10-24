@@ -136,6 +136,8 @@
         if (jump) line.classList.add("is-instant");
         line.style.left = `${r.left - tr.left}px`;
         line.style.right = `${tr.right - r.right}px`;
+        const low = Math.max(...opts().map((o) => o.getBoundingClientRect().bottom));
+        line.style.setProperty("--row", `${Math.round(low - r.bottom)}px`);
         if (jump) { void line.offsetWidth; line.classList.remove("is-instant"); }
         line.classList.add("is-on");
         shown = el;
@@ -581,13 +583,40 @@
     });
 
     // Short demo clips play while on screen (muted loops), never with reduced motion.
+    // With this script, a quiet Play/Pause replaces the native control bar; a
+    // clip the visitor paused stays paused when it scrolls back into view.
     const vids = $$("video[data-deferred-video]");
-    if (!vids.length || !("IntersectionObserver" in window)) return;
+    if (!vids.length) return;
+    vids.forEach((v) => {
+      const box = d.createElement("div");
+      const btn = d.createElement("button");
+      box.className = "loop";
+      btn.type = "button";
+      btn.className = "loop__btn mono";
+      const sync = () => {
+        const on = !v.paused;
+        btn.textContent = on ? "Pause" : "Play";
+        btn.setAttribute("aria-label", on ? "Pause clip" : "Play clip");
+        box.classList.toggle("is-paused", !on);
+      };
+      btn.addEventListener("click", () => {
+        if (v.paused) { delete v.dataset.held; v.play().catch(sync); }
+        else { v.dataset.held = ""; v.pause(); }
+      });
+      v.addEventListener("click", () => btn.click());
+      v.addEventListener("play", sync);
+      v.addEventListener("pause", sync);
+      v.removeAttribute("controls");
+      v.before(box);
+      box.append(v, btn);
+      sync();
+    });
+    if (!("IntersectionObserver" in window)) return;
     const io = new IntersectionObserver((entries) => entries.forEach((en) => {
       const v = en.target;
       if (en.isIntersecting) {
         if (v.preload === "none") v.preload = "auto";
-        if (v.dataset.autoplay === "true" && !reduced.matches) v.play().catch(() => {});
+        if (v.dataset.autoplay === "true" && !reduced.matches && !("held" in v.dataset)) v.play().catch(() => {});
       } else if (!v.paused) v.pause();
     }), { rootMargin: "120px 0px" });
     vids.forEach((v) => io.observe(v));

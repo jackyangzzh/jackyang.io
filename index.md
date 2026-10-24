@@ -36,7 +36,7 @@ facts:
   - label: Now
     value: Software Engineer II, Microsoft Teams AI
   - label: Before
-    value: Microsoft Mesh · Holos
+    value: Microsoft Mesh, Holos
   - label: Studying
     value: M.S. in Computer Science (HCI), Georgia Tech
   - label: Based in

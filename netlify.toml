@@ -6,6 +6,7 @@
 [build.environment]
   JEKYLL_ENV = "production"
   RUBY_VERSION = "3.1.4"
+  NODE_VERSION = "22"
 
 # Consolidate legacy writing indexes at the canonical Writing page.
 [[redirects]]

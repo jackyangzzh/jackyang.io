@@ -4,7 +4,7 @@ weight: 0
 featured: true
 title: 'FakeHaul'
 description: >
-  A case study in agent-driven development: building a fictional marketplace through coding agents, offline AI pipelines, and human review.
+  A fictional marketplace I built with coding agents and offline AI pipelines, where every checkout ends at $0.00.
 date: '2026-07-01'
 category: personal
 image:
@@ -45,7 +45,7 @@ Hermes came after the July build, as a coordinator across apps. It passes bounde
   title="Hermes coordinates across applications"
   height="670"
   alt="I set intent and limits. Hermes routes tasks to coding tools, the browser, and shell; collects diffs, test output, and rendered results; and returns evidence for my decisions. Useful procedures become reusable skills."
-  caption="My setup after launch. None of the original July build went through Hermes. Dashed lines are access routes."
+  caption="My setup after launch."
 %}
 
 ## Building the content pipeline
@@ -59,7 +59,7 @@ The Next.js storefront serves that content, while Zustand keeps carts and orders
   title="The product factory"
   height="1170"
   alt="Human direction feeds catalog generation and validation, then separate image, review, and authored-pack pipelines. Approved images become versioned WebPs; reviews become shards or stored profiles. Server and browser assemble the storefront from these artifacts."
-  caption="Separate pipelines feed one storefront. Products, sellers, reviews, and activity counts are fictional. The image lane shows the approved-publish workflow."
+  caption="The image lane shows the approved-publish workflow."
 %}
 
 ## Reviewing what looked finished
@@ -73,7 +73,7 @@ During the Railway migration, a share-image response passed both the status and 
   title="Automate the execution, keep the decisions"
   height="570"
   alt="Set an objective, scope a task, execute, produce artifacts, check evidence, and accept or reject. Approved live changes are applied and verified; rejected work returns to the objective."
-  caption="The loop I ran with every tool. Approval was my own habit; the pipeline didn't enforce it, and a push to the deploy branch would release the app."
+  caption="The loop I ran with every tool. Approval was my own habit; the pipeline didn’t enforce it, and a push to the deploy branch would release the app."
 %}
 
 ## What shipped

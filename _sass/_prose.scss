@@ -156,6 +156,32 @@
   img, video { display: block; width: 100%; height: auto; }
 }
 
+// Silent demo loops: a quiet Play/Pause in the corner instead of the native bar.
+// It shows on hover or focus, while paused, and always on touch screens.
+.loop {
+  position: relative;
+  video { cursor: pointer; }
+}
+.loop__btn {
+  position: absolute;
+  right: .6rem;
+  bottom: .6rem;
+  padding: .3rem .65rem;
+  border-radius: 999px;
+  background: rgba(14, 14, 13, .7);
+  color: #fff;
+  font-size: .75rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity .2s var(--ease), background-color .2s;
+  &:hover { background: rgba(14, 14, 13, .9); }
+}
+.loop:hover .loop__btn,
+.loop.is-paused .loop__btn,
+.loop__btn:focus-visible { opacity: 1; }
+@media (hover: none) { .loop__btn { opacity: 1; } }
+
 // Keep eye labels aligned with the two halves without covering the footage.
 .eye-comparison {
   overflow: hidden;
@@ -213,7 +239,8 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, .55));
+    // Deep enough at the foot to hold the title over a white thumbnail.
+    background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, .3) 70%, rgba(0, 0, 0, .78));
     pointer-events: none;
   }
   &:hover img { transform: scale(1.03); }
@@ -251,6 +278,7 @@
   font-size: .75rem;
   letter-spacing: .03em;
   line-height: 1.3;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
 }
 .video__rec {
   width: .45rem;

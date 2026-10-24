@@ -3,7 +3,7 @@ layout: project
 weight: 6
 title: 'Robot Control Through VR'
 description: >
-  A Unity/Vive research prototype connecting hand movements to a robotic arm model, with ROS integration and replay of recorded experiments.
+  A real-time VR control loop for a UR5 robotic arm, built in the UW Graphics Group, plus a tool for replaying arm motion from 15+ lab-experiment datasets.
 date: '2020-09-01'
 end_date: '2022-05-01'
 category: research

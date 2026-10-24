@@ -3,7 +3,7 @@ layout: project
 weight: 1
 title: 'Microsoft Mesh & Avatars for Teams'
 description: >
-  The shared UI framework every Mesh product team adopted, plus avatar editing and rendering work for Microsoft Mesh and Teams across mobile, desktop, and AR/VR.
+  The shared UI framework every Mesh product team adopted, plus avatar editing and rendering across mobile, desktop, and AR/VR.
 date: '2022-06-01'
 end_date: '2024-09-01'
 category: professional

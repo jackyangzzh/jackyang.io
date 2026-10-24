@@ -149,7 +149,8 @@
 }
 .viewer__screen {
   position: relative;
-  aspect-ratio: 16 / 10;
+  // Matches the project art (16:9), so nothing is cropped but FakeHaul's edge.
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: var(--radius);
   background: var(--bg-2);
@@ -468,11 +469,20 @@
   height: clamp(60px, 10vw, 120px);
   margin: clamp(1.5rem, 4vw, 3rem) 0;
   color: var(--ink);
-  path {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 0;
+}
+// A short dash of signal sweeps the flat line, rests, and tries again.
+.lost__line .lost__scan {
+  color: var(--signal);
+  stroke-dasharray: .05 1.2;
+  stroke-dashoffset: .06;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: scan 4s cubic-bezier(.45, 0, .2, 1) 1s infinite;
   }
 }
+@keyframes scan {
+  60%, 100% { stroke-dashoffset: -1; }
+}
+
 .lost__body {
   max-width: 40rem;
   font-size: 1.125rem;

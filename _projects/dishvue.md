@@ -71,7 +71,7 @@ What it can't do yet is show the dish at its real size. The zoom cap keeps the i
   title="A small window. A closer look."
   height="667"
   alt="An illustrative plated dish floats inside a rounded glass volume labelled 0.6 metre window, with an orbit indicating vertical-axis rotation. Magnification is clamped between 1 and 1.5; physical-size claims require measured asset dimensions and comparison with a real plate. Window movement and USDZ export are separate from tabletop anchoring."
-  caption="The dish is illustrative. The window limits the interaction, but it doesn't make the dish true to scale."
+  caption="The dish is illustrative. The window limits the interaction, but it doesn’t make the dish true to scale."
 %}
 
 ## What I would carry forward

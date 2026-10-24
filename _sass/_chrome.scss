@@ -179,7 +179,8 @@
 
 .track__line {
   position: absolute;
-  bottom: .2rem;
+  // --row lifts the line to the active item's row when a track wraps.
+  bottom: calc(.2rem + var(--row, 0px));
   left: 0;
   height: 2px;
   border-radius: 2px;
@@ -365,6 +366,34 @@
   overflow: hidden;
   &::before { content: attr(data-word); display: block; }
 }
+
+// Scroll-driven touches, compositor-only and skipped where unsupported: a
+// reading line under the header on case studies (the gliding line again, now
+// for "how far am I"), and the footer name settling into place as it arrives.
+@supports (animation-timeline: scroll()) {
+  :root:has(.cs__body) .hd::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    animation: read-line linear both;
+    animation-timeline: scroll(root);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .ft__word::before {
+      animation: word-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
+@keyframes read-line { to { transform: scaleX(1); } }
+@keyframes word-rise { from { transform: translateY(45%); opacity: .4; } }
 
 // ⌘K command menu
 

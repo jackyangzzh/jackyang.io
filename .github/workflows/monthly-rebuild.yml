@@ -1,0 +1,26 @@
+name: Monthly rebuild
+
+# The site stamps build-time dates: the timeline's "Now" marker and current-role
+# bars, the footer year, and the Medium posts on Writing. Rebuilding Netlify
+# once a month keeps them current when nothing else has been pushed.
+# Setup: Netlify → Site configuration → Build & deploy → Build hooks → add a
+# hook, then save its URL as the repository secret NETLIFY_BUILD_HOOK.
+
+on:
+  schedule:
+    - cron: "0 15 1 * *" # 1st of each month, 8:00 in Seattle (PDT)
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger the Netlify build hook
+        env:
+          HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::warning::NETLIFY_BUILD_HOOK is not set; skipping."
+            exit 0
+          fi
+          curl -fsS -X POST -d '{}' "$HOOK"

@@ -1,9 +1,8 @@
 ---
 layout: page
+title: NOTICE
 sitemap: false
 ---
-
-# NOTICE
 
 The site's layouts, styles and scripts were written for jackyang.io. Earlier
 versions were built on the Hydejack theme; none of its code, images or icons
@@ -22,6 +21,11 @@ All three families are self-hosted from `assets/fonts/` and used under the
 
 The Latin subsets come from [Fontsource](https://fontsource.org/); each family's
 license text sits beside its files in `assets/fonts/`.
+
+The primitive-fitting diagram in the Holos case study embeds
+[JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) and
+[Public Sans](https://github.com/uswds/public-sans), also under the OFL; their license
+texts sit beside the diagram in `assets/img/projects/holos/`.
 
 ## Icons
 

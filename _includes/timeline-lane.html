@@ -26,7 +26,7 @@ time are stacked greedily onto up to three rows.
   {%- assign role = it.role | default: it.position | default: it.studyType -%}
   {%- assign id = it.short | slugify | prepend: "exp-" -%}
   {%- capture dates -%}{{ it.startDate | date: "%b %Y" }} – {% if ongoing %}Present{% else %}{{ it.endDate | date: "%b %Y" }}{% if e > now %} (expected){% endif %}{% endif %}{%- endcapture -%}
-  <a class="tl__bar{% if ongoing %} is-now{% endif %}" href="#{{ id }}" data-target="{{ id }}" style="--l: {{ l }}%; --w: {{ w }}%; --row: {{ row }}"
+  <a class="tl__bar{% if ongoing %} is-now{% endif %}" href="#{{ id }}" data-target="{{ id }}" style="--l: {{ l }}%; --w: {{ w }}%; --row: {{ row }}; --t: {{ l | divided_by: 100.0 | round: 3 }}"
      data-tip-title="{{ org | escape }}" data-tip-sub="{{ role | escape }}" data-tip-dates="{{ dates }}"
      aria-label="{{ org | escape }}, {{ role | escape }}, {{ dates }}">
     {%- if e > now -%}

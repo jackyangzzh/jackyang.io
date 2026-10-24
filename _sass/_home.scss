@@ -696,6 +696,24 @@
   }
   &.is-tight .tl__label { opacity: 0; }
 }
+
+// The first time the timeline scrolls into view it draws itself: each bar
+// wipes open from its start date in date order (--t is its 0–1 position), then
+// "now" arrives. It rides the section's .reveal, so reduced motion and no-JS
+// get it fully drawn. The resting clip sits 4px out to keep the focus ring.
+.tl__bar {
+  clip-path: inset(-4px round 4px);
+  transition:
+    clip-path .7s var(--ease) calc(.1s + var(--t, 0) * .8s),
+    background-color .2s, color .2s, box-shadow .2s;
+}
+.tl__now { transition: opacity .5s var(--ease) 1.1s; }
+.reveal--wait {
+  .tl__bar { clip-path: inset(-4px 100% -4px -4px round 4px); }
+  .tl__now { opacity: 0; }
+  // Hide at once; only the arrival animates.
+  .tl__bar, .tl__now { transition: none; }
+}
 .tl__label { position: relative; z-index: 1; }
 .tl__future {
   position: absolute;

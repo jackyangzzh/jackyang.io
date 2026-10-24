@@ -45,7 +45,7 @@ I used a shared camera prefab with **separate layers, culling masks, and stereo 
   title="Eye isolation: layer, mask, output"
   height="850"
   alt="Three settings isolate each eye: object layer, camera culling mask, and stereo target. Shared layers 0, 1, 2, 4 and 5 appear in both views. Layer 8 appears only through the left camera with mask 311; layer 9 appears only through the right camera with mask 567."
-  caption="What each eye sees comes down to the object's layer and the camera's mask. Naming a canvas LeftEyeCanvas doesn't put it in the left eye."
+  caption="What each eye sees comes down to the object’s layer and the camera’s mask. Naming a canvas LeftEyeCanvas doesn’t put it in the left eye."
 %}
 
 ## A shared clock, different motion
@@ -75,7 +75,7 @@ One thing I learned here is that **position and phase need separate controls**. 
 ## Color perception and the research connection
 
 <figure>
-<img src="/assets/img/projects/colorDeficiencyCover.webp" srcset="/assets/img/projects/colorDeficiencyCover-480.webp 480w, /assets/img/projects/colorDeficiencyCover-720.webp 720w, /assets/img/projects/colorDeficiencyCover.webp 837w" sizes="(min-width: 86em) 52rem, (min-width: 54em) 46rem, (min-width: 42em) 40rem, 100vw" alt="Reference and transformed images from the color vision deficiency prototype" loading="lazy" decoding="async" width="837" height="276">
+<img src="/assets/img/projects/colorDeficiencyCover.webp" srcset="/assets/img/projects/colorDeficiencyCover-480.webp 480w, /assets/img/projects/colorDeficiencyCover-720.webp 720w, /assets/img/projects/colorDeficiencyCover.webp 831w" sizes="(min-width: 86em) 52rem, (min-width: 54em) 46rem, (min-width: 42em) 40rem, 100vw" alt="Reference and transformed images from the color vision deficiency prototype" loading="lazy" decoding="async" width="831" height="270">
 <figcaption>Reference and transformed images from the color vision deficiency prototype.</figcaption>
 </figure>
 

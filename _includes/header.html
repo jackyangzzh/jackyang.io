@@ -37,7 +37,7 @@
       {%- for item in site.menu %}
       <li style="--i: {{ forloop.index0 }}"><a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}><span class="mono">0{{ forloop.index }}</span>{{ item.title }}</a></li>
       {%- endfor %}
-      <li style="--i: {{ site.menu.size }}"><a href="{{ site.contact.resume | relative_url }}"><span class="mono">0{{ site.menu.size | plus: 1 }}</span>Résumé {% include icon.html name="arrow-ur" px="28" %}</a></li>
+      <li style="--i: {{ site.menu.size }}"><a href="{{ site.contact.resume | relative_url }}"><span class="mono">0{{ site.menu.size | plus: 1 }}</span>Résumé {% include icon.html name="arrow-d" px="28" %}</a></li>
     </ol>
   </nav>
   <div class="mnav__foot wrap mono">
