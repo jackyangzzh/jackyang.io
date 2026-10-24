@@ -149,6 +149,13 @@
   }
 }
 
+// Keep tutorial recordings at their original display width.
+.prose > .tutorial-demo {
+  max-width: 600px;
+  margin-right: 0;
+  img { display: block; width: 100%; height: auto; }
+}
+
 // Keep eye labels aligned with the two halves without covering the footage.
 .eye-comparison {
   overflow: hidden;
