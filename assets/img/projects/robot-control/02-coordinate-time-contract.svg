@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="630" viewBox="0 0 1000 630" role="img" aria-labelledby="title desc">
+<title id="title">Coordinate, goal-state and update contracts</title><desc id="desc">Exact ROS# position and quaternion mappings. Logical clutch true tracks controller deltas; false retains the goal. The previous controller position is updated in either branch. Update and FixedUpdate are distinct callbacks.</desc>
+<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L7,3.5 L0,7 Z" fill="#edf3fa"/></marker></defs>
+<rect width="1000" height="630" fill="#0d1520"/>
+
+<text x="28" y="30" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700" text-anchor="start">(a)</text>
+<text x="65" y="30" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="600" text-anchor="start">Coordinate conversion and the published pose</text>
+<rect x="28" y="55" width="450" height="178" rx="5" fill="#142b3d" stroke="#2c3e52" stroke-width="1.2"/>
+<rect x="518" y="55" width="454" height="178" rx="5" fill="#111e2c" stroke="#2c3e52" stroke-width="1.2"/>
+<text x="48" y="86" fill="#8fcaff" font-family="Arial,Helvetica,sans-serif" font-size="19" font-weight="600" text-anchor="start">Position: Unity → ROS</text>
+<text x="48" y="124" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="400" text-anchor="start">(x, y, z) → (z, −x, y)</text>
+<text x="48" y="162" fill="#edf3fa" font-family="Times New Roman,Times,serif" font-size="20" text-anchor="start">+<tspan font-style="italic">x</tspan><tspan baseline-shift="sub" font-size="14">U</tspan> → <tspan font-style="italic">−y</tspan><tspan baseline-shift="sub" font-size="14">R</tspan></text>
+<text x="197" y="162" fill="#edf3fa" font-family="Times New Roman,Times,serif" font-size="20" text-anchor="start">+<tspan font-style="italic">y</tspan><tspan baseline-shift="sub" font-size="14">U</tspan> → <tspan font-style="italic">+z</tspan><tspan baseline-shift="sub" font-size="14">R</tspan></text>
+<text x="346" y="162" fill="#edf3fa" font-family="Times New Roman,Times,serif" font-size="20" text-anchor="start">+<tspan font-style="italic">z</tspan><tspan baseline-shift="sub" font-size="14">U</tspan> → <tspan font-style="italic">+x</tspan><tspan baseline-shift="sub" font-size="14">R</tspan></text>
+<text x="48" y="208" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="start">Axis conversion does not calibrate physical origins.</text>
+<text x="538" y="86" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="19" font-weight="600" text-anchor="start">Quaternion helper: (x, y, z, w) order</text>
+<text x="538" y="124" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="23" font-weight="400" text-anchor="start">(x, y, z, w) → (−z, x, −y, w)</text>
+<text x="538" y="162" fill="#efbd85" font-family="Arial,Helvetica,sans-serif" font-size="19" font-weight="600" text-anchor="start">Published orientation: (0, 0, 0, 1)</text>
+<text x="538" y="208" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="start">The computed controller rotation is not assigned.</text>
+<text x="28" y="279" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700" text-anchor="start">(b)</text>
+<text x="65" y="279" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="600" text-anchor="start">Position-goal state in ActionManager</text>
+<rect x="28" y="309" width="216" height="99" rx="5" fill="#142b3d" stroke="#8fcaff" stroke-width="1.2"/>
+<text x="136.0" y="338" fill="#8fcaff" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">Controller state</text>
+<text x="136" y="360" fill="#edf3fa" font-family="Times New Roman,Times,serif" font-size="19" text-anchor="middle">Position <tspan font-style="italic">c</tspan><tspan baseline-shift="sub" font-size="14">k</tspan></text>
+<text x="136" y="392" fill="#edf3fa" font-family="Times New Roman,Times,serif" font-size="19" text-anchor="middle">Boolean <tspan font-style="italic">b</tspan><tspan baseline-shift="sub" font-size="14">k</tspan> = clutch</text>
+<rect x="306" y="309" width="454" height="99" rx="5" fill="#172433" stroke="#52657b" stroke-width="1.2"/>
+<text x="325" y="341" fill="#edf3fa" font-family="Times New Roman,Times,serif" font-size="23" text-anchor="start"><tspan font-style="italic">b</tspan><tspan baseline-shift="sub" font-size="15">k</tspan> = true:  <tspan font-style="italic">p</tspan><tspan baseline-shift="sub" font-size="15">k</tspan> = <tspan font-style="italic">p</tspan><tspan baseline-shift="sub" font-size="15">k−1</tspan> + (<tspan font-style="italic">c</tspan><tspan baseline-shift="sub" font-size="15">k</tspan> − <tspan font-style="italic">c</tspan><tspan baseline-shift="sub" font-size="15">k−1</tspan>)</text>
+<text x="325" y="378" fill="#edf3fa" font-family="Times New Roman,Times,serif" font-size="23" text-anchor="start"><tspan font-style="italic">b</tspan><tspan baseline-shift="sub" font-size="15">k</tspan> = false:  <tspan font-style="italic">p</tspan><tspan baseline-shift="sub" font-size="15">k</tspan> = <tspan font-style="italic">p</tspan><tspan baseline-shift="sub" font-size="15">k−1</tspan></text>
+<rect x="822" y="309" width="150" height="99" rx="5" fill="#142f31" stroke="#87d7c6" stroke-width="1.2"/>
+<text x="897.0" y="338" fill="#87d7c6" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">Goal state</text>
+<text x="897" y="364" fill="#edf3fa" font-family="Times New Roman,Times,serif" font-size="19" text-anchor="middle">Position <tspan font-style="italic">p</tspan><tspan baseline-shift="sub" font-size="15">k</tspan></text>
+<path d="M244,358 L304,358" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M760,358 L820,358" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="28" y="442" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="start">Both branches store the current controller sample. Initial position and goal are zero.</text>
+<text x="28" y="488" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="700" text-anchor="start">(c)</text>
+<text x="65" y="488" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="600" text-anchor="start">Callback responsibilities</text>
+<rect x="28" y="516" width="194" height="76" rx="5" fill="#111e2c" stroke="#52657b" stroke-width="1.2"/>
+<text x="125.0" y="545" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">Update</text>
+<text x="125.0" y="571" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Compute goal</text>
+<rect x="278" y="516" width="194" height="76" rx="5" fill="#111e2c" stroke="#52657b" stroke-width="1.2"/>
+<text x="375.0" y="545" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">FixedUpdate</text>
+<text x="375.0" y="571" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Publish pose</text>
+<rect x="528" y="516" width="194" height="76" rx="5" fill="#111e2c" stroke="#52657b" stroke-width="1.2"/>
+<text x="625.0" y="545" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">ROS + solver</text>
+<text x="625.0" y="571" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Return joints</text>
+<rect x="778" y="516" width="194" height="76" rx="5" fill="#111e2c" stroke="#52657b" stroke-width="1.2"/>
+<text x="875.0" y="545" fill="#edf3fa" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="600" text-anchor="middle">Update</text>
+<text x="875.0" y="571" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="400" text-anchor="middle">Apply joints</text>
+<path d="M222,554 L276,554" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M472,554 L526,554" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M722,554 L776,554" fill="none" stroke="#edf3fa" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<text x="28" y="617" fill="#adbdcf" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="400" text-anchor="start">Arrows show data dependency; callback and network timing were not measured.</text></svg>
