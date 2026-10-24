@@ -28,7 +28,7 @@ after the latest end (or today, whichever is later).
 {%- assign y1 = t1 | date: "%Y" | plus: 0 -%}
 {%- assign now_l = now | minus: t0 | times: 100.0 | divided_by: span | round: 3 -%}
 
-<figure class="tl" data-tl>
+<figure class="tl" data-tl data-t0="{{ t0 }}" data-span="{{ span }}">
   <div class="tl__scroll" data-tl-scroll>
     <div class="tl__chart">
       <div class="tl__grid" aria-hidden="true">
@@ -44,7 +44,7 @@ after the latest end (or today, whichever is later).
       {% include timeline-lane.html label="Study" items=r.education t0=t0 span=span now=now %}
 
       <div class="tl__now" style="--l: {{ now_l }}%" aria-hidden="true">
-        <span class="tl__now-label mono">Now · {{ site.time | date: "%b %Y" }}</span>
+        <span class="tl__now-label mono">Now · <span data-tl-month>{{ site.time | date: "%b %Y" }}</span></span>
       </div>
     </div>
   </div>

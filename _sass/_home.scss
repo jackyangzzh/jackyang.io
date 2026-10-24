@@ -690,6 +690,8 @@
     color: var(--bg);
   }
   &.is-now {
+    // An ongoing role runs right up to the "now" line.
+    width: var(--w);
     background: var(--signal);
     color: var(--on-signal);
     &:hover, &:focus-visible, &.is-active { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--signal); }
@@ -719,7 +721,8 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  left: var(--f);
+  // --f is a percentage of the date span, which is 2px wider than the bar.
+  left: calc(var(--f) * (1% + .02px));
   right: 0;
   background: repeating-linear-gradient(-45deg, var(--bg) 0 2px, transparent 2px 6px);
   opacity: .75;

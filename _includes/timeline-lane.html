@@ -32,7 +32,7 @@ time are stacked greedily onto up to three rows.
     {%- if e > now -%}
     {%- assign dur = e | minus: s -%}
     {%- assign fl = now | minus: s | times: 100.0 | divided_by: dur | round: 2 -%}
-    <span class="tl__future" style="--f: {{ fl }}%" aria-hidden="true"></span>
+    <span class="tl__future" style="--f: {{ fl }}" aria-hidden="true"></span>
     {%- endif -%}
     <span class="tl__label" aria-hidden="true">{{ it.short }}</span>
   </a>

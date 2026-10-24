@@ -390,6 +390,25 @@
     const scroller = $("[data-tl-scroll]", tl);
     const bars = $$(".tl__bar", tl);
 
+    // The build places "now"; move it to today so it stays right between
+    // rebuilds, along with the ongoing bars and the start of "expected".
+    const t0 = +tl.dataset.t0;
+    const span = +tl.dataset.span;
+    const nowEl = $(".tl__now", tl);
+    const pct = (el, prop) => parseFloat(el.style.getPropertyValue(prop));
+    const now = ((Date.now() / 1000 - t0) / span) * 100;
+    if (nowEl && span && now > pct(nowEl, "--l") && now <= 100) {
+      nowEl.style.setProperty("--l", `${now.toFixed(3)}%`);
+      const month = $("[data-tl-month]", nowEl);
+      if (month) month.textContent = new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" });
+      bars.forEach((b) => {
+        const l = pct(b, "--l");
+        if (b.classList.contains("is-now")) b.style.setProperty("--w", `${(now - l).toFixed(3)}%`);
+        const future = $(".tl__future", b);
+        if (future) future.style.setProperty("--f", Math.min(100, ((now - l) / pct(b, "--w")) * 100).toFixed(2));
+      });
+    }
+
     const fit = () => bars.forEach((b) => {
       const lab = $(".tl__label", b);
       b.classList.toggle("is-tight", lab.offsetWidth + 16 > b.clientWidth);
