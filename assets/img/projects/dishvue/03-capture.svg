@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc"><title id="title">From capture to menu.</title><desc id="desc">Capture images and checkpoints, release the camera session, reconstruct locally, process outputs, preview in Quick Look, and upload USDZ with a thumbnail. Metadata is saved separately. Source photos stay on the device. Cancellation and failure have restart paths; unsupported capture hardware triggers a precondition failure.</desc>
+
+<defs>
+  <linearGradient id="background" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#111722"/><stop offset=".55" stop-color="#080e17"/><stop offset="1" stop-color="#151c28"/></linearGradient>
+  <radialGradient id="ambient"><stop stop-color="#b6d9ff" stop-opacity=".23"/><stop offset=".5" stop-color="#839fc8" stop-opacity=".08"/><stop offset="1" stop-color="#b6d9ff" stop-opacity="0"/></radialGradient>
+  <radialGradient id="warm-light"><stop stop-color="#e9c2a4" stop-opacity=".22"/><stop offset=".5" stop-color="#c59678" stop-opacity=".08"/><stop offset="1" stop-color="#c59678" stop-opacity="0"/></radialGradient>
+  <radialGradient id="violet-light"><stop stop-color="#bac2ff" stop-opacity=".13"/><stop offset="1" stop-color="#bac2ff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="material" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#fff" stop-opacity=".16"/><stop offset=".5" stop-color="#f3f0ea" stop-opacity=".07"/><stop offset="1" stop-color="#fff" stop-opacity=".11"/></linearGradient>
+  <linearGradient id="edge" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#fff" stop-opacity=".62"/><stop offset=".3" stop-color="#fff" stop-opacity=".18"/><stop offset=".65" stop-color="#fff" stop-opacity=".09"/><stop offset="1" stop-color="#fff" stop-opacity=".32"/></linearGradient>
+  <linearGradient id="inner-edge" x1="0" y1="0" x2=".65" y2="1"><stop stop-color="#fff" stop-opacity=".18"/><stop offset=".42" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".12"/></linearGradient>
+  <linearGradient id="specular" x1="0" y1="0" x2="1" y2=".25"><stop stop-color="#fff8ec" stop-opacity=".94"/><stop offset=".35" stop-color="#eaf4ff" stop-opacity=".4"/><stop offset="1" stop-color="#eaf4ff" stop-opacity="0"/></linearGradient>
+  <linearGradient id="rim-light" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#bbdeff" stop-opacity="0"/><stop offset=".55" stop-color="#bbdeff" stop-opacity=".24"/><stop offset=".85" stop-color="#d5eeff" stop-opacity=".85"/><stop offset="1" stop-color="#fff5e9" stop-opacity=".8"/></linearGradient>
+  <linearGradient id="lens" x1="0" y1="0" x2="1" y2=".7"><stop stop-color="#fff" stop-opacity=".08"/><stop offset=".3" stop-color="#fff" stop-opacity=".015"/><stop offset=".6" stop-color="#d5eaff" stop-opacity="0"/><stop offset="1" stop-color="#d5eaff" stop-opacity=".1"/></linearGradient>
+  <linearGradient id="volume" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#d4e8ff" stop-opacity=".18"/><stop offset=".45" stop-color="#bac8db" stop-opacity=".025"/><stop offset="1" stop-color="#c7e1ff" stop-opacity=".12"/></linearGradient>
+  <linearGradient id="porcelain" x1="0" y1="0" x2=".1" y2="1"><stop stop-color="#fafbfc"/><stop offset=".48" stop-color="#d4dce4"/><stop offset=".85" stop-color="#9baebf"/><stop offset="1" stop-color="#d7e7ef"/></linearGradient>
+  <linearGradient id="plate-side" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#9eafbd"/><stop offset=".45" stop-color="#d9e1e7"/><stop offset="1" stop-color="#7c8e9d"/></linearGradient>
+  <radialGradient id="dish-well"><stop stop-color="#cbd6df"/><stop offset=".8" stop-color="#d4dfe8"/><stop offset="1" stop-color="#f6f8fa"/></radialGradient>
+  <linearGradient id="toast-side" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d0a365"/><stop offset=".5" stop-color="#a26937"/><stop offset="1" stop-color="#694425"/></linearGradient>
+  <radialGradient id="toast-top" cx=".4" cy=".3"><stop stop-color="#edce8f"/><stop offset=".6" stop-color="#d5ad6b"/><stop offset="1" stop-color="#a7713e"/></radialGradient>
+  <linearGradient id="avocado" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#cfdb8d"/><stop offset=".35" stop-color="#a5c579"/><stop offset=".75" stop-color="#5e9362"/><stop offset="1" stop-color="#355f48"/></linearGradient>
+  <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a2bb7e"/><stop offset=".45" stop-color="#587c5c"/><stop offset="1" stop-color="#284b3c"/></linearGradient>
+  <linearGradient id="radish" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff3df"/><stop offset="1" stop-color="#e6d0bf"/></linearGradient>
+  <linearGradient id="orbit" x1="1" y1="0" x2="0" y2=".5"><stop stop-color="#b8dfff" stop-opacity=".3"/><stop offset=".5" stop-color="#e7f6ff" stop-opacity=".9"/><stop offset="1" stop-color="#aedcff"/></linearGradient>
+  <filter id="shadow" x="-20%" y="-40%" width="140%" height="200%"><feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="#000" flood-opacity=".35"/></filter>
+  <filter id="glint" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2"/></filter>
+  <filter id="food-shadow" x="-30%" y="-50%" width="160%" height="220%"><feDropShadow dx="0" dy="7" stdDeviation="5" flood-color="#182a28" flood-opacity=".35"/></filter>
+  <filter id="blur" x="-30%" y="-150%" width="160%" height="400%"><feGaussianBlur stdDeviation="12"/></filter>
+  <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M1 1L5.5 3.5L1 6" fill="none" stroke="#b7c1d0" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="blue-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M1 1L5.5 3.5L1 6" fill="none" stroke="#a7cfff" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<defs><g id="environment">
+          <rect width="1200" height="800" fill="#080b10"/>
+        </g></defs>
+<use href="#environment" aria-hidden="true"/>
+<text x="56" y="48" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="500">Capture pipeline</text>
+<text x="56" y="106" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="44" font-weight="600" letter-spacing="-1.4">From capture to menu.</text>
+<text x="56" y="146" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="21" font-weight="400">USDZScanner: Alfian Losari’s wrapper around Apple’s Object Capture sample.</text>
+<defs><clipPath id="panel-1"><rect x="56" y="210" width="320" height="176" rx="28"/></clipPath></defs>
+<rect x="56" y="210" width="320" height="176" rx="28" fill="#000" fill-opacity=".18" filter="url(#shadow)"/>
+<g clip-path="url(#panel-1)" aria-hidden="true"><use href="#environment"/><rect x="56" y="210" width="320" height="176" fill="#141414" fill-opacity=".28"/></g>
+<rect x="56" y="210" width="320" height="176" rx="28" fill="url(#material)" stroke="url(#edge)" stroke-width="1.2"/>
+<rect x="57.5" y="211.5" width="317" height="173" rx="26.5" fill="none" stroke="url(#inner-edge)" stroke-width=".7"/>
+<circle cx="96" cy="250" r="16" fill="#fff" fill-opacity=".09"/>
+<text x="96" y="257" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="500" text-anchor="middle">1</text>
+<text x="125" y="259" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="26" font-weight="600" letter-spacing="-0.6">Capture</text>
+<text x="80" y="313" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="400">ObjectCaptureSession</text>
+<text x="80" y="352" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="17.5" font-weight="400">Images + checkpoints</text>
+<defs><clipPath id="panel-2"><rect x="440" y="210" width="320" height="176" rx="28"/></clipPath></defs>
+<rect x="440" y="210" width="320" height="176" rx="28" fill="#000" fill-opacity=".18" filter="url(#shadow)"/>
+<g clip-path="url(#panel-2)" aria-hidden="true"><use href="#environment"/><rect x="440" y="210" width="320" height="176" fill="#141414" fill-opacity=".28"/></g>
+<rect x="440" y="210" width="320" height="176" rx="28" fill="url(#material)" stroke="url(#edge)" stroke-width="1.2"/>
+<rect x="441.5" y="211.5" width="317" height="173" rx="26.5" fill="none" stroke="url(#inner-edge)" stroke-width=".7"/>
+<circle cx="480" cy="250" r="16" fill="#fff" fill-opacity=".09"/>
+<text x="480" y="257" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="500" text-anchor="middle">2</text>
+<text x="509" y="259" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="26" font-weight="600" letter-spacing="-0.6">Release</text>
+<text x="464" y="313" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="400">Close the capture session.</text>
+<text x="464" y="352" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="17.5" font-weight="400">Before reconstruction begins</text>
+<defs><clipPath id="panel-3"><rect x="824" y="210" width="320" height="176" rx="28"/></clipPath></defs>
+<rect x="824" y="210" width="320" height="176" rx="28" fill="#000" fill-opacity=".18" filter="url(#shadow)"/>
+<g clip-path="url(#panel-3)" aria-hidden="true"><use href="#environment"/><rect x="824" y="210" width="320" height="176" fill="#141414" fill-opacity=".28"/></g>
+<rect x="824" y="210" width="320" height="176" rx="28" fill="url(#material)" stroke="url(#edge)" stroke-width="1.2"/>
+<rect x="825.5" y="211.5" width="317" height="173" rx="26.5" fill="none" stroke="url(#inner-edge)" stroke-width=".7"/>
+<circle cx="864" cy="250" r="16" fill="#fff" fill-opacity=".09"/>
+<text x="864" y="257" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="500" text-anchor="middle">3</text>
+<text x="893" y="259" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="26" font-weight="600" letter-spacing="-0.6">Reconstruct</text>
+<text x="848" y="313" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="400">PhotogrammetrySession</text>
+<text x="848" y="352" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="17.5" font-weight="400">Read the local image directory</text>
+<defs><clipPath id="panel-4"><rect x="824" y="434" width="320" height="176" rx="28"/></clipPath></defs>
+<rect x="824" y="434" width="320" height="176" rx="28" fill="#000" fill-opacity=".18" filter="url(#shadow)"/>
+<g clip-path="url(#panel-4)" aria-hidden="true"><use href="#environment"/><rect x="824" y="434" width="320" height="176" fill="#141414" fill-opacity=".28"/></g>
+<rect x="824" y="434" width="320" height="176" rx="28" fill="url(#material)" stroke="url(#edge)" stroke-width="1.2"/>
+<rect x="825.5" y="435.5" width="317" height="173" rx="26.5" fill="none" stroke="url(#inner-edge)" stroke-width=".7"/>
+<circle cx="864" cy="474" r="16" fill="#fff" fill-opacity=".09"/>
+<text x="864" y="481" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="500" text-anchor="middle">4</text>
+<text x="893" y="483" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="26" font-weight="600" letter-spacing="-0.6">Process</text>
+<text x="848" y="537" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="400">Write model-mobile.usdz</text>
+<text x="848" y="576" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="17.5" font-weight="400">Progress, stage, remaining time</text>
+<defs><clipPath id="panel-5"><rect x="440" y="434" width="320" height="176" rx="28"/></clipPath></defs>
+<rect x="440" y="434" width="320" height="176" rx="28" fill="#000" fill-opacity=".18" filter="url(#shadow)"/>
+<g clip-path="url(#panel-5)" aria-hidden="true"><use href="#environment"/><rect x="440" y="434" width="320" height="176" fill="#141414" fill-opacity=".28"/></g>
+<rect x="440" y="434" width="320" height="176" rx="28" fill="url(#material)" stroke="url(#edge)" stroke-width="1.2"/>
+<rect x="441.5" y="435.5" width="317" height="173" rx="26.5" fill="none" stroke="url(#inner-edge)" stroke-width=".7"/>
+<circle cx="480" cy="474" r="16" fill="#fff" fill-opacity=".09"/>
+<text x="480" y="481" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="500" text-anchor="middle">5</text>
+<text x="509" y="483" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="26" font-weight="600" letter-spacing="-0.6">Preview</text>
+<text x="464" y="537" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="400">Review in Quick Look.</text>
+<text x="464" y="576" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="17.5" font-weight="400">Return the model file URL</text>
+<defs><clipPath id="panel-6"><rect x="56" y="434" width="320" height="176" rx="28"/></clipPath></defs>
+<rect x="56" y="434" width="320" height="176" rx="28" fill="#000" fill-opacity=".18" filter="url(#shadow)"/>
+<g clip-path="url(#panel-6)" aria-hidden="true"><use href="#environment"/><rect x="56" y="434" width="320" height="176" fill="#141414" fill-opacity=".28"/></g>
+<rect x="56" y="434" width="320" height="176" rx="28" fill="url(#material)" stroke="url(#edge)" stroke-width="1.2"/>
+<rect x="57.5" y="435.5" width="317" height="173" rx="26.5" fill="none" stroke="url(#inner-edge)" stroke-width=".7"/>
+<circle cx="96" cy="474" r="16" fill="#fff" fill-opacity=".09"/>
+<text x="96" y="481" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="500" text-anchor="middle">6</text>
+<text x="125" y="483" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="26" font-weight="600" letter-spacing="-0.6">Upload</text>
+<text x="80" y="537" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="400">USDZ + generated thumbnail</text>
+<text x="80" y="576" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="17.5" font-weight="400">Save metadata separately</text>
+<path d="M382 298H434" fill="none" stroke="#080b10" stroke-opacity=".35" stroke-width="4.6" stroke-linecap="round"/>
+<path d="M382 298H434" fill="none" stroke="#b7c1d0" stroke-width="1.6" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M766 298H818" fill="none" stroke="#080b10" stroke-opacity=".35" stroke-width="4.6" stroke-linecap="round"/>
+<path d="M766 298H818" fill="none" stroke="#b7c1d0" stroke-width="1.6" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M984 392V428" fill="none" stroke="#080b10" stroke-opacity=".35" stroke-width="4.6" stroke-linecap="round"/>
+<path d="M984 392V428" fill="none" stroke="#b7c1d0" stroke-width="1.6" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M818 522H766" fill="none" stroke="#080b10" stroke-opacity=".35" stroke-width="4.6" stroke-linecap="round"/>
+<path d="M818 522H766" fill="none" stroke="#b7c1d0" stroke-width="1.6" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M434 522H382" fill="none" stroke="#080b10" stroke-opacity=".35" stroke-width="4.6" stroke-linecap="round"/>
+<path d="M434 522H382" fill="none" stroke="#b7c1d0" stroke-width="1.6" stroke-opacity="1" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrow)"/>
+<path d="M56 658H1144" fill="none" stroke="#fff" stroke-width="1" stroke-opacity="0.1" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="699" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="600">On-device until upload</text>
+<text x="56" y="735" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="400">The source photographs stay on the device.</text>
+<text x="624" y="699" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="600">Recovery and hardware</text>
+<text x="624" y="735" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="400">Cancel or fail → restart. Unsupported capture</text>
+<text x="624" y="762" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="400">hardware triggers a precondition failure.</text>
+</svg>
