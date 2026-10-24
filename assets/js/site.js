@@ -11,7 +11,6 @@
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
   const store = {
     set(k, v) { try { localStorage.setItem(k, v); } catch { /* private mode */ } },
-    del(k) { try { localStorage.removeItem(k); } catch { /* private mode */ } },
   };
 
   // A polite live region for small confirmations ("Copied").
@@ -23,23 +22,18 @@
 
   /* ------------------------------------------------------------ theme */
 
-  const sysDark = matchMedia("(prefers-color-scheme: dark)");
-  const currentTheme = () => root.getAttribute("data-theme") || (sysDark.matches ? "dark" : "light");
-  const themeMetas = $$('meta[name="theme-color"]');
-  const themeColors = { light: themeMetas[0]?.content, dark: themeMetas[1]?.content };
+  const currentTheme = () => root.getAttribute("data-theme") || "dark";
+  const themeMeta = $('meta[name="theme-color"]');
 
   function syncThemeUI() {
     const t = currentTheme();
     $$("[data-theme-toggle]").forEach((b) => b.setAttribute("aria-label", t === "dark" ? "Switch to light theme" : "Switch to dark theme"));
-    // An explicit choice should colour the browser UI too, whatever the OS says.
-    const forced = root.getAttribute("data-theme");
-    themeMetas.forEach((m, i) => { m.content = forced ? themeColors[forced] : (i === 0 ? themeColors.light : themeColors.dark); });
+    if (themeMeta) themeMeta.content = themeMeta.dataset[t];
   }
 
   function applyTheme(next) {
-    // Choosing the OS theme again clears the override, so OS changes are followed.
-    if (next === (sysDark.matches ? "dark" : "light")) { root.removeAttribute("data-theme"); store.del("theme"); }
-    else { root.setAttribute("data-theme", next); store.set("theme", next); }
+    root.setAttribute("data-theme", next);
+    store.set("theme", next);
     syncThemeUI();
   }
 
@@ -60,7 +54,6 @@
 
   function theme() {
     syncThemeUI();
-    sysDark.addEventListener("change", syncThemeUI);
     $$("[data-theme-toggle]").forEach((b) => b.addEventListener("click", () => toggleTheme(b)));
   }
 
@@ -600,6 +593,62 @@
     vids.forEach((v) => io.observe(v));
   }
 
+  /* ------------------------------------------------------- cover film */
+
+  // The cover film plays muted and loops, but it is longer than five
+  // seconds, so it gets a pause control. Attach its source only near the
+  // viewport or on Play; reduced-motion visitors always start it manually.
+  // The first play opens at data-start, past the film's near-black opening
+  // second; later loops still run from 0, so the seam stays invisible.
+  function cover() {
+    const fig = $("[data-cover]");
+    if (!fig) return;
+    const v = $("[data-cover-video]", fig);
+    const btn = $("[data-cover-toggle]", fig);
+    if (!v) return;
+    let held = false;
+
+    const sync = () => {
+      const playing = !v.paused && !v.ended;
+      fig.classList.toggle("is-playing", playing);
+      if (!btn) return;
+      btn.textContent = playing ? "Pause" : "Play";
+      btn.setAttribute("aria-label", playing ? "Pause the cover film" : "Play the cover film");
+      btn.setAttribute("aria-pressed", playing ? "true" : "false");
+    };
+    const play = () => {
+      const source = $("source[data-src]", v);
+      if (source) {
+        source.src = source.dataset.src;
+        delete source.dataset.src;
+        const start = +v.dataset.start || 0;
+        if (start) v.addEventListener("loadedmetadata", () => { if (v.currentTime < start) v.currentTime = start; }, { once: true });
+        v.load();
+      }
+      v.play().catch(sync);
+    };
+
+    v.addEventListener("play", sync);
+    v.addEventListener("pause", sync);
+
+    if (btn) {
+      btn.addEventListener("click", () => {
+        if (v.paused) { held = false; play(); }
+        else { held = true; v.pause(); }
+        sync();
+      });
+    }
+
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+        if (en.isIntersecting) { if (!held && !reduced.matches) play(); }
+        else if (!v.paused) v.pause();
+      }), { rootMargin: "120px 0px" });
+      io.observe(v);
+    }
+    sync();
+  }
+
   /* ------------------------------------------------------------ reveals */
 
   // Only elements that start below the fold wait to be revealed, so the first
@@ -775,6 +824,7 @@
   videos();
   copy();
   cmdk();
+  cover();
 
   // These measure the page. Reading geometry before the first frame would
   // force the browser to do the whole initial layout inside this script, so
