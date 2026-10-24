@@ -149,6 +149,26 @@
   }
 }
 
+// Keep eye labels aligned with the two halves without covering the footage.
+.eye-comparison {
+  overflow: hidden;
+  border: 1px solid #34414f;
+  border-radius: var(--radius);
+  background: #111820;
+  video { display: block; border-radius: 0; }
+}
+.eye-comparison__labels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  font-family: var(--f-mono);
+  font-size: .8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  span { padding: .7rem .5rem; color: #8fc5f3; }
+  span + span { border-left: 1px solid #34414f; color: #efb17f; }
+}
+
 // Scale diagrams to their column; full-size links offer a closer look.
 .case-diagram__viewport {
   overflow: hidden;

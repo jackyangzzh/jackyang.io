@@ -1,10 +1,13 @@
 {%- comment -%}
 An SVG diagram that fits its container, with a full-size link.
-Params: src, title, height (for a 1000-wide viewBox), alt, caption
+Params: src, title, height (for a 1000-wide viewBox), alt, caption.
+Optional: mobile and mobile_height (for a 600-wide viewBox).
 {%- endcomment -%}
 <figure class="case-diagram">
   <div class="case-diagram__viewport">
-    <img src="{{ include.src | relative_url }}" alt="{{ include.alt | escape }}" width="1000" height="{{ include.height }}" loading="lazy" decoding="async">
+    {% if include.mobile %}<picture>
+      <source media="(max-width: 600px)" srcset="{{ include.mobile | relative_url }}" width="600" height="{{ include.mobile_height }}">
+    {% endif %}<img src="{{ include.src | relative_url }}" alt="{{ include.alt | escape }}" width="1000" height="{{ include.height }}" loading="lazy" decoding="async">{% if include.mobile %}</picture>{% endif %}
   </div>
   <figcaption>
     {{ include.caption }}

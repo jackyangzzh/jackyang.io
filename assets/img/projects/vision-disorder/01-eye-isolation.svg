@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="850" viewBox="0 0 1000 850" role="img" aria-labelledby="title desc"><title id="title">Eye isolation: layer, mask, output</title><desc id="desc">Visibility matrix for shared and eye-specific Unity objects. Left camera mask 311, right camera mask 567. Layer selection, culling mask and stereo destination must agree.</desc><rect width="1000" height="850" fill="#111820"/>
+<text x="48" y="43" font-family="Menlo,Consolas,monospace" font-size="16" font-weight="400" text-anchor="start" fill="#a9b6c3">FIG. 01  /  BINOCULAR RENDERING</text>
+<path d="M48 59H952" fill="none" stroke="#34414f" stroke-width="1"/>
+<text x="48" y="110" font-family="Georgia,Times New Roman,serif" font-size="42" font-weight="400" text-anchor="start" fill="#edf2f6">One scene. Two eye views.</text>
+<text x="48" y="148" font-family="Helvetica,Arial,sans-serif" font-size="23" font-weight="400" text-anchor="start" fill="#a9b6c3">Three settings determine what reaches each eye.</text>
+<text x="48" y="202" font-family="Menlo,Consolas,monospace" font-size="17" font-weight="400" text-anchor="start" fill="#a9b6c3">01</text>
+<text x="48" y="237" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="600" text-anchor="start" fill="#edf2f6">Object layer</text>
+<text x="48" y="269" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#a9b6c3">Select content</text>
+<path d="M48 288H328" fill="none" stroke="#edf2f6" stroke-width="1"/>
+<path d="M320 201H338" fill="none" stroke="#a9b6c3" stroke-width="1.5"/>
+<path d="M332 196l6 5-6 5" fill="none" stroke="#a9b6c3" stroke-width="1.5"/>
+<text x="360" y="202" font-family="Menlo,Consolas,monospace" font-size="17" font-weight="400" text-anchor="start" fill="#a9b6c3">02</text>
+<text x="360" y="237" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="600" text-anchor="start" fill="#edf2f6">Culling mask</text>
+<text x="360" y="269" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#a9b6c3">Select visibility</text>
+<path d="M360 288H640" fill="none" stroke="#edf2f6" stroke-width="1"/>
+<path d="M632 201H650" fill="none" stroke="#a9b6c3" stroke-width="1.5"/>
+<path d="M644 196l6 5-6 5" fill="none" stroke="#a9b6c3" stroke-width="1.5"/>
+<text x="672" y="202" font-family="Menlo,Consolas,monospace" font-size="17" font-weight="400" text-anchor="start" fill="#a9b6c3">03</text>
+<text x="672" y="237" font-family="Helvetica,Arial,sans-serif" font-size="26" font-weight="600" text-anchor="start" fill="#edf2f6">Stereo target</text>
+<text x="672" y="269" font-family="Helvetica,Arial,sans-serif" font-size="22" font-weight="400" text-anchor="start" fill="#a9b6c3">Select output</text>
+<path d="M672 288H952" fill="none" stroke="#edf2f6" stroke-width="1"/>
+<text x="48" y="337" font-family="Menlo,Consolas,monospace" font-size="16" font-weight="400" text-anchor="start" fill="#a9b6c3">VISIBILITY MATRIX</text>
+<circle cx="542" cy="364" r="4" fill="#8fc5f3"/>
+<text x="600" y="372" font-family="Helvetica,Arial,sans-serif" font-size="24" font-weight="600" text-anchor="middle" fill="#8fc5f3">Left eye</text>
+<circle cx="779" cy="364" r="4" fill="#efb17f"/>
+<text x="843" y="372" font-family="Helvetica,Arial,sans-serif" font-size="24" font-weight="600" text-anchor="middle" fill="#efb17f">Right eye</text>
+<text x="600" y="405" font-family="Menlo,Consolas,monospace" font-size="19" font-weight="400" text-anchor="middle" fill="#8fc5f3">mask 311</text>
+<text x="843" y="405" font-family="Menlo,Consolas,monospace" font-size="19" font-weight="400" text-anchor="middle" fill="#efb17f">mask 567</text>
+<path d="M48 424H952" fill="none" stroke="#34414f" stroke-width="1"/>
+<text x="48" y="461" font-family="Helvetica,Arial,sans-serif" font-size="25" font-weight="500" text-anchor="start" fill="#edf2f6">Shared context</text>
+<text x="48" y="493" font-family="Helvetica,Arial,sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#a9b6c3">Layers 0, 1, 2, 4, 5</text>
+<rect x="542" y="441" width="116" height="48" rx="24" fill="#20364a" stroke="none"/>
+<text x="600" y="473" font-family="Helvetica,Arial,sans-serif" font-size="23" font-weight="400" text-anchor="middle" fill="#8fc5f3">Visible</text>
+<rect x="785" y="441" width="116" height="48" rx="24" fill="#3b2d25" stroke="none"/>
+<text x="843" y="473" font-family="Helvetica,Arial,sans-serif" font-size="23" font-weight="400" text-anchor="middle" fill="#efb17f">Visible</text>
+<path d="M48 508H952" fill="none" stroke="#34414f" stroke-width="1"/>
+<text x="48" y="545" font-family="Helvetica,Arial,sans-serif" font-size="25" font-weight="500" text-anchor="start" fill="#edf2f6">Left-eye stimulus</text>
+<text x="48" y="577" font-family="Helvetica,Arial,sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#a9b6c3">Layer 8 · bit 256</text>
+<rect x="542" y="525" width="116" height="48" rx="24" fill="#20364a" stroke="none"/>
+<text x="600" y="557" font-family="Helvetica,Arial,sans-serif" font-size="23" font-weight="400" text-anchor="middle" fill="#8fc5f3">Visible</text>
+<text x="843" y="557" font-family="Helvetica,Arial,sans-serif" font-size="23" font-weight="400" text-anchor="middle" fill="#a9b6c3">Excluded</text>
+<path d="M48 592H952" fill="none" stroke="#34414f" stroke-width="1"/>
+<text x="48" y="629" font-family="Helvetica,Arial,sans-serif" font-size="25" font-weight="500" text-anchor="start" fill="#edf2f6">Right-eye stimulus</text>
+<text x="48" y="661" font-family="Helvetica,Arial,sans-serif" font-size="20" font-weight="400" text-anchor="start" fill="#a9b6c3">Layer 9 · bit 512</text>
+<text x="600" y="641" font-family="Helvetica,Arial,sans-serif" font-size="23" font-weight="400" text-anchor="middle" fill="#a9b6c3">Excluded</text>
+<rect x="785" y="609" width="116" height="48" rx="24" fill="#3b2d25" stroke="none"/>
+<text x="843" y="641" font-family="Helvetica,Arial,sans-serif" font-size="23" font-weight="400" text-anchor="middle" fill="#efb17f">Visible</text>
+<path d="M48 676H952" fill="none" stroke="#34414f" stroke-width="1"/>
+<text x="48" y="718" font-family="Menlo,Consolas,monospace" font-size="15" font-weight="400" text-anchor="start" fill="#8fc5f3">CANVAS SETUP</text>
+<text x="48" y="748" font-family="Helvetica,Arial,sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#edf2f6">Canvas + image use the same eye layer.</text>
+<text x="48" y="779" font-family="Helvetica,Arial,sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#a9b6c3">World Camera handles UI events.</text>
+<path d="M514 704L514 780" fill="none" stroke="#34414f" stroke-width="1"/>
+<text x="550" y="718" font-family="Menlo,Consolas,monospace" font-size="15" font-weight="400" text-anchor="start" fill="#efb17f">A FIX FROM THE PROJECT HISTORY</text>
+<text x="550" y="748" font-family="Helvetica,Arial,sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#edf2f6">LeftEyeCanvas: layer 9 → layer 8.</text>
+<text x="550" y="779" font-family="Helvetica,Arial,sans-serif" font-size="21" font-weight="400" text-anchor="start" fill="#a9b6c3">A name alone is not a visibility rule.</text>
+<path d="M48 802H952" fill="none" stroke="#34414f" stroke-width="1"/>
+<text x="48" y="830" font-family="Menlo,Consolas,monospace" font-size="17" font-weight="400" text-anchor="start" fill="#edf2f6">311 = 55 + 256  /  567 = 55 + 512</text>
+<text x="952" y="830" font-family="Menlo,Consolas,monospace" font-size="17" font-weight="400" text-anchor="end" fill="#a9b6c3">55 = five shared layers</text></svg>

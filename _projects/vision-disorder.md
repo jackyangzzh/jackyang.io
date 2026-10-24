@@ -1,9 +1,9 @@
 ---
 layout: project
-weight: 7
+weight: 5
 title: 'Color Vision & Binocular Rivalry in VR'
 description: >
-  Two research prototypes using consumer VR headsets to explore color vision deficiency and binocular rivalry.
+  Per-eye rendering in Unity and SteamVR, built to explore color perception and binocular rivalry.
 date: '2020-01-01'
 category: research
 image: 
@@ -14,43 +14,68 @@ image:
     - [854, /assets/img/projects/kats.webp]
   alt: VR headset displaying different color-adjusted scenes to the left and right eyes
 links:
+  - title: Journal Paper
+    url: https://doi.org/10.1088/2040-8986/abf171
   - title: Technical Report
     url: /assets/files/Breaking%20Binocular%20Redundancy.pdf
   - title: GitHub
     url: https://github.com/jackyangzzh/Monocular-Vision-VR-demo
 
 ---
-At the Kats Research Group, I led **two VR research prototypes**: one for simulating color vision deficiency and another for exploring binocular rivalry. Both used consumer headsets so the demos could be reproduced outside a specialized optics lab.
+At the Kats Research Group, I built VR prototypes to explore color perception and **what happens when each eye receives different information**. Unity and SteamVR let me create static-image and moving-object comparisons in a consumer headset.
 
-## A headset instead of a full optics setup
+This work contributed to the research behind my co-authored [Journal of Optics paper](https://doi.org/10.1088/2040-8986/abf171) on converting ultraviolet images into visible light, published in 2021.
 
-Specialized optics equipment gives researchers control, but its cost and setup requirements can make it difficult to use for teaching. I wanted to see **which parts of an experiment a consumer headset could reproduce** well enough to be useful.
+## Two views, one scene
 
-These were built for teaching and early perception experiments, and **diagnosis was out of scope**. Someone without an optics background should be able to compare the images and understand what had changed.
+I used a shared camera prefab with **separate layers, culling masks, and stereo targets** for each eye. The environment stays shared; selected images or objects reach only their intended eye. Getting all three settings to agree is what makes the comparison work.
 
-## Color vision deficiency
+<figure>
+  <div class="eye-comparison">
+    <div class="eye-comparison__labels"><span>Left Eye</span><span>Right Eye</span></div>
+  <video src="/assets/img/projects/staticRivalry.webm" loop muted playsinline controls preload="none" poster="/assets/img/projects/kats.webp" data-deferred-video data-autoplay="true" aria-label="Original static-image comparison showing the left and right eye views"></video>
+  </div>
+  <figcaption>Original static comparison. Keyboard controls select among eleven prepared images independently for each eye.</figcaption>
+</figure>
 
-<img src="/assets/img/projects/colorDeficiencyCover.webp" srcset="/assets/img/projects/colorDeficiencyCover-480.webp 480w, /assets/img/projects/colorDeficiencyCover-720.webp 720w, /assets/img/projects/colorDeficiencyCover.webp 837w" sizes="(min-width: 86em) 52rem, (min-width: 54em) 46rem, (min-width: 42em) 40rem, 100vw" alt="Color vision deficiency simulation" loading="lazy" decoding="async" width="837" height="276">
+{% include pro/diagram.html
+  src="/assets/img/projects/vision-disorder/01-eye-isolation.svg"
+  mobile="/assets/img/projects/vision-disorder/01-eye-isolation-mobile.svg"
+  mobile_height="1130"
+  title="Eye isolation: layer, mask, output"
+  height="850"
+  alt="Three settings isolate each eye: object layer, camera culling mask, and stereo target. Shared layers 0, 1, 2, 4 and 5 appear in both views. Layer 8 appears only through the left camera with mask 311; layer 9 appears only through the right camera with mask 567."
+  caption="Visibility follows the layer and mask, not the object name. Both a world-space canvas and its image need the correct eye layer."
+%}
 
-I designed chromatic adjustment algorithms to approximate how people with color vision deficiency perceive hyperspectral images. The system reached **90% accuracy** in simulating color vision deficiency. I then built a **color-calibrated VR demo** for comparing the transformed image with its reference. That result doesn't mean the simulation can reproduce every person's vision.
+## A shared clock, different motion
 
-*This work is separate from my co-authored [Journal of Optics paper](https://doi.org/10.1088/2040-8986/abf171) on converting ultraviolet images into visible light.*
+For the dynamic demo, I gave each eye its own cube and let the operator select a movement axis. The saved scene starts with matching X-axis motion; selecting Y for the left cube produces the orthogonal comparison shown below.
 
-## Binocular rivalry
+<figure>
+  <div class="eye-comparison">
+    <div class="eye-comparison__labels"><span>Left Eye</span><span>Right Eye</span></div>
+  <video src="/assets/img/projects/dynamicRivalry.webm" loop muted playsinline controls preload="none" poster="/assets/img/projects/kats.webp" data-deferred-video data-autoplay="true" aria-label="Original moving-cube comparison showing different trajectories in the left and right eye views"></video>
+  </div>
+  <figcaption>Original dynamic comparison. The two eye views share a scene while their cubes move on separately selected axes.</figcaption>
+</figure>
 
-<video src="/assets/img/projects/staticRivalry.webm" loop muted playsinline controls preload="none" poster="/assets/img/projects/kats.webp" data-deferred-video data-autoplay="true" aria-label="Static rivalry demonstration"></video>
-<video src="/assets/img/projects/dynamicRivalry.webm" loop muted playsinline controls preload="none" poster="/assets/img/projects/kats.webp" data-deferred-video data-autoplay="true" aria-label="Dynamic rivalry demonstration"></video>
+{% include pro/diagram.html
+  src="/assets/img/projects/vision-disorder/02-motion.svg"
+  mobile="/assets/img/projects/vision-disorder/02-motion-mobile.svg"
+  mobile_height="1260"
+  title="A shared clock, two trajectories"
+  height="720"
+  alt="Calculated trajectories at an angular rate of one radian per second. The default left and right X motions trace the same sine wave over a 6.28-second period. A Y/X condition traces perpendicular line segments through a common origin. Blue identifies the left eye; dashed orange identifies the right."
+  caption="Calculated world-space paths from a common origin, with no retained offset. These are source-derived trajectories, not retinal coordinates or participant measurements."
+%}
 
-Normally, the visual system merges what each eye sees into a single image. Using the headset in place of a mirror stereoscope, I showed each eye different static and moving content to produce **controlled rivalry effects**.
+One implementation lesson was that **position and phase need separate controls**: Space recenters the cubes for one update, but motion resumes from the shared clock. A repeatable experiment needs explicit start, pause, and reset behavior.
 
-## What I built
+## Color perception and the research connection
 
-- Implemented the **color pipeline in Unity's HDRP**, including lookup-table blending and per-eye calibration.
-- Built tools to **capture headset sensor data**, compare it with **hyperspectral reference images**, and export reports.
-- Worked with **ophthalmology advisors** to keep the simulations grounded in the underlying vision science.
+<img src="/assets/img/projects/colorDeficiencyCover.webp" srcset="/assets/img/projects/colorDeficiencyCover-480.webp 480w, /assets/img/projects/colorDeficiencyCover-720.webp 720w, /assets/img/projects/colorDeficiencyCover.webp 837w" sizes="(min-width: 86em) 52rem, (min-width: 54em) 46rem, (min-width: 42em) 40rem, 100vw" alt="Reference and transformed images from the color vision deficiency prototype" loading="lazy" decoding="async" width="837" height="276">
 
-## The limits matter
+Alongside the rivalry demo, I explored color vision deficiency through transformed-image comparisons. The journal paper examines a physical optical system and discusses sending converted spectral information to one eye to distinguish it from ordinary visible content. Per-eye control gave my VR work a way to explore that broader question.
 
-Consumer displays can't reproduce the full range of human perception, so I **documented those limits** and kept the scope narrow.
-
-Within that scope, VR gave me a practical way to explain color perception and accessibility to people outside optics, as long as I explained the demo's limitations as clearly as the comparison itself.
+The prototype controls **which stimulus each eye receives**. Measuring the resulting percept requires calibrated displays, recorded responses, and a study protocol. That distinction guided how I described the demonstration and what I would build next.

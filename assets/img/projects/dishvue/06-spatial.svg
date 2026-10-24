@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc"><title id="title">A small window. A closer look.</title><desc id="desc">The detail window is 0.6 by 0.6 by 0.6 metres. Rotation uses the vertical axis. Magnification is clamped from 1 to 1.5 times. Model dimensions are not calibrated, and the scale cap does not guarantee geometry fits. Physical-size claims need measured asset dimensions and real-device comparison. Window repositioning and USDZ export do not create an in-app tabletop anchor.</desc>
+
+<defs>
+  <linearGradient id="background" x1="0" y1="0" x2=".7" y2="1"><stop stop-color="#111722"/><stop offset=".55" stop-color="#080e17"/><stop offset="1" stop-color="#151c28"/></linearGradient>
+  <radialGradient id="ambient"><stop stop-color="#b6d9ff" stop-opacity=".23"/><stop offset=".5" stop-color="#839fc8" stop-opacity=".08"/><stop offset="1" stop-color="#b6d9ff" stop-opacity="0"/></radialGradient>
+  <radialGradient id="warm-light"><stop stop-color="#e9c2a4" stop-opacity=".22"/><stop offset=".5" stop-color="#c59678" stop-opacity=".08"/><stop offset="1" stop-color="#c59678" stop-opacity="0"/></radialGradient>
+  <radialGradient id="violet-light"><stop stop-color="#bac2ff" stop-opacity=".13"/><stop offset="1" stop-color="#bac2ff" stop-opacity="0"/></radialGradient>
+  <linearGradient id="material" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#fff" stop-opacity=".16"/><stop offset=".5" stop-color="#f3f0ea" stop-opacity=".07"/><stop offset="1" stop-color="#fff" stop-opacity=".11"/></linearGradient>
+  <linearGradient id="edge" x1="0" y1="0" x2=".6" y2="1"><stop stop-color="#fff" stop-opacity=".62"/><stop offset=".3" stop-color="#fff" stop-opacity=".18"/><stop offset=".65" stop-color="#fff" stop-opacity=".09"/><stop offset="1" stop-color="#fff" stop-opacity=".32"/></linearGradient>
+  <linearGradient id="inner-edge" x1="0" y1="0" x2=".65" y2="1"><stop stop-color="#fff" stop-opacity=".18"/><stop offset=".42" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".12"/></linearGradient>
+  <linearGradient id="specular" x1="0" y1="0" x2="1" y2=".25"><stop stop-color="#fff8ec" stop-opacity=".94"/><stop offset=".35" stop-color="#eaf4ff" stop-opacity=".4"/><stop offset="1" stop-color="#eaf4ff" stop-opacity="0"/></linearGradient>
+  <linearGradient id="rim-light" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#bbdeff" stop-opacity="0"/><stop offset=".55" stop-color="#bbdeff" stop-opacity=".24"/><stop offset=".85" stop-color="#d5eeff" stop-opacity=".85"/><stop offset="1" stop-color="#fff5e9" stop-opacity=".8"/></linearGradient>
+  <linearGradient id="lens" x1="0" y1="0" x2="1" y2=".7"><stop stop-color="#fff" stop-opacity=".08"/><stop offset=".3" stop-color="#fff" stop-opacity=".015"/><stop offset=".6" stop-color="#d5eaff" stop-opacity="0"/><stop offset="1" stop-color="#d5eaff" stop-opacity=".1"/></linearGradient>
+  <linearGradient id="volume" x1="0" y1="0" x2="1" y2=".8"><stop stop-color="#d4e8ff" stop-opacity=".18"/><stop offset=".45" stop-color="#bac8db" stop-opacity=".025"/><stop offset="1" stop-color="#c7e1ff" stop-opacity=".12"/></linearGradient>
+  <linearGradient id="porcelain" x1="0" y1="0" x2=".1" y2="1"><stop stop-color="#fafbfc"/><stop offset=".48" stop-color="#d4dce4"/><stop offset=".85" stop-color="#9baebf"/><stop offset="1" stop-color="#d7e7ef"/></linearGradient>
+  <linearGradient id="plate-side" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#9eafbd"/><stop offset=".45" stop-color="#d9e1e7"/><stop offset="1" stop-color="#7c8e9d"/></linearGradient>
+  <radialGradient id="dish-well"><stop stop-color="#cbd6df"/><stop offset=".8" stop-color="#d4dfe8"/><stop offset="1" stop-color="#f6f8fa"/></radialGradient>
+  <linearGradient id="toast-side" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d0a365"/><stop offset=".5" stop-color="#a26937"/><stop offset="1" stop-color="#694425"/></linearGradient>
+  <radialGradient id="toast-top" cx=".4" cy=".3"><stop stop-color="#edce8f"/><stop offset=".6" stop-color="#d5ad6b"/><stop offset="1" stop-color="#a7713e"/></radialGradient>
+  <linearGradient id="avocado" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#cfdb8d"/><stop offset=".35" stop-color="#a5c579"/><stop offset=".75" stop-color="#5e9362"/><stop offset="1" stop-color="#355f48"/></linearGradient>
+  <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a2bb7e"/><stop offset=".45" stop-color="#587c5c"/><stop offset="1" stop-color="#284b3c"/></linearGradient>
+  <linearGradient id="radish" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff3df"/><stop offset="1" stop-color="#e6d0bf"/></linearGradient>
+  <linearGradient id="orbit" x1="1" y1="0" x2="0" y2=".5"><stop stop-color="#b8dfff" stop-opacity=".3"/><stop offset=".5" stop-color="#e7f6ff" stop-opacity=".9"/><stop offset="1" stop-color="#aedcff"/></linearGradient>
+  <filter id="shadow" x="-20%" y="-40%" width="140%" height="200%"><feDropShadow dx="0" dy="15" stdDeviation="15" flood-color="#000" flood-opacity=".35"/></filter>
+  <filter id="glint" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="2"/></filter>
+  <filter id="food-shadow" x="-30%" y="-50%" width="160%" height="220%"><feDropShadow dx="0" dy="7" stdDeviation="5" flood-color="#182a28" flood-opacity=".35"/></filter>
+  <filter id="blur" x="-30%" y="-150%" width="160%" height="400%"><feGaussianBlur stdDeviation="12"/></filter>
+  <marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M1 1L5.5 3.5L1 6" fill="none" stroke="#b7c1d0" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  <marker id="blue-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M1 1L5.5 3.5L1 6" fill="none" stroke="#a7cfff" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round"/></marker>
+</defs>
+<defs><g id="environment">
+          <rect width="1200" height="800" fill="#080b10"/>
+        </g></defs>
+<use href="#environment" aria-hidden="true"/>
+<text x="56" y="48" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="500">Spatial interaction</text>
+<text x="56" y="106" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="44" font-weight="600" letter-spacing="-1.4">A small window. A closer look.</text>
+<text x="56" y="146" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="21" font-weight="400">A 0.6-metre volume. A few deliberate gestures.</text>
+<ellipse cx="330" cy="605" rx="225" ry="24" fill="#000" fill-opacity=".55" filter="url(#blur)"/>
+<ellipse cx="340" cy="594" rx="194" ry="12" fill="#b3d8ff" fill-opacity=".16" filter="url(#blur)"/>
+<defs><clipPath id="volume-silhouette"><path d="M230 194H510Q550 194 550 234V470Q550 496 526 514L438 575Q430 580 420 580H140Q100 580 100 540V304Q100 278 126 267L200 210Q210 194 230 194Z"/></clipPath></defs>
+<g clip-path="url(#volume-silhouette)" aria-hidden="true"><use href="#environment"/><rect x="100" y="194" width="450" height="386" fill="#111820" fill-opacity=".22"/></g>
+<rect x="190" y="194" width="360" height="316" rx="40" fill="url(#volume)" fill-opacity=".5" stroke="url(#inner-edge)" stroke-width="1.2"/>
+<path d="M140 264H420C438 264 451 274 458 291L546 221C540 205 527 194 510 194H230C213 194 200 203 195 218L108 287C114 272 126 264 140 264Z" fill="url(#volume)" stroke="url(#edge)" stroke-width="1.2"/>
+<path d="M460 304L550 234V470Q550 496 526 514L438 575Q460 562 460 540Z" fill="url(#material)" stroke="url(#edge)" stroke-width="1.3"/>
+<path d="M140 580H420Q440 580 452 562L532 502H230Q210 502 200 490L110 560Q117 580 140 580Z" fill="url(#volume)" stroke="url(#inner-edge)" stroke-width="1"/>
+<rect x="100" y="264" width="360" height="316" rx="40" fill="url(#volume)" fill-opacity=".4"/>
+<path d="M476 306L535 260V446" fill="none" stroke="#d8eeff" stroke-opacity=".19" stroke-width="8" stroke-linecap="round" filter="url(#glint)"/>
+<path d="M150 274H416Q450 274 450 308V344" fill="none" stroke="#e6f4ff" stroke-opacity=".14" stroke-width="8" stroke-linecap="round" filter="url(#glint)"/>
+<path d="M151 450C151 413 231 384 331 384C431 384 512 413 512 450" fill="none" stroke="#d5eaff" stroke-opacity=".32" stroke-width="1.6" stroke-dasharray="2 7" stroke-linecap="round"/>
+<ellipse cx="331" cy="499" rx="149" ry="29" fill="#0a1420" fill-opacity=".48" filter="url(#blur)"/>
+<path d="M188 450C188 475 252 496 331 496C410 496 474 475 474 450L470 462C464 487 404 507 331 507C258 507 198 487 192 462Z" fill="url(#plate-side)"/>
+<ellipse cx="331" cy="450" rx="143" ry="46" fill="url(#porcelain)" stroke="#fbfdff" stroke-opacity=".65" stroke-width="1.1"/>
+<ellipse cx="331" cy="447" rx="126" ry="36" fill="#ecf1f5" fill-opacity=".65" stroke="#fff" stroke-opacity=".42" stroke-width=".8"/>
+<ellipse cx="331" cy="446" rx="105" ry="29" fill="url(#dish-well)"/>
+<g filter="url(#food-shadow)">
+<path d="M247 421C247 397 415 397 415 421V432C410 459 252 459 247 432Z" fill="url(#toast-side)"/>
+<ellipse cx="331" cy="421" rx="84" ry="30" fill="url(#toast-top)"/>
+<ellipse cx="331" cy="419" rx="75" ry="25" fill="#dce1b2" fill-opacity=".8"/>
+<g transform="translate(0 4) rotate(-8 331 410)"><path d="M278 413C290 387 333 381 362 392C381 399 391 411 388 422C371 408 350 402 327 405C307 407 291 416 283 425Z" fill="url(#avocado)" stroke="#dbe6ac" stroke-opacity=".45" stroke-width=".7"/><path d="M283 413C304 390 348 389 375 406" fill="none" stroke="#e7edba" stroke-opacity=".55" stroke-width="1.1" stroke-linecap="round"/></g>
+<g transform="translate(4 -3) rotate(-3 331 410)"><path d="M278 413C290 387 333 381 362 392C381 399 391 411 388 422C371 408 350 402 327 405C307 407 291 416 283 425Z" fill="url(#avocado)" stroke="#dbe6ac" stroke-opacity=".45" stroke-width=".7"/><path d="M283 413C304 390 348 389 375 406" fill="none" stroke="#e7edba" stroke-opacity=".55" stroke-width="1.1" stroke-linecap="round"/></g>
+<g transform="translate(9 -10) rotate(3 331 410)"><path d="M278 413C290 387 333 381 362 392C381 399 391 411 388 422C371 408 350 402 327 405C307 407 291 416 283 425Z" fill="url(#avocado)" stroke="#dbe6ac" stroke-opacity=".45" stroke-width=".7"/><path d="M283 413C304 390 348 389 375 406" fill="none" stroke="#e7edba" stroke-opacity=".55" stroke-width="1.1" stroke-linecap="round"/></g>
+<g transform="translate(15 -17) rotate(9 331 410)"><path d="M278 413C290 387 333 381 362 392C381 399 391 411 388 422C371 408 350 402 327 405C307 407 291 416 283 425Z" fill="url(#avocado)" stroke="#dbe6ac" stroke-opacity=".45" stroke-width=".7"/><path d="M283 413C304 390 348 389 375 406" fill="none" stroke="#e7edba" stroke-opacity=".55" stroke-width="1.1" stroke-linecap="round"/></g>
+<ellipse cx="388" cy="412" rx="16" ry="10" transform="rotate(-18 388 412)" fill="url(#radish)" stroke="#b65b6d" stroke-width="2.4"/>
+<ellipse cx="373" cy="395" rx="14" ry="9" transform="rotate(16 373 395)" fill="url(#radish)" stroke="#c47b85" stroke-width="2.1"/>
+<path d="M345 403Q349 380 367 363M353 385Q370 377 383 382M351 390Q336 380 333 368" fill="none" stroke="#a5bd85" stroke-width="2" stroke-linecap="round"/>
+<path d="M365 367C355 349 378 345 379 356C380 363 372 368 365 367Z" fill="url(#leaf)"/>
+<path d="M378 381C382 366 401 377 393 385C387 391 379 386 378 381Z" fill="url(#leaf)"/>
+<path d="M336 375C317 374 324 352 334 359C340 362 341 370 336 375Z" fill="url(#leaf)"/>
+<path d="M304 394C277 396 274 375 291 376C304 371 317 381 304 394Z" fill="#70516b" stroke="#b197ab" stroke-opacity=".45" stroke-width=".8"/>
+<path d="M304 394L293 382M305 393L311 380" fill="none" stroke="#d9b7ca" stroke-opacity=".4" stroke-width=".7"/>
+<path d="M263 428L267 427M274 441L278 442M396 433L400 431M348 448L353 448" stroke="#eed39e" stroke-width="2" stroke-linecap="round"/>
+</g>
+<path d="M512 450C512 489 431 520 331 520C231 520 151 489 151 450" fill="none" stroke="url(#orbit)" stroke-width="2.3" stroke-linecap="round" marker-end="url(#blue-arrow)"/>
+<rect x="100" y="264" width="360" height="316" rx="40" fill="url(#lens)" fill-opacity=".32" stroke="url(#edge)" stroke-width="2"/>
+<rect x="104" y="268" width="352" height="308" rx="36" fill="none" stroke="url(#inner-edge)" stroke-width=".9"/>
+<path d="M197 217Q205 195 232 195H460" fill="none" stroke="url(#specular)" stroke-width="1.5" stroke-linecap="round"/>
+<defs>
+<linearGradient id="glints-1-top" gradientUnits="userSpaceOnUse" x1="140" y1="265" x2="370.0" y2="265"><stop stop-color="#f4faff" stop-opacity=".85"/><stop offset="1" stop-color="#f4faff" stop-opacity="0"/></linearGradient>
+<linearGradient id="glints-1-left" gradientUnits="userSpaceOnUse" x1="101" y1="304" x2="101" y2="359"><stop stop-color="#f4faff" stop-opacity=".85"/><stop offset="1" stop-color="#f4faff" stop-opacity="0"/></linearGradient>
+<linearGradient id="glints-1-bottom" gradientUnits="userSpaceOnUse" x1="420" y1="579" x2="208.0" y2="579"><stop stop-color="#f4faff" stop-opacity=".85"/><stop offset="1" stop-color="#f4faff" stop-opacity="0"/></linearGradient>
+<linearGradient id="glints-1-right" gradientUnits="userSpaceOnUse" x1="459" y1="540" x2="459" y2="485"><stop stop-color="#f4faff" stop-opacity=".85"/><stop offset="1" stop-color="#f4faff" stop-opacity="0"/></linearGradient>
+</defs>
+<path d="M140 265H370.0" fill="none" stroke="url(#glints-1-top)" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M101 304V359" fill="none" stroke="url(#glints-1-left)" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M420 579H208.0" fill="none" stroke="url(#glints-1-bottom)" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M459 540V485" fill="none" stroke="url(#glints-1-right)" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M101 304Q101 265 140 265 M420 579Q459 579 459 540" fill="none" stroke="#edf6ff" stroke-opacity=".85" stroke-width="1.8" stroke-linecap="round"/>
+<defs><clipPath id="panel-1"><rect x="193" y="626" width="278" height="54" rx="27.0"/></clipPath></defs>
+<rect x="193" y="626" width="278" height="54" rx="27.0" fill="#000" fill-opacity=".18" filter="url(#shadow)"/>
+<g clip-path="url(#panel-1)" aria-hidden="true"><use href="#environment"/><rect x="193" y="626" width="278" height="54" fill="#141414" fill-opacity=".28"/></g>
+<rect x="193" y="626" width="278" height="54" rx="27.0" fill="url(#material)" stroke="url(#edge)" stroke-width="1.2"/>
+<rect x="194.5" y="627.5" width="275" height="51" rx="25.5" fill="none" stroke="url(#inner-edge)" stroke-width=".7"/>
+<text x="332" y="662" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="26" font-weight="500" text-anchor="middle" letter-spacing="-0.5">0.6 m window</text>
+<text x="332" y="713" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="400" text-anchor="middle">Illustrative dish · scale uncalibrated</text>
+<defs><clipPath id="panel-2"><rect x="636" y="210" width="508" height="132" rx="28"/></clipPath></defs>
+<rect x="636" y="210" width="508" height="132" rx="28" fill="#000" fill-opacity=".18" filter="url(#shadow)"/>
+<g clip-path="url(#panel-2)" aria-hidden="true"><use href="#environment"/><rect x="636" y="210" width="508" height="132" fill="#141414" fill-opacity=".28"/></g>
+<rect x="636" y="210" width="508" height="132" rx="28" fill="url(#material)" stroke="url(#edge)" stroke-width="1.2"/>
+<rect x="637.5" y="211.5" width="505" height="129" rx="26.5" fill="none" stroke="url(#inner-edge)" stroke-width=".7"/>
+<g transform="translate(660 232)" fill="none" stroke="#dce3ec" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M29 12A13 13 0 1 0 30 25 M29 4V13H20"/></g>
+<text x="712" y="258" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="25" font-weight="600" letter-spacing="-0.5">Rotate naturally</text>
+<text x="660" y="296" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="400">Vertical-axis rotation keeps the plate upright.</text>
+<defs><clipPath id="panel-3"><rect x="636" y="362" width="508" height="132" rx="28"/></clipPath></defs>
+<rect x="636" y="362" width="508" height="132" rx="28" fill="#000" fill-opacity=".18" filter="url(#shadow)"/>
+<g clip-path="url(#panel-3)" aria-hidden="true"><use href="#environment"/><rect x="636" y="362" width="508" height="132" fill="#141414" fill-opacity=".28"/></g>
+<rect x="636" y="362" width="508" height="132" rx="28" fill="url(#material)" stroke="url(#edge)" stroke-width="1.2"/>
+<rect x="637.5" y="363.5" width="505" height="129" rx="26.5" fill="none" stroke="url(#inner-edge)" stroke-width=".7"/>
+<text x="660" y="418" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="40" font-weight="600" letter-spacing="-1">1–1.5×</text>
+<text x="854" y="415" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="23" font-weight="500">Magnification</text>
+<text x="660" y="462" fill="#d8d9dc" font-family="'SFMono-Regular', Menlo, monospace" font-size="18" font-weight="400">clamp(start × gesture, 1, 1.5)</text>
+<defs><clipPath id="panel-4"><rect x="636" y="514" width="508" height="184" rx="28"/></clipPath></defs>
+<rect x="636" y="514" width="508" height="184" rx="28" fill="#000" fill-opacity=".18" filter="url(#shadow)"/>
+<g clip-path="url(#panel-4)" aria-hidden="true"><use href="#environment"/><rect x="636" y="514" width="508" height="184" fill="#141414" fill-opacity=".28"/></g>
+<rect x="636" y="514" width="508" height="184" rx="28" fill="url(#material)" stroke="url(#edge)" stroke-width="1.2"/>
+<rect x="637.5" y="515.5" width="505" height="181" rx="26.5" fill="none" stroke="url(#inner-edge)" stroke-width=".7"/>
+<text x="660" y="556" fill="#f5f5f7" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="25" font-weight="600" letter-spacing="-0.5">Physical size needs calibration</text>
+<text x="660" y="597" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="400">Measure asset units and dimensions,</text>
+<text x="660" y="627" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="400">then compare against the real plate.</text>
+<text x="660" y="671" fill="#d1e9ff" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="400">A scale cap does not guarantee fit.</text>
+<path d="M56 737H1144" fill="none" stroke="#fff" stroke-width="1" stroke-opacity="0.1" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="56" y="773" fill="#d8d9dc" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="19" font-weight="400">System controls move the window. USDZ export is separate from tabletop anchoring.</text>
+</svg>

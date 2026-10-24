@@ -3,7 +3,7 @@ layout: project
 weight: 3
 title: 'DishVue'
 description: >
-  A 3D menu spanning iPhone, iPad, Apple Vision Pro, and the web. Scan a dish once, then let diners see it at table scale.
+  A spatial-menu prototype connecting on-device dish capture, Firebase publishing, and 3D viewing on iPhone, iPad, and Apple Vision Pro.
 date: '2024-01-01'
 category: personal
 image: 
@@ -20,7 +20,7 @@ links:
     url: https://youtu.be/7XZIU8AK3w0
 
 ---
-I built DishVue to connect the whole process of making a 3D menu: **scan a dish, publish it, and let someone see it on the table** in front of them. The demo spans **iPhone, iPad, Apple Vision Pro, and the web**.
+I built DishVue to connect the work behind a spatial menu: **scan a dish, publish its model, and let a diner inspect it**. The native prototype spans iPhone, iPad, and Apple Vision Pro, with separate experiments in browser-based 3D viewing.
 
 {% include pro/project-video.html id="7XZIU8AK3w0" title="DishVue Spatial Menu Demo" %}
 
@@ -28,23 +28,50 @@ I built DishVue to connect the whole process of making a 3D menu: **scan a dish,
 
 A photo can make a dish look appealing without telling you much about its size or texture. AR menus can help, but a separate publishing workflow gives restaurant staff **another system to maintain**.
 
-I wanted staff to scan a dish on a phone and have the model appear in the same menu that diners browse. On Vision Pro, the dish could then sit beside the table **at its real size**.
+I wanted staff to capture and publish a dish from the same app, then let diners inspect it in a movable window beside the table.
 
-## How it works
+## One menu record, several views
 
-DishVue has **three clients sharing one Firebase backend**.
+The SwiftUI apps share a menu model: Firestore holds names, prices, categories, and asset URLs; Firebase Storage holds USDZ models and thumbnails. Native snapshot listeners refresh the menu, while visionOS uses `Model3D` for cards and `RealityView` for the selected dish.
 
-The iPhone and iPad app handles scanning, menu management, and AR previews. The visionOS app opens dishes in **volumetric windows**, with controls to rotate, scale, and drag-and-drop a plate. A **React client** makes the same menu available on the web.
+**The web path remains a prototype.** A Firebase-backed React menu exists, but the current entry point renders a standalone GLB viewer rather than that menu.
 
-## The decisions that mattered
+{% include pro/diagram.html
+  src="/assets/img/projects/dishvue/01-runtime.svg"
+  title="One menu. Multiple views."
+  height="667"
+  alt="iPhone and iPad capture and edit dishes, then share records and assets through Firebase with visionOS. A React menu component can read Firestore but is not mounted; the active web app displays a separate bundled GLB model."
+  caption="The connected native flow and the separate web experiments. Dashed outlines identify a component outside the active web route."
+%}
 
-- **Keep capture in the app.** I built the Apple clients in SwiftUI and wrapped Object Capture in the `USDZScanner` Swift Package. Staff can generate USDZ models and thumbnails locally without opening a separate tool.
-- **Share the data model.** Menu records live in Firestore and model files in Firebase Storage. All three clients use the same schema, with upload progress and a local cache in the app.
-- **Keep it in a window.** The visionOS client uses `RealityView` inside volumetric `WindowGroup`s instead of a full immersive space, so the menu stays beside the table.
-- **Constrain the gestures.** Dragging rotates a dish around its vertical axis so a plate can't flip upside down. Scaling stops at 1.5x to keep the model inside the window.
+## Keep capture close to editing
 
-## What took the work
+I integrated **USDZScanner, Alfian Losari's wrapper around Apple's Object Capture sample**. On supported devices, capture collects images and checkpoints, releases the camera session, and hands the image directory to photogrammetry. Quick Look previews the reconstructed USDZ before returning it to the menu editor.
 
-The spatial demo is what people notice, but most of my time went into **keeping state in sync across the SwiftUI targets**, working around quirks in Object Capture output, and deciding which interactions to leave out.
+The model and generated thumbnail upload separately from the menu record. Source photographs stay on-device in this pipeline. Keeping those stages distinct makes the publishing challenge clear: **a finished scan is not yet a published menu item**.
 
-DishVue worked better as **a small window with a few predictable gestures** than as a full immersive scene. Personally, that is the kind of spatial interface I like most, since someone sitting at a restaurant table has a meal and a conversation to pay attention to.
+{% include pro/diagram.html
+  src="/assets/img/projects/dishvue/03-capture.svg"
+  title="From capture to menu."
+  height="667"
+  alt="Capture images and checkpoints, release the capture session, reconstruct with photogrammetry, process the USDZ output, preview in Quick Look, then upload the model and thumbnail. Cancellation and failure have restart paths; unsupported capture hardware triggers a precondition failure."
+  caption="Capture, reconstruction, preview, and publication have separate lifecycles. The source photographs are not part of the upload."
+%}
+
+## Keep the spatial interaction small
+
+The visionOS detail view opens a **0.6 × 0.6 × 0.6 metre volumetric window**. Rotation follows the vertical axis to keep the plate upright; magnification is limited to 1–1.5×. System window controls handle repositioning, and menu cards can export USDZ through drag-and-drop.
+
+The scale cap keeps interaction restrained, but does not measure model bounds or establish real-world size. Calibrated assets and device measurements would be needed before promising either exact portions or a guaranteed fit.
+
+{% include pro/diagram.html
+  src="/assets/img/projects/dishvue/06-spatial.svg"
+  title="A small window. A closer look."
+  height="667"
+  alt="An illustrative plated dish floats inside a rounded glass volume labelled 0.6 metre window, with an orbit indicating vertical-axis rotation. Magnification is clamped between 1 and 1.5; physical-size claims require measured asset dimensions and comparison with a real plate. Window movement and USDZ export are separate from tabletop anchoring."
+  caption="A bounded window shapes the interaction; its dimensions alone do not calibrate the dish inside it."
+%}
+
+## What I would carry forward
+
+The next engineering work is reliable publication, cache invalidation when models change, and staff permissions enforced by the backend. The interaction I would keep is **a small window with a few predictable gestures**: a diner still has a meal and a conversation to pay attention to.
