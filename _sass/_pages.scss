@@ -43,7 +43,7 @@
 .filters {
   @include up($md) { grid-column: 7 / -1; justify-self: end; }
   .track { gap: 1.5rem; flex-wrap: wrap; }
-  .track > li > button .mono { font-size: .6875rem; color: var(--muted); }
+  .track > li > button .mono { font-size: .75rem; color: var(--muted); }
 }
 
 // Projects index
@@ -177,7 +177,7 @@
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   color: #EDEBE5;
-  font-size: .6875rem;
+  font-size: .75rem;
   letter-spacing: .05em;
   font-variant-numeric: tabular-nums;
 }
@@ -219,6 +219,7 @@
     display: inline-flex;
     align-items: center;
     gap: .4rem;
+    min-height: 1.5rem;
     color: var(--ink-2);
     transition: color .2s;
     .i { transition: transform .35s var(--ease); }

@@ -73,7 +73,7 @@ layout: base
   <div class="wrap">
     {% include sec-head.html no="01" title="About" id="about-title" %}
     <div class="about">
-      <aside class="about__aside reveal">
+      <div class="about__aside reveal">
         <img class="about__photo" src="{{ site.logo | relative_url }}" srcset="{{ '/assets/img/profile256.webp' | relative_url }} 256w, {{ site.logo | relative_url }} 694w" sizes="(max-width: 56em) 4.5rem, 7rem" alt="{{ page.photo_alt | default: r.basics.name | escape }}" width="694" height="694" loading="lazy" decoding="async">
         <dl class="facts">
           {%- for f in page.facts %}
@@ -85,7 +85,7 @@ layout: base
           <li><a href="{{ p.url }}" rel="me noopener" aria-label="{{ p.network }}">{% capture ic %}{{ p.network | downcase }}{% endcapture %}{% include icon.html name=ic px="18" %}</a></li>
           {%- endfor %}
         </ul>
-      </aside>
+      </div>
       <div class="about__body reveal">
         {{ summary }}
       </div>

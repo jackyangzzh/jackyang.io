@@ -298,7 +298,7 @@
   border: 1px solid var(--line-2);
   border-radius: 999px;
   font-family: var(--f-mono);
-  font-size: .6875rem;
+  font-size: .75rem;
   letter-spacing: .05em;
   text-transform: uppercase;
   color: var(--ink-2);
@@ -339,7 +339,7 @@
   margin-top: clamp(3rem, 6vw, 5rem);
   padding: 1.25rem 0;
   border-top: 1px solid var(--line);
-  font-size: .6875rem;
+  font-size: .75rem;
   letter-spacing: .05em;
   text-transform: uppercase;
   color: var(--muted);
@@ -347,7 +347,7 @@
   a:hover { color: var(--ink); }
 }
 .ft__colophon { @include down($md) { display: none; } }
-.ft__top { display: inline-flex; align-items: center; gap: .35rem; }
+.ft__top { display: inline-flex; align-items: center; gap: .35rem; min-height: 1.5rem; }
 
 // The name, set huge and cut off by the bottom of the page.
 .ft__word {
@@ -412,7 +412,7 @@
   &::placeholder { color: var(--muted); }
 }
 .cmdk__esc {
-  font-size: .6875rem;
+  font-size: .75rem;
   border: 1px solid var(--line-2);
   border-radius: 4px;
   padding: .1rem .35rem;
@@ -428,7 +428,7 @@
 }
 .cmdk__group {
   @include label;
-  font-size: .6875rem;
+  font-size: .75rem;
   padding: .85rem .75rem .35rem;
 }
 .cmdk__item {
@@ -451,7 +451,7 @@
 .cmdk__meta {
   margin-left: auto;
   font-family: var(--f-mono);
-  font-size: .6875rem;
+  font-size: .75rem;
   letter-spacing: .04em;
   text-transform: uppercase;
   color: var(--muted);
@@ -475,10 +475,24 @@
   padding: .65rem 1.25rem;
   border-top: 1px solid var(--line);
   font-family: var(--f-mono);
-  font-size: .6875rem;
+  font-size: .75rem;
   letter-spacing: .04em;
   text-transform: uppercase;
   color: var(--muted);
   kbd { color: var(--ink-2); }
   @include down($sm) { display: none; }
+}
+
+// Touch screens: grow tap areas to about 44px. Small links get an invisible
+// hit area instead of extra height, so nothing visible moves.
+@media (pointer: coarse) {
+  .hd__btn { min-width: 2.75rem; height: 2.75rem; }
+  .socials a { width: 2.75rem; height: 2.75rem; }
+  .ft__list { gap: 1.125rem; }
+  .ft__list .qlink, .ft__top, .crumbs a { position: relative; }
+  .ft__list .qlink::after, .ft__top::after, .crumbs a::after {
+    content: "";
+    position: absolute;
+    inset: -.5625rem -.25rem;
+  }
 }

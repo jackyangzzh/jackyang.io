@@ -28,7 +28,7 @@ This work contributed to the research behind my co-authored [Journal of Optics p
 
 ## Two views, one scene
 
-I used a shared camera prefab with **separate layers, culling masks, and stereo targets** for each eye. The environment stays shared; selected images or objects reach only their intended eye. Getting all three settings to agree is what makes the comparison work.
+I used a shared camera prefab with **separate layers, culling masks, and stereo targets** for each eye. Both eyes see the same room, but chosen images or objects reach only one of them. All three settings have to agree. In fact, the project history has exactly that mistake: `LeftEyeCanvas` sat on layer 9, the right eye's layer, until it was moved to layer 8.
 
 <figure>
   <div class="eye-comparison">
@@ -45,7 +45,7 @@ I used a shared camera prefab with **separate layers, culling masks, and stereo 
   title="Eye isolation: layer, mask, output"
   height="850"
   alt="Three settings isolate each eye: object layer, camera culling mask, and stereo target. Shared layers 0, 1, 2, 4 and 5 appear in both views. Layer 8 appears only through the left camera with mask 311; layer 9 appears only through the right camera with mask 567."
-  caption="Visibility follows the layer and mask, not the object name. Both a world-space canvas and its image need the correct eye layer."
+  caption="What each eye sees comes down to the object's layer and the camera's mask. Naming a canvas LeftEyeCanvas doesn't put it in the left eye."
 %}
 
 ## A shared clock, different motion
@@ -67,15 +67,18 @@ For the dynamic demo, I gave each eye its own cube and let the operator select a
   title="A shared clock, two trajectories"
   height="720"
   alt="Calculated trajectories at an angular rate of one radian per second. The default left and right X motions trace the same sine wave over a 6.28-second period. A Y/X condition traces perpendicular line segments through a common origin. Blue identifies the left eye; dashed orange identifies the right."
-  caption="Calculated world-space paths from a common origin, with no retained offset. These are source-derived trajectories, not retinal coordinates or participant measurements."
+  caption="Paths calculated from the motion code, starting at a common origin. They show where the cubes move in the scene; nothing here was measured from a participant."
 %}
 
-One implementation lesson was that **position and phase need separate controls**: Space recenters the cubes for one update, but motion resumes from the shared clock. A repeatable experiment needs explicit start, pause, and reset behavior.
+One thing I learned here is that **position and phase need separate controls**. Pressing Space recenters the cubes for a single update, but the motion picks up again from the shared clock, so you can't really restart a trial. A repeatable experiment needs explicit start, pause, and reset.
 
 ## Color perception and the research connection
 
+<figure>
 <img src="/assets/img/projects/colorDeficiencyCover.webp" srcset="/assets/img/projects/colorDeficiencyCover-480.webp 480w, /assets/img/projects/colorDeficiencyCover-720.webp 720w, /assets/img/projects/colorDeficiencyCover.webp 837w" sizes="(min-width: 86em) 52rem, (min-width: 54em) 46rem, (min-width: 42em) 40rem, 100vw" alt="Reference and transformed images from the color vision deficiency prototype" loading="lazy" decoding="async" width="837" height="276">
+<figcaption>Reference and transformed images from the color vision deficiency prototype.</figcaption>
+</figure>
 
-Alongside the rivalry demo, I explored color vision deficiency through transformed-image comparisons. The journal paper examines a physical optical system and discusses sending converted spectral information to one eye to distinguish it from ordinary visible content. Per-eye control gave my VR work a way to explore that broader question.
+Alongside the rivalry demo, I explored color vision deficiency by comparing reference and transformed images. The journal paper is about a physical optical system, and one idea it discusses is sending the converted spectral information to only one eye, so it stays distinguishable from ordinary visible content. Per-eye control gave me a way to try that idea in a consumer headset.
 
-The prototype controls **which stimulus each eye receives**. Measuring the resulting percept requires calibrated displays, recorded responses, and a study protocol. That distinction guided how I described the demonstration and what I would build next.
+The prototype controls **which stimulus each eye receives**. In other words, it decides what each eye is shown, but it doesn't measure what the person actually perceives. That would need calibrated displays, recorded responses, and a proper study protocol, and those are what I would build next.

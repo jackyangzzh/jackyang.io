@@ -35,6 +35,18 @@ An instructor can point to a spot on a component or demonstrate a hand motion th
 
 Building a custom VR app for each procedure took too long and depended on outside developers. Holos combined **3D models and animation with text, images, audio, and video** in spatial lessons. Instructors could arrange those materials around the task they were teaching, **without having to become engineers**.
 
+Holos's 2017 trailer, from two years before I joined, shows the kind of hand interaction the company was going for:
+
+<figure class="tutorial-demo">
+  <video src="/assets/video/holos/trailer-card-browser.webm" poster="/assets/video/holos/trailer-card-browser-poster.webp" width="600" height="338" loop muted playsinline controls preload="none" data-deferred-video data-autoplay="true" aria-label="Holos's 2017 trailer showing a tracked hand operating a floating card browser and hand-based interface."></video>
+  <figcaption>A tracked hand browsing floating cards. From the 2017 trailer.</figcaption>
+</figure>
+
+<figure class="tutorial-demo">
+  <video src="/assets/video/holos/trailer-spatial-interaction.webm" poster="/assets/video/holos/trailer-spatial-interaction-poster.webp" width="600" height="338" loop muted playsinline controls preload="none" data-deferred-video data-autoplay="true" aria-label="Holos's 2017 trailer showing tracked hands interacting with floating content and objects in a virtual room."></video>
+  <figcaption>Tracked hands working with content in a virtual room. From the 2017 trailer.</figcaption>
+</figure>
+
 ## What I built
 
 I worked on the **shared simulation layer and networking** for instructor and trainee sessions. Procedures change, so editing a scene and running it needed to be closely connected.
@@ -45,19 +57,11 @@ I worked on the **shared simulation layer and networking** for instructor and tr
 - Created **import workflows** to clean up model scale, pivots, colliders, and interaction settings.
 - Connected authoring to the simulation runtime so **new training content didn't require a separate app**.
 
-<figure class="tutorial-demo">
-  <img src="/assets/img/projects/holos/trailer-card-browser.gif" width="600" height="338" loading="lazy" decoding="async" alt="Holos's 2017 trailer showing a tracked hand operating a floating card browser and hand-based interface.">
-</figure>
-
-<figure class="tutorial-demo">
-  <img src="/assets/img/projects/holos/trailer-spatial-interaction.gif" width="600" height="338" loading="lazy" decoding="async" alt="Holos's 2017 trailer showing tracked hands interacting with floating content and objects in a virtual room.">
-</figure>
-
 ## Simplifying geometry for interaction
 
 I also helped with Holos's [**primitive-fitting tool**](https://github.com/holosinc/primitivefitting). It approximates voxelized 3D models with **spheres, cuboids, and capsules**, with conversion methods for Unity collider parameters.
 
-The Python/PyTorch pipeline fits enabled shapes to the largest remaining connected component, selects the best candidate using an exact score, and removes covered voxels before repeating. It then restores the source model's scale and position. The useful tradeoff is **coverage versus geometric detail**: a simple collider is easier to work with, but a coarse fit can hide an opening or change where a hand makes contact.
+The Python/PyTorch pipeline fits enabled shapes to the largest remaining connected component, selects the best candidate using an exact score, and removes covered voxels before repeating. It then restores the source model's scale and position. The tradeoff is **coverage versus geometric detail**: a simple collider is easier to work with, but a coarse fit can hide an opening or change where a hand makes contact.
 
 {% include pro/diagram.html
   src="/assets/img/projects/holos/01-primitive-fitting.svg"
@@ -76,12 +80,12 @@ In 2021, I wrote [**Unity and Leap Motion tutorials**](https://github.com/holosi
 I created these **hand-interaction demos** for the tutorial:
 
 <figure class="tutorial-demo">
-  <img src="/assets/img/projects/holos/interaction_objects.gif" width="600" height="338" loading="lazy" decoding="async" alt="Hand-interaction demo I created in Unity: tracked hands manipulating virtual objects.">
+  <video src="/assets/video/holos/interaction_objects.webm" poster="/assets/video/holos/interaction_objects-poster.webp" width="600" height="338" loop muted playsinline controls preload="none" data-deferred-video data-autoplay="true" aria-label="Hand-interaction demo I created in Unity: tracked hands manipulating virtual objects."></video>
   <figcaption><strong>Interaction Objects.</strong> My demo of tracked hands manipulating objects in Unity. <a href="https://github.com/holosinc/intro-to-dev/raw/44bc3063b1fffed7d9ef92a9bb66891bd5949c37/Docs/interaction_objects.gif">Original tutorial GIF ↗</a></figcaption>
 </figure>
 
 <figure class="tutorial-demo">
-  <img src="/assets/img/projects/holos/dynamic_ui.gif" width="600" height="338" loading="lazy" decoding="async" alt="Dynamic UI demo I created in Unity: direct hand interaction with a movable interface.">
+  <video src="/assets/video/holos/dynamic_ui.webm" poster="/assets/video/holos/dynamic_ui-poster.webp" width="600" height="338" loop muted playsinline controls preload="none" data-deferred-video data-autoplay="true" aria-label="Dynamic UI demo I created in Unity: direct hand interaction with a movable interface."></video>
   <figcaption><strong>Dynamic UI.</strong> My demo of direct hand interaction with a movable interface. <a href="https://github.com/holosinc/intro-to-dev/raw/44bc3063b1fffed7d9ef92a9bb66891bd5949c37/Docs/dynamic_ui.gif">Original tutorial GIF ↗</a></figcaption>
 </figure>
 

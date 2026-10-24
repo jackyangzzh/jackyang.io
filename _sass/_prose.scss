@@ -153,7 +153,7 @@
 .prose > .tutorial-demo {
   max-width: 600px;
   margin-right: 0;
-  img { display: block; width: 100%; height: auto; }
+  img, video { display: block; width: 100%; height: auto; }
 }
 
 // Keep eye labels aligned with the two halves without covering the footage.
@@ -299,7 +299,7 @@
 .press-quote { flex: 1; font-size: .975rem; line-height: 1.5; }
 .press-link-label {
   font-family: var(--f-mono);
-  font-size: .6875rem;
+  font-size: .75rem;
   letter-spacing: .05em;
   text-transform: uppercase;
   color: var(--muted);

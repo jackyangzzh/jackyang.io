@@ -27,7 +27,7 @@ links:
     url: https://jackyangzzh.medium.com/i-built-a-fake-shopping-app-nothing-ships-it-might-be-the-most-useful-thing-ive-made-220919e6b6ce
 
 ---
-I built FakeHaul for a friend who struggles with impulse shopping. **1,800 fictional products, tracking, unboxing, and receipts recreate the shopping ritual; checkout always ends at $0.00.** Coding agents helped me build and refine it. My work was to set direction, question results, and decide what shipped.
+I built FakeHaul for a friend who struggles with impulse shopping. **1,800 fictional products, tracking, unboxing, and receipts recreate the shopping ritual; checkout always ends at $0.00.** Coding agents helped me build and refine it, and my job was mostly to point them in a direction, question what came back, and decide what shipped.
 
 {% include pro/project-video.html id="BnSd8iSkFLQ" title="TODAY: New Simulated Shopping Sites Offer Thrill Without the Bill" start=62 caption="FakeHaul appears at 1:02. Playback starts there." %}
 
@@ -38,21 +38,21 @@ FakeHaul has been covered by TODAY, The New York Times, Fast Company, MarketWatc
 
 GitHub Copilot handled the original build; Claude Code worked on UX and receipts; ChatGPT and Codex helped with cleanup and the hosting migration. **I gave each task an objective, context, limits, and acceptance checks**, then reviewed the diff, rendered result, and test evidence.
 
-Hermes came later as a coordinator across applications. It can pass bounded work to coding tools, check their results through Git and the browser, and retain useful procedures as skills. The tools worked at different times, with deliberately selected context.
+Hermes came after the July build, as a coordinator across apps. It passes bounded tasks to the coding tools, checks their results through Git and the browser, and saves procedures that worked as reusable skills.
 
 {% include pro/diagram.html
   src="/assets/img/projects/fakehaul/08-hermes-coordination.svg"
   title="Hermes coordinates across applications"
   height="670"
   alt="I set intent and limits. Hermes routes tasks to coding tools, the browser, and shell; collects diffs, test output, and rendered results; and returns evidence for my decisions. Useful procedures become reusable skills."
-  caption="The later coordination setup. Dashed lines show available access routes; Hermes did not orchestrate the original July build."
+  caption="My setup after launch. None of the original July build went through Hermes. Dashed lines are access routes."
 %}
 
 ## Building the content pipeline
 
 **AI generation happens offline.** Models draft listings, fictional reviews, and product images. Scripts validate fields, checkpoint batches, and publish stored assets; I review tone and visual consistency. Browsing never waits on a model call.
 
-The Next.js storefront serves that content, while Zustand keeps carts and orders in the browser. Versioned image URLs remain available for saved items. There is no shopper database or cross-device recovery.
+The Next.js storefront serves that content, while Zustand keeps carts and orders in the browser. Versioned image URLs stay live, so saved items keep their pictures. There is no shopper database, which also means no cross-device recovery.
 
 {% include pro/diagram.html
   src="/assets/img/projects/fakehaul/13-product-factory.svg"
@@ -66,19 +66,19 @@ The Next.js storefront serves that content, while Zustand keeps carts and orders
 
 When I asked whether the on-screen and shared receipts matched, Claude Code found the same item priced at **$24.99 in one and $79.99 in the other**. I approved a shared pricing module and matching presentation.
 
-During the Railway migration, a share-image response passed status and dimension checks but showed a letter tile instead of a product photo. The fix corrected an asset fetch behind the proxy; the new check looks for the photo itself. **The acceptance criteria had to describe the experience.**
+During the Railway migration, a share-image response passed both the status and dimension checks, yet it showed a letter tile instead of the product photo. The fix was an asset fetch behind the proxy. The new check looks for the photo itself, because **a check can pass while the person still sees the wrong thing**.
 
 {% include pro/diagram.html
   src="/assets/img/projects/fakehaul/09-automation-human-gates.svg"
   title="Automate the execution, keep the decisions"
   height="570"
   alt="Set an objective, scope a task, execute, produce artifacts, check evidence, and accept or reject. Approved live changes are applied and verified; rejected work returns to the objective."
-  caption="A working practice across tools. Approval was a process boundary, not an enforced release gate; an autodeploying branch push could release the app."
+  caption="The loop I ran with every tool. Approval was my own habit; the pipeline didn't enforce it, and a push to the deploy branch would release the app."
 %}
 
 ## What shipped
 
-I launched in July 2026. Vercel's **monthly Visitors grew from 828 in July to 14,375 in September**. Feedback led to a local weekly report, a vintage category, and larger controls. The project demonstrates shipping, iteration, and reach; whether rehearsing shopping helps people remains unresolved.
+I launched in July 2026. Vercel's **monthly Visitors grew from 828 in July to 14,375 in September**. Feedback led to a local weekly report, a vintage category, and larger controls. That tells me people found it and cared enough to ask for changes. It doesn't tell me whether rehearsing shopping helps anyone, which I get into below.
 
 ## Press and uncertainty
 

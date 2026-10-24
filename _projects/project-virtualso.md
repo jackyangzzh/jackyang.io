@@ -31,7 +31,7 @@ Getting a character to speak was only part of the work. I also needed to coordin
 
 I connected **IBM Watson Speech to Text → Assistant → Text to Speech** in Unity 2020.3, with the reply playing through the character's `AudioSource`. Unity updates the scene every frame, while those service calls complete asynchronously. The conversation has to work across both.
 
-The recognizer streams audio, but only a **final transcript** goes to the dialogue service. `SimpleBot` sends it to a Watson Assistant session and passes the reply into the synthesis queue. I connected these stages through Unity `InputField` listeners, so the references wired in the scene matter alongside the C# code. Conversation configuration lives in Watson Assistant; Unity handles the audio and the character.
+The recognizer streams audio, but only a **final transcript** goes to the dialogue service. `SimpleBot` sends it to a Watson Assistant session and passes the reply into the synthesis queue. I connected these stages through Unity `InputField` listeners, so part of the wiring lives in the scene rather than the C# code. The conversation itself is configured in Watson Assistant, and Unity handles the audio and the character.
 
 {% include pro/diagram.html
   src="/assets/img/projects/virtualso/01-runtime.svg"
@@ -45,9 +45,9 @@ The recognizer streams audio, but only a **final transcript** goes to the dialog
 
 ## A turn is longer than an audio clip
 
-I used `BotControl` to pause recognition while Assistant is processing or TTS reports unfinished work. The intention is to keep the interviewer from hearing its own reply and treating it as a new answer. Pausing recognition is separate from stopping Unity's microphone capture.
+I used `BotControl` to pause recognition while Assistant is processing or TTS still has work to do. Otherwise, the interviewer can hear its own reply and treat it as a new answer. (Pausing recognition doesn't stop Unity's microphone capture.)
 
-There is a gap in this version: synthesis removes the last text item **before** its audio arrives. Both queues can then be empty while playback is idle. `IsFinished()` checks those conditions but misses the synthesis request still in flight, which means recognition can reopen too early.
+However, this version has a bug. Synthesis removes the last text item **before** its audio arrives, so for a moment both queues are empty and nothing is playing. `IsFinished()` checks exactly those three conditions and misses the synthesis request still in flight, which means recognition can reopen too early.
 
 I would fix that by tracking **dialogue pending, synthesis pending, queued speech, and playback** under one turn controller. A turn is complete only when all four are idle. Giving each turn an ID would also let me discard a late callback after the user cancels or restarts.
 
@@ -61,17 +61,17 @@ I would fix that by tracking **dialogue pending, synthesis pending, queued speec
   caption="The critical gap is between dequeuing text and receiving audio. Empty queues do not prove that a turn has finished."
 %}
 
-## Latency is more than frame rate
+## Measuring the wait
 
-The capture loop reads a one-second, **22,050 Hz** microphone buffer in alternating halves, sending approximately **0.5 seconds of audio per block**. That describes the audio chunks. The person also waits for recognition to finalize, Assistant to respond, speech to be synthesized, and playback to begin.
+The capture loop reads a one-second, **22,050 Hz** microphone buffer in alternating halves, sending approximately **0.5 seconds of audio per block**. That's only the first step, though. After it, the person still waits for recognition to finalize, Assistant to respond, speech to be synthesized, and playback to begin.
 
-The delay I care about is **from the user's last word to the character's first audible reply**. To evaluate it, I would timestamp each stage and look at the slow turns as well as the typical ones. Unity frame time needs a separate measurement: the character can animate smoothly and still take too long to answer. I also want its waiting behavior to make that delay understandable.
+The delay I care about is **from the user's last word to the character's first audible reply**. To measure it, I would timestamp each stage and look at the slow turns as well as the typical ones. Frame rate is a separate question, since the character can animate smoothly and still take too long to answer. While it does wait, I want its body language to make the delay understandable.
 
 ## Connecting speech to character behavior
 
 I tied the interviewer's animation to the conversation state. The custom `CharacterController` maps `AudioSource.isPlaying` to `isTalking`; when playback stops, `isListening` follows the recognizer's active state. This gives the person a visible cue about what the system is doing.
 
-For presentation practice, I used a different approach. Twelve audience randomizers choose among authored animation states on repeating timers, each sampling its interval once at startup between five and ten seconds. The audience stays animated, but those movements do not interpret the speaker's words. I used a desktop texture to show presentation content on a monitor inside the scene.
+For presentation practice, I used a different approach. Twelve audience randomizers choose among authored animation states on repeating timers, each sampling its interval once at startup between five and ten seconds. In other words, the audience looks alive, but it isn't reacting to anything the speaker says. I used a desktop texture to show presentation content on a monitor inside the scene.
 
 {% include pro/diagram.html
   src="/assets/img/projects/virtualso/03-animation.svg"
@@ -91,4 +91,4 @@ The main lesson for me is that **voice and body need to follow the same turn sta
 
 Audio placement is another part I would improve in Virtualso. The synthesis helper sets `spatialBlend = 0`, so playback is 2D even though the `AudioSource` belongs to the character. I would test positioned voice, headset microphone routing, and acoustic feedback together, because what sounds correct in the editor still needs to work in the headset.
 
-What interests me most about this project is how these implementation details shape the interaction. A queue finishing too early changes when the character appears to listen. A delayed reply changes how long someone waits before speaking again. **Making the character feel attentive starts with getting those transitions right.**
+Personally, this is the part of the project I find most interesting now. A queue that empties too early changes when the character seems to listen, and a slow reply changes how long someone waits before speaking again. In brief, **whether the character feels attentive comes down to those transitions.**

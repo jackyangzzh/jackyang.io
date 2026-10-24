@@ -4,7 +4,8 @@ weight: 6
 title: 'Robot Control Through VR'
 description: >
   A Unity/Vive research prototype connecting hand movements to a robotic arm model, with ROS integration and replay of recorded experiments.
-date: '2020-01-01'
+date: '2020-09-01'
+end_date: '2022-05-01'
 category: research
 image: 
   path: /assets/img/projects/mimicry.webp
@@ -20,58 +21,40 @@ links:
     url: https://www.youtube.com/watch?v=LLw-ksfGENA
 
 ---
-I built the VR interface for a UR5 research project, then a tool for replaying recorded experiments when the pandemic interrupted lab access. Starting from an existing desktop demo, I integrated **Vive input, ROS communication, RelaxedIK, and Unity motion playback**.
+I was a graphics researcher in the UW Graphics Group from September 2020 to May 2022. There, I built a **real-time VR control loop** that maps hand movements to a UR5 robotic arm. When the pandemic interrupted lab access, I also built a Unity tool for **replaying arm motion from 15+ lab-experiment datasets**. Starting from an existing desktop demo, I integrated **Vive input, ROS communication, RelaxedIK, and Unity motion playback**.
 
 {% include pro/project-video.html id="vwSFuWbTOUY" title="VR Robot Control Demonstration" %}
 
 ## From hand movement to joint motion
 
-The live path sends a controller-driven position goal from Unity on Windows through **ROS# and rosbridge** to RelaxedIK on Linux. Joint solutions return to animate the arm model. Replay takes a second path: recorded joint values drive local animation clips without a live solver.
+When the operator moves the Vive controller, Unity on Windows sends a position goal through **ROS# and rosbridge** to RelaxedIK on Linux. The joint angles come back the same way and animate the arm model. Replay takes a second path: recorded joint values drive local animation clips, so it doesn't need the solver at all.
+
+I didn't write the inverse kinematics. **RelaxedIK supplied the solver**, which relaxes pose accuracy when it competes with smooth, continuous, collision-free joint motion. My work was connecting it to the VR interaction and the visualization.
 
 {% include pro/diagram.html
   src="/assets/img/projects/robot-control/01-system-architecture.svg"
   title="Live control and recorded playback"
   height="580"
   alt="Live Vive input becomes a position goal, passes through ROS# and rosbridge to external RelaxedIK, and returns as joint angles for the Unity UR5 display. A separate CSV path constructs animation curves for local arm and gripper playback."
-  caption="Two paths to the same model: solve a live goal or replay recorded joints."
+  caption="Two paths to the same model: solve a live goal, or replay recorded joints."
 %}
 
-## Keep frames and intent consistent
+## Holding the goal still
 
-A clutch switches between following controller movement and holding the target, letting the operator reposition their hand without shifting the goal. ROS# converts Unity coordinates into ROS coordinates. The reviewed implementation publishes **position goals with fixed orientation**; aligning physical origins remains a separate calibration task.
+A clutch switches between following the controller and holding the target, so the operator can reposition their hand without moving the goal, a bit like lifting a mouse off the desk. ROS# converts Unity coordinates into ROS coordinates. My version publishes **position goals only, with a fixed orientation**, and it doesn't calibrate the VR space against the robot's physical origin. That would be a separate task.
 
 {% include pro/diagram.html
   src="/assets/img/projects/robot-control/02-coordinate-time-contract.svg"
   title="Coordinates, goal state, and callbacks"
   height="630"
   alt="Unity position x, y, z maps to ROS z, minus x, y. The published orientation is the identity quaternion. Tracking adds controller displacement to the previous goal; holding retains the goal. Separate callbacks compute, publish, receive, and apply motion."
-  caption="Coordinate conversion, persistent goal state, and callback responsibilities."
+  caption="How Unity coordinates map to ROS, how the clutch holds the goal, and which callback does what."
 %}
 
-## Build around an existing solver
+## Replaying experiments without the lab
 
-**RelaxedIK supplied the inverse kinematics.** Its upstream method balances pose agreement with smoothness, joint continuity, and avoidance objectives, relaxing pose accuracy when those objectives compete. My work connected that solver to the VR interaction and visualization.
+After lab access stopped, I shifted to inspecting earlier experiments in VR. The importer maps six recorded arm angles and a gripper value onto the UR5 model and builds Unity animation curves from them, with restart and slider-seek controls.
 
-{% include pro/diagram.html
-  src="/assets/img/projects/robot-control/03-relaxedik-role.svg"
-  title="RelaxedIK's role"
-  height="508"
-  alt="A desired position and fixed orientation enter upstream RelaxedIK. A weighted optimization balances pose agreement, smoothness, joint continuity, self-collision avoidance, and singularity avoidance to produce a joint-angle vector. Integration-specific weights and performance remain unverified."
-  caption="The upstream solver turns a desired pose into a joint solution."
-%}
-
-## Reconstruct recorded experiments
-
-After lab access stopped, I shifted toward inspecting earlier experiments in VR. The importer maps six recorded arm angles and a gripper scalar onto the UR5 hierarchy, building Unity animation curves with restart and slider-seek controls.
-
-The prototype reconstructs the motion sequence, but assigns time by row index across roughly ten seconds. **Original timing is not preserved**, and arm/gripper playback is not fully synchronized. A shared recorded-time clock would be the first improvement I'd make.
-
-{% include pro/diagram.html
-  src="/assets/img/projects/robot-control/05-replay-pipeline.svg"
-  title="Replay construction and controls"
-  height="640"
-  alt="Recorded arm angles and gripper values map to model-specific Unity animation curves. Key time is ten seconds times the row index divided by row count, ignoring recorded timestamps. Arm and gripper Play methods differ; slider seek holds both at a normalized clip position."
-  caption="From CSV fields to model transforms, with explicit timing and playback limits."
-%}
+It reconstructs the motion, but not the timing. The importer spreads the rows evenly across about ten seconds instead of using the recorded timestamps, so **the original timing is lost**, and the arm and gripper don't play back fully in sync. If I picked this up again, the first thing I would add is one clock, based on the recorded time, for both.
 
 {% include pro/project-video.html id="LLw-ksfGENA" title="Robot Movement Recreation from Data" %}
