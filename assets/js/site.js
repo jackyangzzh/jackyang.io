@@ -578,8 +578,9 @@
       e.preventDefault();
       const frame = d.createElement("div");
       frame.className = "video__frame";
+      const start = a.dataset.videoStart ? `&start=${encodeURIComponent(a.dataset.videoStart)}` : "";
       frame.innerHTML =
-        `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(a.dataset.videoId)}?autoplay=1&rel=0&playsinline=1" ` +
+        `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(a.dataset.videoId)}?autoplay=1&rel=0&playsinline=1${start}" ` +
         `title="${esc(a.dataset.videoTitle)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ` +
         `allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
       a.replaceWith(frame);

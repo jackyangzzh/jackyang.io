@@ -2,12 +2,12 @@
 A YouTube video as a lightweight poster: the video's own thumbnail, its title
 and a play button. site.js swaps in the privacy-enhanced player on click.
 Without JavaScript the poster is a plain link to the video on YouTube.
-Params: id (or youtube_id), title, caption
+Params: id (or youtube_id), title, caption, start (seconds)
 {%- endcomment -%}
 {%- assign video_id = include.id | default: include.youtube_id -%}
 {%- assign video_title = include.title | default: "Project video" -%}
 <figure class="video">
-  <a class="video__poster" href="https://www.youtube.com/watch?v={{ video_id }}" data-video-id="{{ video_id }}" data-video-title="{{ video_title | escape }}" target="_blank" rel="noopener">
+  <a class="video__poster" href="https://www.youtube.com/watch?v={{ video_id }}{% if include.start %}&amp;t={{ include.start | escape }}{% endif %}" data-video-id="{{ video_id }}" data-video-title="{{ video_title | escape }}"{% if include.start %} data-video-start="{{ include.start | escape }}"{% endif %} target="_blank" rel="noopener">
     <picture>
       <source media="(min-width: 42em)" srcset="https://i.ytimg.com/vi/{{ video_id }}/maxresdefault.jpg">
       <img src="https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg" srcset="https://i.ytimg.com/vi/{{ video_id }}/hqdefault.jpg 480w, https://i.ytimg.com/vi/{{ video_id }}/maxresdefault.jpg 1280w" sizes="100vw" alt="" width="1280" height="720" loading="lazy" decoding="async">
