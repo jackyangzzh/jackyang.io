@@ -1,6 +1,5 @@
-# If you have a `resume.json` file, copy it into `_data` and delete this file.
-# If you don't have a JSON Resume you can just edit this YAML file instead.
-# See also: <https://jsonresume.org/>.
+# Canonical résumé data for the site and Person structured data.
+# Schema reference: <https://jsonresume.org/>.
 basics:
   name: "Jack Yang"
   label: "Building real-time AI agents for live conversation"

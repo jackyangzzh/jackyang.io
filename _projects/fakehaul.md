@@ -4,7 +4,7 @@ weight: 0
 featured: true
 title: 'FakeHaul'
 description: >
-  A pretend shopping marketplace where every checkout is $0.00 and nothing ships. The ritual of online shopping, without spending money.
+  A case study in agent-driven development: building a fictional marketplace through coding agents, offline AI pipelines, and human review.
 date: '2026-07-01'
 category: personal
 image:
@@ -27,47 +27,58 @@ links:
     url: https://jackyangzzh.medium.com/i-built-a-fake-shopping-app-nothing-ships-it-might-be-the-most-useful-thing-ive-made-220919e6b6ce
 
 ---
-I launched FakeHaul in July 2026 to find out whether shopping can feel satisfying without buying anything. You can browse, hunt for deals, check out, track an order, and open a virtual package, but **you never pay and nothing ships**. At its peak, FakeHaul reached **3,000 daily active users**.
+I built FakeHaul for a friend who struggles with impulse shopping. **1,800 fictional products, tracking, unboxing, and receipts recreate the shopping ritual; checkout always ends at $0.00.** Coding agents helped me build and refine it. My work was to set direction, question results, and decide what shipped.
 
 {% include pro/project-video.html id="BnSd8iSkFLQ" title="TODAY: New Simulated Shopping Sites Offer Thrill Without the Bill" start=62 caption="FakeHaul appears at 1:02. Playback starts there." %}
 
 FakeHaul has been covered by TODAY, The New York Times, Fast Company, MarketWatch, and Digital Trends, and mentioned by the BBC, NPR, Vice, CBC, and Futurism, among others. [Read the coverage and the questions it raised](#press-and-uncertainty).
 {:.note title="In the press"}
 
-## The idea
+## Directing the agents
 
-I built FakeHaul for **a friend who struggles with impulse shopping**. My first thought was to block shopping sites or unsubscribe from deal emails, but I wondered whether there was another approach.
+GitHub Copilot handled the original build; Claude Code worked on UX and receipts; ChatGPT and Codex helped with cleanup and the hosting migration. **I gave each task an objective, context, limits, and acceptance checks**, then reviewed the diff, rendered result, and test evidence.
 
-Sometimes finding the deal feels better than receiving the box. I wanted to test whether the **browsing-and-checkout ritual could stand on its own**, with no money spent and no clutter arriving at the door. That is still a hypothesis, and I'm not claiming the app treats compulsive shopping.
+Hermes came later as a coordinator across applications. It can pass bounded work to coding tools, check their results through Git and the browser, and retain useful procedures as skills. The tools worked at different times, with deliberately selected context.
 
-## Building the illusion
-
-I built a **mobile-first marketplace** with [about 1,800 fictional products across eleven categories](https://fakehaul.com/categories). It has the familiar mechanics: low-stock warnings, viewer counts, a daily spin wheel, and five-minute coupons.
-
-{% include pro/browser-frame.html
-  url="fakehaul.com"
-  href="https://fakehaul.com/"
-  src="/assets/img/projects/fakehaul-site-1440.webp"
-  srcset="/assets/img/projects/fakehaul-site-480.webp 480w, /assets/img/projects/fakehaul-site-960.webp 960w, /assets/img/projects/fakehaul-site-1440.webp 1440w, /assets/img/projects/fakehaul-site-1920.webp 1920w"
-  width="1440" height="900"
-  alt="The FakeHaul storefront: a search bar, a banner reading “Haul it all. Pay $0.00.”, the Daily Spin, category pills and a row of Lightning Deals"
+{% include pro/diagram.html
+  src="/assets/img/projects/fakehaul/08-hermes-coordination.svg"
+  title="Hermes coordinates across applications"
+  height="670"
+  alt="I set intent and limits. Hermes routes tasks to coding tools, the browser, and shell; collects diffs, test output, and rendered results; and returns evidence for my decisions. Useful procedures become reusable skills."
+  caption="The later coordination setup. Dashed lines show available access routes; Hermes did not orchestrate the original July build."
 %}
 
-The tricky part was making it feel like a real store **without misleading anyone about what it is**. A product card might say "only 6 left," but the header makes clear that checkout never charges a cent. The cart and wishlist stay in your browser, so you don't need an account.
+## Building the content pipeline
 
-After checkout, the order moves through packed, shipped, and delivered states. A virtual package shakes until you tap it, then opens with confetti and a reveal of the retail value you "scored." I spent time **tuning that sequence in Framer Motion**, because confetti that fires before the lid moves just feels wrong.
+**AI generation happens offline.** Models draft listings, fictional reviews, and product images. Scripts validate fields, checkpoint batches, and publish stored assets; I review tone and visual consistency. Browsing never waits on a model call.
 
-## Generating the catalog
+The Next.js storefront serves that content, while Zustand keeps carts and orders in the browser. Versioned image URLs remain available for saved items. There is no shopper database or cross-device recovery.
 
-The catalog took as much writing as engineering, since placeholder text would have given the game away.
+{% include pro/diagram.html
+  src="/assets/img/projects/fakehaul/13-product-factory.svg"
+  title="The product factory"
+  height="1170"
+  alt="Human direction feeds catalog generation and validation, then separate image, review, and authored-pack pipelines. Approved images become versioned WebPs; reviews become shards or stored profiles. Server and browser assemble the storefront from these artifacts."
+  caption="Separate pipelines feed one storefront. Products, sellers, reviews, and activity counts are fictional. The image lane shows the approved-publish workflow."
+%}
 
-I used **Azure OpenAI** to generate structured records for product names, prices, ratings, and variants, then **edited the listings by hand**. The model gave me a first draft, and I didn't want people scrolling through the same handful of AI jokes.
+## Reviewing what looked finished
 
-The live site reads static catalog data and compressed WebP images, so **browsing never waits on a model call**. The app uses **Next.js 16's App Router, React 19, TypeScript, and Tailwind CSS 4**. Zustand persists the cart and orders locally, Vercel hosts the app, and Vercel Blob stores the static assets.
+When I asked whether the on-screen and shared receipts matched, Claude Code found the same item priced at **$24.99 in one and $79.99 in the other**. I approved a shared pricing module and matching presentation.
 
-## The tension
+During the Railway migration, a share-image response passed status and dimension checks but showed a letter tile instead of a product photo. The fix corrected an asset fetch behind the proxy; the new check looks for the photo itself. **The acceptance criteria had to describe the experience.**
 
-I kept coming back to the same problem: **the app borrows pressure tactics from online stores**, even though it doesn't sell anything. Clear copy and a zero-dollar checkout make the premise explicit. However, they don't settle what repeating the ritual does to someone's habits.
+{% include pro/diagram.html
+  src="/assets/img/projects/fakehaul/09-automation-human-gates.svg"
+  title="Automate the execution, keep the decisions"
+  height="570"
+  alt="Set an objective, scope a task, execute, produce artifacts, check evidence, and accept or reject. Approved live changes are applied and verified; rejected work returns to the objective."
+  caption="A working practice across tools. Approval was a process boundary, not an enforced release gate; an autodeploying branch push could release the app."
+%}
+
+## What shipped
+
+I launched in July 2026. Vercel's **monthly Visitors grew from 828 in July to 14,375 in September**. Feedback led to a local weekly report, a vintage category, and larger controls. The project demonstrates shipping, iteration, and reach; whether rehearsing shopping helps people remains unresolved.
 
 ## Press and uncertainty
 

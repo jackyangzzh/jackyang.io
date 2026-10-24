@@ -1,0 +1,13 @@
+{%- comment -%}
+An SVG diagram that fits its container, with a full-size link.
+Params: src, title, height (for a 1000-wide viewBox), alt, caption
+{%- endcomment -%}
+<figure class="case-diagram">
+  <div class="case-diagram__viewport">
+    <img src="{{ include.src | relative_url }}" alt="{{ include.alt | escape }}" width="1000" height="{{ include.height }}" loading="lazy" decoding="async">
+  </div>
+  <figcaption>
+    {{ include.caption }}
+    <a href="{{ include.src | relative_url }}" target="_blank" rel="noopener">Open full diagram<span class="sr-only">: {{ include.title }} (opens in a new tab)</span> ↗</a>
+  </figcaption>
+</figure>

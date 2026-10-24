@@ -1,9 +1,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="dark light">
 {%- comment -%}
 Apply a saved theme choice before first paint so there is no flash. Without a
-choice the page follows the OS setting (prefers-color-scheme in _tokens.scss).
+choice the page defaults to dark, regardless of the OS setting.
 The entrance animation is skipped when the page arrives through a view
 transition, or loads in a background tab (it would play when the tab is focused).
 {%- endcomment -%}
@@ -18,8 +18,7 @@ transition, or loads in a background tab (it would play when the tab is focused)
 {% include_cached styles.html %}
 <script src="{{ '/assets/js/site.js' | relative_url }}?v={{ v }}" defer></script>
 {% seo %}
-<meta name="theme-color" content="{{ site.theme_color.light }}" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="{{ site.theme_color.dark }}" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="{{ site.theme_color.dark }}" data-light="{{ site.theme_color.light }}" data-dark="{{ site.theme_color.dark }}">
 <link rel="icon" href="{{ '/assets/icons/favicon.svg' | relative_url }}" type="image/svg+xml">
 <link rel="icon" href="{{ '/favicon.ico' | relative_url }}" sizes="32x32">
 <link rel="apple-touch-icon" href="{{ '/assets/icons/apple-touch-icon.png' | relative_url }}">

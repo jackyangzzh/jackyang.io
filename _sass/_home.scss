@@ -181,6 +181,78 @@
   }
 }
 
+// The showreel opens Selected work. From $md it sits on the content axis
+// (col 4, under the section title) with its caption in the label columns,
+// like About's aside, so the heading, film and top of the cards share a
+// screen. On short screens the height cap (viewport minus the header and
+// section title, about 20rem) takes over from the column width.
+
+.cover {
+  margin: 0 0 clamp(2rem, 4vw, 3.5rem);
+  @include up($md) { @include grid12; align-items: end; }
+}
+.cover__stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--ink);
+  width: 100%;
+  @include up($md) { grid-column: 4 / -1; grid-row: 1; max-width: calc((100vh - 20rem) * 16 / 9); }
+}
+.cover__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cover__cap {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: .8rem;
+  border-top: 1px solid var(--line);
+  font-size: .75rem;
+  letter-spacing: .02em;
+  color: var(--muted);
+  min-height: 2.6rem;
+  @include up($md) {
+    grid-column: 1 / span 3;
+    grid-row: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .45rem;
+    margin-top: 0;
+    .cover__text { flex: none; }
+  }
+}
+.cover__fig {
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.cover__text {
+  flex: 1;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.cover__toggle {
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  cursor: pointer;
+  transition: color .25s var(--ease);
+  &:hover, &:focus-visible { color: var(--signal-text); }
+  html:not(.js) & { display: none; }
+}
+
 // Fig. 1 — the conversation waveform
 
 .signal {

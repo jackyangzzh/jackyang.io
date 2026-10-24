@@ -1,0 +1,39 @@
+{%- comment -%}
+The showreel introducing Selected work: Full Stop, a twenty-second film. One orange
+dot carries it from the live light through Teams AI, Mesh, Holos and FakeHaul,
+and lands as the full stop on the site's headline. Source: _motion/full-stop.
+
+The video is decorative and carries its own accessible description; the
+caption beside it (below it on narrow screens) identifies the reel and its
+duration. `start` is where the first play opens, in seconds: Full Stop's
+first second is a lone dot on black, which reads as "not loaded" mid-scroll.
+Params: src, poster, label, caption, start
+{%- endcomment -%}
+{%- assign cover_src = include.src | default: '/assets/video/jack-yang-full-stop-web.mp4' -%}
+{%- assign cover_poster = include.poster | default: '/assets/video/jack-yang-full-stop-poster.jpg' -%}
+{%- comment -%}
+Version both URLs by file mtime. A re-cut film keeps its filename, and
+Chrome caches video by byte range: if a server ignores If-Range (WEBrick,
+under `jekyll serve`, does), Chrome stitches cached ranges of the old file
+onto the new one and the video fails with a format error. A new URL per cut
+avoids that everywhere.
+{%- endcomment -%}
+{%- assign cover_file = site.static_files | where: "path", cover_src | first -%}
+{%- assign poster_file = site.static_files | where: "path", cover_poster | first -%}
+{%- capture cover_v %}{% if cover_file %}?v={{ cover_file.modified_time | date: "%s" }}{% endif %}{% endcapture -%}
+{%- capture poster_v %}{% if poster_file %}?v={{ poster_file.modified_time | date: "%s" }}{% endif %}{% endcapture -%}
+<figure class="cover" data-cover>
+  <div class="cover__stage">
+    <video class="cover__media" data-cover-video data-start="{{ include.start | default: 1 }}" muted loop playsinline preload="none"
+      poster="{{ cover_poster | relative_url }}{{ poster_v }}"
+      aria-label="{{ include.label | default: 'Full Stop: a twenty-second reel of Jack Yang’s work. An orange dot becomes an AI agent waiting for a pause in a Teams meeting, an iris onto Microsoft Mesh, the joints of a tracked hand at Holos, a $750,000 Air Force contract, and a $0.00 FakeHaul checkout, then lands as the full stop in “Real-time AI for real conversations.”' }}">
+      <source data-src="{{ cover_src | relative_url }}{{ cover_v }}" type="video/mp4">
+    </video>
+  </div>
+  <figcaption class="cover__cap mono">
+    <span class="cover__fig">Showreel</span>
+    <span class="cover__text">{{ include.caption | default: 'My work in 20 seconds.' }}</span>
+    <button class="cover__toggle" type="button" data-cover-toggle aria-label="Play the cover film" aria-pressed="false">Play</button>
+    <noscript><a href="{{ cover_src | relative_url }}{{ cover_v }}">Watch the reel</a></noscript>
+  </figcaption>
+</figure>

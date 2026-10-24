@@ -143,11 +143,26 @@
 
   // Wide media reach a little past the text column on large screens.
   @include up($lg) {
-    > .video, > .browser, > figure, > .press-quotes-grid {
+    > .video, > figure, > .press-quotes-grid {
       margin-right: calc((100% + var(--gap)) * -2 / 7);
     }
   }
 }
+
+// Scale diagrams to their column; full-size links offer a closer look.
+.case-diagram__viewport {
+  overflow: hidden;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  background: #020617;
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+  }
+}
+.case-diagram figcaption a { display: inline-block; }
 
 // YouTube poster (see _includes/pro/project-video.html)
 
@@ -224,44 +239,6 @@
   overflow: hidden;
   background: #000;
   iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-}
-
-// Browser frame
-
-.browser {
-  border: 1px solid var(--line-2);
-  border-radius: 10px;
-  overflow: hidden;
-  background: var(--bg-2);
-  box-shadow: var(--shadow);
-  img { border-radius: 0; display: block; }
-  figcaption { padding: 0 1rem .9rem; }
-}
-.browser__bar {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: .75rem;
-  padding: .55rem .75rem;
-  border-bottom: 1px solid var(--line);
-  &::after { content: ""; width: 2.6rem; }
-}
-.browser__lights {
-  display: inline-flex;
-  gap: .35rem;
-  span { width: .6rem; height: .6rem; border-radius: 50%; background: var(--line-2); }
-}
-.prose .browser__url,
-.browser__url {
-  justify-self: center;
-  padding: .2rem .9rem;
-  border-radius: 6px;
-  background: var(--bg);
-  font-size: .75rem;
-  color: var(--muted);
-  text-decoration: none;
-  transition: color .2s;
-  &:hover { color: var(--ink); }
 }
 
 // Press quotes (FakeHaul)

@@ -97,6 +97,7 @@ layout: base
   <div class="wrap">
     {%- capture aux %}All {{ projects.size }} projects{% endcapture %}
     {% include sec-head.html no="02" title="Selected work" id="work-title" aux=aux aux_url="/projects/" aux_icon="arrow-r" %}
+    {% include cover.html %}
     <ol class="work">
       {%- for proj in projects limit: featured_count %}
       <li class="work__item reveal">
@@ -123,7 +124,7 @@ layout: base
 
     {%- comment -%}
     Two parallel columns of roles, mirroring the timeline's Work and Research
-    lanes. (Skills stay in _data/resume.yml for the PDF, resume.json and the
+    lanes. (Skills stay in _data/resume.yml for the PDF and the
     structured data.)
     {%- endcomment %}
     <div class="spread">

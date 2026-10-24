@@ -24,22 +24,6 @@ location:
   city: Seattle
   timezone: America/Los_Angeles
 
-keywords:
-  [
-    ai,
-    ai agents,
-    multimodal ai,
-    human-ai interaction,
-    conversational ai,
-    hci,
-    real-time systems,
-    microsoft teams,
-    microsoft mesh,
-    xr,
-    spatial computing,
-    product engineering,
-  ]
-
 # Square image used by jekyll-seo-tag and the structured data.
 logo: /assets/img/profile.webp
 
@@ -111,9 +95,6 @@ exclude:
   - .lighthouse
   - .jekyll-cache
   - .sass-cache
-  - .openchamber
-  - .claude
-  - .vscode
   - "*.toml"
   - vendor
   - Gemfile
