@@ -46,7 +46,7 @@
   transform: translateY(-.05rem);
   transition: transform .4s var(--ease);
 }
-.hd__mark:hover .hd__dot { transform: translateY(-.05rem) scale(1.4); }
+.hd__mark:hover .hd__dot { @include hover { transform: translateY(-.05rem) scale(1.4); } }
 
 .hd__nav {
   display: none;
@@ -78,8 +78,9 @@
   height: 2.5rem;
   border-radius: 999px;
   color: var(--ink-2);
-  transition: color .2s, background-color .2s;
-  &:hover { color: var(--ink); background: var(--bg-2); }
+  transition: color .2s, background-color .2s, transform .16s var(--ease);
+  @include hover { &:hover { color: var(--ink); background: var(--bg-2); } }
+  @include press(.94);
 }
 
 .hd__k {
@@ -105,7 +106,7 @@
 
 .hd__theme {
   position: relative;
-  span { display: grid; place-items: center; grid-area: 1 / 1; transition: transform .5s var(--ease), opacity .3s; }
+  span { display: grid; place-items: center; grid-area: 1 / 1; transition: transform .3s var(--ease), opacity .2s; }
   .hd__moon { opacity: 0; transform: rotate(-60deg) scale(.6); }
 }
 @mixin theme-dark-icon {
@@ -130,7 +131,7 @@
     height: 1.5px;
     background: currentColor;
     border-radius: 2px;
-    transition: transform .45s var(--ease), top .45s var(--ease);
+    transition: transform .3s var(--ease), top .3s var(--ease);
     &:first-child { top: 0; }
     &:last-child { top: calc(100% - 1.5px); }
   }
@@ -207,6 +208,12 @@
   flex-direction: column;
   justify-content: space-between;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  // Closing is quicker than opening and has no stagger: the panel fades out
+  // as one piece (site.js hides it once the fade is done).
+  opacity: 0;
+  transition: opacity .18s var(--ease);
+  &.is-open { opacity: 1; transition-duration: .24s; }
   @include up($md) { display: none !important; }
 }
 .mnav__nav {
@@ -214,9 +221,8 @@
   li {
     border-bottom: 1px solid var(--line);
     opacity: 0;
-    transform: translateY(12px);
-    transition: opacity .5s var(--ease), transform .6s var(--ease);
-    transition-delay: calc(var(--i) * 45ms + 60ms);
+    transform: translateY(10px);
+    transition: opacity .18s var(--ease), transform .18s var(--ease);
   }
   a {
     display: flex;
@@ -236,7 +242,12 @@
     &[aria-current="page"] { color: var(--signal); }
   }
 }
-.mnav.is-open .mnav__nav li { opacity: 1; transform: none; }
+.mnav.is-open .mnav__nav li {
+  opacity: 1;
+  transform: none;
+  transition-duration: .28s, .36s;
+  transition-delay: calc(var(--i) * 40ms + 40ms);
+}
 .mnav__foot {
   padding-block: 2rem calc(2rem + env(safe-area-inset-bottom));
   font-size: .8125rem;
@@ -288,7 +299,7 @@
   background-position: 0 100%, 0 100%;
   background-repeat: no-repeat;
   transition: background-size .6s var(--ease);
-  &:hover { background-size: 100% 1px, 100% 1px; }
+  @include hover { &:hover { background-size: 100% 1px, 100% 1px; } }
 }
 
 .copy {
@@ -303,8 +314,9 @@
   letter-spacing: .05em;
   text-transform: uppercase;
   color: var(--ink-2);
-  transition: border-color .2s, color .2s;
+  transition: border-color .2s, color .2s, transform .16s var(--ease);
   justify-items: center;
+  @include press;
   > span {
     grid-area: 1 / 1;
     display: inline-flex;
@@ -313,7 +325,7 @@
     transition: opacity .25s, transform .35s var(--ease);
   }
   .copy__done { opacity: 0; transform: translateY(6px); color: var(--signal-text); }
-  &:hover { border-color: var(--ink); color: var(--ink); }
+  @include hover { &:hover { border-color: var(--ink); color: var(--ink); } }
   &[hidden] { display: none; }
   &.is-done {
     .copy__idle { opacity: 0; transform: translateY(-6px); }
@@ -409,16 +421,15 @@
   color: var(--ink);
   box-shadow: var(--shadow), 0 40px 120px -30px rgba(0, 0, 0, .5);
   overflow: hidden;
-  &[open] { display: flex; flex-direction: column; animation: cmdk-in .32s var(--ease); }
+  // A keyboard-first tool: it appears and leaves instantly, like the
+  // shortcut that opens it.
+  &[open] { display: flex; flex-direction: column; }
   &::backdrop {
     background: color-mix(in srgb, var(--bg) 40%, rgba(0, 0, 0, .45));
     -webkit-backdrop-filter: blur(3px);
     backdrop-filter: blur(3px);
-    animation: fade-in .25s var(--ease);
   }
 }
-@keyframes cmdk-in { from { opacity: 0; transform: translateY(-8px) scale(.985); } }
-@keyframes fade-in { from { opacity: 0; } }
 
 .cmdk__field {
   display: flex;
@@ -438,6 +449,7 @@
   font: inherit;
   font-size: 1.125rem;
   outline: none;
+  caret-color: var(--signal);
   &::placeholder { color: var(--muted); }
 }
 .cmdk__esc {
@@ -451,6 +463,8 @@
   flex: 1;
   overflow-y: auto;
   overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-2) transparent;
   padding: .4rem .5rem .6rem;
   margin: 0;
   list-style: none;
@@ -473,7 +487,7 @@
   &[aria-selected="true"] {
     background: var(--bg-2);
     color: var(--ink);
-    .cmdk__go { opacity: 1; transform: none; }
+    .cmdk__go { opacity: 1; }
   }
   mark { background: none; color: var(--ink); font-weight: 600; }
 }
@@ -489,8 +503,6 @@
 .cmdk__go {
   color: var(--muted);
   opacity: 0;
-  transform: translateX(-4px);
-  transition: opacity .2s, transform .3s var(--ease);
 }
 .cmdk__empty {
   padding: 2rem 1rem;

@@ -11,8 +11,8 @@
   --muted: #67645D;
   --line: rgba(21, 20, 19, .12);
   --line-2: rgba(21, 20, 19, .22);
-  --signal: #D9401E;
-  --signal-text: #C2361A;
+  --signal: #D33B1B;
+  --signal-text: #B53017;
   --on-signal: #FFFFFF;
   --wash: rgba(217, 64, 30, .08);
   --cat-professional: #2F6BD8;
@@ -54,7 +54,9 @@
   --ease: cubic-bezier(.22, 1, .36, 1);
   --ease-in-out: cubic-bezier(.65, 0, .35, 1);
 
-  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  // The page is drawn under the notch (viewport-fit=cover), so in landscape
+  // the gutter grows to clear the safe area.
+  --gutter: max(clamp(1.25rem, 4vw, 3.5rem), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
   --gap: clamp(1rem, 1.8vw, 1.75rem);
   --max: 88rem;
   --hd: 4.25rem;
@@ -74,6 +76,15 @@ $xl: 80em;   // 1280
 
 @mixin up($bp) { @media (min-width: $bp) { @content; } }
 @mixin down($bp) { @media (max-width: $bp - .001em) { @content; } }
+
+// Hover styles only for a real mouse or trackpad. A tap would otherwise leave
+// them stuck on until the next tap somewhere else.
+@mixin hover { @media (hover: hover) and (pointer: fine) { @content; } }
+
+// Press feedback for button-like controls, on every input type.
+@mixin press($scale: .97) {
+  &:active { transform: scale($scale); }
+}
 
 // 12-column grid used by every section; col 4 is the content axis.
 @mixin grid12 {

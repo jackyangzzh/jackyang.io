@@ -87,21 +87,47 @@
     const btn = $("[data-menu-toggle]");
     const panel = $("[data-menu]");
     if (!btn || !panel) return;
+    const background = $$("main, footer, .skip");
+    let previousInert = [];
+    panel.inert = true;
     const isOpen = () => btn.getAttribute("aria-expanded") === "true";
     const set = (open) => {
+      if (open === isOpen()) return;
       btn.setAttribute("aria-expanded", String(open));
       root.classList.toggle("menu-open", open);
       if (open) {
+        previousInert = background.map((element) => element.inert);
+        background.forEach((element) => { element.inert = true; });
+        panel.inert = false;
         panel.hidden = false;
-        requestAnimationFrame(() => requestAnimationFrame(() => panel.classList.add("is-open")));
+        requestAnimationFrame(() => requestAnimationFrame(() => { if (isOpen()) panel.classList.add("is-open"); }));
       } else {
+        background.forEach((element, index) => { element.inert = previousInert[index]; });
+        if (panel.contains(d.activeElement) || d.activeElement === btn) {
+          (btn.getClientRects().length ? btn : $(".hd__mark")).focus();
+        }
+        panel.inert = true;
         panel.classList.remove("is-open");
-        setTimeout(() => { if (!isOpen()) panel.hidden = true; }, 320);
+        setTimeout(() => { if (!isOpen()) panel.hidden = true; }, 200);
       }
     };
     btn.addEventListener("click", () => set(!isOpen()));
     panel.addEventListener("click", (e) => { if (e.target.closest("a")) set(false); });
-    d.addEventListener("keydown", (e) => { if (e.key === "Escape" && isOpen()) { set(false); btn.focus(); } });
+    d.addEventListener("keydown", (e) => {
+      if (!isOpen() || $("dialog[open]")) return;
+      if (e.key === "Escape") { set(false); btn.focus(); }
+      else if (e.key === "Tab") {
+        const controls = $$("[data-hd] a[href], [data-hd] button, [data-menu] a[href]")
+          .filter((element) => !element.disabled && element.tabIndex >= 0 && element.getClientRects().length && !element.closest("[inert]"));
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (e.shiftKey && (d.activeElement === first || !controls.includes(d.activeElement))) {
+          e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && (d.activeElement === last || !controls.includes(d.activeElement))) {
+          e.preventDefault(); first.focus();
+        }
+      }
+    });
     matchMedia("(min-width: 56em)").addEventListener("change", (e) => { if (e.matches && isOpen()) set(false); });
   }
 
@@ -497,7 +523,7 @@
         if (show && !reduced.matches) {
           r.style.animation = "none";
           void r.offsetWidth;
-          r.style.animation = `rise .6s var(--ease) ${k++ * 45}ms both`;
+          r.style.animation = `rise .4s var(--ease) ${k++ * 35}ms both`;
         }
       });
       const first = rows.find((r) => !r.classList.contains("is-hidden"));

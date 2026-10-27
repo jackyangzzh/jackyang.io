@@ -48,7 +48,7 @@ layout: base
           {% include media.html image=proj.image sizes="(min-width: 64em) 38vw, 1px" alt="" %}
         </div>
         {%- endfor %}
-        <div class="viewer__hud mono"><span class="viewer__rec"></span><span data-viewer-no>01</span><span class="viewer__of">/ {{ projects.size | prepend: "0" }}</span></div>
+        <div class="viewer__hud mono" aria-hidden="true"><span class="viewer__rec"></span><span data-viewer-no>01</span><span class="viewer__of">/ {{ projects.size | prepend: "0" }}</span></div>
       </div>
       <div class="viewer__caption">
         {%- for proj in projects %}

@@ -91,7 +91,8 @@ research:
     startDate: "2017-04-01"
     endDate: "2017-12-01"
     highlights:
-      - Added **speech recognition and NLP-driven interaction** to children's reading-companion robots and validated the interaction in an **eight-family trial**.
+      - Added **speech recognition and NLP-driven interaction** to children's reading-companion robots.
+      - Designed and built a **collaborative-filtering recommender system**, successfully trialed with **eight families**.
 education:
   - institution: "Georgia Institute of Technology"
     studyType: "M.S. in Computer Science (HCI)"
