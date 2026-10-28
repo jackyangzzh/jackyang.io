@@ -70,6 +70,8 @@ research:
     position: "HCI Researcher"
     short: "Georgia Tech HCI"
     website: "https://www.gatech.edu/"
+    startDate: "2026-01-01"
+    endDate: ""
     highlights:
       - Built **Ground Tracker**, a transcript-analysis system that separates language-model perception from deterministic grounding rules.
       - Designed a **264-dialogue controlled benchmark** to study how later confirmation can obscure missing evidence at the time of an earlier action.
