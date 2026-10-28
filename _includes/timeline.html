@@ -13,6 +13,7 @@ after the latest end (or today, whichever is later).
 {%- assign min_s = now -%}
 {%- assign max_e = now -%}
 {%- for it in all -%}
+  {%- if it.startDate == nil or it.startDate == "" -%}{%- continue -%}{%- endif -%}
   {%- assign s = it.startDate | date: "%s" | plus: 0 -%}
   {%- if s < min_s -%}{%- assign min_s = s -%}{%- endif -%}
   {%- if it.endDate and it.endDate != "" -%}

@@ -10,7 +10,7 @@ basics:
   summary: >
     I build real-time AI agents at [**Microsoft Teams AI**](https://www.microsoft.com/en-us/microsoft-teams/teams-ai){:target="_blank" rel="noopener noreferrer" .no-mark-external}, where I work on Facilitator, the Microsoft 365 Copilot agent that runs inside live Teams meetings. My focus is the orchestration, tool execution, context management, and multimodal features that let an agent keep up with a conversation as it happens. <br><br>
     Before Teams AI, I engineered the shared UI framework adopted by every product team at [**Microsoft Mesh**](/projects/mesh-avatars/) and was a key contributor to its avatar rendering pipeline, shipping weekly in 20+ languages to millions of users. Earlier, I built AR/VR interaction and multiplayer systems at [**Holos**](/projects/holos/), a Techstars startup, and helped it secure a $750K U.S. Air Force contract. <br><br>
-    Outside work, I created [**FakeHaul**](/projects/fakehaul/), an AI-generated marketplace where every checkout is $0.00, covered by *The New York Times* and *Fast Company*. I'm also completing an M.S. in HCI at Georgia Tech, with a paper under review at CHI 2027 on how AI systems that track decisions from transcripts can hide their own mistakes. I enjoy connecting low-latency systems with generative models, and I care as much about how the interaction feels as how the system is built.
+    Outside work, I created [**FakeHaul**](/projects/fakehaul/), an AI-generated marketplace where every checkout is $0.00, covered by *The New York Times* and *Fast Company*. I'm also completing an M.S. in Computer Science (HCI) at Georgia Tech, where I research how AI systems interpret evidence in conversations. My research project, **Ground Tracker**, examines how later confirmation can hide a lack of support for an earlier action; the manuscript is under consideration at *Dialogue & Discourse*. I enjoy connecting low-latency systems with generative models, and I care as much about how the interaction feels as how the system is built.
   location:
     city: "Seattle"
     countryCode: "US"
@@ -66,6 +66,14 @@ work:
       - Built **core AR and VR training platform** capabilities, including hand tracking, gesture recognition, multiplayer networking, and 3D model ingestion workflows.
       - Worked with leadership on product and engineering execution, helping Holos secure a **$750K U.S. Air Force contract** and a place in **Techstars**.
 research:
+  - company: "Georgia Institute of Technology"
+    position: "HCI Researcher"
+    short: "Georgia Tech HCI"
+    website: "https://www.gatech.edu/"
+    highlights:
+      - Built **Ground Tracker**, a transcript-analysis system that separates language-model perception from deterministic grounding rules.
+      - Designed a **264-dialogue controlled benchmark** to study how later confirmation can obscure missing evidence at the time of an earlier action.
+      - "Authored *Preserving Action-Time Grounding Judgments in Transcript Trackers*; manuscript under consideration at **Dialogue & Discourse**."
   - company: "Kats Research Group"
     position: "XR Researcher"
     short: "Kats Group"
@@ -129,10 +137,6 @@ certifications:
     publisher: "UC San Diego"
     website: "https://www.coursera.org/account/accomplishments/specialization/certificate/WRB5BFC3DYGD"
 publications:
-  - name: "Too Late to Rely: A Self-Concealing Failure in State-Only Transcript Grounding Trackers"
-    publisher: "CHI 2027 (under review)"
-    website: "/assets/files/too-late-to-rely.pdf"
-    summary: "Transcript-based trackers that keep only the latest state can hide their own failures: if someone acts on a decision before the conversation supports it, later agreement overwrites the warning that they acted too early. Used a 264-dialogue benchmark to show the failure and test an event-sourced record that preserves those warnings."
   - name: "Passive frequency conversion of ultraviolet images into the visible using perovskite nanocrystals"
     publisher: "Journal of Optics (IOP Publishing)"
     releaseDate: "2021-04-08"

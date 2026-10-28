@@ -47,14 +47,14 @@ facts:
 # _data/resume.yml, at the same claim level ("works on", "key contributor",
 # "under review"): no invented praise. The agent stays quiet through short
 # gaps and speaks only once the decision has been made and there's a real
-# pause, the timing his CHI paper is about. Durations are in seconds;
+# pause. Durations are in seconds;
 # `who: agent` is drawn in the signal colour.
 signal:
   label: >
     Illustration of a hiring conversation as an audio waveform. A hiring
     manager and an engineering lead discuss Jack Yang's work on Facilitator at
-    Microsoft Teams AI, his contributions to Microsoft Mesh, and his CHI 2027
-    paper under review. Once they decide to talk to him and there's a real
+    Microsoft Teams AI, his contributions to Microsoft Mesh, and his HCI research
+    at Georgia Tech. Once they decide to talk to him and there's a real
     pause, an AI agent notes the decision and the action item.
   caption: "An illustrated hiring sync: the agent waits for the decision, and a real pause, before it speaks."
   turns:
@@ -84,7 +84,7 @@ signal:
     - pause: 0.3
       text: "Gap · 0.3 s"
     - who: Eng lead
-      text: "A CHI 2027 paper under review, on how AI systems that track decisions can hide their own mistakes."
+      text: "HCI research at Georgia Tech: how later confirmation can hide a lack of support for an earlier action."
       dur: 5.6
     - pause: 0.5
       text: "Gap · 0.5 s: still no decision"

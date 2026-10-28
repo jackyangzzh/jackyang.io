@@ -9,6 +9,7 @@ time are stacked greedily onto up to three rows.
 {%- assign e0 = 0 -%}{%- assign e1 = 0 -%}{%- assign rows = 1 -%}
 {%- capture bars -%}
 {%- for it in items -%}
+  {%- if it.startDate == nil or it.startDate == "" -%}{%- continue -%}{%- endif -%}
   {%- assign s = it.startDate | date: "%s" | plus: 0 -%}
   {%- assign ongoing = false -%}
   {%- if it.endDate and it.endDate != "" -%}

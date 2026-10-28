@@ -6,20 +6,26 @@
 {%- assign role = it.role | default: it.position | default: it.studyType -%}
 {%- assign id = it.short | slugify | prepend: "exp-" -%}
 {%- assign ongoing = false -%}{%- assign expected = false -%}
+{%- if it.startDate and it.startDate != "" -%}
 {%- if it.endDate == nil or it.endDate == "" -%}{%- assign ongoing = true -%}
 {%- else -%}{%- assign e = it.endDate | date: "%s" | plus: 0 -%}{%- if e > now -%}{%- assign expected = true -%}{%- endif -%}{%- endif -%}
+{%- endif -%}
 <li class="entry reveal{% if ongoing %} is-now{% endif %}" id="{{ id }}" data-entry="{{ id }}">
+  {%- if it.startDate or it.project %}
   <div class="entry__top">
+  {%- if it.startDate and it.startDate != "" %}
   <div class="entry__when mono">
     <time datetime="{{ it.startDate | date: '%Y-%m' }}">{{ it.startDate | date: "%b %Y" }}</time>
     <span aria-hidden="true">–</span><span class="sr-only">to</span>
     {% if ongoing %}<span>Present</span>{% else %}<time datetime="{{ it.endDate | date: '%Y-%m' }}">{{ it.endDate | date: "%b %Y" }}</time>{% endif %}
     {%- if ongoing %}<span class="tag tag--now"><i aria-hidden="true"></i>Now</span>{% elsif expected %}<span class="tag">Expected</span>{% endif %}
   </div>
+  {%- endif %}
   {%- if it.project %}
   <a class="qlink entry__case" href="{{ it.project | relative_url }}">Case study {% include icon.html name="arrow-r" px="14" %}</a>
   {%- endif %}
   </div>
+  {%- endif %}
   <div class="entry__who">
     <h{{ hl }} class="entry__org">{% if it.website and it.website != "" %}<a href="{{ it.website }}" rel="noopener">{{ org }}</a>{% else %}{{ org }}{% endif %}</h{{ hl }}>
     <div class="entry__role">{{ role }}</div>
