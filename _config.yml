@@ -61,9 +61,11 @@ theme_color:
 permalink: /writing/:categories/:year-:month-:day-:title/
 
 defaults:
-  # Don't include documents in assets in the sitemap
+  # Don't include static files under assets/ in the sitemap (PDFs, etc.).
+  # Path must not end with /: Jekyll compares Pathnames and "assets/" never
+  # matches relative paths like "assets/Jack_Yang_Resume.pdf".
   - scope:
-      path: assets/
+      path: assets
     values:
       sitemap: false
   # `jekyll-seo-tag` marks collection outputs as `BlogPosting`; projects are `WebPage`s.
