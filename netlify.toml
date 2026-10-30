@@ -60,3 +60,9 @@
   for = "/assets/video/*"
   [headers.values]
     Cache-Control = "public, max-age=86400, stale-while-revalidate=604800"
+
+# Web app manifest: nosniff on /* would otherwise leave .webmanifest as octet-stream.
+[[headers]]
+  for = "/*.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
