@@ -48,9 +48,19 @@ Hermes came after the July build, as a coordinator across apps. It passes bounde
   caption="My setup after launch."
 %}
 
+## Deciding what stays
+
+Agents made every attempt cheap, so most of my work became deciding which attempts to keep.
+
+**The product is the shopping sequence.** An early build announced the savings before checkout. I had the cart behave like a real one instead: original price, discount, and a shipping charge until the cart clears the free-shipping threshold. The $0.00 at the end only lands if everything before it feels like paying.
+
+On July 26, I asked for a live delivery map and deleted it the same day. Its route didn't match the order status, and every package drove the same path. After a few rounds of revisions I still didn't like it, so the 306-line component came out. Bubble wrap and a full tracking history went the same way, and a smaller recent-scan ticker came later and stayed. When an agent's review suggested removing the fake urgency and streaks, I kept them, because FakeHaul is a parody of exactly those mechanics.
+
+The 27-second promo went through the same loop. It is code, a scripted scene rendered through Playwright and ffmpeg, so I could critique it like an edit. I sent the ending back twice for being too calm, and the final cut hits a musical drop on the $0.00 reveal.
+
 ## Building the content pipeline
 
-**AI generation happens offline.** Models draft listings, fictional reviews, and product images. Scripts validate fields, checkpoint batches, and publish stored assets; I review tone and visual consistency. Browsing never waits on a model call.
+**AI generation happens offline.** Models draft listings, fictional reviews, and product images. Scripts validate fields, checkpoint batches, and publish stored assets; I review tone and visual consistency. That review has to happen across the whole set. One pass I asked for 200 products and got 175, and a new camera angle could quietly turn a product into a different one. Browsing never waits on a model call.
 
 The Next.js storefront serves that content, while Zustand keeps carts and orders in the browser. Versioned image URLs stay live, so saved items keep their pictures. There is no shopper database, which also means no cross-device recovery.
 
@@ -66,23 +76,25 @@ The Next.js storefront serves that content, while Zustand keeps carts and orders
 
 Reviews and Q&A are the parts of a listing people actually read, so they got the most offline work and the least runtime work.
 
-**Reviews are model-written once, offline.** One product per request, six workers, up to five attempts each. A sanitizer bounds ratings and ranges, and a partial batch that clears 60% of the request is accepted rather than retried forever. The output is stored as 64 shards holding **15,104 reviews for 1,676 products**. Shards load on the server only — a test fails if review prose reaches a client bundle — so opening a listing parses one shard, not the whole set.
+**Reviews are model-written once, offline.** One product per request, six workers, up to five attempts each. A sanitizer clamps ratings and dates, caps lengths, and drops any review that names a real brand. A partial batch that clears 60% of the request is accepted rather than retried. The output is stored as 64 shards holding **15,104 reviews for 1,676 products**. Shards load on the server only, and a test fails if review prose reaches a client bundle, so opening a listing parses one shard, not the whole set.
 
-**Q&A is mostly not a model at all.** Category and universal question pools are seeded from the product ID, so a listing shows the same thread every time, and the repetition is the texture, because real marketplace Q&A is that formulaic. Where a product has an authored profile — 124 of them, six reviews and four questions each — those win and arrive as server props; the seeded thread covers everything else.
+**Q&A is mostly not a model at all.** Category and universal question pools are seeded from the product ID, so a listing shows the same thread on every visit. The repetition is deliberate: real marketplace Q&A is that formulaic. Where a product has an authored profile (124 of them, six reviews and four questions each), those win and arrive as server props. Everything else gets the seeded thread. Reviews fall back the same way: profile, then shard, then a seeded set.
 
 {% include pro/diagram.html
   src="/assets/img/projects/fakehaul/07-reviews-qa.svg"
   title="Reviews and Q&A take different paths"
   height="745"
   alt="Reviews are written offline in model batches, sanitized, and stored in 64 shards covering 1,676 products. Product profiles hold six reviews and four Q&A entries for 124 products. Q&A is assembled from seeded template pools in the browser. All three feed a lookup at render time, and no model call happens when a page loads."
-  caption="Every path ends at a lookup. All reviewers, ratings, and votes are fictional."
+  caption="Every path ends at a lookup."
 %}
 
 ## Reviewing what looked finished
 
 When I asked whether the on-screen and shared receipts matched, Claude Code found the same item priced at **$24.99 in one and $79.99 in the other**. I approved a shared pricing module and matching presentation.
 
-During the Railway migration, a share-image response passed both the status and dimension checks, yet it showed a letter tile instead of the product photo. The fix was an asset fetch behind the proxy. The new check looks for the photo itself, because **a check can pass while the person still sees the wrong thing**.
+During the Railway migration, a share-image response passed both the status and dimension checks, yet it showed a letter tile instead of the product photo. The fix was an asset fetch behind the proxy. The new check looks for the photo itself, because **a check can pass while the person still sees the wrong thing**. Green suites missed things too: an October Claude Code audit started from 206 passing tests and still found hydration errors on production pages, because the server and browser disagreed about dates.
+
+On October 28, I handed QA to an overnight run. Hermes tested in the browser and handed each finding to Claude Code or Codex, with a rule that a regression test must fail before the fix. It then reran every check itself, since an agent's own report doesn't verify its fix. It found four app bugs, among them an unboxing overlay that Escape couldn't close and a corrupted saved order that crashed the Orders page. Its all-clear was reopened once, when a visual spot-check caught contrast failures in order states the scans hadn't covered. I committed the fixes on October 29 with **289 tests passing** and one pixel-level contrast check still open.
 
 {% include pro/diagram.html
   src="/assets/img/projects/fakehaul/09-automation-human-gates.svg"
@@ -94,18 +106,13 @@ During the Railway migration, a share-image response passed both the status and 
 
 ## What shipped
 
-I launched in July 2026. Vercel's **monthly Visitors grew from 828 in July to 14,375 in September**. Feedback led to a local weekly report, and in September to a vintage category and an accessibility mode that came out of a dementia-caregiving thread. That tells me people found it and cared enough to ask for changes. It doesn't tell me whether rehearsing shopping helps anyone, which I get into below.
+I launched in July 2026. Vercel's **monthly Visitors grew from 828 in July to 14,375 in September**. After the move to Railway, Cloudflare's three-day view on October 22 (bots excluded) showed **3,620 visits and about 13,000 page views**, about half of them from Google. Those are visits, not people. Feedback led to a local weekly report, and in September to a vintage category and an accessibility mode that came out of a dementia-caregiving thread. That tells me people found it and cared enough to ask for changes. It doesn't tell me whether rehearsing shopping helps anyone, which I get into below.
 
 ## Found by people it wasn't built for
 
-In September, a caregiver posted FakeHaul to r/dementia, saying it wasn't designed for dementia but might help caregivers. I [joined the thread](https://www.reddit.com/r/dementia/comments/1wg6ez9/comment/pa3tfcv/?context=3) and asked what would make it safer and simpler. The replies asked for larger buttons, and for a vintage section with fashion and music. I committed both on September 15 and replied in the thread a few minutes later.
+In September, a caregiver shared FakeHaul on r/dementia as something that might help caregivers, even though it wasn't designed for that. I [asked in the thread](https://www.reddit.com/r/dementia/comments/1wg6ez9/comment/pa3tfcv/?context=3) what would make it safer and simpler. The replies asked for larger buttons and a vintage section, and I committed both on September 15.
 
-**The accessibility mode doesn't zoom the page.** It widens line height and letter spacing, raises the smallest type to 14px, and gives interactive controls 48px hit areas, because scaling a layout up still clips the controls it just enlarged. Settings open in a native dialog that returns focus, checkout accepts Enter or Space instead of the drag, and reduced motion follows the system preference. I haven't audited the app against an accessibility standard. Vintage needed its own work too: one slug helper shared by links, page metadata, and the sitemap, plus redirects from the older music and vintage paths.
-
-FakeHaul takes no money, so the site has exactly one real-money link on it, and it isn't mine. It goes to the donation page of the [Alzheimer's Foundation of America](https://alzfdn.org/), tagged with the site as the source, and it stays out of the cart, checkout, and order screens so nobody mistakes it for part of the game. FakeHaul receives nothing and never sees what anyone gives. AFA's free national helpline, **866-232-8484**, sits beside the link, staffed by licensed social workers.
-
-{:.note title="What this does and doesn't show"}
-The thread shows what caregivers asked for and what shipped. It is not evidence that a person with dementia used the app or benefited from it. FakeHaul is entertainment, not a care tool, and it has never been tested with people living with dementia.
+**The accessibility mode doesn't zoom the page**, because zooming clips the controls it enlarges. It raises the smallest type to 14px and gives controls 48px hit areas, and checkout's slide-to-confirm also takes Enter or Space. The site's one real-money link goes to the [Alzheimer's Foundation of America](https://alzfdn.org/), next to its free helpline (**866-232-8484**), and stays out of the cart and checkout. FakeHaul receives nothing.
 
 ## Press and uncertainty
 
