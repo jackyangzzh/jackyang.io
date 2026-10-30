@@ -62,6 +62,22 @@ The Next.js storefront serves that content, while Zustand keeps carts and orders
   caption="The image lane shows the approved-publish workflow."
 %}
 
+## Reviews and Q&A
+
+Reviews and Q&A are the parts of a listing people actually read, so they got the most offline work and the least runtime work.
+
+**Reviews are model-written once, offline.** One product per request, six workers, up to five attempts each. A sanitizer bounds ratings and ranges, and a partial batch that clears 60% of the request is accepted rather than retried forever. The output is stored as 64 shards holding **15,104 reviews for 1,676 products**. Shards load on the server only — a test fails if review prose reaches a client bundle — so opening a listing parses one shard, not the whole set.
+
+**Q&A is mostly not a model at all.** Category and universal question pools are seeded from the product ID, so a listing shows the same thread every time, and the repetition is the texture, because real marketplace Q&A is that formulaic. Where a product has an authored profile — 124 of them, six reviews and four questions each — those win and arrive as server props; the seeded thread covers everything else.
+
+{% include pro/diagram.html
+  src="/assets/img/projects/fakehaul/07-reviews-qa.svg"
+  title="Reviews and Q&A take different paths"
+  height="745"
+  alt="Reviews are written offline in model batches, sanitized, and stored in 64 shards covering 1,676 products. Product profiles hold six reviews and four Q&A entries for 124 products. Q&A is assembled from seeded template pools in the browser. All three feed a lookup at render time, and no model call happens when a page loads."
+  caption="Every path ends at a lookup. All reviewers, ratings, and votes are fictional."
+%}
+
 ## Reviewing what looked finished
 
 When I asked whether the on-screen and shared receipts matched, Claude Code found the same item priced at **$24.99 in one and $79.99 in the other**. I approved a shared pricing module and matching presentation.
@@ -78,7 +94,18 @@ During the Railway migration, a share-image response passed both the status and 
 
 ## What shipped
 
-I launched in July 2026. Vercel's **monthly Visitors grew from 828 in July to 14,375 in September**. Feedback led to a local weekly report, a vintage category, and larger controls. That tells me people found it and cared enough to ask for changes. It doesn't tell me whether rehearsing shopping helps anyone, which I get into below.
+I launched in July 2026. Vercel's **monthly Visitors grew from 828 in July to 14,375 in September**. Feedback led to a local weekly report, and in September to a vintage category and an accessibility mode that came out of a dementia-caregiving thread. That tells me people found it and cared enough to ask for changes. It doesn't tell me whether rehearsing shopping helps anyone, which I get into below.
+
+## Found by people it wasn't built for
+
+In September, a caregiver posted FakeHaul to r/dementia, saying it wasn't designed for dementia but might help caregivers. I [joined the thread](https://www.reddit.com/r/dementia/comments/1wg6ez9/comment/pa3tfcv/?context=3) and asked what would make it safer and simpler. The replies asked for larger buttons, and for a vintage section with fashion and music. I committed both on September 15 and replied in the thread a few minutes later.
+
+**The accessibility mode doesn't zoom the page.** It widens line height and letter spacing, raises the smallest type to 14px, and gives interactive controls 48px hit areas, because scaling a layout up still clips the controls it just enlarged. Settings open in a native dialog that returns focus, checkout accepts Enter or Space instead of the drag, and reduced motion follows the system preference. I haven't audited the app against an accessibility standard. Vintage needed its own work too: one slug helper shared by links, page metadata, and the sitemap, plus redirects from the older music and vintage paths.
+
+FakeHaul takes no money, so the site has exactly one real-money link on it, and it isn't mine. It goes to the donation page of the [Alzheimer's Foundation of America](https://alzfdn.org/), tagged with the site as the source, and it stays out of the cart, checkout, and order screens so nobody mistakes it for part of the game. FakeHaul receives nothing and never sees what anyone gives. AFA's free national helpline, **866-232-8484**, sits beside the link, staffed by licensed social workers.
+
+{:.note title="What this does and doesn't show"}
+The thread shows what caregivers asked for and what shipped. It is not evidence that a person with dementia used the app or benefited from it. FakeHaul is entertainment, not a care tool, and it has never been tested with people living with dementia.
 
 ## Press and uncertainty
 
