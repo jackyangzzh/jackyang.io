@@ -1,6 +1,6 @@
 ---
 layout: project
-weight: 1
+weight: 0
 title: 'Microsoft Mesh & Avatars for Teams'
 description: >
   The shared UI framework every Mesh product team adopted, plus avatar editing and rendering across mobile, desktop, and AR/VR.

@@ -34,15 +34,15 @@ author:
 
 medium_username: jackyangzzh
 
-# Primary navigation. The current page is marked by the travelling line; on the
+# Primary navigation, in the home page's section order. The current page is marked by the travelling line; on the
 # home page it follows the section in view (an item whose url has a #hash).
 menu:
   - title: About
     url: /
-  - title: Experience
-    url: /#experience
   - title: Projects
     url: /projects/
+  - title: Experience
+    url: /#experience
   - title: Writing
     url: /writing/
 

@@ -103,6 +103,17 @@ research:
     highlights:
       - Added **speech recognition and NLP-driven interaction** to children's reading-companion robots.
       - Designed and built a **collaborative-filtering recommender system**, successfully trialed with **eight families**.
+# Side projects. Not rendered as a section; the source for claims made in
+# case studies (see _projects/).
+projects:
+  - name: "FakeHaul"
+    description: "An AI-generated marketplace where every checkout is $0.00."
+    url: "https://fakehaul.com/"
+    startDate: "2026-07-01"
+    highlights:
+      - "Monthly visitors grew 18x in two months, from 828 to 14,375."
+      - "Covered by *The New York Times*, *Fast Company*, *Digital Trends*, *BBC*, and *TODAY*."
+
 education:
   - institution: "Georgia Institute of Technology"
     studyType: "M.S. in Computer Science (HCI)"

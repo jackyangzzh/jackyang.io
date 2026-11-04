@@ -1,6 +1,6 @@
 ---
 layout: project
-weight: 0
+weight: 1
 featured: true
 title: 'FakeHaul'
 description: >
@@ -30,7 +30,7 @@ links:
 - **What:** a fake store with 1,800 fictional products where every checkout ends at $0.00
 - **My role:** solo builder, from product and design to engineering and launch
 - **Stack:** Next.js, React, Zustand, Sharp, FLUX.2-pro, Railway, Cloudflare
-- **Results:** Monthly Visitors up 18x in two months (828 to 14,375), plus coverage from Fast Company, Digital Trends, BBC, and TODAY
+- **Results:** Monthly Visitors up 18x in two months (828 to 14,375), plus coverage from The New York Times, Fast Company, Digital Trends, BBC, and TODAY
 - **Cost:** about $200 of AI to build, $5–10 a month to host
 {:.note title="At a glance"}
 

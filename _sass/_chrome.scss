@@ -239,7 +239,7 @@
       letter-spacing: .05em;
       width: 1.5rem;
     }
-    &[aria-current="page"] { color: var(--signal); }
+    &[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .12em; }
   }
 }
 .mnav.is-open .mnav__nav li {
@@ -280,6 +280,31 @@
 .ft__contact { @include up($md) { grid-column: 1 / span 6; } }
 .ft__col:nth-child(2) { @include up($md) { grid-column: 8 / span 2; } }
 .ft__col:nth-child(3) { @include up($md) { grid-column: 10 / span 3; justify-self: end; } }
+
+// "Your turn": a short waveform winds down into a pause, then the live dot lights.
+.ft__turn {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  color: var(--ink-2);
+  .live__dot { transition: background-color .4s var(--ease), transform .5s var(--ease); }
+}
+.ft__wave {
+  flex: none;
+  rect { fill: var(--ink); transform-box: fill-box; transform-origin: center; }
+  circle { fill: var(--muted); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.js .ft__turn {
+    rect, circle { transition: transform .5s var(--ease), opacity .4s var(--ease); transition-delay: calc(var(--i) * 70ms); }
+    .live__dot { transition-delay: 1.35s; }
+    &:not(.is-on) {
+      rect { transform: scaleY(.15); opacity: .3; }
+      circle { opacity: 0; }
+      .live__dot { background: var(--muted); transform: scale(.6); &::after { animation: none; } }
+    }
+  }
+}
 
 .ft__email-row {
   display: flex;
@@ -530,8 +555,10 @@
   .hd__btn { min-width: 2.75rem; height: 2.75rem; }
   .socials a { width: 2.75rem; height: 2.75rem; }
   .ft__list { gap: 1.125rem; }
-  .ft__list .qlink, .ft__top, .crumbs a { position: relative; }
-  .ft__list .qlink::after, .ft__top::after, .crumbs a::after {
+  .ft__list .qlink, .ft__top, .crumbs a, .entry__case, .sh__aux, .cs__by .qlink, .cover__toggle, .signal__btn { position: relative; }
+  .ft__list .qlink::after, .ft__top::after, .crumbs a::after,
+  .entry__case::after, .sh__aux::after, .cs__by .qlink::after, .cover__toggle::after,
+  .signal__btn::after {
     content: "";
     position: absolute;
     inset: -.5625rem -.25rem;

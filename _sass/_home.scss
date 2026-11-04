@@ -261,6 +261,9 @@
 
 .signal {
   margin-top: clamp(1.75rem, 4vh, 2.75rem);
+  // Wide hero: the headline sits right above, so the playhead's time label
+  // needs clear air below "conversations." (taken from the band above the title).
+  @include up($xl) { margin-top: clamp(3rem, 7vh, 4.25rem); }
   html:not(.js) & { display: none; }
 }
 .signal__stage {
@@ -270,6 +273,8 @@
   touch-action: pan-y;
   -webkit-user-select: none;
   user-select: none;
+  border-radius: 2px;
+  &:focus-visible { outline-offset: 10px; }
   svg { width: 100%; height: 100%; overflow: visible; }
   .w-rest { opacity: .2; }
 }
@@ -333,13 +338,63 @@
   &.is-agent b { color: var(--signal-text); }
   &.is-gap { color: var(--muted); }
 }
-.signal__hint {
+// Controls: a fixed-width slot, so the caption beside it never reflows.
+.signal__ctl {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 1.1rem;
   white-space: nowrap;
   text-transform: uppercase;
   letter-spacing: .06em;
+  @include up($sm) { flex: none; width: 17rem; }
+}
+.signal__hint {
   transition: opacity .3s;
-  .signal.is-scrub & { opacity: 0; }
-  @include down($sm) { display: none; }
+  .signal.is-scrub & { display: none; }
+}
+.signal__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  .i { transform: translateY(-.5px); }
+  color: var(--ink-2);
+  transition: color .2s;
+  @include hover { &:hover { color: var(--ink); } }
+  &[hidden] { display: none; }
+}
+// A gap's pause meter: full width is the turn threshold; crossing it lights it.
+.signal__meter {
+  display: inline-block;
+  vertical-align: middle;
+  width: 2.75rem;
+  height: 3px;
+  margin: -2px .7em 0 0;
+  border-radius: 2px;
+  background: var(--line-2);
+  overflow: hidden;
+  i {
+    display: block;
+    height: 100%;
+    width: calc(var(--p, 0) * 100%);
+    background: var(--muted);
+    transition: background-color .25s;
+  }
+  .is-over & i { background: var(--signal); }
+}
+.signal__text.is-over { color: var(--ink-2); }
+// Phones: Fig. 1 and the controls share the first row, the line gets its own.
+@include down($sm) {
+  .signal__cap { flex-wrap: wrap; row-gap: .4rem; }
+  .signal__ctl { margin-left: auto; }
+  .signal__text { order: 3; flex-basis: 100%; }
 }
 
 // Section scaffolding
@@ -889,8 +944,9 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
 .entry__what {
   list-style: none;
   // One or two outcome phrases per bullet are bolded in _data/resume.yml,
-  // so a skim lands on the impact.
-  strong { color: var(--ink); font-weight: 600; }
+  // so a skim lands on the impact. With 2-3 per bullet, 600 turned the list into
+  // a wall of bold; tone (ink on ink-2) plus 500 still pulls the eye.
+  strong { color: var(--ink); font-weight: 500; }
   margin-top: 1.15rem;
   font-size: 1rem;
   line-height: 1.62;
@@ -1062,4 +1118,14 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
     .post__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .14em; text-decoration-color: var(--line-2); }
     .post__go { color: var(--ink); transform: translate(2px, -2px); }
   }
+}
+
+// Phones: tighten the hero so Fig. 1's caption is read in the first screen.
+@include down($sm) {
+  .hero__where { display: none; }
+  .hero__body { padding-top: 1rem; }
+  .hero__foot { margin-top: 1.25rem; }
+  .signal { margin-top: 2.75rem; }
+  .signal__stage { height: 56px; }
+  .signal__cap { margin-top: .75rem; }
 }

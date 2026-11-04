@@ -22,7 +22,8 @@
 
   /* ------------------------------------------------------------ theme */
 
-  const currentTheme = () => root.getAttribute("data-theme") || "dark";
+  const osDark = matchMedia("(prefers-color-scheme: dark)");
+  const currentTheme = () => root.getAttribute("data-theme") || (osDark.matches ? "dark" : "light");
   const themeMeta = $('meta[name="theme-color"]');
 
   function syncThemeUI() {
@@ -54,6 +55,7 @@
 
   function theme() {
     syncThemeUI();
+    osDark.addEventListener("change", syncThemeUI);
     $$("[data-theme-toggle]").forEach((b) => b.addEventListener("click", () => toggleTheme(b)));
   }
 
@@ -249,8 +251,10 @@
 
   /* ------------------------------------------------------------ Fig. 1: the conversation */
 
-  // An illustrated conversation drawn as a voice waveform. Scrubbing moves a
-  // playhead; the caption shows who is speaking at that moment.
+  // An illustrated conversation drawn as a voice waveform. On screen it plays
+  // itself in real time: words arrive as they're "said", and each gap fills a
+  // pause meter toward the agent's turn threshold. Hovering, dragging or the
+  // keyboard takes over; the caption then shows who is speaking at the playhead.
   function signal() {
     const fig = $("[data-signal]");
     if (!fig) return;
@@ -258,6 +262,10 @@
     const head = $("[data-signal-head]", fig);
     const time = $("[data-signal-time]", fig);
     const text = $("[data-signal-text]", fig);
+    const hint = $("[data-signal-hint]", fig);
+    const btn = $("[data-signal-play]", fig);
+    // Illustrative only: how long a gap must last before the agent may speak.
+    const TURN = 1.2;
     let turns;
     try { turns = JSON.parse($("[data-signal-data]", fig).textContent); } catch { return; }
     if (!Array.isArray(turns) || !turns.length) return;
@@ -335,8 +343,9 @@
         el.className = "signal__text";
         el.textContent = text.dataset.default;
       } else if (seg.gap) {
-        el.className = "signal__text is-gap";
-        el.textContent = seg.text || "Pause";
+        const len = seg.end - seg.start;
+        el.className = `signal__text is-gap${len >= TURN ? " is-over" : ""}`;
+        el.innerHTML = `<span class="signal__meter" style="--p:${Math.min(1, len / TURN)}"><i></i></span>${esc(seg.text || "Pause")}`;
       } else {
         const agent = seg.who === "agent";
         el.className = `signal__text${agent ? " is-agent" : ""}`;
@@ -348,6 +357,33 @@
       if (seg === cur) return;
       cur = seg;
       paint(text, seg);
+      const said = !seg ? text.dataset.default : seg.gap ? seg.text || "Pause" : `${seg.who === "agent" ? "Agent" : seg.who}: ${seg.text}`;
+      stage.setAttribute("aria-valuetext", said);
+    };
+    // Live caption: the words said so far, or a gap's meter filling in real time.
+    let liveKey = "";
+    const liveCaption = (seg, tt) => {
+      cur = undefined;
+      const into = tt - seg.start;
+      if (seg.gap) {
+        const over = into >= TURN;
+        const key = `g${seg.start}${over}`;
+        if (key !== liveKey) {
+          liveKey = key;
+          text.className = `signal__text is-gap${over ? " is-over" : ""}`;
+          text.innerHTML = `<span class="signal__meter"><i></i></span>${esc(seg.text || "Pause")}`;
+        }
+        text.firstChild.style.setProperty("--p", Math.min(1, into / TURN).toFixed(3));
+        return;
+      }
+      const words = seg.text.split(" ");
+      const n = Math.min(words.length, Math.ceil((words.length * into) / ((seg.end - seg.start) * 0.9)));
+      const key = `s${seg.start}:${n}`;
+      if (key === liveKey) return;
+      liveKey = key;
+      const agent = seg.who === "agent";
+      text.className = `signal__text${agent ? " is-agent" : ""}`;
+      text.innerHTML = `<b>${esc(agent ? "Agent" : seg.who)}</b>“${esc(words.slice(0, n).join(" "))}${n === words.length ? "”" : ""}`;
     };
     // Reserve the height of the longest line at this width, so scrubbing
     // never moves the page below the figure.
@@ -362,7 +398,7 @@
       text.style.minHeight = `${Math.ceil(max)}px`;
     };
 
-    const show = (x) => {
+    const show = (x, live) => {
       if (!clipA) return;
       x = Math.max(0, Math.min(W, x));
       clipA.setAttribute("width", x);
@@ -372,6 +408,8 @@
       const tt = (x / W) * total;
       time.textContent = stamp(tt);
       time.style.transform = x < 32 ? "translate(0, -6px)" : x > W - 32 ? "translate(-100%, -6px)" : "";
+      if (live) return liveCaption(segAt(Math.min(live, total - 0.001)), live);
+      stage.setAttribute("aria-valuenow", tt.toFixed(1));
       caption(segAt(Math.min(tt, total - 0.001)));
     };
     const reset = () => {
@@ -380,12 +418,67 @@
       caption(null);
     };
 
+    /* Playback */
+    const ICON = {
+      pause: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2v8M8.5 2v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+      play: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2.2v7.6L9.8 6z" fill="currentColor"/></svg>',
+      replay: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.2 6a3.8 3.8 0 1 0 1.1-2.7M2.2 1.6v2.2h2.2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    };
+    let playing = false;
+    let ended = false;
+    let held = false; // paused because the figure left the screen or the tab hid
+    let pt = 0;
+    let last = 0;
+    let rafP = 0;
+    let doneTimer = 0;
+    const setBtn = () => {
+      if (!btn) return;
+      const [k, label] = playing ? ["pause", "Pause"] : ended ? ["replay", "Replay"] : ["play", pt > 0 ? "Resume" : "Play"];
+      btn.innerHTML = `${ICON[k]}<span>${label}</span>`;
+      btn.setAttribute("aria-label", `${label} the illustrated conversation`);
+    };
+    const frame = (now) => {
+      if (!playing) return;
+      pt += Math.min(0.1, (now - last) / 1000);
+      last = now;
+      if (pt >= total) return finish();
+      show((pt / total) * W, pt);
+      rafP = requestAnimationFrame(frame);
+    };
+    const play = () => {
+      clearTimeout(doneTimer);
+      if (ended) { pt = 0; ended = false; }
+      playing = true;
+      held = false;
+      liveKey = "";
+      fig.classList.add("is-scrub", "is-playing");
+      last = performance.now();
+      cancelAnimationFrame(rafP);
+      rafP = requestAnimationFrame(frame);
+      setBtn();
+    };
+    const stop = () => {
+      if (!playing) return;
+      playing = false;
+      cancelAnimationFrame(rafP);
+      fig.classList.remove("is-playing");
+      setBtn();
+    };
+    const finish = () => {
+      stop();
+      ended = true;
+      setBtn();
+      // Rest on the last line a moment, then hand the figure back.
+      doneTimer = setTimeout(() => { if (!playing && !stage.matches(":focus-visible")) reset(); }, 2600);
+    };
+    // Any direct handling of the figure takes over from playback.
+    const takeOver = () => { clearTimeout(doneTimer); held = false; stop(); };
+
     let raf = 0;
-    let releaseTimer = 0;
     const move = (e) => {
+      takeOver();
       const x = e.clientX - stage.getBoundingClientRect().left;
       fig.classList.add("is-scrub");
-      clearTimeout(releaseTimer);
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => show(x));
     };
@@ -394,17 +487,70 @@
       if (e.pointerType !== "mouse") { try { stage.setPointerCapture(e.pointerId); } catch { /* ignore */ } }
       move(e);
     });
-    stage.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") reset(); });
-    const release = (e) => { if (e.pointerType !== "mouse") { clearTimeout(releaseTimer); releaseTimer = setTimeout(reset, 1800); } };
-    stage.addEventListener("pointerup", release);
-    stage.addEventListener("pointercancel", release);
+    stage.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse" && !stage.matches(":focus-visible")) reset(); });
+    // Touch keeps the last line on screen after the finger lifts, so it can be read.
+
+    // Keyboard: a slider that steps one turn (or pause) at a time.
+    const fine = matchMedia("(hover: hover) and (pointer: fine)");
+    const setHint = () => { if (hint) hint.textContent = fine.matches ? "Hover or use arrow keys" : "Drag to scrub"; };
+    setHint();
+    fine.addEventListener("change", setHint);
+    stage.removeAttribute("aria-hidden");
+    stage.tabIndex = 0;
+    stage.setAttribute("role", "slider");
+    stage.setAttribute("aria-valuemin", "0");
+    stage.setAttribute("aria-valuemax", total.toFixed(1));
+    let ki = -1;
+    const goTo = (i) => {
+      ki = Math.max(0, Math.min(segs.length - 1, i));
+      const s = segs[ki];
+      fig.classList.add("is-scrub");
+      show((((s.start + s.end) / 2) / total) * W);
+    };
+    stage.addEventListener("keydown", (e) => {
+      const step = { ArrowRight: 1, ArrowDown: 1, PageDown: 3, ArrowLeft: -1, ArrowUp: -1, PageUp: -3 }[e.key];
+      if (step) goTo((ki < 0 ? (step > 0 ? -1 : segs.length) : ki) + step);
+      else if (e.key === "Home") goTo(0);
+      else if (e.key === "End") goTo(segs.length - 1);
+      else return;
+      e.preventDefault();
+    });
+    stage.addEventListener("focus", () => { if (ki < 0 && stage.matches(":focus-visible")) { takeOver(); goTo(0); } });
+    stage.addEventListener("blur", () => { ki = -1; reset(); });
 
     build();
     reset();
     fitCaption();
     if (d.fonts) d.fonts.ready.then(fitCaption);
     let rt = 0;
-    new ResizeObserver(() => { cancelAnimationFrame(rt); rt = requestAnimationFrame(() => { build(); reset(); fitCaption(); }); }).observe(stage);
+    new ResizeObserver(() => { cancelAnimationFrame(rt); rt = requestAnimationFrame(() => { build(); if (!playing) reset(); fitCaption(); }); }).observe(stage);
+
+    if (btn) {
+      btn.hidden = false;
+      setBtn();
+      btn.addEventListener("click", () => {
+        if (playing) { stop(); return; }
+        play();
+      });
+    }
+    // Plays by itself once, when on screen; never under reduced motion.
+    // Leaving the screen or hiding the tab holds it; coming back resumes.
+    if (!reduced.matches && "IntersectionObserver" in window) {
+      let started = false;
+      let inView = false;
+      const io = new IntersectionObserver(([en]) => {
+        inView = en.isIntersecting;
+        if (inView) {
+          if (!started) { started = true; setTimeout(() => { if (!pt && !ended && !fig.matches(":hover") && d.activeElement !== stage) play(); }, 900); }
+          else if (held) play();
+        } else if (playing) { stop(); held = true; }
+      }, { threshold: 0.6 });
+      io.observe(fig);
+      d.addEventListener("visibilitychange", () => {
+        if (d.hidden && playing) { stop(); held = true; }
+        else if (!d.hidden && held && inView) play();
+      });
+    }
   }
 
   /* ------------------------------------------------------------ career timeline */
@@ -746,6 +892,20 @@
     });
   }
 
+  /* ------------------------------------------------------------ footer: your turn */
+
+  // Plays once, when the footer comes into view.
+  function turn() {
+    const el = $("[data-turn]");
+    if (!el || reduced.matches || !("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((en) => en.isIntersecting)) return;
+      el.classList.add("is-on");
+      io.disconnect();
+    }, { threshold: 1 });
+    io.observe(el);
+  }
+
   /* ------------------------------------------------------------ copy email */
 
   async function copyText(value, msg) {
@@ -784,15 +944,16 @@
     const arrow = '<svg class="i cmdk__go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     const search = '<svg class="i" width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12.5 12.5l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
 
+    // Contact leads: it's what most visitors open the menu to find.
     const commands = [
+      { group: "Contact", label: "Book a 30-minute call", keys: "calendly meeting schedule", url: data.schedule, ext: true },
+      { group: "Contact", label: "Send an email", keys: "contact mail", meta: data.email, url: `mailto:${data.email}` },
+      { group: "Contact", label: "Copy email address", keys: "contact mail", run: () => copyText(data.email, "Email address copied") },
+      { group: "Contact", label: "Open résumé (PDF)", keys: "resume cv download", url: data.resume },
       ...data.pages.map((p) => ({ group: "Pages", label: p.label, url: p.url })),
       ...data.projects.map((p) => ({ group: "Projects", label: p.label, url: p.url, meta: p.meta })),
       ...data.posts.map((p) => ({ group: "Writing", label: p.label, url: p.url, meta: p.meta, ext: true })),
-      { group: "Actions", label: "Copy email address", meta: data.email, run: () => copyText(data.email, "Email address copied") },
       { group: "Actions", label: "Toggle dark mode", keys: "theme light", run: () => toggleTheme() },
-      { group: "Actions", label: "Download résumé (PDF)", keys: "resume cv", url: data.resume },
-      { group: "Actions", label: "Book a 30-minute call", keys: "calendly meeting schedule", url: data.schedule, ext: true },
-      { group: "Actions", label: "Send an email", keys: "contact mail", url: `mailto:${data.email}` },
       ...data.profiles.map((p) => ({ group: "Elsewhere", label: p.label, url: p.url, ext: true })),
     ].map((c) => ({ ...c, hay: `${c.label} ${c.group} ${c.meta || ""} ${c.keys || ""}`.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "") }));
 
@@ -909,6 +1070,7 @@
     sectionSpy();
     tracks();
     signal();
+    turn();
     timeline();
     toc();
     reveal();

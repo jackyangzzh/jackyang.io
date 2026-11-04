@@ -40,6 +40,11 @@ layout: base
         {%- endif %}
       </dl>
     </div>
+    {%- comment -%}Many visitors land here first, so say who wrote this and how to reach him.{%- endcomment %}
+    <p class="cs__by intro" style="--d: 2">
+      <span><a href="{{ '/' | relative_url }}">{{ site.title }}</a> · {{ site.role }}</span>
+      <a class="qlink" href="{{ site.contact.resume | relative_url }}">Résumé (PDF) {% include icon.html name="arrow-ur" %}</a>
+    </p>
   </header>
 
   <figure class="cs__hero cs__hero--{{ hero }} wrap intro" style="--d: 3">

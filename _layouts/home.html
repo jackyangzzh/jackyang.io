@@ -30,7 +30,7 @@ layout: base
       <div class="hero__actions">
         <div class="hero__btns">
           <a class="btn" href="{{ site.contact.schedule }}" rel="noopener">Book time with me {% include icon.html name="arrow-ur" %}</a>
-          <a class="btn btn--line" href="{{ site.contact.resume | relative_url }}">Résumé {% include icon.html name="arrow-d" %}</a>
+          <a class="btn btn--line" href="{{ site.contact.resume | relative_url }}">Résumé {% include icon.html name="arrow-ur" %}</a>
           {%- if linkedin %}
           <a class="btn btn--line" href="{{ linkedin.url }}" rel="me noopener">LinkedIn {% include icon.html name="arrow-ur" %}</a>
           {%- endif %}
@@ -56,13 +56,16 @@ layout: base
 
   {%- if page.signal %}
   <figure class="signal wrap intro" style="--d: 5" data-signal aria-label="{{ page.signal.label | escape }}">
-    <div class="signal__stage" data-signal-stage aria-hidden="true">
+    <div class="signal__stage" data-signal-stage aria-hidden="true" aria-label="Fig. 1, conversation timeline">
       <div class="signal__head" data-signal-head><span class="signal__time mono" data-signal-time>00:00.0</span></div>
     </div>
-    <figcaption class="signal__cap mono" aria-hidden="true">
-      <span class="signal__fig">Fig. 1</span>
-      <span class="signal__text" data-signal-text data-default="{{ page.signal.caption | escape }}">{{ page.signal.caption }}</span>
-      <span class="signal__hint" data-signal-hint>Hover to scrub</span>
+    <figcaption class="signal__cap mono">
+      <span class="signal__fig" aria-hidden="true">Fig. 1</span>
+      <span class="signal__text" data-signal-text data-default="{{ page.signal.caption | escape }}" aria-hidden="true">{{ page.signal.caption }}</span>
+      <span class="signal__ctl">
+        <span class="signal__hint" data-signal-hint aria-hidden="true">Hover to scrub</span>
+        <button type="button" class="signal__btn" data-signal-play hidden></button>
+      </span>
     </figcaption>
     <script type="application/json" data-signal-data>{{ page.signal.turns | jsonify }}</script>
   </figure>
@@ -119,7 +122,7 @@ layout: base
 
 <section class="sec" id="experience" aria-labelledby="xp-title">
   <div class="wrap">
-    {% include sec-head.html no="03" title="Experience" id="xp-title" aux="Résumé (PDF)" aux_url=site.contact.resume aux_icon="arrow-d" %}
+    {% include sec-head.html no="03" title="Experience" id="xp-title" aux="Résumé (PDF)" aux_url=site.contact.resume aux_icon="arrow-ur" %}
     <div class="reveal">{% include timeline.html %}</div>
 
     {%- comment -%}
