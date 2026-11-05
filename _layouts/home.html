@@ -41,15 +41,14 @@ so when it fades the page is already there.
   {%- assign film = site.static_files | where: "path", page.film.src | first -%}
   {%- capture fv %}{% if film %}?v={{ film.modified_time | date: "%s" }}{% endif %}{% endcapture %}
   <figure class="fig intro" style="--d: 4" data-fig>
-    <button type="button" class="fig__play" data-fig-play aria-label="Play Fig. 1, a {{ page.film.duration }}-second film of my work">{% include icon.html name="play" px="14" %}<span>Fig. 1</span><span class="fig__dur">0:{{ page.film.duration }}</span></button>
+    <button type="button" class="fig__play" data-fig-play aria-label="Play Fig. 1, a film of my work, {{ page.film.duration }} seconds">{% include icon.html name="play" px="14" %}<span>Fig. 1</span><span class="fig__dur">0:{{ page.film.duration }}</span></button>
     <noscript><a class="fig__play" href="{{ page.film.src | relative_url }}">Watch Fig. 1</a></noscript>
   </figure>
-  {%- comment -%}The screen sits on the cover itself, outside the figure's entrance transform.{%- endcomment %}
+  {%- comment -%}The screen takes the headline's place on the cover. It sits outside the figure, whose entrance transform would otherwise anchor it.{%- endcomment %}
   <div class="film" data-film hidden>
     <video class="film__video" data-film-video muted playsinline preload="none" poster="{{ page.film.poster | relative_url }}" aria-label="{{ page.film.label | escape }}">
       <source data-src="{{ page.film.src | relative_url }}{{ fv }}" type="video/mp4">
     </video>
-    <button type="button" class="film__close" data-film-close>Close</button>
   </div>
   {%- endif %}
 

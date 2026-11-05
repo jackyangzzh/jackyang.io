@@ -205,9 +205,11 @@
 
   /* ------------------------------------------------------------ Fig. 1, the film */
 
-  // Play opens the film over the cover through a square aperture grown from
-  // the button. The bar's rail becomes its timeline (click to seek), Esc or
-  // Close shuts it, and at the end it fades back to the cover it ends on.
+  // Play turns the headline into a screen: the film rises in a box in the
+  // headline's place, inside the page, and the button becomes Close. The
+  // bar's rail is its timeline (click to seek) and Esc closes it. The film
+  // ends on a red square; the page takes over from there: the screen fades,
+  // the headline rises again, and the square flies into its full stop.
   function fig1() {
     const hero = $("[data-hero]");
     const fig = hero && $("[data-fig]", hero);
@@ -215,10 +217,14 @@
     const btn = $("[data-fig-play]", fig);
     const film = $("[data-film]", hero);
     const v = $("[data-film-video]", film);
-    const close = $("[data-film-close]", film);
+    const stage = $("[data-stage]", hero);
+    const label = btn.innerHTML;
     const rail = $("[data-rail]");
-    // The agent's turn in the film: 2.0 s to 2.5 s of 20.
-    if (rail) { rail.style.setProperty("--a0", "10%"); rail.style.setProperty("--aw", "2.5%"); }
+    // The agent's turn in the film: 2.0 s to 2.5 s.
+    const markAgent = (dur) => { if (rail) { rail.style.setProperty("--a0", `${(200 / dur).toFixed(2)}%`); rail.style.setProperty("--aw", `${(50 / dur).toFixed(2)}%`); } };
+    markAgent(17.9);
+    v.addEventListener("loadedmetadata", () => markAgent(v.duration));
+    const narrow = matchMedia("(max-width: 39.999em)");
     let open = false;
     let raf = 0;
 
@@ -227,27 +233,85 @@
       if (rail && v.duration) rail.style.setProperty("--p", (v.currentTime / v.duration).toFixed(4));
       raf = requestAnimationFrame(tick);
     };
+    // Wide screens: the largest 16:9 box that fits the headline's area,
+    // centred in it. Phones: edge to edge at 16:10 (the crop only takes the
+    // film's side margins), pushing the intro down if it needs the room.
+    const place = () => {
+      const gap = 24; // clear of the role line above
+      stage.style.minHeight = "";
+      const h = hero.getBoundingClientRect();
+      let st = stage.getBoundingClientRect();
+      if (narrow.matches) {
+        const w = h.width, hh = (w * 10) / 16;
+        if (hh + gap > st.height) { stage.style.minHeight = `${Math.ceil(hh + gap * 2)}px`; st = stage.getBoundingClientRect(); }
+        Object.assign(film.style, { left: "0px", top: `${st.top - h.top + gap + (st.height - gap - hh) / 2}px`, width: `${w}px`, height: `${hh}px` });
+        return;
+      }
+      const cs = getComputedStyle(stage);
+      const pl = parseFloat(cs.paddingLeft), pr = parseFloat(cs.paddingRight);
+      const aw = st.width - pl - pr, ah = st.height - gap;
+      const w = Math.min(aw, (ah * 16) / 9), hh = (w * 9) / 16;
+      Object.assign(film.style, {
+        left: `${st.left - h.left + pl + (aw - w) / 2}px`,
+        top: `${st.top - h.top + gap + (ah - hh) / 2}px`,
+        width: `${w}px`,
+        height: `${hh}px`,
+      });
+    };
+
+    // The headline's final full stop, wrapped once so the square can land in it.
+    const stopOf = () => {
+      const line = $$(".hero__line", hero).filter((l) => l.clientWidth).pop();
+      if (!line) return null;
+      let sp = $(".hero__stop", line);
+      if (sp) return sp;
+      const walk = d.createTreeWalker(line, NodeFilter.SHOW_TEXT);
+      let last = null;
+      while (walk.nextNode()) if (walk.currentNode.nodeValue.trim()) last = walk.currentNode;
+      const i = last ? last.nodeValue.lastIndexOf(".") : -1;
+      if (i < 0) return null;
+      const dotText = last.splitText(i);
+      dotText.splitText(1);
+      sp = d.createElement("span");
+      sp.className = "hero__stop";
+      dotText.replaceWith(sp);
+      sp.append(dotText);
+      return sp;
+    };
+    // Where the full stop's ink sits on screen, measured from the font.
+    const inkOf = (sp) => {
+      const cs = getComputedStyle(sp);
+      const cx = d.createElement("canvas").getContext("2d");
+      cx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      cx.fontStretch = "expanded"; // after .font, which resets it
+      const m = cx.measureText(".");
+      const r = sp.getBoundingClientRect();
+      const base = r.bottom - m.fontBoundingBoxDescent;
+      const x0 = r.left - m.actualBoundingBoxLeft, x1 = r.left + m.actualBoundingBoxRight;
+      const y0 = base - m.actualBoundingBoxAscent, y1 = base + m.actualBoundingBoxDescent;
+      return { x: (x0 + x1) / 2, y: (y0 + y1) / 2, s: Math.max(x1 - x0, y1 - y0) };
+    };
+    new ResizeObserver(() => { if (open) place(); }).observe(hero);
     const show = () => {
       if (open) return;
       open = true;
       const source = $("source[data-src]", v);
       if (source) { source.src = source.dataset.src; delete source.dataset.src; v.load(); }
-      // The aperture starts where the button is.
-      const h = hero.getBoundingClientRect();
-      const b = btn.getBoundingClientRect();
-      film.style.setProperty("--ap", `inset(${b.top - h.top}px ${h.right - b.right}px ${h.bottom - b.bottom}px ${b.left - h.left}px)`);
+      place();
       film.hidden = false;
       hero.classList.add("is-film");
       root.classList.add("is-fig", "is-live");
       requestAnimationFrame(() => requestAnimationFrame(() => film.classList.add("is-open")));
       v.currentTime = 0;
       v.play().catch(() => {});
-      close.focus({ preventScroll: true });
+      btn.innerHTML = '<svg class="i" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="3" width="8" height="8" fill="currentColor"/></svg><span>Close</span>';
+      btn.setAttribute("aria-label", "Close Fig. 1");
       raf = requestAnimationFrame(tick);
     };
-    const hide = () => {
+    const hide = (landing) => {
       if (!open) return;
       open = false;
+      stage.style.minHeight = "";
       cancelAnimationFrame(raf);
       v.pause();
       film.classList.remove("is-open");
@@ -256,12 +320,50 @@
       root.classList.remove("is-fig", "is-live");
       d.dispatchEvent(new Event("bar:refresh"));
       setTimeout(() => { if (!open) { film.hidden = true; film.classList.remove("is-closing"); } }, reduced.matches ? 0 : 700);
-      if (film.contains(d.activeElement)) btn.focus({ preventScroll: true });
+      btn.innerHTML = label;
+      btn.setAttribute("aria-label", btn.dataset.label);
+      if (landing) {
+        // The headline rises again, as it does on load.
+        $$(".hero__line .fit__in", hero).forEach((el) => { el.style.animation = "none"; void el.offsetWidth; el.style.animation = ""; });
+      }
     };
 
-    btn.addEventListener("click", show);
-    close.addEventListener("click", hide);
-    v.addEventListener("ended", () => setTimeout(hide, 900));
+    // The end: the film's last frame is a red square at its centre. A square
+    // on the page takes its place and flies into the headline's full stop,
+    // which takes the red and settles to ink, as in the film.
+    const land = () => {
+      if (!open) return;
+      const sp = stopOf();
+      if (reduced.matches || !sp) { hide(); return; }
+      const f = film.getBoundingClientRect();
+      const k = Math.max(f.width / 1920, f.height / 1080);
+      const s0 = 32 * k;
+      // Measure the landing spot before the headline starts rising.
+      stage.style.minHeight = "";
+      const to = inkOf(sp);
+      const sq = d.createElement("span");
+      sq.className = "flystop";
+      sq.setAttribute("aria-hidden", "true");
+      Object.assign(sq.style, { left: `${f.left + f.width / 2 - s0 / 2}px`, top: `${f.top + f.height / 2 - s0 / 2}px`, width: `${s0}px`, height: `${s0}px` });
+      d.body.append(sq);
+      sp.classList.add("is-waiting");
+      hide(true);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        sq.classList.add("is-flying");
+        Object.assign(sq.style, { left: `${to.x - to.s / 2}px`, top: `${to.y - to.s / 2}px`, width: `${to.s}px`, height: `${to.s}px` });
+      }));
+      setTimeout(() => {
+        sq.remove();
+        sp.classList.remove("is-waiting");
+        sp.classList.add("is-landed");
+        setTimeout(() => sp.classList.remove("is-landed"), 80);
+      }, 1150);
+    };
+
+    btn.dataset.label = btn.getAttribute("aria-label");
+    btn.addEventListener("click", () => (open ? hide() : show()));
+    addEventListener("scroll", () => { const sq = $(".flystop"); if (sq) sq.remove(); $$(".hero__stop").forEach((s) => s.classList.remove("is-waiting")); }, { passive: true });
+    v.addEventListener("ended", land);
     v.addEventListener("click", () => (v.paused ? v.play() : v.pause()));
     d.addEventListener("keydown", (e) => { if (open && e.key === "Escape" && !$("dialog[open]")) hide(); });
     if (rail) rail.addEventListener("click", (e) => {

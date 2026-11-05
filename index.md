@@ -48,13 +48,14 @@ facts:
 film:
   src: /assets/video/fig1.mp4
   poster: /assets/video/fig1-poster.webp
-  duration: 20
+  duration: 18
   label: >
-    Fig. 1, a twenty-second film. A meeting drawn as a waveform: two people
+    Fig. 1, an eighteen-second film. A meeting drawn as a waveform: two people
     talk, there is a pause, and the agent speaks. Then Jack Yang's work:
     Facilitator in Microsoft Teams, avatars across Microsoft Mesh runtimes and
     20+ languages, the outfit picker Satya Nadella showed at Microsoft Ignite,
     hand-tracked XR training at Holos and its U.S. Air Force contract,
-    and FakeHaul with the press that covered it. It ends on the headline:
-    Real-time AI for real conversations.
+    and FakeHaul with the press that covered it. It ends on a red square,
+    which becomes the full stop of the headline: Real-time AI for real
+    conversations.
 ---

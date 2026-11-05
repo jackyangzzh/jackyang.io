@@ -32,8 +32,10 @@
   width: 2.25rem;
   height: 2.25rem;
   background: #000;
-  box-shadow: inset 0 0 0 1px var(--line-2);
   overflow: hidden;
+  // The portrait file is cut to a circle on white; scaling it pushes the
+  // white corners out of the square.
+  img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.42); }
   i {
     position: absolute;
     left: 0;
@@ -422,8 +424,8 @@
 // Touch screens: grow tap areas to about 44px without moving anything.
 @media (pointer: coarse) {
   .bar__btn { min-width: 2.75rem; height: 2.75rem; }
-  .qlink, .outro__top, .crumbs a, .film__close { position: relative; }
-  .qlink::after, .outro__top::after, .crumbs a::after, .film__close::after {
+  .qlink, .outro__top, .crumbs a { position: relative; }
+  .qlink::after, .outro__top::after, .crumbs a::after {
     content: "";
     position: absolute;
     inset: -.75rem -.35rem;
