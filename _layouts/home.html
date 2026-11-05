@@ -9,10 +9,9 @@ layout: base
 
 {%- comment -%}
 The cover. The headline is set like a record sleeve, each line stretched
-edge to edge. Fig. 1 is the record's first track: press play (or simply stay
-a while, and it waits for your pause the way the agent waits for one) and the
-cover performs the conversation as lyrics. When the agent takes its turn, the
-whole cover floods red.
+edge to edge. Fig. 1 is the film: Play opens it over the cover from the
+button, the bar's rail becomes its timeline, and it ends on this headline,
+so when it fades the page is already there.
 {%- endcomment %}
 <section class="hero" data-hero aria-labelledby="hero-title">
   <p class="hero__role wrap intro" style="--d: 0"><span class="lamp" aria-hidden="true"></span>{{ site.role }}</p>
@@ -36,25 +35,22 @@ whole cover floods red.
         {%- endfor %}
       </span>
     </h1>
-    <div class="lyric" data-lyric aria-hidden="true">
-      <p class="lyric__who" data-lyric-who></p>
-      <p class="lyric__line" data-lyric-line></p>
-      <span class="lyric__meter"><i data-lyric-meter></i></span>
-      <p class="lyric__gap" data-lyric-gap></p>
-    </div>
   </div>
 
-  {%- if page.signal %}
-  <figure class="fig intro" style="--d: 4" data-fig aria-label="{{ page.signal.label | escape }}">
-    <button type="button" class="fig__play" data-fig-play hidden></button>
-    <figcaption class="fig__cap"><span class="fig__no">Fig. 1</span> {{ page.signal.caption }}</figcaption>
-    <ol class="sr-only">
-      {%- for t in page.signal.turns %}
-      <li>{% if t.who %}{% if t.who == "agent" %}Agent{% else %}{{ t.who }}{% endif %}: {% endif %}{{ t.text }}</li>
-      {%- endfor %}
-    </ol>
-    <script type="application/json" data-fig-data>{{ page.signal.turns | jsonify }}</script>
+  {%- if page.film %}
+  {%- assign film = site.static_files | where: "path", page.film.src | first -%}
+  {%- capture fv %}{% if film %}?v={{ film.modified_time | date: "%s" }}{% endif %}{% endcapture %}
+  <figure class="fig intro" style="--d: 4" data-fig>
+    <button type="button" class="fig__play" data-fig-play aria-label="Play Fig. 1, a {{ page.film.duration }}-second film of my work">{% include icon.html name="play" px="14" %}<span>Fig. 1</span><span class="fig__dur">0:{{ page.film.duration }}</span></button>
+    <noscript><a class="fig__play" href="{{ page.film.src | relative_url }}">Watch Fig. 1</a></noscript>
   </figure>
+  {%- comment -%}The screen sits on the cover itself, outside the figure's entrance transform.{%- endcomment %}
+  <div class="film" data-film hidden>
+    <video class="film__video" data-film-video muted playsinline preload="none" poster="{{ page.film.poster | relative_url }}" aria-label="{{ page.film.label | escape }}">
+      <source data-src="{{ page.film.src | relative_url }}{{ fv }}" type="video/mp4">
+    </video>
+    <button type="button" class="film__close" data-film-close>Close</button>
+  </div>
   {%- endif %}
 
   <div class="hero__foot wrap intro" style="--d: 5">
@@ -84,9 +80,6 @@ whole cover floods red.
     </div>
   </div>
 
-  <div class="hero__flood" aria-hidden="true"></div>
-  <div class="hero__flash" aria-hidden="true"></div>
-  <div class="hero__ring" aria-hidden="true"></div>
 </section>
 
 <section class="track" id="about" data-track="01 About" aria-labelledby="about-title">
@@ -173,10 +166,9 @@ whole cover floods red.
   </div>
 </section>
 
-{%- comment -%}The screening room: opposite ground, the reel, then the records.{%- endcomment %}
+{%- comment -%}The screening room: opposite ground, the records.{%- endcomment %}
 <section class="track slab" id="work" data-track="04 Selected work" aria-labelledby="work-title">
   {% include track-head.html no="04" title="Selected work" id="work-title" %}
-  {% include cover.html %}
   <div class="wrap">
     <ol class="discs discs--three">
       {%- for proj in projects limit: featured_count %}

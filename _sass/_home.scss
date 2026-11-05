@@ -55,105 +55,17 @@
   .hero__line.is-narrow { display: block; }
 }
 
-// Fig. 1 performed as lyrics: the line being said, word by word; in a gap, a
-// horizon that fills toward the turn threshold and turns red past it.
-.lyric {
-  position: absolute;
-  z-index: 3;
-  inset: 0 var(--gutter);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(1rem, 3vh, 1.75rem);
-  text-align: center;
-  pointer-events: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .3s var(--ease), visibility 0s .3s;
-  .is-playing & { opacity: 1; visibility: visible; transition: opacity .4s var(--ease) .15s, visibility 0s; }
-}
-.lyric__who { @include micro; font-weight: 700; color: var(--ink); min-height: 1.1em; }
-.lyric__line {
-  @include display;
-  font-size: clamp(1.5rem, 3.9vw, 4.75rem);
-  line-height: .96;
-  letter-spacing: -.03em;
-  max-width: 19em;
-  text-wrap: balance;
-  span { opacity: .14; transition: opacity .12s; }
-  .is-said { opacity: 1; }
-}
-.lyric.is-agent .lyric__line { font-size: clamp(1.75rem, 5vw, 6rem); max-width: 16em; }
-.lyric.is-gap .lyric__line { opacity: .3; transition: opacity .25s var(--ease); }
-.lyric__gap {
-  display: none;
-  @include micro;
-  color: var(--muted);
-  .is-gap & { display: block; }
-}
-// A new line cuts in: a short rise, no fade.
-.lyric.is-cut .lyric__line { animation: cut .22s var(--ease) both; }
-@keyframes cut { from { transform: translateY(.35em); } }
-.lyric__meter {
-  display: none;
-  width: min(42rem, 72%);
-  height: 3px;
-  background: var(--line-2);
-  i {
-    display: block;
-    height: 100%;
-    background: var(--ink);
-    transform: scaleX(var(--m, 0));
-  }
-  .is-gap & { display: block; }
-  .is-over & i { background: var(--signal); }
-}
-
-// The agent's turn: red bursts from the middle of the cover and takes all of it.
-.hero__flood {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: var(--signal);
-  pointer-events: none;
-  clip-path: circle(0 at 50% 45%);
-  transition: clip-path .85s var(--ease-in-out);
-}
-.hero__flash {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background: #fff;
-  pointer-events: none;
-  opacity: 0;
-}
-.hero.is-flood {
-  @include signal-tokens;
-  .hero__flood { clip-path: circle(85vmax at 50% 45%); transition-duration: 1.05s; transition-delay: .18s; }
-  .hero__flash { animation: flash .55s var(--ease) both; }
-}
-@keyframes flash {
-  0% { opacity: 1; clip-path: circle(0 at 50% 45%); }
-  35% { opacity: 1; clip-path: circle(14vmax at 50% 45%); }
-  100% { opacity: 0; clip-path: circle(30vmax at 50% 45%); }
-}
-
+// Fig. 1: a quiet button under the headline; the film opens over the cover.
+// Static, so the film's screen is placed against the whole cover.
 .fig {
-  position: relative;
-  z-index: 3;
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  gap: .75rem 1.25rem;
   padding: 0 var(--gutter);
-  text-align: center;
 }
 .fig__play {
   display: inline-flex;
   align-items: center;
-  gap: .6rem;
+  gap: .75rem;
   height: 2.75rem;
   padding: 0 1.1rem 0 1rem;
   box-shadow: inset 0 0 0 2px var(--ink);
@@ -163,19 +75,44 @@
   transition: background-color .15s, color .15s, transform .16s var(--ease);
   @include hover { &:hover { background: var(--ink); color: var(--bg); } }
   @include press;
-  &[hidden] { display: none; }
+  .i { margin-left: .1rem; }
 }
-.fig__cap {
-  display: none;
-  .is-playing & { display: block; }
-  max-width: 52ch;
-  @include up($sm) { text-align: left; }
-  font-size: .875rem;
-  line-height: 1.45;
-  color: var(--ink-2);
-  text-wrap: balance;
+.fig__dur { font-weight: 500; opacity: .6; }
+
+// The screen: black, the film letterboxed in it, opened as a square aperture
+// from the Play button and closed by fading back to the cover.
+.film {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #000;
+  clip-path: var(--ap, inset(50%));
+  transition: clip-path .75s var(--ease-in-out), opacity .6s var(--ease);
+  &.is-open { clip-path: inset(0); }
+  &.is-closing { clip-path: inset(0); opacity: 0; }
 }
-.fig__no { @include micro; font-weight: 700; color: var(--ink); margin-right: .4em; }
+.film__video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: pointer;
+}
+.film__close {
+  position: absolute;
+  top: 1rem;
+  right: var(--gutter);
+  padding: .5rem .8rem;
+  box-shadow: inset 0 0 0 1px rgba(237, 234, 228, .5);
+  color: #EDEAE4;
+  @include micro;
+  font-weight: 700;
+  transition: background-color .15s, color .15s;
+  &:hover { background: #EDEAE4; color: #000; }
+}
+// The cover holds still behind the screen.
+.hero.is-film .hero__line { transform: none !important; }
 
 .hero__foot {
   position: relative;
@@ -543,39 +480,6 @@
   }
 }
 
-// 05 Selected work: the reel on the wall, edge to edge, then the sleeves.
-
-.cover {
-  max-width: calc(68rem + 2 * var(--gutter));
-  margin: clamp(3rem, 7vw, 6rem) auto clamp(5rem, 11vw, 9rem);
-  padding-inline: var(--gutter);
-}
-.cover__stage {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  max-height: calc(100svh - var(--bar));
-  overflow: hidden;
-  background: #000;
-}
-.cover__media { width: 100%; height: 100%; object-fit: cover; }
-.cover__cap {
-  display: flex;
-  align-items: baseline;
-  gap: 1.25rem;
-  padding-top: .8rem;
-  @include micro;
-  color: var(--muted);
-}
-.cover__fig { color: var(--ink); font-weight: 700; }
-.cover__text { flex: 1; color: var(--ink-2); }
-.cover__toggle {
-  font-weight: 700;
-  color: var(--ink);
-  &:hover, &:focus-visible { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .3em; }
-  html:not(.js) & { display: none; }
-}
-
 // Sleeves: square art, the number and name beneath, like a discography.
 .discs {
   display: grid;
@@ -725,26 +629,6 @@
 
 // A role hovered below lights its bar in the strip.
 .career__bar.is-lit { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
-
-// The agent's turn: a white flash, a shockwave ring, then the red.
-.hero__ring {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  top: 45%;
-  width: 24vmax;
-  aspect-ratio: 1;
-  margin: -12vmax 0 0 -12vmax;
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px #fff, inset 0 0 0 1px #fff;
-  opacity: 0;
-  pointer-events: none;
-}
-.hero.is-flood .hero__ring { animation: ring 1s cubic-bezier(.2, .7, .2, 1) .08s both; }
-@keyframes ring {
-  0% { opacity: 1; transform: scale(.1); }
-  100% { opacity: 0; transform: scale(4.5); }
-}
 
 // Every sleeve holds a record: on hover it slides up out of the sleeve and spins.
 .disc { position: relative; }

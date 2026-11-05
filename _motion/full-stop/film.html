@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Full Stop</title>
+<style>
+  @font-face { font-family: "Archivo"; src: url("/assets/fonts/archivo-var.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-style: normal; }
+  html, body { margin: 0; background: #000; overflow: hidden; }
+  canvas { display: block; }
+  /* Preview controls; hidden while rendering. */
+  #ui { position: fixed; left: 12px; right: 12px; bottom: 10px; display: flex; gap: 10px; align-items: center; font: 12px Archivo, sans-serif; color: #8C887F; }
+  #ui input { flex: 1; }
+  body.render #ui { display: none; }
+</style>
+</head>
+<body>
+<canvas id="out"></canvas>
+<div id="ui"><button id="play">play</button><input id="scrub" type="range" min="0" max="20" step="0.0166667" value="0"><span id="tc">0.00</span></div>
+<script src="film.js"></script>
+</body>
+</html>

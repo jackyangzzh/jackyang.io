@@ -6,3 +6,7 @@ vendor
 node_modules
 .lighthouse
 .DS_Store
+_motion/full-stop/media/frames
+_motion/full-stop/media/src
+_motion/full-stop/out
+_motion/full-stop/stills

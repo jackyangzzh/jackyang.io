@@ -422,8 +422,8 @@
 // Touch screens: grow tap areas to about 44px without moving anything.
 @media (pointer: coarse) {
   .bar__btn { min-width: 2.75rem; height: 2.75rem; }
-  .qlink, .outro__top, .crumbs a, .cover__toggle { position: relative; }
-  .qlink::after, .outro__top::after, .crumbs a::after, .cover__toggle::after {
+  .qlink, .outro__top, .crumbs a, .film__close { position: relative; }
+  .qlink::after, .outro__top::after, .crumbs a::after, .film__close::after {
     content: "";
     position: absolute;
     inset: -.75rem -.35rem;
