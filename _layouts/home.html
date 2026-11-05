@@ -15,6 +15,8 @@ cover performs the conversation as lyrics. When the agent takes its turn, the
 whole cover floods red.
 {%- endcomment %}
 <section class="hero" data-hero aria-labelledby="hero-title">
+  <p class="hero__role wrap intro" style="--d: 0"><span class="lamp" aria-hidden="true"></span>{{ site.role }}</p>
+
   <div class="hero__stage wrap" data-stage>
     <h1 class="hero__title" id="hero-title">
       <span class="sr-only">{{ r.basics.name }}: {{ page.headline }}</span>
@@ -56,7 +58,6 @@ whole cover floods red.
 
   <div class="hero__foot wrap intro" style="--d: 5">
     <p class="hero__intro">
-      <span class="hero__face"><img src="{{ '/assets/img/profile128.webp' | relative_url }}" srcset="{{ '/assets/img/profile128.webp' | relative_url }} 128w, {{ '/assets/img/profile256.webp' | relative_url }} 256w" sizes="2.5rem" alt="" width="128" height="128"></span>
       {{ page.intro | markdownify | remove: "<p>" | remove: "</p>" | strip }}
     </p>
     <div class="hero__actions">
@@ -71,7 +72,6 @@ whole cover floods red.
       on webmail. Without JavaScript (or a clipboard) it's a plain email link.
       {%- endcomment %}
       <div class="hero__more">
-        <span class="micro">or email</span>
         <button type="button" class="addr" data-copy="{{ site.contact.email }}" title="Copy email address" hidden>
           <span class="addr__text">{{ site.contact.email }}</span>
           <span class="addr__icon" aria-hidden="true"><span class="addr__copy">{% include icon.html name="copy" px="14" %}</span><span class="addr__check">{% include icon.html name="check" px="14" %}</span></span>
@@ -84,12 +84,13 @@ whole cover floods red.
   </div>
 
   <div class="hero__flood" aria-hidden="true"></div>
+  <div class="hero__flash" aria-hidden="true"></div>
 </section>
 
 <section class="track" id="about" data-track="01 About" aria-labelledby="about-title">
   {% include track-head.html no="01" title="About" id="about-title" %}
   <div class="wrap about">
-    <div class="about__cover"><img src="{{ site.logo | relative_url }}" srcset="{{ '/assets/img/profile256.webp' | relative_url }} 256w, {{ site.logo | relative_url }} 694w" sizes="(min-width: 56em) 36vw, 100vw" alt="{{ page.photo_alt | default: r.basics.name | escape }}" width="694" height="694" loading="lazy" decoding="async"></div>
+    <div class="about__cover"><img src="{{ site.logo | relative_url }}" srcset="{{ '/assets/img/profile256.webp' | relative_url }} 256w, {{ site.logo | relative_url }} 694w" sizes="(min-width: 56em) 14rem, 9rem" alt="{{ page.photo_alt | default: r.basics.name | escape }}" width="694" height="694" loading="lazy" decoding="async"></div>
     <div class="about__text">
       <div class="about__body">{{ summary }}</div>
       <dl class="credits">
@@ -102,10 +103,12 @@ whole cover floods red.
 </section>
 
 <section class="track" id="experience" data-track="02 Experience" aria-labelledby="xp-title">
-  {% include track-head.html no="02" title="Experience" id="xp-title" aux="Résumé (PDF)" aux_url=site.contact.resume aux_icon="arrow-ur" %}
+  {% include track-head.html no="02" title="Experience" id="xp-title" %}
   <div class="wrap">
+    {% include career.html %}
+    <div class="sides">
     <div class="side">
-      <h3 class="side__label"><span class="side__ab">Side A</span>Industry</h3>
+      <h3 class="side__label">Industry</h3>
       <ol class="rows">
         {%- for job in r.work %}
         {% include entry.html item=job level=4 %}
@@ -113,19 +116,20 @@ whole cover floods red.
       </ol>
     </div>
     <div class="side">
-      <h3 class="side__label"><span class="side__ab">Side B</span>Research</h3>
+      <h3 class="side__label">Research</h3>
       <ol class="rows">
         {%- for job in r.research %}
         {% include entry.html item=job level=4 %}
         {%- endfor %}
       </ol>
     </div>
+    </div>
   </div>
 </section>
 
 <section class="track" id="education" data-track="03 Education" aria-labelledby="edu-title">
   {% include track-head.html no="03" title="Education" id="edu-title" %}
-  <div class="wrap">
+  <div class="wrap sides">
     <div class="side">
       <h3 class="side__label">Degrees</h3>
       <ol class="rows rows--edu">
@@ -133,42 +137,35 @@ whole cover floods red.
         {% include entry.html item=ed level=4 %}
         {%- endfor %}
       </ol>
-    </div>
-    <div class="side">
-      <h3 class="side__label">Certifications</h3>
+      <h3 class="side__label side__label--next">Certifications</h3>
       <ul class="certs">
         {%- for c in r.certifications %}
         <li><a class="cert" href="{{ c.website }}" rel="noopener"><span class="cert__name">{{ c.name }}</span><span class="cert__pub">{{ c.publisher }}</span>{% include icon.html name="arrow-ur" %}</a></li>
         {%- endfor %}
       </ul>
     </div>
+    <div class="side">
+      <h3 class="side__label" id="publications">Publications</h3>
+      <ol class="pubs">
+        {%- for pub in r.publications %}
+        <li class="pub">
+          <span class="pub__year">{% if pub.releaseDate %}<time datetime="{{ pub.releaseDate }}">{{ pub.releaseDate | date: "%Y" }}</time>{% else %}<span class="row__exp">Under review</span>{% endif %}</span>
+          <div class="pub__main">
+            <h3 class="pub__title"><a href="{{ pub.website | relative_url }}" rel="noopener">{% include smart.html text=pub.name %}</a></h3>
+            <p class="pub__sum">{% include smart.html text=pub.summary %}</p>
+            <p class="pub__venue">{% if pub.releaseDate %}{{ pub.publisher }}{% else %}{{ pub.publisher | remove: " (under review)" }}{% endif %}</p>
+          </div>
+          <span class="pub__kind" aria-hidden="true">{% include icon.html name="arrow-ur" %}</span>
+        </li>
+        {%- endfor %}
+      </ol>
+    </div>
   </div>
 </section>
 
-<section class="track" id="publications" data-track="04 Publications" aria-labelledby="pubs-title">
-  {% include track-head.html no="04" title="Publications" id="pubs-title" %}
-  <div class="wrap">
-    <ol class="pubs">
-      {%- for pub in r.publications %}
-      {%- if pub.website contains ".pdf" -%}{%- assign kind = "PDF" -%}{%- elsif pub.website contains "doi.org" -%}{%- assign kind = "DOI" -%}{%- elsif pub.website contains "amazon." -%}{%- assign kind = "Book" -%}{%- else -%}{%- assign kind = "Link" -%}{%- endif %}
-      <li class="pub">
-        <span class="pub__year">{% if pub.releaseDate %}<time datetime="{{ pub.releaseDate }}">{{ pub.releaseDate | date: "%Y" }}</time>{% else %}<span class="row__exp">Under review</span>{% endif %}</span>
-        <div class="pub__main">
-          <h3 class="pub__title"><a href="{{ pub.website | relative_url }}" rel="noopener">{% include smart.html text=pub.name %}</a></h3>
-          <p class="pub__venue">{% if pub.releaseDate %}{{ pub.publisher }}{% else %}{{ pub.publisher | remove: " (under review)" }}{% endif %}</p>
-        </div>
-        <p class="pub__sum">{% include smart.html text=pub.summary %}</p>
-        <span class="pub__kind" aria-hidden="true">{{ kind }} {% include icon.html name="arrow-ur" %}</span>
-      </li>
-      {%- endfor %}
-    </ol>
-  </div>
-</section>
-
-{%- comment -%}The screening room: opposite ground, the reel edge to edge, then the records.{%- endcomment %}
-<section class="track slab" id="work" data-track="05 Selected work" aria-labelledby="work-title">
-  {%- capture aux %}All {{ projects.size }} projects{% endcapture %}
-  {% include track-head.html no="05" title="Selected work" id="work-title" aux=aux aux_url="/projects/" %}
+{%- comment -%}The screening room: opposite ground, the reel, then the records.{%- endcomment %}
+<section class="track slab" id="work" data-track="04 Selected work" aria-labelledby="work-title">
+  {% include track-head.html no="04" title="Selected work" id="work-title" %}
   {% include cover.html %}
   <div class="wrap">
     <ol class="discs discs--three">
@@ -176,7 +173,6 @@ whole cover floods red.
       <li>
         <a class="disc" href="{{ proj.url | relative_url }}" data-vt-link>
           <span class="disc__art{% if proj.image.position %} disc__art--{{ proj.image.position }}{% endif %}">{% include media.html image=proj.image sizes="(min-width: 56em) 31vw, 100vw" %}</span>
-          <span class="disc__no">{{ forloop.index | prepend: "0" }}</span>
           <span class="disc__title">{{ proj.title }}</span>
           {% include eyebrow.html project=proj %}
           <span class="disc__desc">{% include smart.html text=proj.description %}</span>
@@ -188,8 +184,8 @@ whole cover floods red.
 </section>
 
 {%- if site.data.medium_posts.size > 0 %}
-<section class="track" id="writing" data-track="06 Writing" aria-labelledby="writing-title">
-  {% include track-head.html no="06" title="Writing" id="writing-title" aux="All writing" aux_url="/writing/" %}
+<section class="track" id="writing" data-track="05 Writing" aria-labelledby="writing-title">
+  {% include track-head.html no="05" title="Writing" id="writing-title" %}
   <div class="wrap">
     <ol class="posts">
       {%- for post in site.data.medium_posts limit: 4 %}

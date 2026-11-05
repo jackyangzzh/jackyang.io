@@ -6,26 +6,29 @@ track; while Fig. 1 plays it becomes Fig. 1's own timeline. Right, the tools
 and the one action that is always in reach, the résumé.
 {%- endcomment -%}
 {%- assign r = site.data.resume -%}
-{%- if page.layout == "home" -%}{%- assign now_playing = site.role -%}{%- else -%}{%- assign now_playing = page.title -%}{%- endif -%}
 <header class="bar" data-bar>
   <a class="bar__now" href="{{ '/' | relative_url }}" aria-label="{{ site.title }}, home">
     <span class="bar__cover" aria-hidden="true"><i></i></span>
     <span class="bar__who">
       <span class="bar__name">{{ site.title }}</span>
-      <span class="bar__track" data-bar-track>{{ now_playing }}</span>
     </span>
   </a>
 
   <div class="bar__rail" data-rail aria-hidden="true"><span class="bar__fill" data-rail-fill></span><span class="bar__agent"></span></div>
 
+  <nav class="bar__nav" aria-label="Primary">
+    <ul>
+      {%- for item in site.menu %}
+      {%- assign cur = false -%}
+      {%- if page.url == item.url -%}{%- assign cur = true -%}
+      {%- elsif item.url != "/" and page.url contains item.url -%}{%- assign cur = true -%}{%- endif %}
+      <li><a href="{{ item.url | relative_url }}"{% if cur %} aria-current="page"{% endif %}>{{ item.title }}</a></li>
+      {%- endfor %}
+    </ul>
+  </nav>
+
   <div class="bar__tools">
-    <span class="bar__clock" data-clock data-tz="{{ site.location.timezone }}" hidden>{{ site.location.city }} <time data-clock-time></time></span>
-    <button type="button" class="bar__btn bar__k" data-cmdk-open aria-keyshortcuts="Meta+K Control+K" title="Command menu" hidden><span class="sr-only">Command menu </span><kbd data-mod>⌘</kbd><kbd>K</kbd></button>
-    <button type="button" class="bar__btn bar__theme" data-theme-toggle aria-label="Toggle color theme">
-      <span class="bar__sun">{% include icon.html name="sun" px="18" %}</span>
-      <span class="bar__moon">{% include icon.html name="moon" px="18" %}</span>
-    </button>
-    <button type="button" class="bar__btn bar__index" data-index-open aria-expanded="false" aria-controls="index">Index</button>
+    <button type="button" class="bar__btn bar__index" data-index-open aria-expanded="false" aria-controls="index">Menu</button>
     <a class="bar__cta" href="{{ site.contact.resume | relative_url }}">Résumé {% include icon.html name="arrow-ur" %}</a>
   </div>
 </header>
@@ -42,7 +45,6 @@ and the one action that is always in reach, the résumé.
     </nav>
     <div class="index__side">
       <nav class="index__group" aria-label="Pages">
-        <p class="micro">Pages</p>
         <ul>
           <li><a href="{{ '/' | relative_url }}"{% if page.layout == "home" %} aria-current="page"{% endif %}>{{ site.title }}</a></li>
           {%- for item in site.menu %}{% unless item.url contains "#" or item.url == "/" %}
@@ -51,7 +53,6 @@ and the one action that is always in reach, the résumé.
         </ul>
       </nav>
       <div class="index__group">
-        <p class="micro">Contact</p>
         <ul>
           <li><a href="mailto:{{ site.contact.email }}">{{ site.contact.email }}</a></li>
           <li><a href="{{ site.contact.schedule }}" rel="noopener">Book a 30-minute call {% include icon.html name="arrow-ur" %}</a></li>
@@ -59,14 +60,13 @@ and the one action that is always in reach, the résumé.
         </ul>
       </div>
       <div class="index__group">
-        <p class="micro">Elsewhere</p>
         <ul class="index__row">
           {%- for p in r.basics.profiles %}
           <li><a href="{{ p.url }}" rel="me noopener">{{ p.network }}</a></li>
           {%- endfor %}
         </ul>
       </div>
-      <p class="index__clock micro" data-clock data-tz="{{ site.location.timezone }}" hidden>{{ site.location.city }}, <time data-clock-time></time></p>
+      <button type="button" class="index__theme" data-theme-toggle>Dark mode</button>
     </div>
   </div>
 </div>

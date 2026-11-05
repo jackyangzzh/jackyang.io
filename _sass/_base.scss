@@ -114,14 +114,20 @@ kbd { font-family: inherit; }
 .micro { @include micro; color: var(--muted); }
 .i { flex: none; }
 
-// Edge to edge: a line of display type stretched to the full measure. The
-// script measures each line and sets its size exactly; until then the size
-// is estimated from the character count (--n).
+// A line of display type stretched across a centred column (--fit-w), never
+// larger than --fit-cap px, so it stays a monument and not a wall on wide
+// screens. The script sets each size exactly; until then it is estimated
+// from the character count (--n).
 .fit {
+  --fit-w: 64rem;
+  --fit-cap: 160;
   display: block;
+  max-width: var(--fit-w);
+  margin-inline: auto;
+  text-align: center;
   @include display;
   white-space: nowrap;
-  font-size: calc(var(--measure) / (var(--n, 8) * .8));
+  font-size: min(calc(min(var(--measure), var(--fit-w)) / (var(--n, 8) * .8)), calc(var(--fit-cap) * 1px));
 }
 .fit__in { display: inline-block; }
 

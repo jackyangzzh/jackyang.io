@@ -1,0 +1,63 @@
+{%- comment -%}
+The career at a glance: one lane each for work, research and study, a bar per
+role placed by date, and a red line at now. A role still running is red to the
+line; one that ends in the future is ink up to now and open after it. Each bar
+jumps to its row below. Bars that overlap in time stack onto up to three rows.
+Positions are computed here, so it renders without JavaScript.
+{%- endcomment -%}
+{%- assign r = site.data.resume -%}
+{%- assign now = site.time | date: "%s" | plus: 0 -%}
+{%- assign all = r.work | concat: r.research | concat: r.education -%}
+{%- assign min_s = now -%}{%- assign max_e = now -%}
+{%- for it in all -%}
+  {%- if it.startDate == nil or it.startDate == "" -%}{%- continue -%}{%- endif -%}
+  {%- assign s = it.startDate | date: "%s" | plus: 0 -%}
+  {%- if s < min_s -%}{%- assign min_s = s -%}{%- endif -%}
+  {%- if it.endDate and it.endDate != "" -%}{%- assign e = it.endDate | date: "%s" | plus: 0 -%}{%- if e > max_e -%}{%- assign max_e = e -%}{%- endif -%}{%- endif -%}
+{%- endfor -%}
+{%- assign pad = 5184000 -%}{%- comment -%}60 days{%- endcomment -%}
+{%- assign t0 = min_s | minus: pad -%}
+{%- assign span = max_e | plus: pad | minus: t0 -%}
+{%- assign y0 = t0 | date: "%Y" | plus: 1 -%}
+{%- assign y1 = t0 | plus: span | date: "%Y" | plus: 0 -%}
+{%- assign now_l = now | minus: t0 | times: 100.0 | divided_by: span | round: 3 -%}
+{%- assign lanes = "Work,Research,Study" | split: "," -%}
+<figure class="career" aria-label="Career at a glance">
+  <div class="career__scroll" data-career>
+    <div class="career__chart">
+      <ol class="career__years" aria-hidden="true">
+        {%- for y in (y0..y1) -%}
+        {%- capture jan -%}{{ y }}-01-01{%- endcapture -%}
+        <li style="--l: {{ jan | date: '%s' | plus: 0 | minus: t0 | times: 100.0 | divided_by: span | round: 3 }}%">{{ y }}</li>
+        {%- endfor %}
+      </ol>
+      {%- for lane in lanes %}
+      {%- case lane -%}{%- when "Work" -%}{%- assign items = r.work | sort: "startDate" -%}{%- when "Research" -%}{%- assign items = r.research | sort: "startDate" -%}{%- else -%}{%- assign items = r.education | sort: "startDate" -%}{%- endcase -%}
+      {%- assign e0 = 0 -%}{%- assign e1 = 0 -%}{%- assign rows = 1 -%}
+      {%- capture bars -%}
+      {%- for it in items -%}
+        {%- if it.startDate == nil or it.startDate == "" or it.timeline == false -%}{%- continue -%}{%- endif -%}
+        {%- assign s = it.startDate | date: "%s" | plus: 0 -%}
+        {%- assign ongoing = false -%}{%- assign future = false -%}
+        {%- if it.endDate and it.endDate != "" -%}{%- assign e = it.endDate | date: "%s" | plus: 0 -%}{%- if e > now -%}{%- assign future = true -%}{%- endif -%}
+        {%- else -%}{%- assign e = now -%}{%- assign ongoing = true -%}{%- endif -%}
+        {%- if s >= e0 -%}{%- assign row = 0 -%}{%- assign e0 = e -%}
+        {%- elsif s >= e1 -%}{%- assign row = 1 -%}{%- assign e1 = e -%}
+        {%- else -%}{%- assign row = 2 -%}{%- endif -%}
+        {%- assign need = row | plus: 1 -%}{%- if need > rows -%}{%- assign rows = need -%}{%- endif -%}
+        {%- assign org = it.heading | default: it.company | default: it.institution -%}
+        {%- assign role = it.role | default: it.position | default: it.studyType -%}
+        {%- capture dates -%}{{ it.startDate | date: "%b %Y" }} to {% if ongoing %}present{% else %}{{ it.endDate | date: "%b %Y" }}{% if future %}, expected{% endif %}{% endif %}{%- endcapture -%}
+        {%- assign fill = 100 -%}{%- if future -%}{%- assign dur = e | minus: s -%}{%- assign fill = now | minus: s | times: 100.0 | divided_by: dur | round: 1 -%}{%- endif -%}
+        <a class="career__bar{% if ongoing %} is-now{% endif %}{% if future %} is-future{% endif %}" href="#{{ it.short | slugify | prepend: 'exp-' }}" title="{{ org | escape }}, {{ role | escape }}, {{ dates }}" style="--l: {{ s | minus: t0 | times: 100.0 | divided_by: span | round: 3 }}%; --w: {{ e | minus: s | times: 100.0 | divided_by: span | round: 3 }}%; --row: {{ row }}; --f: {{ fill }}%"><span>{{ it.short }}</span><span class="sr-only">: {{ org }}, {{ role }}, {{ dates }}</span></a>
+      {%- endfor -%}
+      {%- endcapture %}
+      <div class="career__lane" style="--rows: {{ rows }}">
+        <span class="career__label">{{ lane }}</span>
+        <div class="career__track">{{ bars }}</div>
+      </div>
+      {%- endfor %}
+      <span class="career__now" style="--l: {{ now_l }}%" aria-hidden="true"><span>Now</span></span>
+    </div>
+  </div>
+</figure>

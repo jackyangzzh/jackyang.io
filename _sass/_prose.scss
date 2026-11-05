@@ -142,15 +142,17 @@
   }
 
   // Media break out of the text column, wider than the words around them.
-  > .video, > figure, > .press-quotes-grid, > p:has(> img:only-child), > p:has(> video) {
+  > .video, > figure:not(.tutorial-demo, :has(> img[style*="max-width"])), > .press-quotes-grid, > p:has(> img:only-child), > p:has(> video) {
     margin-inline: calc(50% - min(34rem, 50vw - var(--gutter)));
   }
 }
 
 // Keep tutorial recordings at their original display width.
+// A narrow GIF keeps its own width, centred, with its caption under it.
+.prose > figure:has(> img[style*="max-width"]) { max-width: 600px; margin-inline: auto; }
 .prose > .tutorial-demo {
   max-width: 600px;
-  margin-right: 0;
+  margin-inline: auto;
   img, video { display: block; width: 100%; height: auto; }
 }
 

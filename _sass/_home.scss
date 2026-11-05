@@ -10,12 +10,25 @@
   flex-direction: column;
 }
 
+// The one line a recruiter looks for first: role and company, lamp lit.
+.hero__role {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  padding-top: 1.25rem;
+  @include micro;
+  font-weight: 700;
+  color: var(--ink);
+}
+
 .hero__stage {
   position: relative;
   flex: 1;
   display: flex;
   align-items: center;
-  padding-block: clamp(2.5rem, 9vh, 6rem) clamp(1rem, 3vh, 2rem);
+  padding-block: clamp(1.5rem, 6vh, 4rem) clamp(1rem, 3vh, 2rem);
 }
 .hero__title {
   position: relative;
@@ -24,7 +37,7 @@
   transition: opacity .4s var(--ease), visibility 0s;
   .is-playing & { opacity: 0; visibility: hidden; transition: opacity .3s var(--ease), visibility 0s .3s; }
 }
-.hero__stack { display: block; }
+.hero__stack { display: block; .fit { --fit-w: 76rem; --fit-cap: 200; } }
 // Each line rises out of the line below it, once.
 .hero__line {
   overflow: hidden;
@@ -102,9 +115,23 @@
   clip-path: circle(0 at 50% 45%);
   transition: clip-path .85s var(--ease-in-out);
 }
+.hero__flash {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: #fff;
+  pointer-events: none;
+  opacity: 0;
+}
 .hero.is-flood {
   @include signal-tokens;
-  .hero__flood { clip-path: circle(85vmax at 50% 45%); transition-duration: 1.05s; }
+  .hero__flood { clip-path: circle(85vmax at 50% 45%); transition-duration: 1.05s; transition-delay: .18s; }
+  .hero__flash { animation: flash .55s var(--ease) both; }
+}
+@keyframes flash {
+  0% { opacity: 1; clip-path: circle(0 at 50% 45%); }
+  35% { opacity: 1; clip-path: circle(14vmax at 50% 45%); }
+  100% { opacity: 0; clip-path: circle(30vmax at 50% 45%); }
 }
 
 .fig {
@@ -134,6 +161,8 @@
   &[hidden] { display: none; }
 }
 .fig__cap {
+  display: none;
+  .is-playing & { display: block; }
   max-width: 52ch;
   @include up($sm) { text-align: left; }
   font-size: .875rem;
@@ -158,16 +187,6 @@
   line-height: 1.5;
   color: var(--ink-2);
   text-wrap: pretty;
-}
-.hero__face {
-  display: inline-block;
-  width: 1.6em;
-  height: 1.6em;
-  vertical-align: -.42em;
-  margin-right: .35em;
-  overflow: hidden;
-  background: var(--bg-2);
-  img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.42); }
 }
 .hero__actions {
   display: grid;
@@ -206,25 +225,18 @@
 // Tracks
 
 .track {
-  padding-top: clamp(6rem, 13vw, 12rem);
+  padding-top: clamp(4.5rem, 9vw, 8rem);
   scroll-margin-top: 0;
 }
 .track.slab {
-  margin-top: clamp(6rem, 13vw, 12rem);
+  margin-top: clamp(4.5rem, 9vw, 8rem);
   padding-top: clamp(3rem, 6vw, 5rem);
   padding-bottom: clamp(4rem, 9vw, 8rem);
 }
 
 // The title card: the number, then the name edge to edge.
 .th { margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
-.th__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1rem;
-  margin-bottom: clamp(.5rem, 1.5vw, 1.25rem);
-}
-.th__no { @include micro; font-weight: 700; color: var(--ink); }
+.th__no { color: var(--muted); }
 
 
 // 01 About: the portrait as a sleeve, the statement beside it.
@@ -235,13 +247,14 @@
   @include up($md) { @include grid12; align-items: start; }
 }
 .about__cover {
+  width: 9rem;
   aspect-ratio: 1;
   overflow: hidden;
   background: var(--bg-2);
-  @include up($md) { grid-column: 1 / span 5; position: sticky; top: 1.5rem; }
+  @include up($md) { grid-column: 1 / span 3; width: 100%; max-width: 14rem; }
   img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.42); }
 }
-.about__text { @include up($md) { grid-column: 7 / -1; } }
+.about__text { @include up($md) { grid-column: 4 / -1; } }
 .about__body {
   p {
     font-size: 1rem;
@@ -283,9 +296,130 @@
   dd { font-size: .9375rem; line-height: 1.4; color: var(--ink); text-wrap: pretty; }
 }
 
+// 02 Experience: the career at a glance. One lane per kind of credit, a bar
+// per role, the red line at now; each bar jumps to its row.
+
+.career {
+  --lab: 5.75rem;
+  --pitch: 30px;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+}
+.career__scroll {
+  overflow-x: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+  @include down($md) { margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+}
+.career__chart {
+  position: relative;
+  min-width: 44rem;
+  padding: 1.9rem 0 1.9rem;
+  border-top: 2px solid var(--ink);
+}
+.career__years {
+  position: absolute;
+  inset: 0 0 0 var(--lab);
+  pointer-events: none;
+  li {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--l);
+    padding: .45rem 0 0 .35rem;
+    border-left: 1px solid var(--line);
+    @include micro;
+    font-weight: 500;
+    color: var(--muted);
+  }
+}
+.career__lane {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--lab) 1fr;
+  border-bottom: 1px solid var(--line-2);
+  &:first-of-type { border-top: 1px solid var(--line-2); }
+}
+.career__label {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  background: var(--bg);
+  @include micro;
+  font-weight: 700;
+  color: var(--ink);
+  // On phones the strip scrolls under the labels; cover the gutter too.
+  @include down($md) {
+    &::before { content: ""; position: absolute; top: 0; bottom: 0; right: 100%; width: var(--gutter); background: var(--bg); }
+  }
+}
+.career__track {
+  position: relative;
+  height: calc(var(--rows) * var(--pitch) + 10px);
+}
+.career__bar {
+  position: absolute;
+  top: calc(8px + var(--row) * var(--pitch));
+  left: var(--l);
+  width: calc(var(--w) - 3px);
+  min-width: 6px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  padding: 0 .5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  background: var(--ink);
+  color: var(--bg);
+  @include micro;
+  font-weight: 700;
+  letter-spacing: .05em;
+  transition: background-color .15s, color .15s, box-shadow .15s;
+  @include hover { &:hover { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); } }
+  // Running now: red, right up to the line.
+  &.is-now { width: var(--w); background: var(--signal); color: var(--on-signal); }
+  // Ends in the future: ink up to now, open after it.
+  &.is-future {
+    background: linear-gradient(90deg, var(--ink) var(--f), transparent var(--f));
+    box-shadow: inset 0 0 0 2px var(--ink);
+  }
+}
+.career__now {
+  position: absolute;
+  inset: 0 0 0 var(--lab);
+  pointer-events: none;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 1.6rem;
+    bottom: 1.6rem;
+    left: var(--l);
+    width: 2px;
+    margin-left: -1px;
+    background: var(--signal);
+  }
+  span {
+    position: absolute;
+    bottom: .1rem;
+    left: var(--l);
+    transform: translateX(-50%);
+    padding: .05rem .45rem;
+    background: var(--signal);
+    color: var(--on-signal);
+    @include micro;
+    font-weight: 700;
+  }
+}
+
 // 02 Experience and 03 Education: sides of the record, one row per credit.
 
-.side + .side { margin-top: clamp(4rem, 9vw, 7rem); }
+.sides {
+  display: grid;
+  gap: clamp(3.5rem, 8vw, 5rem) clamp(2.5rem, 5vw, 5rem);
+  @include up($lg) { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+}
+.side__label--next { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
 .side__label {
   display: flex;
   align-items: center;
@@ -304,11 +438,10 @@
 .rows { border-top: 2px solid var(--ink); }
 .row {
   display: grid;
-  gap: .9rem var(--gap);
-  padding: 1.6rem 0 1.9rem;
+  gap: .7rem;
+  padding: 1.4rem 0 1.6rem;
   border-bottom: 1px solid var(--line-2);
   scroll-margin-top: 1rem;
-  @include up($lg) { @include grid12; }
 }
 .row__when {
   display: flex;
@@ -318,27 +451,24 @@
   gap: .4rem .45rem;
   @include micro;
   color: var(--muted);
-  @include up($lg) { grid-column: 1 / span 2; padding-top: .2rem; }
-  .tape { margin-top: .15rem; }
 }
 .row__exp { @include micro; color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); padding: .1rem .45rem; }
-.row__who { @include up($lg) { grid-column: 3 / span 5; } }
 .row__org {
   @include display;
-  font-size: clamp(1.625rem, 2.9vw, 3.25rem);
+  font-size: clamp(1.5rem, 2.3vw, 2.375rem);
   line-height: .86;
   letter-spacing: -.035em;
   text-wrap: balance;
   a { transition: color .15s; @include hover { &:hover { color: var(--muted); } } }
 }
-.row__role { margin-top: .65rem; font-size: 1rem; font-weight: 650; color: var(--ink); }
-.row__case { margin-top: .9rem; }
+.row__role { margin-top: .5rem; font-size: 1rem; font-weight: 650; color: var(--ink); }
+.row__case { margin-top: .7rem; }
 .row__what {
   font-size: .9375rem;
   line-height: 1.6;
   color: var(--ink-2);
   text-wrap: pretty;
-  @include up($lg) { grid-column: 8 / -1; }
+  margin-top: .2rem;
   strong { color: var(--ink); font-weight: 650; }
   li { position: relative; padding-left: 1.4rem; }
   li::before { content: ""; position: absolute; left: 0; top: .78em; width: .7rem; height: 2px; background: var(--ink); }
@@ -354,7 +484,6 @@
   display: grid;
   border-top: 2px solid var(--ink);
   @include up($md) { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gap); }
-  @include up($lg) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 .cert {
   display: grid;
@@ -375,13 +504,13 @@
 .pub {
   position: relative;
   display: grid;
-  gap: .7rem var(--gap);
-  padding: 1.6rem 0 1.8rem;
+  grid-template-columns: 1fr auto;
+  gap: .6rem 1rem;
+  padding: 1.4rem 0 1.6rem;
   border-bottom: 1px solid var(--line-2);
-  @include up($lg) { @include grid12; }
 }
-.pub__year { @include micro; color: var(--muted); @include up($lg) { grid-column: 1 / span 2; padding-top: .3rem; } }
-.pub__main { @include up($lg) { grid-column: 3 / span 5; } }
+.pub__year { @include micro; color: var(--muted); }
+.pub__main { grid-column: 1 / -1; grid-row: 2; }
 .pub__title {
   font-size: clamp(1.25rem, 1.7vw, 1.625rem);
   font-weight: 650;
@@ -390,15 +519,16 @@
   text-wrap: balance;
   a::after { content: ""; position: absolute; inset: 0; }
 }
-.pub__venue { margin-top: .5rem; @include micro; color: var(--muted); }
-.pub__sum { font-size: .9375rem; line-height: 1.6; color: var(--ink-2); @include up($lg) { grid-column: 8 / span 4; } }
+.pub__sum { margin-top: .6rem; max-width: 60ch; font-size: 1rem; line-height: 1.55; color: var(--ink); }
+.pub__venue { margin-top: .6rem; @include micro; color: var(--muted); }
 .pub__kind {
   display: inline-flex;
   align-items: center;
   gap: .3rem;
   @include micro;
   font-weight: 700;
-  @include up($lg) { grid-column: 12; justify-self: end; align-self: start; padding-top: .3rem; }
+  grid-column: 2;
+  grid-row: 1;
   .i { transition: transform .35s var(--ease); }
 }
 @include hover {
@@ -410,7 +540,11 @@
 
 // 05 Selected work: the reel on the wall, edge to edge, then the sleeves.
 
-.cover { margin: 0 0 clamp(4rem, 8vw, 7rem); }
+.cover {
+  max-width: calc(68rem + 2 * var(--gutter));
+  margin: clamp(3rem, 7vw, 6rem) auto clamp(5rem, 11vw, 9rem);
+  padding-inline: var(--gutter);
+}
 .cover__stage {
   position: relative;
   width: 100%;
@@ -424,7 +558,7 @@
   display: flex;
   align-items: baseline;
   gap: 1.25rem;
-  padding: .8rem var(--gutter) 0;
+  padding-top: .8rem;
   @include micro;
   color: var(--muted);
 }
@@ -448,8 +582,6 @@
 .discs--three { @include up($md) { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .disc {
   display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: .9rem;
   align-items: start;
 }
 .disc__art {
@@ -475,8 +607,8 @@
   transition: background-size .45s var(--ease);
   justify-self: start;
 }
-.disc .eyebrow { grid-column: 2; margin-top: .55rem; }
-.disc__desc { grid-column: 2; margin-top: .6rem; font-size: .9375rem; line-height: 1.55; color: var(--ink-2); max-width: 44ch; text-wrap: pretty; }
+.disc .eyebrow { margin-top: .55rem; }
+.disc__desc { margin-top: .6rem; font-size: .9375rem; line-height: 1.55; color: var(--ink-2); max-width: 44ch; text-wrap: pretty; }
 @include hover {
   .disc:hover {
     .disc__art img { transform: scale(1.05); }

@@ -29,7 +29,7 @@
 
   function syncThemeUI() {
     const t = currentTheme();
-    $$("[data-theme-toggle]").forEach((b) => b.setAttribute("aria-label", t === "dark" ? "Switch to light theme" : "Switch to dark theme"));
+    $$("[data-theme-toggle]").forEach((b) => { b.textContent = t === "dark" ? "Light mode" : "Dark mode"; });
     if (themeMeta) themeMeta.content = themeMeta.dataset[t];
   }
 
@@ -60,23 +60,6 @@
     $$("[data-theme-toggle]").forEach((b) => b.addEventListener("click", () => toggleTheme(b)));
   }
 
-  /* ------------------------------------------------------------ clock */
-
-  function clock() {
-    const els = $$("[data-clock]");
-    if (!els.length) return;
-    let fmt;
-    try { fmt = new Intl.DateTimeFormat("en-US", { timeZone: els[0].dataset.tz, hour: "numeric", minute: "2-digit" }); }
-    catch { return; }
-    const tick = () => {
-      const s = fmt.format(new Date());
-      els.forEach((el) => { const t = $("[data-clock-time]", el); if (t) t.textContent = s; el.hidden = false; });
-    };
-    tick();
-    setTimeout(() => { tick(); setInterval(tick, 60000); }, (60 - new Date().getSeconds()) * 1000 + 50);
-  }
-
-
   /* ------------------------------------------------------------ edge to edge */
 
   // Each [data-fit] line is stretched to the full measure: measured at 100px,
@@ -97,7 +80,8 @@
         if (!avail) return; // the wide/narrow headline set not shown at this width
         el.style.fontSize = "100px";
         const w = el.firstElementChild.getBoundingClientRect().width;
-        if (w) el.style.fontSize = `${((100 * avail) / (w + OVERHANG)).toFixed(2)}px`;
+        const cap = parseFloat(getComputedStyle(el).getPropertyValue("--fit-cap")) || Infinity;
+        if (w) el.style.fontSize = `${Math.min(cap, (100 * avail) / (w + OVERHANG)).toFixed(2)}px`;
       });
       if (!stack) return;
       stack.classList.remove("is-capped");
@@ -134,19 +118,10 @@
     if (!el) return;
     const rail = $("[data-rail]", el);
     const track = $("[data-bar-track]", el);
-    const label0 = track.textContent;
+    const label0 = track ? track.textContent : "";
+    const navLinks = $$(".bar__nav a").filter((a) => new URL(a.href, location.href).pathname === location.pathname);
     let marks = $$("main [data-track]").map((m) => [m, m.dataset.track]);
     if (!marks.length) marks = $$("[data-prose] > h2[id]").map((h) => [h, h.textContent]);
-    const ticks = marks.map(([m, label]) => {
-      const b = d.createElement("button");
-      b.type = "button";
-      b.tabIndex = -1;
-      b.className = "bar__tick";
-      b.innerHTML = `<span>${esc(label)}</span>`;
-      b.addEventListener("click", () => m.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth" }));
-      rail.append(b);
-      return b;
-    });
     let tops = [];
     let shown = null;
     const fig = () => root.classList.contains("is-fig");
@@ -157,12 +132,17 @@
       let cur = -1;
       tops.forEach((t, i) => { if (scrollY + innerHeight * 0.4 >= t) cur = i; });
       const text = cur < 0 ? label0 : marks[cur][1];
-      if (text !== shown) { shown = text; track.textContent = text; }
+      if (text !== shown) {
+        shown = text;
+        if (track) track.textContent = text;
+        // The bar's nav follows the section in view.
+        const id = cur < 0 ? "" : marks[cur][0].id;
+        const hit = navLinks.find((a) => a.hash && a.hash === `#${id}`);
+        navLinks.forEach((a) => a.classList.toggle("is-here", a === hit));
+      }
     };
     const measure = () => {
-      const max = Math.max(1, root.scrollHeight - innerHeight);
       tops = marks.map(([m]) => m.getBoundingClientRect().top + scrollY);
-      ticks.forEach((t, i) => t.style.setProperty("--x", `${Math.min(100, (tops[i] / max) * 100).toFixed(2)}%`));
       update();
     };
     let ticking = false;
@@ -194,7 +174,7 @@
     const set = (open) => {
       if (open === isOpen()) return;
       btn.setAttribute("aria-expanded", String(open));
-      btn.textContent = open ? "Close" : "Index";
+      btn.textContent = open ? "Close" : "Menu";
       root.classList.toggle("index-open", open);
       background.forEach((e) => { e.inert = open; });
       if (open) {
@@ -228,10 +208,8 @@
   // The illustrated conversation, performed as lyrics on the cover: each line
   // lights word by word as it's said; a gap draws a horizon that fills toward
   // the turn threshold and turns red past it. When the agent takes its turn,
-  // red bursts from the middle and floods the cover. It starts on Play, or
-  // by itself once the visitor has been still for a few seconds: it waits for
-  // their pause, the way the agent waits for one. Never by itself under
-  // reduced motion.
+  // red bursts from the middle and floods the cover. It plays only when the
+  // visitor presses Play.
   function fig1() {
     const hero = $("[data-hero]");
     const fig = hero && $("[data-fig]", hero);
@@ -244,7 +222,6 @@
     const rail = $("[data-rail]");
     const track = $("[data-bar-track]");
     const TURN = 1.2; // illustrative: how long a gap must last before the agent may speak
-    const IDLE = 5000;
     let turns;
     try { turns = JSON.parse($("[data-fig-data]", fig).textContent); } catch { return; }
     if (!Array.isArray(turns) || !turns.length) return;
@@ -310,7 +287,6 @@
     };
     let playing = false;
     let ended = false;
-    let started = false;
     let held = false;
     let inView = true;
     let pt = 0;
@@ -339,7 +315,6 @@
     const play = () => {
       clearTimeout(doneTimer);
       if (ended) { pt = 0; ended = false; cur = null; }
-      started = true;
       playing = true;
       held = false;
       onStage(true);
@@ -386,9 +361,7 @@
         if (inView) {
           if (hero.classList.contains("is-playing")) root.classList.add("is-fig");
           if (held) play();
-          arm();
         } else {
-          clearTimeout(idle);
           if (playing) { stop(); held = true; }
           root.classList.remove("is-fig");
           d.dispatchEvent(new Event("bar:refresh"));
@@ -399,16 +372,6 @@
       if (d.hidden && playing) { stop(); held = true; }
       else if (!d.hidden && held && inView) play();
     });
-
-    // The visitor's pause: still for a few seconds, on the cover, first visit.
-    let idle = 0;
-    function arm() {
-      clearTimeout(idle);
-      if (started || reduced.matches || !inView) return;
-      idle = setTimeout(() => { if (!started && inView && !d.hidden && !root.classList.contains("index-open") && !$("dialog[open]")) play(); }, IDLE);
-    }
-    ["scroll", "pointermove", "pointerdown", "keydown", "wheel", "touchstart"].forEach((ev) => addEventListener(ev, arm, { passive: true }));
-    arm();
   }
 
   /* ------------------------------------------------------------ projects: filter */
@@ -774,7 +737,6 @@
 
   // These only wire up listeners, so they run right away.
   theme();
-  clock();
   indexMenu();
   vtLinks();
   videos();
@@ -787,6 +749,8 @@
   requestAnimationFrame(() => setTimeout(() => {
     fit();
     bar();
+    const career = $("[data-career]");
+    if (career && career.scrollWidth > career.clientWidth + 4) career.scrollLeft = career.scrollWidth;
     fig1();
     turn();
     lost();

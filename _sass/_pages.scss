@@ -76,13 +76,13 @@
   text-wrap: pretty;
   @include up($md) { grid-column: 1 / span 7; }
 }
-.credits--stack {
-  margin-top: 0;
+.single__meta {
+  display: grid;
+  gap: .9rem;
   align-content: start;
   @include up($md) { grid-column: 9 / -1; }
-  @include up($xl) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .credits__wide { grid-column: 1 / -1; }
-  ul { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; margin-top: .2rem; }
+  .eyebrow { color: var(--ink); white-space: normal; }
+  ul { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
 }
 .single__by {
   display: flex;
@@ -96,7 +96,11 @@
   > span a { color: var(--ink); font-weight: 700; }
 }
 
-.single__art { margin-top: clamp(2.5rem, 5vw, 4rem); }
+.single__art {
+  max-width: var(--max);
+  margin: clamp(2.5rem, 5vw, 4rem) auto 0;
+  padding-inline: var(--gutter);
+}
 .single__frame { position: relative; overflow: hidden; background: var(--bg-2); }
 // Large art runs edge to edge.
 .single__art--full .single__frame {
@@ -106,6 +110,7 @@
 }
 // Smaller art sits on a wall of shade at a size it can hold sharply.
 .single__art--inset .single__frame {
+  background: none;
   display: grid;
   place-items: center;
   padding: clamp(2rem, 8vw, 7rem) var(--gutter);

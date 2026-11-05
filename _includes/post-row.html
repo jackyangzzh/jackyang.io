@@ -10,7 +10,7 @@
       <span class="post__excerpt">{{ post.description | replace: "</p>", "</p> " | replace: "<br>", " " | strip_html | strip_newlines | normalize_whitespace | replace: "...", "…" | truncatewords: 28, "…" }}</span>
       {%- endif %}
     </span>
-    <span class="post__src">{{ src }}<span class="sr-only"> (opens on Medium)</span> {% include icon.html name="arrow-ur" %}</span>
+    <span class="post__src"><span class="sr-only">(opens on {{ src }})</span>{% include icon.html name="arrow-ur" %}</span>
     {%- if include.thumb and post.thumbnail %}
     <span class="post__thumb"><img src="{{ post.thumbnail }}" alt="" width="320" height="200" loading="lazy" decoding="async" referrerpolicy="no-referrer"></span>
     {%- endif %}

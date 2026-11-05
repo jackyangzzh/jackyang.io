@@ -13,40 +13,27 @@ layout: base
 {%- assign inset_w = maxw | divided_by: 1.6 | round -%}
 {%- if page.end_date and page.end_date != "" -%}
   {%- capture when -%}{{ page.date | date: "%b %Y" }} – {{ page.end_date | date: "%b %Y" }}{%- endcapture -%}
-  {%- assign when_label = "Timeline" -%}
 {%- else -%}
   {%- capture when -%}{{ page.date | date: "%Y" }}{%- endcapture -%}
-  {%- assign when_label = "Year" -%}
 {%- endif -%}
 
 <article class="single">
   <header class="single__head wrap">
-    <nav class="crumbs intro" style="--d: 0" aria-label="Breadcrumb">
-      <a href="{{ '/projects/' | relative_url }}">Projects</a>
-      <span aria-hidden="true">/</span>
-      <span aria-current="page">{{ page.title }}</span>
-    </nav>
     {%- comment -%}Short names stretch edge to edge; long ones wrap at monument size.{%- endcomment %}
     <h1 class="single__title intro" style="--d: 1">{% if page.title.size <= 14 %}<span class="fit" data-fit style="--n: {{ page.title | size }}"><span class="fit__in">{{ page.title }}</span></span>{% else %}{{ page.title }}{% endif %}</h1>
     <div class="single__credits intro" style="--d: 2">
       <p class="single__lede">{% include smart.html text=page.description %}</p>
-      <dl class="credits credits--stack">
-        <div><dt>Category</dt><dd><i class="dot" aria-hidden="true"></i>{{ page.category | capitalize }}</dd></div>
-        <div><dt>{{ when_label }}</dt><dd>{{ when }}</dd></div>
+      <div class="single__meta">
+        <p class="eyebrow"><i class="dot" aria-hidden="true"></i>{{ page.category | capitalize }}, {{ when }}</p>
         {%- if page.links %}
-        <div class="credits__wide"><dt>Links</dt><dd><ul>
+        <ul>
           {%- for l in page.links %}
           <li><a class="qlink" href="{{ l.url | relative_url }}" rel="noopener">{{ l.title }} {% include icon.html name="arrow-ur" %}</a></li>
           {%- endfor %}
-        </ul></dd></div>
+        </ul>
         {%- endif %}
-      </dl>
+      </div>
     </div>
-    {%- comment -%}Many visitors land here first, so say who made this and how to reach him.{%- endcomment %}
-    <p class="single__by intro" style="--d: 2">
-      <span><a href="{{ '/' | relative_url }}">{{ site.title }}</a>, {{ site.role }}</span>
-      <a class="qlink" href="{{ site.contact.resume | relative_url }}">Résumé (PDF) {% include icon.html name="arrow-ur" %}</a>
-    </p>
   </header>
 
   <figure class="single__art single__art--{{ hero }} intro" style="--d: 3">
@@ -67,7 +54,7 @@ layout: base
 
   <nav class="next" aria-label="Next project">
     <a class="next__link wrap" href="{{ next.url | relative_url }}" data-vt-link>
-      <span class="next__top"><span class="micro">Next project</span>{% include eyebrow.html project=next %}</span>
+      <span class="next__top"><span class="micro">Next project</span></span>
       <span class="next__title"><span class="fit" data-fit style="--n: {{ next.title | size }}"><span class="fit__in">{{ next.title }}</span></span></span>
       <span class="next__art{% if next.image.position %} disc__art--{{ next.image.position }}{% endif %}">{% include media.html image=next.image sizes="100vw" alt="" %}</span>
     </a>

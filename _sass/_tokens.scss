@@ -57,7 +57,7 @@
   // the gutter grows to clear the safe area.
   --gutter: max(clamp(1rem, 3vw, 2.5rem), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
   --gap: clamp(1rem, 1.6vw, 1.5rem);
-  --max: 100rem;
+  --max: 84rem;
   // The content width the edge-to-edge type is fitted to.
   --measure: calc(min(100vw, var(--max)) - 2 * var(--gutter));
   // The player bar, plus the home indicator on phones.
