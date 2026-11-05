@@ -69,6 +69,8 @@ research:
   - company: "Georgia Institute of Technology"
     position: "HCI Researcher"
     short: "Georgia Tech HCI"
+    # The Study lane already shows Georgia Tech as ongoing.
+    timeline: false
     website: "https://www.gatech.edu/"
     startDate: "2026-01-01"
     endDate: ""

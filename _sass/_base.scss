@@ -162,7 +162,7 @@ kbd { font-family: var(--f-mono); }
 
 .i { flex: none; }
 
-// Category dot + eyebrow ("● Personal · 2026")
+// Category dot + eyebrow ("● Personal, 2026")
 
 .dot {
   display: inline-block;
@@ -180,10 +180,7 @@ kbd { font-family: var(--f-mono); }
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  font-family: var(--f-mono);
-  font-size: .75rem;
-  letter-spacing: .04em;
-  text-transform: uppercase;
+  font-size: .8125rem;
   color: var(--muted);
   white-space: nowrap;
   &__sep { margin: 0 .55em; opacity: .6; }
@@ -198,10 +195,7 @@ kbd { font-family: var(--f-mono); }
   padding: .12rem .5rem;
   border: 1px solid var(--line-2);
   border-radius: 999px;
-  font-family: var(--f-mono);
-  font-size: .75rem;
-  letter-spacing: .05em;
-  text-transform: uppercase;
+  font-size: .8125rem;
   color: var(--ink-2);
   white-space: nowrap;
   line-height: 1.5;
@@ -218,36 +212,18 @@ kbd { font-family: var(--f-mono); }
   }
 }
 
-// The live dot: a small vermilion light, like a studio's ON AIR lamp. It
-// breathes very slowly; with reduced motion it's simply on.
+// The live dot: a small vermilion light, like a studio's ON AIR lamp.
 .live {
   display: inline-flex;
   align-items: center;
   gap: .65em;
 }
 .live__dot {
-  position: relative;
   width: .5rem; height: .5rem;
   border-radius: 50%;
   background: var(--signal);
   flex: none;
-  &::after {
-    content: "";
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    border: 1px solid var(--signal);
-    opacity: 0;
-    animation: breathe 3.2s var(--ease-in-out) infinite;
-  }
-  &--off {
-    background: var(--muted);
-    &::after { display: none; }
-  }
-}
-@keyframes breathe {
-  0%, 100% { opacity: 0; transform: scale(.6); }
-  50% { opacity: .45; transform: scale(1); }
+  &--off { background: var(--muted); }
 }
 
 // Buttons and quiet links
@@ -322,13 +298,12 @@ kbd { font-family: var(--f-mono); }
   padding: .05rem .4rem;
   border: 1px solid var(--line-2);
   border-radius: 5px;
-  font-size: .75rem;
+  font-size: .8125rem;
   color: var(--muted);
   margin-left: .35rem;
 }
 
-// Motion: first-screen entrance (CSS only) and scroll reveals (site.js marks
-// only elements that start below the fold, so nothing above it is ever hidden).
+// Motion: first-screen entrance only (CSS); content below the fold never waits.
 
 .js .intro {
   animation: rise .6s var(--ease) both;
@@ -348,14 +323,6 @@ kbd { font-family: var(--f-mono); }
   from { transform: translateY(104%); }
 }
 
-.reveal {
-  transition: opacity .45s var(--ease), transform .55s var(--ease);
-}
-.reveal--wait {
-  opacity: 0;
-  transform: translateY(12px);
-}
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -363,8 +330,6 @@ kbd { font-family: var(--f-mono); }
     animation-iteration-count: 1 !important;
     transition-duration: .001ms !important;
   }
-  .reveal--wait { opacity: 1; transform: none; }
-  .live__dot::after { display: none; }
 }
 
 // Cross-document view transitions: pages cross-fade, and a project's image

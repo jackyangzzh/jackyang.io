@@ -13,9 +13,7 @@
   margin-left: -.04em;
 }
 .phead__count {
-  font-family: var(--f-mono);
-  font-size: .8rem;
-  letter-spacing: .04em;
+  font-size: .8125rem;
   color: var(--muted);
   vertical-align: top;
   position: relative;
@@ -43,7 +41,7 @@
 .filters {
   @include up($md) { grid-column: 7 / -1; justify-self: end; }
   .track { gap: 1.5rem; flex-wrap: wrap; }
-  .track > li > button .mono { font-size: .75rem; color: var(--muted); }
+  .track > li > button span { font-size: .8125rem; color: var(--muted); }
 }
 
 // Projects index
@@ -64,7 +62,7 @@
 .prow__link {
   position: relative;
   display: grid;
-  grid-template-columns: 2.75rem 1fr auto;
+  grid-template-columns: 2.75rem 1fr;
   align-items: center;
   gap: 0 .5rem;
   padding: 1.15rem 0 1.2rem;
@@ -73,9 +71,8 @@
 .prow__no {
   align-self: start;
   padding-top: .55rem;
-  font-size: .75rem;
+  font-size: .8125rem;
   color: var(--muted);
-  letter-spacing: .04em;
   transition: color .3s;
 }
 .prow__main { min-width: 0; }
@@ -88,12 +85,6 @@
   transition: transform .35s var(--ease), color .25s;
 }
 .prow__main .eyebrow { margin-top: .55rem; }
-.prow__go {
-  color: var(--signal);
-  opacity: 0;
-  transform: translateX(-10px);
-  transition: opacity .2s, transform .3s var(--ease);
-}
 .prow__media,
 .prow__desc { display: none; }
 
@@ -102,7 +93,6 @@
   .prow__link.is-active {
     .prow__title { transform: translateX(.6rem); }
     .prow__no { color: var(--signal-text); }
-    .prow__go { opacity: 1; transform: none; }
   }
 }
 
@@ -132,7 +122,6 @@
     line-height: 1.55;
     color: var(--ink-2);
   }
-  .prow__go { display: none; }
 }
 @media (min-width: $md) and (max-width: $lg - .001em) {
   .plist { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -179,14 +168,13 @@
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   color: #EDEBE5;
-  font-size: .75rem;
-  letter-spacing: .05em;
+  font-size: .8125rem;
   font-variant-numeric: tabular-nums;
 }
 .viewer__rec {
   width: .4rem; height: .4rem;
   border-radius: 50%;
-  background: #FF5C3B;
+  background: #E5322A;
 }
 .viewer__of { opacity: .8; }
 .viewer__caption {
@@ -214,9 +202,7 @@
   display: flex;
   align-items: center;
   gap: .6rem;
-  font-size: .75rem;
-  letter-spacing: .05em;
-  text-transform: uppercase;
+  font-size: .8125rem;
   color: var(--muted);
   a {
     display: inline-flex;
@@ -385,13 +371,6 @@
   letter-spacing: -.03em;
   text-wrap: balance;
 }
-.next__arrow {
-  display: inline-block;
-  vertical-align: middle;
-  color: var(--signal);
-  transition: transform .5s var(--ease);
-  .i { width: .5em; height: .5em; }
-}
 .next__media {
   display: block;
   aspect-ratio: 16 / 10;
@@ -403,7 +382,6 @@
 }
 @include hover {
   .next__link:hover {
-    .next__arrow { transform: translateX(.35em); }
     .next__media img { transform: scale(1.04); }
   }
 }
@@ -413,8 +391,7 @@
 .writing { padding-top: clamp(1rem, 3vw, 2rem); }
 .year + .year { margin-top: clamp(3rem, 6vw, 5rem); }
 .year__label {
-  font-size: .75rem;
-  letter-spacing: .06em;
+  font-size: .8125rem;
   color: var(--ink-2);
   margin-bottom: 1rem;
 }
@@ -470,16 +447,60 @@
 .lost {
   padding-top: clamp(3rem, 10vh, 8rem);
 }
-.lost__code { display: inline-flex; align-items: center; gap: .6rem; }
+.lost__code { display: flex; align-items: center; gap: .6rem; margin-bottom: 1.5rem; }
+
+// The 404's exchange: who speaks on the left, what they said on the right.
+.lost__turns { list-style: none; max-width: 44rem; }
+.lost__turn {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 1rem 0;
+  border-top: 1px solid var(--line);
+  &:last-child { border-bottom: 1px solid var(--line); }
+}
+.lost__who { @include label; }
+.lost__said {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+  &.prose > * + * { margin-top: .6em; }
+  code { font-family: var(--f-mono); font-size: .86em; color: var(--ink); overflow-wrap: anywhere; }
+}
+.lost__pause .lost__said {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  font-size: .8125rem;
+  color: var(--muted);
+}
+.lost__meter {
+  width: 4rem;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--line-2);
+  overflow: hidden;
+  i {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: var(--muted);
+    transition: width 1s linear, background-color .25s 1s;
+  }
+  .is-on & i { width: 100%; background: var(--signal); }
+}
+.lost__turn--reply {
+  transition: opacity .5s var(--ease);
+  .lost__who { color: var(--signal-text); }
+  &.is-waiting { opacity: 0; }
+}
 .lost__title {
-  margin-top: 1.5rem;
   font-family: var(--f-serif);
   font-weight: 400;
   font-size: clamp(4.5rem, 16vw, 15rem);
   line-height: .82;
   letter-spacing: -.035em;
-  // Muted, not signal: vermilion only ever means live, and here the signal is gone.
-  em { font-style: italic; color: var(--muted); }
 }
 .lost__line {
   width: 100%;
@@ -500,7 +521,3 @@
   60%, 100% { stroke-dashoffset: -1; }
 }
 
-.lost__body {
-  max-width: 40rem;
-  font-size: 1.125rem;
-}

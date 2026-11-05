@@ -17,7 +17,7 @@ description: >
 tagline: Building real-time AI agents for live conversation
 
 # Role line shown above the hero headline.
-role: Software Engineer II · Microsoft Teams AI
+role: Software Engineer II @ Microsoft Teams AI
 
 # City for the live clock in the header and footer (an IANA time zone).
 location:
@@ -39,10 +39,10 @@ medium_username: jackyangzzh
 menu:
   - title: About
     url: /
-  - title: Projects
-    url: /projects/
   - title: Experience
     url: /#experience
+  - title: Projects
+    url: /projects/
   - title: Writing
     url: /writing/
 
@@ -54,8 +54,8 @@ contact:
 
 # Browser UI color, per color scheme (matches --bg in _sass/_tokens.scss).
 theme_color:
-  light: "#F1EFE9"
-  dark: "#0E0E0D"
+  light: "#E4DFD7"
+  dark: "#000000"
 
 # Format of any future local writing permalinks
 permalink: /writing/:categories/:year-:month-:day-:title/

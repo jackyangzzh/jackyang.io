@@ -323,8 +323,8 @@
       // that page selectors can't reach, so colours go on as inline styles
       // (copied with the clone; the custom properties still inherit).
       svg.innerHTML =
-        `<defs><g id="sig-bars"><g style="fill:var(--ink)">${bars.h}</g>` +
-        `<g style="fill:var(--ink);opacity:.4">${bars.g}</g><g style="fill:var(--signal)">${bars.a}</g></g>` +
+        `<defs><g id="sig-bars"><g style="fill:var(--ink);opacity:.55">${bars.h}</g>` +
+        `<g style="fill:var(--ink);opacity:.3">${bars.g}</g><g style="fill:var(--signal)">${bars.a}</g></g>` +
         `<clipPath id="sig-a"><rect x="0" y="-4" width="${W}" height="${H + 8}"/></clipPath>` +
         `<clipPath id="sig-b"><rect x="${W}" y="-4" width="0" height="${H + 8}"/></clipPath></defs>` +
         `<use href="#sig-bars" clip-path="url(#sig-a)"/><use href="#sig-bars" class="w-rest" clip-path="url(#sig-b)"/>`;
@@ -581,9 +581,21 @@
       });
     }
 
+    // A name too long for its bar widens the bar just enough to hold it, when
+    // the row has free space before the next bar; otherwise the name hides.
     const fit = () => bars.forEach((b) => {
       const lab = $(".tl__label", b);
-      b.classList.toggle("is-tight", lab.offsetWidth + 16 > b.clientWidth);
+      b.style.width = "";
+      b.classList.remove("is-tight");
+      const need = lab.offsetWidth + 16;
+      if (need <= b.clientWidth) return;
+      const row = b.style.getPropertyValue("--row");
+      const end = b.offsetLeft + b.offsetWidth;
+      const next = Math.min(b.parentElement.clientWidth, ...bars
+        .filter((o) => o.parentElement === b.parentElement && o.style.getPropertyValue("--row") === row && o.offsetLeft >= end)
+        .map((o) => o.offsetLeft));
+      if (b.offsetLeft + need + 4 <= next) b.style.width = `${need}px`;
+      else b.classList.add("is-tight");
     });
     fit();
     new ResizeObserver(fit).observe(tl);
@@ -869,27 +881,42 @@
     sync();
   }
 
-  /* ------------------------------------------------------------ reveals */
+  /* ------------------------------------------------------------ 404: one turn */
 
-  // Only elements that start below the fold wait to be revealed, so the first
-  // screen is never hidden and nothing depends on this script having run.
-  function reveal() {
-    if (reduced.matches || !("IntersectionObserver" in window)) return;
-    const vh = innerHeight;
-    const els = $$(".reveal").filter((el) => el.getBoundingClientRect().top > vh);
-    if (!els.length) return;
-    els.forEach((el) => el.classList.add("reveal--wait"));
-    const io = new IntersectionObserver((entries) => entries.forEach((en) => {
-      if (!en.isIntersecting) return;
-      en.target.classList.remove("reveal--wait");
-      io.unobserve(en.target);
-    }), { rootMargin: "0px 0px 40px 0px" });
-    els.forEach((el) => io.observe(el));
-    // Jumping to an anchor shouldn't leave content behind waiting.
-    addEventListener("hashchange", () => {
-      const target = location.hash && d.getElementById(location.hash.slice(1));
-      if (target) $$(".reveal--wait", target).concat(target.classList.contains("reveal--wait") ? [target] : []).forEach((el) => el.classList.remove("reveal--wait"));
-    });
+  // Words a path or title shares with others are noise: section names, ids, years.
+  const STOP = new Set(["blog", "blogs", "projects", "project", "posts", "post", "html", "index", "the", "and", "for", "my"]);
+  const words = (s) => String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .split(/[^a-z0-9]+/).filter((w) => w.length > 1 && !STOP.has(w) && !/^\d+$/.test(w) && !/^[0-9a-f]{8,}$/.test(w));
+  // The page whose words cover most of the requested path's words (prefixes
+  // count, so "fake-haul" finds "FakeHaul"); at least half must match.
+  const closest = (path, pages) => {
+    const want = words(path);
+    let best = null, top = 0;
+    for (const pg of want.length ? pages : []) {
+      const have = words(`${pg.k} ${pg.t}`);
+      const hit = want.filter((w) => have.some((h) => h.startsWith(w) || (h.length > 2 && w.startsWith(h)))).length / want.length;
+      if (hit > top) { top = hit; best = pg; }
+    }
+    return top >= 0.5 ? best : null;
+  };
+
+  function lost() {
+    const el = $("[data-lost]");
+    if (!el || /\/404(\.html)?$/.test(location.pathname)) return;
+    let path = location.pathname, pages = [];
+    try { path = decodeURIComponent(path); } catch { /* keep it encoded */ }
+    try { pages = JSON.parse($("[data-lost-pages]").textContent); } catch { /* no suggestions */ }
+    $("[data-lost-path]", el).textContent = path;
+    const hit = closest(path, pages);
+    if (hit) $("[data-lost-said] p", el).insertAdjacentHTML("afterend", `<p>You were probably after <a href="${esc(hit.u)}">${esc(hit.t)}</a>.</p>`);
+    $("[data-lost-ask]", el).hidden = false;
+    if (reduced.matches) return;
+    // Jack waits for a real pause before taking the turn, as in Fig. 1.
+    const pause = $("[data-lost-pause]", el), reply = $("[data-lost-reply]", el);
+    pause.hidden = false;
+    reply.classList.add("is-waiting");
+    requestAnimationFrame(() => requestAnimationFrame(() => pause.classList.add("is-on")));
+    setTimeout(() => reply.classList.remove("is-waiting"), 1100);
   }
 
   /* ------------------------------------------------------------ footer: your turn */
@@ -1071,8 +1098,8 @@
     tracks();
     signal();
     turn();
+    lost();
     timeline();
     toc();
-    reveal();
   }, 0));
 })();

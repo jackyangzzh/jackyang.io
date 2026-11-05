@@ -1,46 +1,46 @@
-// Design tokens — "Night Signal"
-// Warm paper by day, near-black ink by night, one vermilion signal colour that
+// Design tokens — "Concrete & Signal"
+// Sandstone concrete by day, pure black by night, one red signal colour that
 // only ever means "live / now / the agent".
 
 @mixin light-tokens {
-  --bg: #F1EFE9;
-  --bg-2: #E8E5DD;
-  --bg-3: #DAD6CB;
-  --ink: #151413;
-  --ink-2: #45433F;
-  --muted: #67645D;
-  --line: rgba(21, 20, 19, .12);
-  --line-2: rgba(21, 20, 19, .22);
-  --signal: #D33B1B;
-  --signal-text: #B53017;
+  --bg: #E4DFD7;
+  --bg-2: #D9D3C9;
+  --bg-3: #CBC4B9;
+  --ink: #161412;
+  --ink-2: #3E3A35;
+  --muted: #5E5850;
+  --line: rgba(22, 20, 18, .12);
+  --line-2: rgba(22, 20, 18, .22);
+  --signal: #D42A20;
+  --signal-text: #AE1F17;
   --on-signal: #FFFFFF;
-  --wash: rgba(217, 64, 30, .08);
+  --wash: rgba(212, 42, 32, .08);
   --cat-professional: #2F6BD8;
   --cat-personal: #B8730F;
   --cat-research: #1E9468;
-  --shadow: 0 1px 1px rgba(21, 20, 19, .04), 0 18px 40px -18px rgba(21, 20, 19, .28);
-  --dots: rgba(21, 20, 19, .10);
+  --shadow: 0 1px 1px rgba(22, 20, 18, .04), 0 18px 40px -18px rgba(22, 20, 18, .28);
+  --dots: rgba(22, 20, 18, .10);
   color-scheme: light;
 }
 
 @mixin dark-tokens {
-  --bg: #0E0E0D;
-  --bg-2: #181816;
-  --bg-3: #2A2925;
-  --ink: #EDEBE5;
-  --ink-2: #BEBBB3;
-  --muted: #96938B;
-  --line: rgba(237, 235, 229, .11);
-  --line-2: rgba(237, 235, 229, .21);
-  --signal: #FF5C3B;
-  --signal-text: #FF6E4F;
-  --on-signal: #0E0E0D;
-  --wash: rgba(255, 92, 59, .09);
+  --bg: #000000;
+  --bg-2: #0E0E0E;
+  --bg-3: #262626;
+  --ink: #F2F0EC;
+  --ink-2: #BDBAB4;
+  --muted: #8E8B86;
+  --line: rgba(242, 240, 236, .11);
+  --line-2: rgba(242, 240, 236, .21);
+  --signal: #E5322A;
+  --signal-text: #FF4A3D;
+  --on-signal: #000000;
+  --wash: rgba(229, 50, 42, .1);
   --cat-professional: #5A8AF5;
   --cat-personal: #C4801F;
   --cat-research: #2AAA79;
   --shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 24px 48px -20px rgba(0, 0, 0, .7);
-  --dots: rgba(237, 235, 229, .09);
+  --dots: rgba(242, 240, 236, .09);
   color-scheme: dark;
 }
 
@@ -94,11 +94,9 @@ $xl: 80em;   // 1280
 }
 
 @mixin label {
-  font-family: var(--f-mono);
-  font-size: .75rem;
-  font-weight: 400;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  font-size: .8125rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
   color: var(--muted);
   line-height: 1.4;
 }

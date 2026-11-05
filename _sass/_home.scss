@@ -19,12 +19,9 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: .5rem 1.5rem;
-  font-size: .75rem;
-  letter-spacing: .05em;
-  text-transform: uppercase;
+  font-size: .8125rem;
   color: var(--ink-2);
 }
-.hero__where { color: var(--muted); }
 
 .hero__body {
   margin-top: auto;
@@ -48,12 +45,8 @@
   }
   line-height: .86;
   letter-spacing: -.028em;
-  em {
-    font-style: italic;
-    color: var(--signal);
-    letter-spacing: -.035em;
-    padding-right: .04em;
-  }
+  // The one coloured word: roman, in the signal colour.
+  em { font-style: normal; color: var(--signal); }
 }
 .hero__line {
   display: block;
@@ -128,9 +121,7 @@
   align-items: center;
   gap: .5rem;
   padding: .3rem 0;
-  font-family: var(--f-mono);
   font-size: .8125rem;
-  letter-spacing: .01em;
   color: var(--ink-2);
   cursor: pointer;
   transition: transform .16s var(--ease);
@@ -148,9 +139,7 @@
   .addr__copy, .addr__check { grid-area: 1 / 1; display: grid; transition: opacity .2s, transform .3s var(--ease); }
   .addr__check { opacity: 0; transform: scale(.6); color: var(--signal-text); }
   .addr__done {
-    font-size: .75rem;
-    letter-spacing: .06em;
-    text-transform: uppercase;
+    font-size: .8125rem;
     color: var(--signal-text);
     opacity: 0;
     transform: translateX(-4px);
@@ -172,16 +161,14 @@
 .hero__btns .btn {
   padding: 0 .95rem 0 1.05rem;
 }
-// Phones: the primary action spans the row, the other two share the next,
-// and the email line centres under them like the buttons' labels.
+// Phones: the two actions stack full width, and the email line centres under
+// them like the buttons' labels.
 @include down($sm) {
   .hero__actions { align-items: stretch; }
   .hero__more { justify-content: center; }
   .hero__btns {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     .btn { justify-content: center; }
-    .btn:first-child { grid-column: 1 / -1; }
   }
 }
 
@@ -217,8 +204,7 @@
   margin-top: 1rem;
   padding-top: .8rem;
   border-top: 1px solid var(--line);
-  font-size: .75rem;
-  letter-spacing: .02em;
+  font-size: .8125rem;
   color: var(--muted);
   min-height: 2.6rem;
   @include up($md) {
@@ -232,8 +218,6 @@
   }
 }
 .cover__fig {
-  text-transform: uppercase;
-  letter-spacing: .06em;
   color: var(--ink);
   white-space: nowrap;
 }
@@ -249,8 +233,6 @@
   background: none;
   color: var(--muted);
   font: inherit;
-  text-transform: uppercase;
-  letter-spacing: .06em;
   cursor: pointer;
   transition: color .25s var(--ease);
   &:hover, &:focus-visible { color: var(--signal-text); }
@@ -268,7 +250,7 @@
 }
 .signal__stage {
   position: relative;
-  height: clamp(60px, 10.5vh, 104px);
+  height: clamp(40px, 6.5vh, 64px);
   cursor: crosshair;
   touch-action: pan-y;
   -webkit-user-select: none;
@@ -276,7 +258,7 @@
   border-radius: 2px;
   &:focus-visible { outline-offset: 10px; }
   svg { width: 100%; height: 100%; overflow: visible; }
-  .w-rest { opacity: .2; }
+  .w-rest { opacity: .15; }
 }
 .signal__head {
   position: absolute;
@@ -299,8 +281,7 @@
   border-radius: 4px;
   background: var(--ink);
   color: var(--bg);
-  font-size: .75rem;
-  letter-spacing: .04em;
+  font-size: .8125rem;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -313,14 +294,11 @@
   margin-top: 1rem;
   padding-top: .8rem;
   border-top: 1px solid var(--line);
-  font-size: .75rem;
-  letter-spacing: .02em;
+  font-size: .8125rem;
   color: var(--muted);
   min-height: 2.6rem;
 }
 .signal__fig {
-  text-transform: uppercase;
-  letter-spacing: .06em;
   color: var(--ink);
   white-space: nowrap;
 }
@@ -330,8 +308,6 @@
   text-wrap: pretty;
   b {
     font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: .06em;
     margin-right: .6em;
     color: var(--ink);
   }
@@ -345,8 +321,6 @@
   justify-content: flex-end;
   gap: 1.1rem;
   white-space: nowrap;
-  text-transform: uppercase;
-  letter-spacing: .06em;
   @include up($sm) { flex: none; width: 17rem; }
 }
 .signal__hint {
@@ -477,7 +451,7 @@
   font-size: .9375rem;
   line-height: 1.4;
   &:last-child { border-bottom: 1px solid var(--line); }
-  dt { font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: .15rem; }
+  dt { font-size: .8125rem; color: var(--muted); padding-top: .15rem; }
 }
 .socials {
   list-style: none;
@@ -581,14 +555,14 @@
   display: flex;
   align-items: center;
   gap: .9rem;
+  margin-bottom: .7rem;
 }
 .card__no {
-  font-size: .75rem;
+  font-size: .8125rem;
   color: var(--ink);
-  letter-spacing: .04em;
 }
 .card__title {
-  margin: .7rem 0 .6rem;
+  margin-bottom: .55rem;
   font-family: var(--f-serif);
   font-weight: 400;
   font-size: clamp(1.75rem, 2.3vw, 2.4rem);
@@ -657,9 +631,7 @@
     bottom: -1.5rem;
     left: 0;
     transform: translateX(-50%);
-    font-family: var(--f-mono);
-    font-size: .75rem;
-    letter-spacing: .03em;
+    font-size: .8125rem;
     color: var(--muted);
     font-variant-numeric: tabular-nums;
   }
@@ -691,9 +663,7 @@
   top: .55rem;
   left: var(--l);
   transform: translateX(calc(-100% - .6rem));
-  font-size: .75rem;
-  letter-spacing: .05em;
-  text-transform: uppercase;
+  font-size: .8125rem;
   color: var(--signal-text);
   white-space: nowrap;
 }
@@ -715,9 +685,7 @@
   display: flex;
   align-items: center;
   background: linear-gradient(90deg, var(--bg) 78%, transparent);
-  font-size: .75rem;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  font-size: .8125rem;
   color: var(--muted);
   // On phones the chart scrolls under the labels: they become a frozen
   // column with a hard edge, so bars are cut cleanly instead of showing
@@ -753,9 +721,7 @@
   border-radius: 4px;
   background: var(--bg-3);
   color: var(--ink);
-  font-family: var(--f-mono);
-  font-size: .75rem;
-  letter-spacing: .02em;
+  font-size: .8125rem;
   white-space: nowrap;
   transition: background-color .2s, color .2s, box-shadow .2s;
   &:focus-visible,
@@ -775,23 +741,6 @@
   &.is-tight .tl__label { opacity: 0; }
 }
 
-// The first time the timeline scrolls into view it draws itself: each bar
-// wipes open from its start date in date order (--t is its 0–1 position), then
-// "now" arrives. It rides the section's .reveal, so reduced motion and no-JS
-// get it fully drawn. The resting clip sits 4px out to keep the focus ring.
-.tl__bar {
-  clip-path: inset(-4px round 4px);
-  transition:
-    clip-path .7s var(--ease) calc(.1s + var(--t, 0) * .8s),
-    background-color .2s, color .2s, box-shadow .2s;
-}
-.tl__now { transition: opacity .5s var(--ease) 1.1s; }
-.reveal--wait {
-  .tl__bar { clip-path: inset(-4px 100% -4px -4px round 4px); }
-  .tl__now { opacity: 0; }
-  // Hide at once; only the arrival animates.
-  .tl__bar, .tl__now { transition: none; }
-}
 .tl__label { position: relative; z-index: 1; }
 .tl__future {
   position: absolute;
@@ -810,9 +759,7 @@
   flex-wrap: wrap;
   gap: .5rem 1.5rem;
   margin-top: .25rem;
-  font-size: .75rem;
-  letter-spacing: .05em;
-  text-transform: uppercase;
+  font-size: .8125rem;
   color: var(--muted);
   > span { display: inline-flex; align-items: center; gap: .5rem; }
 }
@@ -837,8 +784,7 @@
   background: var(--ink);
   color: var(--bg);
   box-shadow: var(--shadow);
-  font-size: .75rem;
-  letter-spacing: .03em;
+  font-size: .8125rem;
   pointer-events: none;
   transform: translate(-50%, calc(-100% - 10px));
   b {
@@ -850,7 +796,7 @@
     margin-bottom: .1rem;
   }
   span { display: block; opacity: .75; }
-  span + span { margin-top: .25rem; text-transform: uppercase; }
+  span + span { margin-top: .25rem; }
 }
 
 // Résumé rows: two parallel columns of the same kind of thing
@@ -910,8 +856,7 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
   flex-wrap: wrap;
   align-items: center;
   gap: .35rem .45rem;
-  font-size: .75rem;
-  letter-spacing: .02em;
+  font-size: .8125rem;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
   .tag { margin-left: .35rem; }
@@ -994,14 +939,13 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
   flex-wrap: wrap;
   align-items: baseline;
   gap: .35rem .9rem;
-  font-size: .75rem;
-  letter-spacing: .02em;
+  font-size: .8125rem;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
 }
 // The venue takes the free space and wraps inside it, so a long journal
 // name never pushes the PDF/DOI link onto a line of its own.
-.pub__venue { flex: 1 1 0; min-width: 8rem; text-transform: uppercase; letter-spacing: .05em; }
+.pub__venue { flex: 1 1 0; min-width: 8rem; }
 .pub__title {
   margin-top: .8rem;
   font-family: var(--f-serif);
@@ -1024,8 +968,6 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
   display: inline-flex;
   align-items: center;
   gap: .3rem;
-  letter-spacing: .05em;
-  text-transform: uppercase;
   transition: color .2s;
   .i { transition: transform .35s var(--ease); }
 }
@@ -1049,7 +991,7 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
   padding: 1.1rem 0;
   border-bottom: 1px solid var(--line);
   &__name { font-size: 1rem; font-weight: 500; line-height: 1.35; color: var(--ink); }
-  &__pub { grid-row: 2; font-size: .75rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  &__pub { grid-row: 2; font-size: .8125rem; color: var(--muted); }
   &__go { grid-row: 1 / span 2; grid-column: 2; align-self: center; color: var(--muted); transition: color .2s, transform .35s var(--ease); }
   @include hover {
     &:hover &__go { color: var(--ink); transform: translate(2px, -2px); }
@@ -1099,9 +1041,7 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
   line-height: 1.55;
 }
 .post__src {
-  font-size: .75rem;
-  letter-spacing: .05em;
-  text-transform: uppercase;
+  font-size: .8125rem;
   color: var(--muted);
   @include up($md) { grid-column: 11; }
   @include down($md) { display: none; }
@@ -1122,10 +1062,9 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
 
 // Phones: tighten the hero so Fig. 1's caption is read in the first screen.
 @include down($sm) {
-  .hero__where { display: none; }
   .hero__body { padding-top: 1rem; }
   .hero__foot { margin-top: 1.25rem; }
   .signal { margin-top: 2.75rem; }
-  .signal__stage { height: 56px; }
+  .signal__stage { height: 40px; }
   .signal__cap { margin-top: .75rem; }
 }

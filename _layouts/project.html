@@ -20,8 +20,8 @@ layout: base
 
 <article class="cs">
   <header class="cs__head wrap">
-    <nav class="crumbs mono intro" style="--d: 0" aria-label="Breadcrumb">
-      <a href="{{ '/projects/' | relative_url }}">{% include icon.html name="arrow-l" px="14" %}Projects</a>
+    <nav class="crumbs intro" style="--d: 0" aria-label="Breadcrumb">
+      <a href="{{ '/projects/' | relative_url }}">Projects</a>
       <span aria-hidden="true">/</span>
       <span aria-current="page">{{ page.title }}</span>
     </nav>
@@ -42,7 +42,7 @@ layout: base
     </div>
     {%- comment -%}Many visitors land here first, so say who wrote this and how to reach him.{%- endcomment %}
     <p class="cs__by intro" style="--d: 2">
-      <span><a href="{{ '/' | relative_url }}">{{ site.title }}</a> · {{ site.role }}</span>
+      <span><a href="{{ '/' | relative_url }}">{{ site.title }}</a>, {{ site.role }}</span>
       <a class="qlink" href="{{ site.contact.resume | relative_url }}">Résumé (PDF) {% include icon.html name="arrow-ur" %}</a>
     </p>
   </header>
@@ -73,7 +73,7 @@ layout: base
     <a class="next__link" href="{{ next.url | relative_url }}" data-vt-link>
       <span class="next__text">
         <span class="label">Next project</span>
-        <span class="next__title">{{ next.title }} <span class="next__arrow">{% include icon.html name="arrow-r" px="40" %}</span></span>
+        <span class="next__title">{{ next.title }}</span>
         {% include eyebrow.html project=next %}
       </span>
       <span class="next__media{% if next.image.position %} card__media--{{ next.image.position }}{% endif %}">{% include media.html image=next.image sizes="(min-width: 54em) 36vw, 100vw" alt="" %}</span>

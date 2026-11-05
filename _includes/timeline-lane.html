@@ -9,7 +9,7 @@ time are stacked greedily onto up to three rows.
 {%- assign e0 = 0 -%}{%- assign e1 = 0 -%}{%- assign rows = 1 -%}
 {%- capture bars -%}
 {%- for it in items -%}
-  {%- if it.startDate == nil or it.startDate == "" -%}{%- continue -%}{%- endif -%}
+  {%- if it.startDate == nil or it.startDate == "" or it.timeline == false -%}{%- continue -%}{%- endif -%}
   {%- assign s = it.startDate | date: "%s" | plus: 0 -%}
   {%- assign ongoing = false -%}
   {%- if it.endDate and it.endDate != "" -%}
@@ -27,7 +27,7 @@ time are stacked greedily onto up to three rows.
   {%- assign role = it.role | default: it.position | default: it.studyType -%}
   {%- assign id = it.short | slugify | prepend: "exp-" -%}
   {%- capture dates -%}{{ it.startDate | date: "%b %Y" }} – {% if ongoing %}Present{% else %}{{ it.endDate | date: "%b %Y" }}{% if e > now %} (expected){% endif %}{% endif %}{%- endcapture -%}
-  <a class="tl__bar{% if ongoing %} is-now{% endif %}" href="#{{ id }}" data-target="{{ id }}" style="--l: {{ l }}%; --w: {{ w }}%; --row: {{ row }}; --t: {{ l | divided_by: 100.0 | round: 3 }}"
+  <a class="tl__bar{% if ongoing %} is-now{% endif %}" href="#{{ id }}" data-target="{{ id }}" style="--l: {{ l }}%; --w: {{ w }}%; --row: {{ row }}"
      data-tip-title="{{ org | escape }}" data-tip-sub="{{ role | escape }}" data-tip-dates="{{ dates }}"
      aria-label="{{ org | escape }}, {{ role | escape }}, {{ dates }}">
     {%- if e > now -%}
@@ -40,6 +40,6 @@ time are stacked greedily onto up to three rows.
 {%- endfor -%}
 {%- endcapture -%}
 <div class="tl__lane" style="--rows: {{ rows }}">
-  <span class="tl__lane-label mono">{{ include.label }}</span>
+  <span class="tl__lane-label">{{ include.label }}</span>
   <div class="tl__track">{{ bars }}</div>
 </div>

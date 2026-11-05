@@ -61,9 +61,7 @@
 }
 
 .hd__clock {
-  font-size: .75rem;
-  letter-spacing: .04em;
-  text-transform: uppercase;
+  font-size: .8125rem;
   color: var(--muted);
   margin-right: .75rem;
   white-space: nowrap;
@@ -90,7 +88,7 @@
     gap: .15rem;
     padding: 0 .65rem;
     kbd {
-      font-size: .75rem;
+      font-size: .8125rem;
       min-width: 1.15rem;
       height: 1.4rem;
       display: grid;
@@ -233,10 +231,11 @@
     font-size: clamp(2.5rem, 12vw, 3.5rem);
     line-height: 1;
     letter-spacing: -.02em;
-    .mono {
-      font-size: .75rem;
+    span {
+      font-family: var(--f-sans);
+      font-size: .8125rem;
+      font-variant-numeric: tabular-nums;
       color: var(--muted);
-      letter-spacing: .05em;
       width: 1.5rem;
     }
     &[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .12em; }
@@ -334,10 +333,7 @@
   padding: 0 .7rem;
   border: 1px solid var(--line-2);
   border-radius: 999px;
-  font-family: var(--f-mono);
-  font-size: .75rem;
-  letter-spacing: .05em;
-  text-transform: uppercase;
+  font-size: .8125rem;
   color: var(--ink-2);
   transition: border-color .2s, color .2s, transform .16s var(--ease);
   justify-items: center;
@@ -377,14 +373,11 @@
   margin-top: clamp(3rem, 6vw, 5rem);
   padding: 1.25rem 0;
   border-top: 1px solid var(--line);
-  font-size: .75rem;
-  letter-spacing: .05em;
-  text-transform: uppercase;
+  font-size: .8125rem;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
   a:hover { color: var(--ink); }
 }
-.ft__colophon { @include down($md) { display: none; } }
 .ft__top { display: inline-flex; align-items: center; gap: .35rem; min-height: 1.5rem; }
 
 // The name, set huge and cut off by the bottom of the page.
@@ -478,7 +471,7 @@
   &::placeholder { color: var(--muted); }
 }
 .cmdk__esc {
-  font-size: .75rem;
+  font-size: .8125rem;
   border: 1px solid var(--line-2);
   border-radius: 4px;
   padding: .1rem .35rem;
@@ -496,7 +489,7 @@
 }
 .cmdk__group {
   @include label;
-  font-size: .75rem;
+  font-size: .8125rem;
   padding: .85rem .75rem .35rem;
 }
 .cmdk__item {
@@ -518,10 +511,7 @@
 }
 .cmdk__meta {
   margin-left: auto;
-  font-family: var(--f-mono);
-  font-size: .75rem;
-  letter-spacing: .04em;
-  text-transform: uppercase;
+  font-size: .8125rem;
   color: var(--muted);
   white-space: nowrap;
 }
@@ -540,10 +530,7 @@
   gap: 1.25rem;
   padding: .65rem 1.25rem;
   border-top: 1px solid var(--line);
-  font-family: var(--f-mono);
-  font-size: .75rem;
-  letter-spacing: .04em;
-  text-transform: uppercase;
+  font-size: .8125rem;
   color: var(--muted);
   kbd { color: var(--ink-2); }
   @include down($sm) { display: none; }

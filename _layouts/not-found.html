@@ -1,14 +1,44 @@
 ---
 layout: base
 ---
+{%- comment -%}
+The 404 plays one turn of a conversation: the visitor asks for a path, the
+line goes quiet, and after the pause Jack answers with the closest page.
+Without JavaScript the reply simply stands there.
+{%- endcomment -%}
 <section class="lost wrap">
-  <p class="label lost__code"><span class="live__dot live__dot--off" aria-hidden="true"></span>Error 404 · No signal</p>
-  <h1 class="lost__title">Signal <em>lost.</em></h1>
+  <h1 class="lost__title">Signal lost.</h1>
   <svg class="lost__line" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
     <path d="M0 60 H520 l14 -34 l16 68 l14 -52 l10 18 H1200" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>
     <path class="lost__scan" pathLength="1" d="M0 60 H520 l14 -34 l16 68 l14 -52 l10 18 H1200" fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>
   </svg>
-  <div class="lost__body prose">
+  <p class="label lost__code"><span class="live__dot live__dot--off" aria-hidden="true"></span>Error 404</p>
+
+  <ol class="lost__turns" data-lost>
+    <li class="lost__turn" data-lost-ask hidden>
+      <span class="lost__who">You</span>
+      <p class="lost__said">Can I see <code data-lost-path></code>?</p>
+    </li>
+    <li class="lost__turn lost__pause" data-lost-pause hidden aria-hidden="true">
+      <span class="lost__who"></span>
+      <p class="lost__said"><span class="lost__meter"><i></i></span>Pause, then my turn</p>
+    </li>
+    <li class="lost__turn lost__turn--reply" data-lost-reply>
+      <span class="lost__who">Jack</span>
+      <div class="lost__said prose" data-lost-said>
 {{ content }}
-  </div>
+      </div>
+    </li>
+  </ol>
+
+  {%- capture pages -%}
+  [{ "t": "About me", "u": {{ '/' | relative_url | jsonify }}, "k": "about home jack yang" },
+   { "t": "Experience", "u": {{ '/#experience' | relative_url | jsonify }}, "k": "experience work career timeline" },
+   { "t": "Projects", "u": {{ '/projects/' | relative_url | jsonify }}, "k": "projects portfolio work" },
+   { "t": "Writing", "u": {{ '/writing/' | relative_url | jsonify }}, "k": "writing blog blogs posts articles" },
+   { "t": "my résumé", "u": {{ site.contact.resume | relative_url | jsonify }}, "k": "resume cv" }
+   {%- for p in site.projects %}, { "t": {{ p.title | jsonify }}, "u": {{ p.url | relative_url | jsonify }}, "k": {{ p.url | split: "/" | last | append: " " | append: p.title | jsonify }} }{% endfor %}
+   {%- for post in site.data.medium_posts %}, { "t": {{ post.title | jsonify }}, "u": {{ post.url | jsonify }}, "k": {{ post.title | jsonify }} }{% endfor %}]
+  {%- endcapture %}
+  <script type="application/json" data-lost-pages>{{ pages | strip_newlines }}</script>
 </section>
