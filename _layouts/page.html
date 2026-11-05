@@ -2,9 +2,7 @@
 layout: base
 ---
 <article class="page wrap">
-  <header>
-    <h1 class="page__title">{{ page.title }}</h1>
-  </header>
+  <h1 class="page__title"><span class="fit" data-fit style="--n: {{ page.title | size }}"><span class="fit__in">{{ page.title }}</span></span></h1>
   <div class="prose">
 {{ content }}
   </div>

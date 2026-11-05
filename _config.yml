@@ -46,7 +46,17 @@ menu:
   - title: Writing
     url: /writing/
 
-# Contact actions, shared by the hero, the footer and the command menu.
+# The home page's sections, in order: the record's tracks. The player bar and
+# the index list them.
+tracks:
+  - { n: "01", title: About, url: "/#about" }
+  - { n: "02", title: Experience, url: "/#experience" }
+  - { n: "03", title: Education, url: "/#education" }
+  - { n: "04", title: Publications, url: "/#publications" }
+  - { n: "05", title: Selected work, url: "/#work" }
+  - { n: "06", title: Writing, url: "/#writing" }
+
+# Contact actions, shared by the hero, the outro and the command menu.
 contact:
   email: jackyangzzh@gmail.com
   schedule: https://calendly.com/jackyangzzh/30min
@@ -54,7 +64,7 @@ contact:
 
 # Browser UI color, per color scheme (matches --bg in _sass/_tokens.scss).
 theme_color:
-  light: "#E4DFD7"
+  light: "#DBD3C7"
   dark: "#000000"
 
 # Format of any future local writing permalinks

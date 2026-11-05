@@ -1,72 +1,76 @@
-// Design tokens — "Concrete & Signal"
-// Sandstone concrete by day, pure black by night, one red signal colour that
-// only ever means "live / now / the agent".
+// Design tokens — the record
+// Day is Amangiri sandstone, night is Donda black. Slabs (the screening room,
+// the outro, the index) always take the opposite ground. One Akira red, and
+// it only ever means live; when something is live it takes the whole plane.
 
 @mixin light-tokens {
-  --bg: #E4DFD7;
-  --bg-2: #D9D3C9;
-  --bg-3: #CBC4B9;
-  --ink: #161412;
-  --ink-2: #3E3A35;
-  --muted: #5E5850;
-  --line: rgba(22, 20, 18, .12);
-  --line-2: rgba(22, 20, 18, .22);
-  --signal: #D42A20;
-  --signal-text: #AE1F17;
-  --on-signal: #FFFFFF;
-  --wash: rgba(212, 42, 32, .08);
-  --cat-professional: #2F6BD8;
-  --cat-personal: #B8730F;
-  --cat-research: #1E9468;
-  --shadow: 0 1px 1px rgba(22, 20, 18, .04), 0 18px 40px -18px rgba(22, 20, 18, .28);
-  --dots: rgba(22, 20, 18, .10);
+  --bg: #DBD3C7;
+  --bg-2: #CDC4B6;
+  --bg-3: #B9AF9F;
+  --ink: #0F0E0D;
+  --ink-2: #36322C;
+  --muted: #57514A;
+  --line: rgba(15, 14, 13, .16);
+  --line-2: rgba(15, 14, 13, .34);
+  --signal: #E5291F;
+  --signal-text: #B3170F;
+  --on-signal: #000;
   color-scheme: light;
 }
 
 @mixin dark-tokens {
-  --bg: #000000;
-  --bg-2: #0E0E0E;
-  --bg-3: #262626;
-  --ink: #F2F0EC;
-  --ink-2: #BDBAB4;
-  --muted: #8E8B86;
-  --line: rgba(242, 240, 236, .11);
-  --line-2: rgba(242, 240, 236, .21);
-  --signal: #E5322A;
-  --signal-text: #FF4A3D;
-  --on-signal: #000000;
-  --wash: rgba(229, 50, 42, .1);
-  --cat-professional: #5A8AF5;
-  --cat-personal: #C4801F;
-  --cat-research: #2AAA79;
-  --shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 24px 48px -20px rgba(0, 0, 0, .7);
-  --dots: rgba(242, 240, 236, .09);
+  --bg: #000;
+  --bg-2: #101010;
+  --bg-3: #2A2A2A;
+  --ink: #EDEAE4;
+  --ink-2: #BAB6AF;
+  --muted: #8C887F;
+  --line: rgba(237, 234, 228, .16);
+  --line-2: rgba(237, 234, 228, .34);
+  --signal: #E5291F;
+  --signal-text: #F0372D;
+  --on-signal: #000;
   color-scheme: dark;
+}
+
+// On a red plane (the agent's turn) everything is black.
+@mixin signal-tokens {
+  --ink: #000;
+  --ink-2: #000;
+  --muted: #000;
+  --line: rgba(0, 0, 0, .3);
+  --line-2: rgba(0, 0, 0, .55);
+  --signal-text: #000;
 }
 
 :root {
   @include light-tokens;
 
-  --f-serif: "Instrument Serif", "Instrument Serif Fallback", "Times New Roman", serif;
-  --f-sans: "Instrument Sans", "Instrument Sans Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  --f-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --f-display: "Archivo", "Archivo Fallback", Arial, sans-serif;
+  --f-sans: "Archivo", "Archivo Fallback", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --f-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --ease: cubic-bezier(.22, 1, .36, 1);
   --ease-in-out: cubic-bezier(.65, 0, .35, 1);
 
   // The page is drawn under the notch (viewport-fit=cover), so in landscape
   // the gutter grows to clear the safe area.
-  --gutter: max(clamp(1.25rem, 4vw, 3.5rem), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
-  --gap: clamp(1rem, 1.8vw, 1.75rem);
-  --max: 88rem;
-  --hd: 4.25rem;
-  --radius: 6px;
+  --gutter: max(clamp(1rem, 3vw, 2.5rem), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  --gap: clamp(1rem, 1.6vw, 1.5rem);
+  --max: 100rem;
+  // The content width the edge-to-edge type is fitted to.
+  --measure: calc(min(100vw, var(--max)) - 2 * var(--gutter));
+  // The player bar, plus the home indicator on phones.
+  --bar: calc(3.75rem + env(safe-area-inset-bottom, 0px));
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) { @include dark-tokens; }
+  :root:not([data-theme="light"]) .slab { @include light-tokens; }
 }
 :root[data-theme="dark"] { @include dark-tokens; }
+:root[data-theme="dark"] .slab { @include light-tokens; }
+.slab { @include dark-tokens; }
 
 // Breakpoints
 $sm: 40em;   // 640
@@ -77,26 +81,36 @@ $xl: 80em;   // 1280
 @mixin up($bp) { @media (min-width: $bp) { @content; } }
 @mixin down($bp) { @media (max-width: $bp - .001em) { @content; } }
 
-// Hover styles only for a real mouse or trackpad. A tap would otherwise leave
-// them stuck on until the next tap somewhere else.
+// Hover styles only for a real mouse or trackpad.
 @mixin hover { @media (hover: hover) and (pointer: fine) { @content; } }
 
-// Press feedback for button-like controls, on every input type.
 @mixin press($scale: .97) {
   &:active { transform: scale($scale); }
 }
 
-// 12-column grid used by every section; col 4 is the content axis.
 @mixin grid12 {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: var(--gap);
 }
 
-@mixin label {
-  font-size: .8125rem;
-  font-weight: 500;
+// The monument: Archivo at full width and near-black weight, in capitals.
+@mixin display {
+  font-family: var(--f-display);
+  font-stretch: 125%;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: -.035em;
+  line-height: .82;
+}
+
+// The whisper: small spaced capitals, like the print on a garment tag.
+@mixin micro {
+  font-size: .75rem;
+  font-weight: 600;
+  font-stretch: 100%;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  line-height: 1.45;
   font-variant-numeric: tabular-nums;
-  color: var(--muted);
-  line-height: 1.4;
 }

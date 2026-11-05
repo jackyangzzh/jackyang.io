@@ -1,0 +1,38 @@
+{%- comment -%}
+The outro. The record ends the way Fig. 1 does: the talking stops, the room
+goes quiet, and the turn passes to the visitor. The lamp lights when it's
+theirs. Opposite ground: black by day, sandstone by night.
+{%- endcomment -%}
+{%- assign r = site.data.resume -%}
+<footer class="outro slab">
+  <div class="wrap outro__in">
+    <p class="outro__turn" data-turn><span class="sr-only">Contact. </span><span class="lamp" aria-hidden="true"></span><span>Your turn</span></p>
+
+    <a class="outro__email" href="mailto:{{ site.contact.email }}"><span class="fit" data-fit style="--n: {{ site.contact.email | size }}"><span class="fit__in">{{ site.contact.email }}</span></span></a>
+
+    <div class="outro__actions">
+      <button type="button" class="copy" data-copy="{{ site.contact.email }}" hidden>
+        <span class="copy__idle">{% include icon.html name="copy" px="14" %}<span>Copy</span></span>
+        <span class="copy__done" aria-hidden="true">{% include icon.html name="check" px="14" %}<span>Copied</span></span>
+      </button>
+      <a class="slabbtn" href="{{ site.contact.schedule }}" rel="noopener">Book a 30-minute call {% include icon.html name="arrow-ur" %}</a>
+      <a class="slabbtn slabbtn--line" href="{{ site.contact.resume | relative_url }}">Résumé (PDF) {% include icon.html name="arrow-ur" %}</a>
+    </div>
+
+    <div class="outro__lists">
+      <div>
+        <p class="micro">Elsewhere</p>
+        <ul>
+          {%- for p in r.basics.profiles %}
+          <li><a class="qlink" href="{{ p.url }}" rel="me noopener">{{ p.network }} {% include icon.html name="arrow-ur" %}</a></li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="outro__base">
+      <span>© {{ site.time | date: "%Y" }} {{ site.title }}</span>
+      <a href="#top" class="outro__top">Back to top</a>
+    </div>
+  </div>
+</footer>

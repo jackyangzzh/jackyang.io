@@ -5,15 +5,16 @@ layout: base
 {%- assign years = posts | group_by_exp: "post", "post.date | date: '%Y'" -%}
 
 <header class="phead wrap">
-  <h1 class="phead__title intro" style="--d: 0">{{ page.title }}<sup class="phead__count">{{ posts.size }}</sup></h1>
+  <h1 class="phead__title intro" style="--d: 0"><span class="fit" data-fit style="--n: {{ page.title | size }}"><span class="fit__in">{{ page.title }}</span></span></h1>
   <div class="phead__row intro" style="--d: 1">
     <div class="phead__desc">{{ page.description | markdownify }}</div>
+    <p class="phead__count micro">{{ posts.size }} posts</p>
   </div>
 </header>
 
 <section class="wrap writing" aria-label="Posts">
   {%- for y in years %}
-  <div class="year">
+  <div class="year" id="y{{ y.name }}" data-track="{{ y.name }}">
     <h2 class="year__label">{{ y.name }}</h2>
     <ol class="posts posts--full">
       {%- for post in y.items %}

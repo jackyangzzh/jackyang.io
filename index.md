@@ -20,7 +20,7 @@ headline: Real-time AI for real conversations.
 headline_lines:
   - "Real-time AI"
   - "for _real_"
-  - "conversations."
+  - "conver&shy;sations."
 
 # The sentence beside the photo under the headline.
 intro: >
@@ -62,42 +62,42 @@ signal:
       text: "We need someone who’s shipped real-time AI. Who’s on the list?"
       dur: 4.4
     - pause: 0.4
-      text: "Gap · 0.4 s: too short to take the turn"
+      text: "Gap of 0.4 s: too short to take the turn"
     - who: Eng lead
       text: "Jack Yang. He works on Facilitator, the Microsoft 365 Copilot agent that runs inside live Teams meetings."
       dur: 6.3
     - pause: 0.5
-      text: "Gap · 0.5 s: still their conversation"
+      text: "Gap of 0.5 s: still their conversation"
     - who: Hiring manager
       text: "Anything at scale?"
       dur: 1.6
     - pause: 0.3
-      text: "Gap · 0.3 s"
+      text: "Gap of 0.3 s"
     - who: Eng lead
       text: "He was a key contributor at Microsoft Mesh, which shipped weekly in 20+ languages to millions of users."
       dur: 6.2
     - pause: 0.4
-      text: "Gap · 0.4 s: no decision yet"
+      text: "Gap of 0.4 s: no decision yet"
     - who: Hiring manager
       text: "And research?"
       dur: 1.4
     - pause: 0.3
-      text: "Gap · 0.3 s"
+      text: "Gap of 0.3 s"
     - who: Eng lead
       text: "HCI research at Georgia Tech: how later confirmation can hide a lack of support for an earlier action."
       dur: 5.6
     - pause: 0.5
-      text: "Gap · 0.5 s: still no decision"
+      text: "Gap of 0.5 s: still no decision"
     - who: Hiring manager
       text: "Okay. Let’s talk to him."
       dur: 2.1
     - pause: 1.6
-      text: "Pause · 1.6 s, decision made: room for the agent"
+      text: "Pause of 1.6 s, decision made: room for the agent"
     - who: agent
       text: "Noted. Decision: talk to Jack Yang. Action item: book time with him. Owner: you."
       dur: 5.2
     - pause: 0.6
-      text: "Gap · 0.6 s"
+      text: "Gap of 0.6 s"
     - who: Hiring manager
       text: "On it."
       dur: 1.0

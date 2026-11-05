@@ -14,23 +14,24 @@
   > p:has(> img:only-child), > p:has(> video) { max-width: none; }
 
   h2 {
-    margin-top: 2.4em;
-    font-family: var(--f-serif);
-    font-weight: 400;
-    font-size: clamp(2rem, 3.3vw, 2.85rem);
-    line-height: 1.04;
-    letter-spacing: -.02em;
+    margin-top: 2.6em;
+    padding-top: .8rem;
+    border-top: 2px solid var(--ink);
+    @include display;
+    font-size: clamp(1.75rem, 3vw, 3rem);
+    line-height: .92;
+    letter-spacing: -.03em;
     color: var(--ink);
     text-wrap: balance;
     scroll-margin-top: calc(var(--hd) + 2rem);
-    + * { margin-top: .9em; }
+    + * { margin-top: 1em; }
   }
   > h2:first-child { margin-top: 0; }
   h3, h4 {
     margin-top: 2.2em;
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: -.01em;
+    font-size: 1.375rem;
+    font-weight: 650;
+    letter-spacing: -.012em;
     line-height: 1.3;
     color: var(--ink);
     scroll-margin-top: calc(var(--hd) + 2rem);
@@ -45,9 +46,9 @@
     text-underline-offset: .2em;
     text-decoration-color: var(--line-2);
     transition: text-decoration-color .2s;
-    &:hover { text-decoration-color: var(--signal); }
+    &:hover { text-decoration-color: var(--ink); }
   }
-  strong { font-weight: 600; color: var(--ink); }
+  strong { font-weight: 650; color: var(--ink); }
   em { font-style: italic; }
 
   ul, ol { padding-left: 0; list-style: none; }
@@ -56,11 +57,11 @@
   ul > li::before {
     content: "";
     position: absolute;
-    left: .1em;
-    top: .85em;
+    left: .05em;
+    top: .82em;
     width: .7em;
-    height: 1px;
-    background: var(--muted);
+    height: 2px;
+    background: var(--ink);
   }
   ol { counter-reset: item; }
   ol > li { counter-increment: item; }
@@ -68,35 +69,35 @@
     content: counter(item, decimal-leading-zero);
     position: absolute;
     left: 0;
-    top: .25em;
-    font-size: .75em;
-    color: var(--muted);
+    top: .3em;
+    @include micro;
+    font-weight: 700;
+    color: var(--ink);
   }
 
   code {
     font-family: var(--f-mono);
     font-size: .86em;
     padding: .1em .4em;
-    border-radius: 4px;
     background: var(--bg-2);
     color: var(--ink);
   }
 
   blockquote {
     padding-left: 1.25em;
-    border-left: 2px solid var(--ink);
-    font-family: var(--f-serif);
-    font-size: 1.5em;
+    border-left: 3px solid var(--ink);
+    font-size: 1.35em;
+    font-weight: 500;
     line-height: 1.3;
+    letter-spacing: -.01em;
     color: var(--ink);
   }
 
-  hr { border: 0; border-top: 1px solid var(--line-2); margin: 3em 0; }
+  hr { border: 0; border-top: 1px solid var(--ink); margin: 3em 0; }
 
   img, video {
     width: 100%;
     height: auto;
-    border-radius: var(--radius);
     background: var(--bg-2);
   }
   p > img:only-child { margin: .6em 0; }
@@ -117,32 +118,32 @@
     width: 100%;
     border-collapse: collapse;
     font-size: .9375rem;
-    th, td { text-align: left; padding: .6rem .75rem .6rem 0; border-bottom: 1px solid var(--line); vertical-align: top; }
-    th { @include label; }
+    border-top: 1px solid var(--ink);
+    th, td { text-align: left; padding: .65rem .75rem .65rem 0; border-bottom: 1px solid var(--line-2); vertical-align: top; }
+    th { @include micro; font-weight: 700; color: var(--ink); }
   }
 
-  // `{:.note title="…"}` in Markdown
+  // `{:.note title="…"}` in Markdown: a slab of shade with a black edge.
   .note {
     position: relative;
-    padding: 1.1rem 1.25rem 1.15rem;
-    border: 1px solid var(--line-2);
-    border-radius: var(--radius);
+    padding: 1.15rem 1.25rem 1.2rem;
+    border-top: 4px solid var(--ink);
     background: var(--bg-2);
     color: var(--ink);
     font-size: 1.0625rem;
     &::before {
       content: attr(title);
       display: block;
-      margin-bottom: .4rem;
-      @include label;
+      margin-bottom: .5rem;
+      @include micro;
+      font-weight: 700;
+      color: var(--ink);
     }
   }
 
-  // Wide media reach a little past the text column on large screens.
-  @include up($lg) {
-    > .video, > figure, > .press-quotes-grid {
-      margin-right: calc((100% + var(--gap)) * -2 / 7);
-    }
+  // Media break out of the text column, wider than the words around them.
+  > .video, > figure, > .press-quotes-grid, > p:has(> img:only-child), > p:has(> video) {
+    margin-inline: calc(50% - min(34rem, 50vw - var(--gutter)));
   }
 }
 
@@ -154,23 +155,21 @@
 }
 
 // Silent demo loops: a quiet Play/Pause in the corner instead of the native bar.
-// It shows on hover or focus, while paused, and always on touch screens.
 .loop {
   position: relative;
   video { cursor: pointer; }
 }
 .loop__btn {
   position: absolute;
-  right: .6rem;
-  bottom: .6rem;
-  padding: .3rem .65rem;
-  border-radius: 999px;
-  background: rgba(14, 14, 13, .7);
-  color: #fff;
-  font-size: .8125rem;
+  right: 0;
+  bottom: 0;
+  padding: .4rem .7rem;
+  background: #000;
+  color: #EDEAE4;
+  @include micro;
+  font-weight: 700;
   opacity: 0;
-  transition: opacity .2s var(--ease), background-color .2s, transform .16s var(--ease);
-  @include hover { &:hover { background: rgba(14, 14, 13, .9); } }
+  transition: opacity .2s var(--ease), transform .16s var(--ease);
   @include press;
 }
 .loop:hover .loop__btn,
@@ -182,9 +181,8 @@
 .eye-comparison {
   overflow: hidden;
   border: 1px solid #34414f;
-  border-radius: var(--radius);
   background: #111820;
-  video { display: block; border-radius: 0; }
+  video { display: block; }
 }
 .eye-comparison__labels {
   display: grid;
@@ -201,14 +199,8 @@
 .case-diagram__viewport {
   overflow: hidden;
   border: 1px solid var(--line-2);
-  border-radius: var(--radius);
   background: #020617;
-  img {
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 0;
-  }
+  img { display: block; width: 100%; height: auto; }
 }
 .case-diagram figcaption a { display: inline-block; }
 
@@ -219,15 +211,13 @@
   display: block;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  border-radius: var(--radius);
-  background: #0E0E0D;
+  background: #000;
   color: #fff;
   isolation: isolate;
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 0;
     transition: transform 1.1s var(--ease), opacity .4s;
   }
   &::after {
@@ -235,12 +225,12 @@
     position: absolute;
     inset: 0;
     // Deep enough at the foot to hold the title over a white thumbnail.
-    background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, .3) 70%, rgba(0, 0, 0, .78));
+    background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, .3) 70%, rgba(0, 0, 0, .8));
     pointer-events: none;
   }
   @include hover {
     &:hover img { transform: scale(1.03); }
-    &:hover .video__play { transform: translate(-50%, -50%) scale(1.07); }
+    &:hover .video__play { background: #fff; color: #000; }
   }
   &:active .video__play { transform: translate(-50%, -50%) scale(.94); transition-duration: .16s; }
 }
@@ -250,20 +240,16 @@
   z-index: 2;
   left: 50%;
   top: 50%;
-  width: 4.25rem;
-  height: 4.25rem;
+  width: 4.5rem;
+  height: 4.5rem;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  background: rgba(14, 14, 13, .55);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25);
+  background: #000;
+  color: #fff;
   transform: translate(-50%, -50%);
-  transition: transform .45s var(--ease), background-color .3s;
+  transition: transform .45s var(--ease), background-color .15s, color .15s;
   .i { margin-left: 3px; }
 }
-@include hover { .video__poster:hover .video__play { background: #E5322A; } }
 .video__meta {
   position: absolute;
   z-index: 2;
@@ -272,22 +258,21 @@
   bottom: .9rem;
   display: flex;
   align-items: center;
-  gap: .55rem;
-  font-size: .8125rem;
-  line-height: 1.3;
+  gap: .6rem;
+  @include micro;
+  font-weight: 600;
+  line-height: 1.35;
   text-shadow: 0 1px 2px rgba(0, 0, 0, .6);
 }
 .video__rec {
   width: .45rem;
   height: .45rem;
-  border-radius: 50%;
-  background: #E5322A;
+  background: #fff;
   flex: none;
 }
 .video__frame {
   position: relative;
   aspect-ratio: 16 / 9;
-  border-radius: var(--radius);
   overflow: hidden;
   background: #000;
   iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
@@ -305,24 +290,23 @@
   display: flex;
   flex-direction: column;
   gap: .9rem;
-  padding: 1.25rem 1.25rem 1.1rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--line-2);
-  background: var(--bg);
+  padding: 1rem 0 1.1rem;
+  border-top: 3px solid var(--ink);
   color: var(--ink-2);
   text-decoration: none;
-  transition: border-color .25s, transform .45s var(--ease), background-color .25s;
-  @include hover { &:hover { border-color: var(--ink); transform: translateY(-3px); background: var(--bg-2); } }
+  transition: color .2s;
+  @include hover { &:hover .press-source { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .15em; } }
 }
 .press-source {
-  font-family: var(--f-serif);
-  font-size: 1.6rem;
-  line-height: 1;
-  letter-spacing: -.01em;
+  @include display;
+  font-size: 1.375rem;
+  line-height: .95;
+  letter-spacing: -.025em;
   color: var(--ink);
 }
 .press-quote { flex: 1; font-size: .975rem; line-height: 1.5; }
 .press-link-label {
-  font-size: .8125rem;
-  color: var(--muted);
+  @include micro;
+  font-weight: 700;
+  color: var(--ink);
 }

@@ -1,5 +1,6 @@
 // jackyang.io — progressive enhancement. Every page works without this file;
-// it adds motion, the interactive figures and a few conveniences.
+// it stretches the type, runs the player bar, performs Fig. 1, and adds a few
+// conveniences.
 (() => {
   "use strict";
 
@@ -43,7 +44,7 @@
     if (!d.startViewTransition || reduced.matches) return applyTheme(next);
     const r = origin && origin.getBoundingClientRect ? origin.getBoundingClientRect() : null;
     const x = r ? r.left + r.width / 2 : innerWidth - 48;
-    const y = r ? r.top + r.height / 2 : 32;
+    const y = r ? r.top + r.height / 2 : innerHeight - 30;
     const rad = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
     root.style.setProperty("--vt-x", `${x}px`);
     root.style.setProperty("--vt-y", `${y}px`);
@@ -75,620 +76,364 @@
     setTimeout(() => { tick(); setInterval(tick, 60000); }, (60 - new Date().getSeconds()) * 1000 + 50);
   }
 
-  /* ------------------------------------------------------------ header + menu */
 
-  function header() {
-    const hd = $("[data-hd]");
-    if (!hd) return;
-    const on = () => hd.classList.toggle("is-scrolled", scrollY > 4);
-    on();
-    addEventListener("scroll", on, { passive: true });
+  /* ------------------------------------------------------------ edge to edge */
+
+  // Each [data-fit] line is stretched to the full measure: measured at 100px,
+  // then scaled. The last letter's negative tracking hangs past the box, so
+  // that overhang is counted in. On the cover, if the stretched headline
+  // would push the first screen past the bar, the whole stack shrinks and
+  // centres instead.
+  const OVERHANG = 3.5; // px at 100px: .035em of trailing tracking
+  function fit() {
+    const lines = $$("[data-fit]");
+    if (!lines.length) return;
+    const hero = $("[data-hero]");
+    const stack = hero && $("[data-stack]", hero);
+    const bar = $("[data-bar]");
+    const size = () => {
+      lines.forEach((el) => {
+        const avail = el.clientWidth;
+        if (!avail) return; // the wide/narrow headline set not shown at this width
+        el.style.fontSize = "100px";
+        const w = el.firstElementChild.getBoundingClientRect().width;
+        if (w) el.style.fontSize = `${((100 * avail) / (w + OVERHANG)).toFixed(2)}px`;
+      });
+      if (!stack) return;
+      stack.classList.remove("is-capped");
+      const over = hero.offsetHeight - (innerHeight - (bar ? bar.offsetHeight : 0));
+      const h = stack.offsetHeight;
+      if (over > 1 && h) {
+        const k = Math.max(0.5, (h - over) / h);
+        $$("[data-fit]", stack).forEach((el) => { if (el.clientWidth) el.style.fontSize = `${(parseFloat(el.style.fontSize) * k).toFixed(2)}px`; });
+        stack.classList.add("is-capped");
+      }
+    };
+    size();
+    if (d.fonts) d.fonts.ready.then(size);
+    let w = innerWidth;
+    let h = innerHeight;
+    let t = 0;
+    addEventListener("resize", () => {
+      // Phone toolbars change the height while scrolling; only a real resize refits.
+      if (innerWidth === w && Math.abs(innerHeight - h) < 120) return;
+      w = innerWidth;
+      h = innerHeight;
+      cancelAnimationFrame(t);
+      t = requestAnimationFrame(size);
+    });
   }
 
-  function menu() {
-    const btn = $("[data-menu-toggle]");
-    const panel = $("[data-menu]");
+  /* ------------------------------------------------------------ the player bar */
+
+  // The rail shows how far through the page you are, with a mark at each
+  // track (the home page's sections, or a case study's headings); the bar
+  // names the track you're in. While Fig. 1 plays, the rail is Fig. 1's.
+  function bar() {
+    const el = $("[data-bar]");
+    if (!el) return;
+    const rail = $("[data-rail]", el);
+    const track = $("[data-bar-track]", el);
+    const label0 = track.textContent;
+    let marks = $$("main [data-track]").map((m) => [m, m.dataset.track]);
+    if (!marks.length) marks = $$("[data-prose] > h2[id]").map((h) => [h, h.textContent]);
+    const ticks = marks.map(([m, label]) => {
+      const b = d.createElement("button");
+      b.type = "button";
+      b.tabIndex = -1;
+      b.className = "bar__tick";
+      b.innerHTML = `<span>${esc(label)}</span>`;
+      b.addEventListener("click", () => m.scrollIntoView({ behavior: reduced.matches ? "auto" : "smooth" }));
+      rail.append(b);
+      return b;
+    });
+    let tops = [];
+    let shown = null;
+    const fig = () => root.classList.contains("is-fig");
+    const update = () => {
+      if (fig()) return;
+      const max = Math.max(1, root.scrollHeight - innerHeight);
+      rail.style.setProperty("--p", Math.min(1, scrollY / max).toFixed(4));
+      let cur = -1;
+      tops.forEach((t, i) => { if (scrollY + innerHeight * 0.4 >= t) cur = i; });
+      const text = cur < 0 ? label0 : marks[cur][1];
+      if (text !== shown) { shown = text; track.textContent = text; }
+    };
+    const measure = () => {
+      const max = Math.max(1, root.scrollHeight - innerHeight);
+      tops = marks.map(([m]) => m.getBoundingClientRect().top + scrollY);
+      ticks.forEach((t, i) => t.style.setProperty("--x", `${Math.min(100, (tops[i] / max) * 100).toFixed(2)}%`));
+      update();
+    };
+    let ticking = false;
+    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; update(); }); } }, { passive: true });
+    d.addEventListener("bar:refresh", () => { shown = null; update(); });
+    new ResizeObserver(measure).observe(d.body);
+    measure();
+
+    // Links back to this very page scroll to the top instead of reloading it.
+    $$("a[href]").forEach((a) => {
+      const u = new URL(a.href, location.href);
+      if (u.origin !== location.origin || u.pathname !== location.pathname || u.hash || u.search) return;
+      a.addEventListener("click", (e) => {
+        if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        scrollTo({ top: 0, behavior: reduced.matches ? "auto" : "smooth" });
+      });
+    });
+  }
+
+  /* ------------------------------------------------------------ the index */
+
+  function indexMenu() {
+    const btn = $("[data-index-open]");
+    const panel = $("[data-index]");
     if (!btn || !panel) return;
     const background = $$("main, footer, .skip");
-    let previousInert = [];
-    panel.inert = true;
     const isOpen = () => btn.getAttribute("aria-expanded") === "true";
     const set = (open) => {
       if (open === isOpen()) return;
       btn.setAttribute("aria-expanded", String(open));
-      root.classList.toggle("menu-open", open);
+      btn.textContent = open ? "Close" : "Index";
+      root.classList.toggle("index-open", open);
+      background.forEach((e) => { e.inert = open; });
       if (open) {
-        previousInert = background.map((element) => element.inert);
-        background.forEach((element) => { element.inert = true; });
-        panel.inert = false;
         panel.hidden = false;
         requestAnimationFrame(() => requestAnimationFrame(() => { if (isOpen()) panel.classList.add("is-open"); }));
+        panel.tabIndex = -1;
+        panel.focus({ preventScroll: true });
       } else {
-        background.forEach((element, index) => { element.inert = previousInert[index]; });
-        if (panel.contains(d.activeElement) || d.activeElement === btn) {
-          (btn.getClientRects().length ? btn : $(".hd__mark")).focus();
-        }
-        panel.inert = true;
         panel.classList.remove("is-open");
-        setTimeout(() => { if (!isOpen()) panel.hidden = true; }, 200);
+        if (panel.contains(d.activeElement)) btn.focus();
+        setTimeout(() => { if (!isOpen()) panel.hidden = true; }, reduced.matches ? 0 : 420);
       }
     };
     btn.addEventListener("click", () => set(!isOpen()));
     panel.addEventListener("click", (e) => { if (e.target.closest("a")) set(false); });
     d.addEventListener("keydown", (e) => {
       if (!isOpen() || $("dialog[open]")) return;
-      if (e.key === "Escape") { set(false); btn.focus(); }
-      else if (e.key === "Tab") {
-        const controls = $$("[data-hd] a[href], [data-hd] button, [data-menu] a[href]")
-          .filter((element) => !element.disabled && element.tabIndex >= 0 && element.getClientRects().length && !element.closest("[inert]"));
-        const first = controls[0];
-        const last = controls[controls.length - 1];
-        if (e.shiftKey && (d.activeElement === first || !controls.includes(d.activeElement))) {
-          e.preventDefault(); last.focus();
-        } else if (!e.shiftKey && (d.activeElement === last || !controls.includes(d.activeElement))) {
-          e.preventDefault(); first.focus();
-        }
-      }
-    });
-    matchMedia("(min-width: 56em)").addEventListener("change", (e) => { if (e.matches && isOpen()) set(false); });
-  }
-
-  /* ------------------------------------------------------------ travelling line */
-
-  // One 2px line under the current option that glides to whatever is hovered
-  // or focused: the leading edge moves first, the trailing edge 140ms later.
-  function tracks() {
-    $$("[data-track]").forEach((track) => {
-      const line = d.createElement("span");
-      line.className = "track__line";
-      line.setAttribute("aria-hidden", "true");
-      track.append(line);
-      track.classList.add("has-line");
-
-      const opts = () => $$(":scope > li > a, :scope > li > button", track);
-      const current = () =>
-        opts().find((a) => a.classList.contains("is-here")) ||
-        opts().find((a) => a.matches('[aria-current="page"], [aria-pressed="true"]'));
-      let shown = null;
-      let pointerIn = false;
-
-      const place = (el, instant) => {
-        if (!el || !el.offsetWidth) { line.classList.remove("is-on"); shown = null; return; }
-        const tr = track.getBoundingClientRect();
-        const r = el.getBoundingClientRect();
-        const prev = shown && shown.isConnected ? shown.getBoundingClientRect() : null;
-        const dir = prev ? Math.sign(r.left - prev.left) : 0;
-        line.style.setProperty("--lag-l", dir > 0 ? ".14s" : "0s");
-        line.style.setProperty("--lag-r", dir < 0 ? ".14s" : "0s");
-        const jump = instant || !shown;
-        if (jump) line.classList.add("is-instant");
-        line.style.left = `${r.left - tr.left}px`;
-        line.style.right = `${tr.right - r.right}px`;
-        const low = Math.max(...opts().map((o) => o.getBoundingClientRect().bottom));
-        line.style.setProperty("--row", `${Math.round(low - r.bottom)}px`);
-        if (jump) { void line.offsetWidth; line.classList.remove("is-instant"); }
-        line.classList.add("is-on");
-        shown = el;
-      };
-      const rest = () => place(current());
-
-      track.addEventListener("pointerover", (e) => {
-        pointerIn = true;
-        const a = e.target.closest("a, button");
-        if (a && track.contains(a)) place(a);
-      });
-      track.addEventListener("pointerleave", () => { pointerIn = false; rest(); });
-      track.addEventListener("focusin", (e) => place(e.target.closest("a, button")));
-      track.addEventListener("focusout", () => setTimeout(() => { if (!track.contains(d.activeElement)) rest(); }, 0));
-      track.addEventListener("track:update", () => { if (!pointerIn && !track.contains(d.activeElement)) rest(); });
-      new ResizeObserver(() => place(current(), true)).observe(track);
-      if (d.fonts) d.fonts.ready.then(() => place(current(), true));
+      if (e.key === "Escape") { set(false); btn.focus(); return; }
+      if (e.key !== "Tab") return;
+      const controls = [...$$("a[href], button", panel), btn].filter((c) => c.getClientRects().length);
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (d.activeElement === panel) { e.preventDefault(); (e.shiftKey ? last : first).focus(); }
+      else if (e.shiftKey && d.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && d.activeElement === last) { e.preventDefault(); first.focus(); }
     });
   }
 
-  /* ------------------------------------------------------------ section links */
+  /* ------------------------------------------------------------ Fig. 1, performed */
 
-  // A nav item like "/#experience" is "here" while its section is in view, so
-  // on the home page the travelling line follows you from About to Experience.
-  function sectionSpy() {
-    const pairs = $$("[data-track] a[href*='#']")
-      .map((a) => {
-        const u = new URL(a.href, location.href);
-        const sec = u.pathname === location.pathname && u.hash && d.getElementById(u.hash.slice(1));
-        return sec ? [a, sec] : null;
-      })
-      .filter(Boolean);
-    if (!pairs.length) return;
-    const track = pairs[0][0].closest("[data-track]");
-    const setHere = (link) => {
-      pairs.forEach(([a]) => a.classList.toggle("is-here", a === link));
-      track.dispatchEvent(new Event("track:update"));
-    };
-    // While a click's smooth scroll is in flight, the clicked item keeps the
-    // line instead of the line tracking every section scrolled past.
-    let locked = false;
-    let lockTimer = 0;
-    const unlock = () => { clearTimeout(lockTimer); locked = false; update(); };
-    const lock = () => {
-      locked = true;
-      clearTimeout(lockTimer);
-      lockTimer = setTimeout(unlock, 1500);
-      addEventListener("scrollend", unlock, { once: true });
-    };
-    const plain = (e) => !(e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey);
-    pairs.forEach(([a]) => a.addEventListener("click", (e) => { if (plain(e)) { setHere(a); lock(); } }));
-    // Links to this very page (About, the wordmark) scroll back up and drop
-    // the #hash rather than reloading the page.
-    $$("a[href]").forEach((a) => {
-      const u = new URL(a.href, location.href);
-      if (u.origin !== location.origin || u.pathname !== location.pathname || u.hash || u.search) return;
-      a.addEventListener("click", (e) => {
-        if (!plain(e)) return;
-        e.preventDefault();
-        setHere(null);
-        lock();
-        history.replaceState(null, "", location.pathname);
-        scrollTo({ top: 0, behavior: reduced.matches ? "auto" : "smooth" });
-      });
-    });
-    let ticking = false;
-    const update = () => {
-      ticking = false;
-      if (locked) return;
-      const y = innerHeight * 0.35;
-      pairs.forEach(([a, sec]) => {
-        const r = sec.getBoundingClientRect();
-        const here = r.top <= y && r.bottom > y;
-        if (here !== a.classList.contains("is-here")) {
-          a.classList.toggle("is-here", here);
-          a.closest("[data-track]").dispatchEvent(new Event("track:update"));
-        }
-      });
-    };
-    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
-    update();
-  }
-
-  /* ------------------------------------------------------------ Fig. 1: the conversation */
-
-  // An illustrated conversation drawn as a voice waveform. On screen it plays
-  // itself in real time: words arrive as they're "said", and each gap fills a
-  // pause meter toward the agent's turn threshold. Hovering, dragging or the
-  // keyboard takes over; the caption then shows who is speaking at the playhead.
-  function signal() {
-    const fig = $("[data-signal]");
+  // The illustrated conversation, performed as lyrics on the cover: each line
+  // lights word by word as it's said; a gap draws a horizon that fills toward
+  // the turn threshold and turns red past it. When the agent takes its turn,
+  // red bursts from the middle and floods the cover. It starts on Play, or
+  // by itself once the visitor has been still for a few seconds: it waits for
+  // their pause, the way the agent waits for one. Never by itself under
+  // reduced motion.
+  function fig1() {
+    const hero = $("[data-hero]");
+    const fig = hero && $("[data-fig]", hero);
     if (!fig) return;
-    const stage = $("[data-signal-stage]", fig);
-    const head = $("[data-signal-head]", fig);
-    const time = $("[data-signal-time]", fig);
-    const text = $("[data-signal-text]", fig);
-    const hint = $("[data-signal-hint]", fig);
-    const btn = $("[data-signal-play]", fig);
-    // Illustrative only: how long a gap must last before the agent may speak.
-    const TURN = 1.2;
+    const btn = $("[data-fig-play]", fig);
+    const lyric = $("[data-lyric]", hero);
+    const who = $("[data-lyric-who]", hero);
+    const line = $("[data-lyric-line]", hero);
+    const meter = $("[data-lyric-meter]", hero);
+    const rail = $("[data-rail]");
+    const track = $("[data-bar-track]");
+    const TURN = 1.2; // illustrative: how long a gap must last before the agent may speak
+    const IDLE = 5000;
     let turns;
-    try { turns = JSON.parse($("[data-signal-data]", fig).textContent); } catch { return; }
+    try { turns = JSON.parse($("[data-fig-data]", fig).textContent); } catch { return; }
     if (!Array.isArray(turns) || !turns.length) return;
 
     let t = 0;
     const segs = turns.map((x) => {
       const gap = x.pause != null;
       const dur = Number(gap ? x.pause : x.dur) || 1;
-      const s = { who: x.who, text: x.text, gap, start: t, end: t + dur };
+      const s = { who: x.who, text: String(x.text || ""), gap, agent: !gap && x.who === "agent", start: t, end: t + dur };
       t += dur;
       return s;
     });
     const total = t;
     const segAt = (tt) => segs.find((s) => tt >= s.start && tt < s.end) || segs[segs.length - 1];
-
-    const NS = "http://www.w3.org/2000/svg";
-    const svg = d.createElementNS(NS, "svg");
-    svg.setAttribute("aria-hidden", "true");
-    svg.setAttribute("focusable", "false");
-    stage.prepend(svg);
-
-    let W = 0;
-    let H = 0;
-    let clipA;
-    let clipB;
-
-    const build = () => {
-      const r = stage.getBoundingClientRect();
-      W = Math.round(r.width);
-      H = Math.round(r.height);
-      if (!W || !H) return;
-      const pitch = W < 560 ? 4.5 : 6;
-      const bw = W < 560 ? 2.25 : 3;
-      const n = Math.floor(W / pitch);
-      let seed = 20261018;
-      const rnd = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296);
-      const bars = { h: "", a: "", g: "" };
-      for (let i = 0; i < n; i++) {
-        const tt = ((i + 0.5) / n) * total;
-        const seg = segAt(tt);
-        let amp = 0;
-        if (!seg.gap) {
-          const edge = Math.max(0, Math.min(1, (tt - seg.start) / 0.3, (seg.end - tt) / 0.3));
-          const syllable = 0.5 + 0.5 * Math.abs(Math.sin(tt * 4.6 + seg.start * 3));
-          const phrase = 0.72 + 0.28 * Math.sin(tt * 1.3 + seg.start);
-          amp = edge * syllable * phrase * (0.42 + 0.58 * rnd());
-          if (seg.who === "agent") amp *= 0.92;
-        }
-        const h = Math.max(2, amp * H);
-        const x = i * pitch + (pitch - bw) / 2;
-        bars[seg.gap ? "g" : seg.who === "agent" ? "a" : "h"] += `<rect x="${x.toFixed(2)}" y="${((H - h) / 2).toFixed(2)}" width="${bw}" height="${h.toFixed(2)}" rx="${bw / 2}"/>`;
-      }
-      svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
-      // The bars are drawn through <use>, whose clones live in a shadow tree
-      // that page selectors can't reach, so colours go on as inline styles
-      // (copied with the clone; the custom properties still inherit).
-      svg.innerHTML =
-        `<defs><g id="sig-bars"><g style="fill:var(--ink);opacity:.55">${bars.h}</g>` +
-        `<g style="fill:var(--ink);opacity:.3">${bars.g}</g><g style="fill:var(--signal)">${bars.a}</g></g>` +
-        `<clipPath id="sig-a"><rect x="0" y="-4" width="${W}" height="${H + 8}"/></clipPath>` +
-        `<clipPath id="sig-b"><rect x="${W}" y="-4" width="0" height="${H + 8}"/></clipPath></defs>` +
-        `<use href="#sig-bars" clip-path="url(#sig-a)"/><use href="#sig-bars" class="w-rest" clip-path="url(#sig-b)"/>`;
-      clipA = svg.querySelector("#sig-a rect");
-      clipB = svg.querySelector("#sig-b rect");
-    };
-
+    const agent = segs.find((s) => s.agent);
+    if (rail && agent) {
+      rail.style.setProperty("--a0", `${((agent.start / total) * 100).toFixed(2)}%`);
+      rail.style.setProperty("--aw", `${(((agent.end - agent.start) / total) * 100).toFixed(2)}%`);
+    }
     const stamp = (s) => {
       const m = Math.floor(s / 60);
-      const sec = (s - m * 60).toFixed(1).padStart(4, "0");
-      return `${String(m).padStart(2, "0")}:${sec}`;
+      return `${String(m).padStart(2, "0")}:${(s - m * 60).toFixed(1).padStart(4, "0")}`;
     };
 
-    const paint = (el, seg) => {
-      if (!seg) {
-        el.className = "signal__text";
-        el.textContent = text.dataset.default;
-      } else if (seg.gap) {
-        const len = seg.end - seg.start;
-        el.className = `signal__text is-gap${len >= TURN ? " is-over" : ""}`;
-        el.innerHTML = `<span class="signal__meter" style="--p:${Math.min(1, len / TURN)}"><i></i></span>${esc(seg.text || "Pause")}`;
-      } else {
-        const agent = seg.who === "agent";
-        el.className = `signal__text${agent ? " is-agent" : ""}`;
-        el.innerHTML = `<b>${esc(agent ? "Agent" : seg.who)}</b>“${esc(seg.text)}”`;
-      }
-    };
     let cur = null;
-    const caption = (seg) => {
-      if (seg === cur) return;
-      cur = seg;
-      paint(text, seg);
-      const said = !seg ? text.dataset.default : seg.gap ? seg.text || "Pause" : `${seg.who === "agent" ? "Agent" : seg.who}: ${seg.text}`;
-      stage.setAttribute("aria-valuetext", said);
-    };
-    // Live caption: the words said so far, or a gap's meter filling in real time.
-    let liveKey = "";
-    const liveCaption = (seg, tt) => {
-      cur = undefined;
+    let words = [];
+    let said = -1;
+    const show = (tt) => {
+      const seg = segAt(Math.min(tt, total - 0.001));
       const into = tt - seg.start;
-      if (seg.gap) {
-        const over = into >= TURN;
-        const key = `g${seg.start}${over}`;
-        if (key !== liveKey) {
-          liveKey = key;
-          text.className = `signal__text is-gap${over ? " is-over" : ""}`;
-          text.innerHTML = `<span class="signal__meter"><i></i></span>${esc(seg.text || "Pause")}`;
+      if (seg !== cur) {
+        cur = seg;
+        said = -1;
+        lyric.classList.toggle("is-gap", seg.gap);
+        lyric.classList.toggle("is-agent", seg.agent);
+        lyric.classList.remove("is-over");
+        if (seg.gap) {
+          who.textContent = "";
+          line.textContent = seg.text || "Pause";
+          words = [];
+        } else {
+          who.textContent = seg.agent ? "Agent" : seg.who;
+          line.innerHTML = seg.text.split(" ").map((w) => `<span>${esc(w)}</span>`).join(" ");
+          words = $$("span", line);
         }
-        text.firstChild.style.setProperty("--p", Math.min(1, into / TURN).toFixed(3));
-        return;
+        hero.classList.toggle("is-flood", seg.agent);
       }
-      const words = seg.text.split(" ");
-      const n = Math.min(words.length, Math.ceil((words.length * into) / ((seg.end - seg.start) * 0.9)));
-      const key = `s${seg.start}:${n}`;
-      if (key === liveKey) return;
-      liveKey = key;
-      const agent = seg.who === "agent";
-      text.className = `signal__text${agent ? " is-agent" : ""}`;
-      text.innerHTML = `<b>${esc(agent ? "Agent" : seg.who)}</b>“${esc(words.slice(0, n).join(" "))}${n === words.length ? "”" : ""}`;
-    };
-    // Reserve the height of the longest line at this width, so scrubbing
-    // never moves the page below the figure.
-    const fitCaption = () => {
-      const probe = d.createElement("span");
-      probe.setAttribute("aria-hidden", "true");
-      probe.style.cssText = `position:absolute;visibility:hidden;pointer-events:none;width:${text.getBoundingClientRect().width}px`;
-      text.parentNode.append(probe);
-      let max = 0;
-      [null, ...segs].forEach((seg) => { paint(probe, seg); max = Math.max(max, probe.getBoundingClientRect().height); });
-      probe.remove();
-      text.style.minHeight = `${Math.ceil(max)}px`;
+      if (seg.gap) {
+        meter.style.setProperty("--m", Math.min(1, into / TURN).toFixed(3));
+        lyric.classList.toggle("is-over", into >= TURN);
+      } else {
+        const n = Math.min(words.length, Math.ceil((words.length * into) / ((seg.end - seg.start) * 0.9)));
+        if (n !== said) { said = n; words.forEach((w, i) => w.classList.toggle("is-said", i < n)); }
+      }
+      if (rail) rail.style.setProperty("--p", (tt / total).toFixed(4));
+      if (track) track.textContent = `Fig. 1, ${stamp(tt)} of ${stamp(total)}`;
     };
 
-    const show = (x, live) => {
-      if (!clipA) return;
-      x = Math.max(0, Math.min(W, x));
-      clipA.setAttribute("width", x);
-      clipB.setAttribute("x", x);
-      clipB.setAttribute("width", W - x);
-      head.style.setProperty("--x", `${x}px`);
-      const tt = (x / W) * total;
-      time.textContent = stamp(tt);
-      time.style.transform = x < 32 ? "translate(0, -6px)" : x > W - 32 ? "translate(-100%, -6px)" : "";
-      if (live) return liveCaption(segAt(Math.min(live, total - 0.001)), live);
-      stage.setAttribute("aria-valuenow", tt.toFixed(1));
-      caption(segAt(Math.min(tt, total - 0.001)));
-    };
-    const reset = () => {
-      fig.classList.remove("is-scrub");
-      if (clipA) { clipA.setAttribute("width", W); clipB.setAttribute("x", W); clipB.setAttribute("width", 0); }
-      caption(null);
-    };
-
-    /* Playback */
     const ICON = {
-      pause: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2v8M8.5 2v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
-      play: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2.2v7.6L9.8 6z" fill="currentColor"/></svg>',
-      replay: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.2 6a3.8 3.8 0 1 0 1.1-2.7M2.2 1.6v2.2h2.2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      pause: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2v8M8.5 2v8" stroke="currentColor" stroke-width="2"/></svg>',
+      play: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.8v8.4L10 6z" fill="currentColor"/></svg>',
+      replay: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.2 6a3.8 3.8 0 1 0 1.1-2.7M2.2 1.6v2.2h2.2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>',
     };
     let playing = false;
     let ended = false;
-    let held = false; // paused because the figure left the screen or the tab hid
+    let started = false;
+    let held = false;
+    let inView = true;
     let pt = 0;
     let last = 0;
-    let rafP = 0;
+    let raf = 0;
     let doneTimer = 0;
     const setBtn = () => {
-      if (!btn) return;
       const [k, label] = playing ? ["pause", "Pause"] : ended ? ["replay", "Replay"] : ["play", pt > 0 ? "Resume" : "Play"];
       btn.innerHTML = `${ICON[k]}<span>${label}</span>`;
-      btn.setAttribute("aria-label", `${label} the illustrated conversation`);
+      btn.setAttribute("aria-label", `${label} Fig. 1, the illustrated conversation`);
+    };
+    const onStage = (on) => {
+      hero.classList.toggle("is-playing", on);
+      root.classList.toggle("is-fig", on && inView);
+      if (!on) { hero.classList.remove("is-flood"); cur = null; }
+      if (!root.classList.contains("is-fig")) d.dispatchEvent(new Event("bar:refresh"));
     };
     const frame = (now) => {
       if (!playing) return;
       pt += Math.min(0.1, (now - last) / 1000);
       last = now;
       if (pt >= total) return finish();
-      show((pt / total) * W, pt);
-      rafP = requestAnimationFrame(frame);
+      show(pt);
+      raf = requestAnimationFrame(frame);
     };
     const play = () => {
       clearTimeout(doneTimer);
-      if (ended) { pt = 0; ended = false; }
+      if (ended) { pt = 0; ended = false; cur = null; }
+      started = true;
       playing = true;
       held = false;
-      liveKey = "";
-      fig.classList.add("is-scrub", "is-playing");
+      onStage(true);
+      root.classList.add("is-live");
       last = performance.now();
-      cancelAnimationFrame(rafP);
-      rafP = requestAnimationFrame(frame);
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(frame);
       setBtn();
     };
     const stop = () => {
       if (!playing) return;
       playing = false;
-      cancelAnimationFrame(rafP);
-      fig.classList.remove("is-playing");
+      cancelAnimationFrame(raf);
+      root.classList.remove("is-live");
       setBtn();
     };
     const finish = () => {
       stop();
       ended = true;
       setBtn();
-      // Rest on the last line a moment, then hand the figure back.
-      doneTimer = setTimeout(() => { if (!playing && !stage.matches(":focus-visible")) reset(); }, 2600);
+      // Rest on the last line a moment, then the cover returns.
+      doneTimer = setTimeout(() => { if (!playing) onStage(false); }, 1800);
     };
-    // Any direct handling of the figure takes over from playback.
-    const takeOver = () => { clearTimeout(doneTimer); held = false; stop(); };
+    const leave = () => { stop(); clearTimeout(doneTimer); pt = 0; ended = false; onStage(false); setBtn(); };
 
-    let raf = 0;
-    const move = (e) => {
-      takeOver();
-      const x = e.clientX - stage.getBoundingClientRect().left;
-      fig.classList.add("is-scrub");
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => show(x));
-    };
-    stage.addEventListener("pointermove", move);
-    stage.addEventListener("pointerdown", (e) => {
-      if (e.pointerType !== "mouse") { try { stage.setPointerCapture(e.pointerId); } catch { /* ignore */ } }
-      move(e);
-    });
-    stage.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse" && !stage.matches(":focus-visible")) reset(); });
-    // Touch keeps the last line on screen after the finger lifts, so it can be read.
-
-    // Keyboard: a slider that steps one turn (or pause) at a time.
-    const fine = matchMedia("(hover: hover) and (pointer: fine)");
-    const setHint = () => { if (hint) hint.textContent = fine.matches ? "Hover or use arrow keys" : "Drag to scrub"; };
-    setHint();
-    fine.addEventListener("change", setHint);
-    stage.removeAttribute("aria-hidden");
-    stage.tabIndex = 0;
-    stage.setAttribute("role", "slider");
-    stage.setAttribute("aria-valuemin", "0");
-    stage.setAttribute("aria-valuemax", total.toFixed(1));
-    let ki = -1;
-    const goTo = (i) => {
-      ki = Math.max(0, Math.min(segs.length - 1, i));
-      const s = segs[ki];
-      fig.classList.add("is-scrub");
-      show((((s.start + s.end) / 2) / total) * W);
-    };
-    stage.addEventListener("keydown", (e) => {
-      const step = { ArrowRight: 1, ArrowDown: 1, PageDown: 3, ArrowLeft: -1, ArrowUp: -1, PageUp: -3 }[e.key];
-      if (step) goTo((ki < 0 ? (step > 0 ? -1 : segs.length) : ki) + step);
-      else if (e.key === "Home") goTo(0);
-      else if (e.key === "End") goTo(segs.length - 1);
-      else return;
-      e.preventDefault();
-    });
-    stage.addEventListener("focus", () => { if (ki < 0 && stage.matches(":focus-visible")) { takeOver(); goTo(0); } });
-    stage.addEventListener("blur", () => { ki = -1; reset(); });
-
-    build();
-    reset();
-    fitCaption();
-    if (d.fonts) d.fonts.ready.then(fitCaption);
-    let rt = 0;
-    new ResizeObserver(() => { cancelAnimationFrame(rt); rt = requestAnimationFrame(() => { build(); if (!playing) reset(); fitCaption(); }); }).observe(stage);
-
-    if (btn) {
-      btn.hidden = false;
+    btn.hidden = false;
+    setBtn();
+    btn.addEventListener("click", () => { if (playing) stop(); else play(); });
+    d.addEventListener("keydown", (e) => { if (e.key === "Escape" && hero.classList.contains("is-playing") && !$("dialog[open]") && !root.classList.contains("index-open")) leave(); });
+    // Clicking the rail while Fig. 1 is on the cover seeks it.
+    if (rail) rail.addEventListener("click", (e) => {
+      if (!root.classList.contains("is-fig")) return;
+      const r = rail.getBoundingClientRect();
+      pt = Math.max(0, Math.min(0.999, (e.clientX - r.left) / r.width)) * total;
+      ended = false;
+      show(pt);
       setBtn();
-      btn.addEventListener("click", () => {
-        if (playing) { stop(); return; }
-        play();
-      });
-    }
-    // Plays by itself once, when on screen; never under reduced motion.
-    // Leaving the screen or hiding the tab holds it; coming back resumes.
-    if (!reduced.matches && "IntersectionObserver" in window) {
-      let started = false;
-      let inView = false;
-      const io = new IntersectionObserver(([en]) => {
-        inView = en.isIntersecting;
+    });
+
+    // Off screen or in a hidden tab it holds, and picks up again on return.
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(([en]) => {
+        inView = en.intersectionRatio >= 0.5;
         if (inView) {
-          if (!started) { started = true; setTimeout(() => { if (!pt && !ended && !fig.matches(":hover") && d.activeElement !== stage) play(); }, 900); }
-          else if (held) play();
-        } else if (playing) { stop(); held = true; }
-      }, { threshold: 0.6 });
-      io.observe(fig);
-      d.addEventListener("visibilitychange", () => {
-        if (d.hidden && playing) { stop(); held = true; }
-        else if (!d.hidden && held && inView) play();
-      });
+          if (hero.classList.contains("is-playing")) root.classList.add("is-fig");
+          if (held) play();
+          arm();
+        } else {
+          clearTimeout(idle);
+          if (playing) { stop(); held = true; }
+          root.classList.remove("is-fig");
+          d.dispatchEvent(new Event("bar:refresh"));
+        }
+      }, { threshold: [0, 0.5] }).observe(hero);
     }
+    d.addEventListener("visibilitychange", () => {
+      if (d.hidden && playing) { stop(); held = true; }
+      else if (!d.hidden && held && inView) play();
+    });
+
+    // The visitor's pause: still for a few seconds, on the cover, first visit.
+    let idle = 0;
+    function arm() {
+      clearTimeout(idle);
+      if (started || reduced.matches || !inView) return;
+      idle = setTimeout(() => { if (!started && inView && !d.hidden && !root.classList.contains("index-open") && !$("dialog[open]")) play(); }, IDLE);
+    }
+    ["scroll", "pointermove", "pointerdown", "keydown", "wheel", "touchstart"].forEach((ev) => addEventListener(ev, arm, { passive: true }));
+    arm();
   }
 
-  /* ------------------------------------------------------------ career timeline */
+  /* ------------------------------------------------------------ projects: filter */
 
-  function timeline() {
-    const tl = $("[data-tl]");
-    if (!tl) return;
-    const tip = $("[data-tl-tip]", tl);
-    const scroller = $("[data-tl-scroll]", tl);
-    const bars = $$(".tl__bar", tl);
-
-    // The build places "now"; move it to today so it stays right between
-    // rebuilds, along with the ongoing bars and the start of "expected".
-    const t0 = +tl.dataset.t0;
-    const span = +tl.dataset.span;
-    const nowEl = $(".tl__now", tl);
-    const pct = (el, prop) => parseFloat(el.style.getPropertyValue(prop));
-    const now = ((Date.now() / 1000 - t0) / span) * 100;
-    if (nowEl && span && now > pct(nowEl, "--l") && now <= 100) {
-      nowEl.style.setProperty("--l", `${now.toFixed(3)}%`);
-      const month = $("[data-tl-month]", nowEl);
-      if (month) month.textContent = new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" });
-      bars.forEach((b) => {
-        const l = pct(b, "--l");
-        if (b.classList.contains("is-now")) b.style.setProperty("--w", `${(now - l).toFixed(3)}%`);
-        const future = $(".tl__future", b);
-        if (future) future.style.setProperty("--f", Math.min(100, ((now - l) / pct(b, "--w")) * 100).toFixed(2));
-      });
-    }
-
-    // A name too long for its bar widens the bar just enough to hold it, when
-    // the row has free space before the next bar; otherwise the name hides.
-    const fit = () => bars.forEach((b) => {
-      const lab = $(".tl__label", b);
-      b.style.width = "";
-      b.classList.remove("is-tight");
-      const need = lab.offsetWidth + 16;
-      if (need <= b.clientWidth) return;
-      const row = b.style.getPropertyValue("--row");
-      const end = b.offsetLeft + b.offsetWidth;
-      const next = Math.min(b.parentElement.clientWidth, ...bars
-        .filter((o) => o.parentElement === b.parentElement && o.style.getPropertyValue("--row") === row && o.offsetLeft >= end)
-        .map((o) => o.offsetLeft));
-      if (b.offsetLeft + need + 4 <= next) b.style.width = `${need}px`;
-      else b.classList.add("is-tight");
-    });
-    fit();
-    new ResizeObserver(fit).observe(tl);
-    if (d.fonts) d.fonts.ready.then(fit);
-
-    // On narrow screens the chart scrolls; start at "now".
-    requestAnimationFrame(() => { if (scroller.scrollWidth > scroller.clientWidth + 4) scroller.scrollLeft = scroller.scrollWidth; });
-
-    const light = (id, on) => { const en = id && d.getElementById(id); if (en) en.classList.toggle("is-lit", on); };
-    const showTip = (b) => {
-      tip.innerHTML = `<b>${esc(b.dataset.tipTitle)}</b><span>${esc(b.dataset.tipSub)}</span><span>${esc(b.dataset.tipDates)}</span>`;
-      tip.hidden = false;
-      const tr = tl.getBoundingClientRect();
-      const br = b.getBoundingClientRect();
-      const w = tip.offsetWidth;
-      const x = Math.max(w / 2, Math.min(tr.width - w / 2, br.left + br.width / 2 - tr.left));
-      tip.style.left = `${x}px`;
-      tip.style.top = `${br.top - tr.top}px`;
-    };
-    const hideTip = () => { tip.hidden = true; };
-
-    bars.forEach((b) => {
-      b.addEventListener("pointerenter", () => { showTip(b); light(b.dataset.target, true); });
-      b.addEventListener("pointerleave", () => { hideTip(); light(b.dataset.target, false); });
-      b.addEventListener("focus", () => showTip(b));
-      b.addEventListener("blur", hideTip);
-      b.addEventListener("click", () => {
-        hideTip();
-        const id = b.dataset.target;
-        light(id, true);
-        setTimeout(() => light(id, false), 1800);
-      });
-    });
-
-    // Hovering an entry lights its bar.
-    $$("[data-entry]").forEach((en) => {
-      const bar = bars.find((b) => b.dataset.target === en.id);
-      if (!bar) return;
-      en.addEventListener("pointerenter", () => bar.classList.add("is-active"));
-      en.addEventListener("pointerleave", () => bar.classList.remove("is-active"));
-    });
-  }
-
-  /* ------------------------------------------------------------ projects index */
-
-  function projectsIndex() {
-    const list = $("[data-plist]");
-    if (!list) return;
-    const slides = $$("[data-slide]");
-    const descs = $$("[data-desc]");
-    const no = $("[data-viewer-no]");
-    let active = null;
-
-    const activate = (a) => {
-      if (!a || a === active) return;
-      if (active) active.classList.remove("is-active");
-      a.classList.add("is-active");
-      active = a;
-      const i = Number(a.dataset.preview);
-      slides.forEach((s) => s.classList.toggle("is-on", Number(s.dataset.slide) === i));
-      descs.forEach((s) => s.classList.toggle("is-on", Number(s.dataset.desc) === i));
-      if (no) no.textContent = String(i + 1).padStart(2, "0");
-    };
-    list.addEventListener("pointerover", (e) => {
-      const a = e.target.closest(".prow__link");
-      if (a) { activate(a); list.classList.add("is-hovering"); }
-    });
-    list.addEventListener("pointerleave", () => list.classList.remove("is-hovering"));
-    list.addEventListener("focusin", (e) => activate(e.target.closest(".prow__link")));
-    activate($(".prow__link", list));
-
+  function filters() {
     const nav = $("[data-filters]");
-    if (!nav) return;
+    const list = $("[data-discs]");
+    if (!nav || !list) return;
     nav.hidden = false;
     const btns = $$("[data-filter]", nav);
-    const rows = $$(".prow", list);
+    const items = $$(":scope > li", list);
     const apply = (cat, push) => {
       btns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === cat)));
       let k = 0;
-      rows.forEach((r) => {
-        const show = cat === "all" || r.dataset.cat === cat;
-        r.classList.toggle("is-hidden", !show);
-        if (show && !reduced.matches) {
-          r.style.animation = "none";
-          void r.offsetWidth;
-          r.style.animation = `rise .4s var(--ease) ${k++ * 35}ms both`;
+      items.forEach((li) => {
+        const on = cat === "all" || li.dataset.cat === cat;
+        li.classList.toggle("is-hidden", !on);
+        if (on && !reduced.matches) {
+          li.style.animation = "none";
+          void li.offsetWidth;
+          li.style.animation = `rise .5s var(--ease) ${k++ * 45}ms both`;
         }
       });
-      const first = rows.find((r) => !r.classList.contains("is-hidden"));
-      if (first) activate($(".prow__link", first));
-      const track = $("[data-track]", nav);
-      if (track) track.dispatchEvent(new Event("track:update"));
       if (push) history.replaceState(null, "", cat === "all" ? location.pathname : `#${cat}`);
+      d.dispatchEvent(new Event("bar:refresh"));
     };
     btns.forEach((b) => b.addEventListener("click", () => apply(b.dataset.filter, true)));
     const h = location.hash.slice(1);
@@ -697,17 +442,14 @@
 
   /* ------------------------------------------------------------ view transitions */
 
-  // The image you click travels into the case-study hero. Only one element
-  // per page may carry the name, so it moves to the clicked card's image.
+  // The art you click travels into the single's page. Only one element per
+  // page may carry the name, so it moves to the clicked sleeve's image.
   function vtLinks() {
     if (!("onpagereveal" in window)) return;
     d.addEventListener("click", (e) => {
       const a = e.target.closest("[data-vt-link]");
       if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      let img = $("img", a);
-      if (a.classList.contains("prow__link") && matchMedia("(min-width: 64em)").matches) {
-        img = $(`[data-slide="${a.dataset.preview}"] img`);
-      }
+      const img = $("img", a);
       if (!img) return;
       $$("img").forEach((el) => { if (el.style.viewTransitionName) el.style.viewTransitionName = ""; });
       img.style.viewTransitionName = "hero-media";
@@ -715,56 +457,23 @@
     addEventListener("pageshow", (e) => {
       if (!e.persisted) return;
       $$("[data-vt-link] img").forEach((el) => { el.style.viewTransitionName = ""; });
-      const hero = $(".cs__img");
+      const hero = $(".single__img");
       if (hero) hero.style.viewTransitionName = "hero-media";
     });
   }
 
-  /* ------------------------------------------------------------ case-study contents */
+  /* ------------------------------------------------------------ outro: your turn */
 
-  function toc() {
-    const box = $("[data-toc]");
-    const prose = $("[data-prose]");
-    if (!box || !prose) return;
-    const hs = $$(":scope > h2[id]", prose);
-    if (hs.length < 2) return;
-    const list = $("[data-toc-list]", box);
-    list.innerHTML = hs.map((h) => `<li><a href="#${esc(h.id)}">${esc(h.textContent)}</a></li>`).join("");
-    const line = d.createElement("span");
-    line.className = "toc__line";
-    line.setAttribute("aria-hidden", "true");
-    list.append(line);
-    box.hidden = false;
-    const links = $$("a", list);
-    let last = -2;
-    const setActive = (i) => {
-      if (i === last) return;
-      last = i;
-      links.forEach((a, j) => {
-        a.classList.toggle("is-active", i === j);
-        if (i === j) a.setAttribute("aria-current", "location"); else a.removeAttribute("aria-current");
-      });
-      const a = links[i];
-      if (a) {
-        line.style.transform = `translateY(${a.offsetTop}px)`;
-        line.style.height = `${a.offsetHeight}px`;
-        line.classList.add("is-on");
-      } else line.classList.remove("is-on");
-    };
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        ticking = false;
-        const y = innerHeight * 0.32;
-        let idx = -1;
-        hs.forEach((h, i) => { if (h.getBoundingClientRect().top < y) idx = i; });
-        setActive(idx);
-      });
-    };
-    addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+  // The lamp lights once the outro is on screen.
+  function turn() {
+    const el = $("[data-turn]");
+    if (!el || reduced.matches || !("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((en) => en.isIntersecting)) return;
+      el.classList.add("is-on");
+      io.disconnect();
+    }, { threshold: 1 });
+    io.observe(el);
   }
 
   /* ------------------------------------------------------------ media */
@@ -908,7 +617,7 @@
     try { pages = JSON.parse($("[data-lost-pages]").textContent); } catch { /* no suggestions */ }
     $("[data-lost-path]", el).textContent = path;
     const hit = closest(path, pages);
-    if (hit) $("[data-lost-said] p", el).insertAdjacentHTML("afterend", `<p>You were probably after <a href="${esc(hit.u)}">${esc(hit.t)}</a>.</p>`);
+    if (hit) $("[data-lost-said] p", el).insertAdjacentHTML("afterend", `<p>You were probably after <a href="${esc(hit.u)}">${esc(hit.t.replace(/[.!?]+$/, ""))}</a>.</p>`);
     $("[data-lost-ask]", el).hidden = false;
     if (reduced.matches) return;
     // Jack waits for a real pause before taking the turn, as in Fig. 1.
@@ -917,20 +626,6 @@
     reply.classList.add("is-waiting");
     requestAnimationFrame(() => requestAnimationFrame(() => pause.classList.add("is-on")));
     setTimeout(() => reply.classList.remove("is-waiting"), 1100);
-  }
-
-  /* ------------------------------------------------------------ footer: your turn */
-
-  // Plays once, when the footer comes into view.
-  function turn() {
-    const el = $("[data-turn]");
-    if (!el || reduced.matches || !("IntersectionObserver" in window)) return;
-    const io = new IntersectionObserver((entries) => {
-      if (!entries.some((en) => en.isIntersecting)) return;
-      el.classList.add("is-on");
-      io.disconnect();
-    }, { threshold: 1 });
-    io.observe(el);
   }
 
   /* ------------------------------------------------------------ copy email */
@@ -968,7 +663,6 @@
     const openers = $$("[data-cmdk-open]");
     openers.forEach((o) => { o.hidden = false; o.addEventListener("click", () => open()); });
 
-    const arrow = '<svg class="i cmdk__go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     const search = '<svg class="i" width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12.5 12.5l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
 
     // Contact leads: it's what most visitors open the menu to find.
@@ -1028,7 +722,7 @@
       let group = "";
       shown.forEach((c, i) => {
         if (!q && c.group !== group) { group = c.group; html += `<li class="cmdk__group" role="presentation">${esc(group)}</li>`; }
-        html += `<li class="cmdk__item" role="option" id="cmdk-${i}" data-i="${i}" aria-selected="false"><span>${mark(c.label, words[0])}</span>${c.meta ? `<span class="cmdk__meta">${esc(c.meta)}</span>` : ""}${arrow}</li>`;
+        html += `<li class="cmdk__item" role="option" id="cmdk-${i}" data-i="${i}" aria-selected="false"><span>${mark(c.label, words[0])}</span>${c.meta ? `<span class="cmdk__meta">${esc(c.meta)}</span>` : ""}</li>`;
       });
       list.innerHTML = html;
       setActive(0, true);
@@ -1081,25 +775,20 @@
   // These only wire up listeners, so they run right away.
   theme();
   clock();
-  menu();
+  indexMenu();
   vtLinks();
   videos();
   copy();
   cmdk();
   cover();
+  filters();
 
-  // These measure the page. Reading geometry before the first frame would
-  // force the browser to do the whole initial layout inside this script, so
-  // they wait until it has been laid out and painted once.
+  // These measure the page, so they wait until it has been laid out once.
   requestAnimationFrame(() => setTimeout(() => {
-    header();
-    projectsIndex();
-    sectionSpy();
-    tracks();
-    signal();
+    fit();
+    bar();
+    fig1();
     turn();
     lost();
-    timeline();
-    toc();
   }, 0));
 })();

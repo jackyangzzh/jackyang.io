@@ -1,0 +1,502 @@
+// The player bar: fixed to the foot of the screen, the site's only chrome.
+
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  height: var(--bar);
+  padding: 0 var(--gutter) env(safe-area-inset-bottom, 0px);
+  display: grid;
+  grid-template-columns: minmax(0, auto) 1fr auto;
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: 0 -1px 0 var(--ink);
+  @include down($md) { grid-template-columns: minmax(0, 1fr) auto; gap: .75rem; }
+}
+
+.bar__now {
+  display: flex;
+  align-items: center;
+  gap: .8rem;
+  min-width: 0;
+}
+// The sleeve: an ink square. While something is live, a strip of red tape
+// runs across it.
+.bar__cover {
+  position: relative;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: #000;
+  box-shadow: inset 0 0 0 1px var(--line-2);
+  overflow: hidden;
+  i {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 40%;
+    height: 24%;
+    background: var(--signal);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform .5s var(--ease);
+  }
+  .is-live & i { transform: none; }
+}
+.bar__who { display: grid; min-width: 0; }
+.bar__name {
+  @include display;
+  font-size: .875rem;
+  letter-spacing: -.01em;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.bar__track {
+  @include micro;
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 24rem;
+  .is-live & { color: var(--signal-text); }
+}
+
+// The rail: where you are in the page, with a mark for each track.
+.bar__rail {
+  --p: 0;
+  position: relative;
+  height: 2.5rem;
+  min-width: 6rem;
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: var(--line-2);
+  }
+  @include down($md) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 3px;
+    min-width: 0;
+    &::before { display: none; }
+  }
+}
+.bar__fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% - 1px);
+  height: 3px;
+  background: var(--ink);
+  transform: scaleX(var(--p));
+  transform-origin: 0 50%;
+  @include down($md) { top: 0; }
+}
+// While Fig. 1 plays, the rail is its timeline: the agent's turn is red.
+.bar__agent {
+  position: absolute;
+  top: calc(50% - 6px);
+  height: 13px;
+  left: var(--a0, 0);
+  width: var(--aw, 0);
+  background: var(--signal);
+  opacity: 0;
+  transition: opacity .3s;
+  .is-fig & { opacity: 1; }
+  @include down($md) { top: 0; height: 3px; }
+}
+.bar__tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--x);
+  width: 1.5rem;
+  margin-left: -.75rem;
+  cursor: pointer;
+  &::before {
+    content: "";
+    position: absolute;
+    left: calc(50% - .5px);
+    top: calc(50% - 5px);
+    width: 1px;
+    height: 11px;
+    background: var(--ink);
+  }
+  span {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translate(-50%, 4px);
+    padding: .3rem .5rem;
+    background: var(--ink);
+    color: var(--bg);
+    @include micro;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .15s, transform .25s var(--ease);
+  }
+  &:hover span { opacity: 1; transform: translate(-50%, -2px); }
+  .is-fig & { display: none; }
+  @include down($md) { display: none; }
+}
+
+.bar__tools {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+}
+.bar__clock {
+  @include micro;
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+  margin-right: .75rem;
+  @include down($xl) { display: none; }
+}
+.bar__btn {
+  display: inline-grid;
+  place-items: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  color: var(--ink);
+  transition: color .15s, background-color .15s, transform .16s var(--ease);
+  @include hover { &:hover { color: var(--bg); background: var(--ink); } }
+  @include press(.94);
+}
+.bar__k {
+  display: none;
+  @include up($md) {
+    display: inline-flex;
+    gap: .15rem;
+    padding: 0 .5rem;
+    kbd {
+      @include micro;
+      letter-spacing: 0;
+      min-width: 1.15rem;
+      height: 1.35rem;
+      display: grid;
+      place-items: center;
+      box-shadow: inset 0 0 0 1px currentColor;
+      padding: 0 .2rem;
+    }
+  }
+  &[hidden] { display: none; }
+}
+.bar__theme {
+  position: relative;
+  span { display: grid; place-items: center; grid-area: 1 / 1; transition: transform .3s var(--ease), opacity .2s; }
+  .bar__moon { opacity: 0; transform: rotate(-60deg) scale(.6); }
+}
+@mixin theme-dark-icon {
+  .bar__sun { opacity: 0; transform: rotate(60deg) scale(.6); }
+  .bar__moon { opacity: 1; transform: none; }
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .bar__theme { @include theme-dark-icon; }
+}
+:root[data-theme="dark"] .bar__theme { @include theme-dark-icon; }
+
+.bar__index {
+  padding: 0 .75rem;
+  @include micro;
+  font-weight: 700;
+  box-shadow: inset 0 0 0 1px var(--ink);
+  &[aria-expanded="true"] { background: var(--ink); color: var(--bg); }
+}
+.bar__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  height: 2.25rem;
+  padding: 0 .8rem 0 .9rem;
+  margin-left: .3rem;
+  background: var(--ink);
+  color: var(--bg);
+  @include micro;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background-color .15s, color .15s, transform .16s var(--ease);
+  box-shadow: inset 0 0 0 1px var(--ink);
+  .i { transition: transform .3s var(--ease); }
+  @include hover { &:hover { background: transparent; color: var(--ink); .i { transform: translate(2px, -2px); } } }
+  @include press;
+}
+@include down($sm) {
+  .bar__theme { display: none; }
+  .bar__cta { margin-left: 0; }
+}
+
+// The index: the record's back cover, rising out of the bar. Opposite ground.
+
+.index {
+  @include dark-tokens;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: var(--bar);
+  z-index: 55;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg);
+  color: var(--ink);
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path .4s var(--ease-in-out);
+  &.is-open { clip-path: inset(0); }
+  &:focus { outline: none; }
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .index { @include light-tokens; }
+}
+:root[data-theme="dark"] .index { @include light-tokens; }
+
+.index__in {
+  position: relative;
+  max-width: var(--max);
+  min-height: 100%;
+  margin-inline: auto;
+  padding: clamp(3.5rem, 8vh, 6rem) var(--gutter) 2rem;
+  display: grid;
+  gap: 3rem var(--gap);
+  align-content: space-between;
+  @include up($lg) { @include grid12; align-content: end; }
+}
+.index__tracks {
+  @include up($lg) { grid-column: 1 / span 8; }
+  ol { border-top: 2px solid var(--ink); }
+  a {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: .7rem 0 .45rem;
+    border-bottom: 1px solid var(--ink);
+    transition: padding .3s var(--ease);
+    @include hover { &:hover { padding-left: 1rem; } }
+  }
+  li {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .2s, transform .2s;
+  }
+}
+.index.is-open .index__tracks li {
+  opacity: 1;
+  transform: none;
+  transition: opacity .35s var(--ease), transform .5s var(--ease);
+  transition-delay: calc(var(--i) * 45ms + 120ms);
+}
+.index__no { @include micro; font-weight: 700; padding-top: .3em; min-width: 1.6rem; }
+.index__title {
+  @include display;
+  font-size: clamp(2rem, 6vw, 6rem);
+}
+.index__side {
+  display: grid;
+  gap: 2rem;
+  align-content: end;
+  @include up($lg) { grid-column: 10 / -1; }
+  a { font-size: 1rem; display: inline-flex; align-items: center; gap: .4rem; }
+  a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
+  [aria-current] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
+}
+.index__group {
+  .micro { margin-bottom: .6rem; }
+  ul { display: grid; gap: .35rem; }
+}
+.index__row { display: flex !important; flex-wrap: wrap; gap: .35rem 1.25rem !important; }
+.index-open { overflow: hidden; }
+
+// The outro: a full screen of quiet, the email at monument scale.
+
+.outro {
+  margin-top: clamp(6rem, 12vw, 10rem);
+}
+.outro__in {
+  min-height: calc(100svh - var(--bar));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.75rem, 4vh, 3rem);
+  padding-top: clamp(4rem, 10vh, 7rem);
+  text-align: center;
+}
+// Auto margins above the lamp and above the base split the free space, so
+// the email sits dead centre on the screen.
+.outro__turn {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  @include micro;
+  font-weight: 700;
+  .lamp { transition: background-color .4s var(--ease), transform .6s var(--ease); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html.js .outro__turn:not(.is-on) .lamp { background: var(--muted); transform: scale(.5); }
+  html.js .outro__turn .lamp { transition-delay: .9s; }
+}
+.outro__email {
+  width: 100%;
+  text-align: left;
+  transition: color .2s;
+  .fit { letter-spacing: -.04em; }
+  @include hover { &:hover { color: var(--muted); } }
+}
+.outro__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .5rem;
+  .copy { height: 3.25rem; padding: 0 1.1rem; }
+}
+.outro__lists {
+  display: grid;
+  gap: 1.25rem;
+  justify-items: center;
+  > div { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .5rem 1.5rem; }
+  ul { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem 1.5rem; }
+  .micro { font-weight: 500; }
+}
+.outro__base {
+  width: 100%;
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .5rem 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-2);
+  @include micro;
+  font-weight: 500;
+  color: var(--muted);
+  a:hover { color: var(--ink); }
+}
+
+.copy {
+  position: relative;
+  display: inline-grid;
+  height: 2.25rem;
+  padding: 0 .8rem;
+  box-shadow: inset 0 0 0 2px var(--ink);
+  @include micro;
+  font-weight: 700;
+  color: var(--ink);
+  justify-items: center;
+  align-items: center;
+  transition: background-color .15s, color .15s, transform .16s var(--ease);
+  @include press;
+  > span {
+    grid-area: 1 / 1;
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    transition: opacity .25s, transform .35s var(--ease);
+  }
+  .copy__done { opacity: 0; transform: translateY(6px); }
+  @include hover { &:hover { background: var(--ink); color: var(--bg); } }
+  &[hidden] { display: none; }
+  &.is-done {
+    .copy__idle { opacity: 0; transform: translateY(-6px); }
+    .copy__done { opacity: 1; transform: none; }
+  }
+}
+
+// ⌘K command menu: a slab; the selected row inverts.
+
+.cmdk {
+  width: calc(100vw - 2rem);
+  max-width: 40rem;
+  max-height: 70vh;
+  margin: 12vh auto auto;
+  padding: 0;
+  border: 2px solid var(--ink);
+  background: var(--bg);
+  color: var(--ink);
+  overflow: hidden;
+  &[open] { display: flex; flex-direction: column; }
+  &::backdrop { background: rgba(0, 0, 0, .6); }
+}
+.cmdk__field {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: 0 1.25rem;
+  border-bottom: 2px solid var(--ink);
+}
+.cmdk__input {
+  flex: 1;
+  min-width: 0;
+  height: 4rem;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.25rem;
+  font-weight: 600;
+  outline: none;
+  caret-color: var(--signal);
+  &::placeholder { color: var(--muted); font-weight: 400; }
+}
+.cmdk__esc { @include micro; box-shadow: inset 0 0 0 1px var(--line-2); padding: .1rem .4rem; color: var(--muted); }
+.cmdk__list {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-2) transparent;
+  padding: .4rem 0 .6rem;
+  margin: 0;
+}
+.cmdk__group { @include micro; color: var(--muted); padding: .9rem 1.25rem .35rem; }
+.cmdk__item {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .6rem 1.25rem;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--ink-2);
+  scroll-margin: .5rem;
+  &[aria-selected="true"] {
+    background: var(--ink);
+    color: var(--bg);
+    .cmdk__meta { color: inherit; opacity: .7; }
+    mark { color: inherit; }
+  }
+  mark { background: none; color: var(--ink); font-weight: 700; }
+}
+.cmdk__meta { margin-left: auto; @include micro; color: var(--muted); white-space: nowrap; }
+.cmdk__empty { padding: 2rem 1.25rem; text-align: center; color: var(--muted); }
+.cmdk__foot {
+  display: flex;
+  gap: 1.5rem;
+  padding: .65rem 1.25rem;
+  border-top: 1px solid var(--line-2);
+  @include micro;
+  color: var(--muted);
+  kbd { color: var(--ink); }
+  @include down($sm) { display: none; }
+}
+
+// Touch screens: grow tap areas to about 44px without moving anything.
+@media (pointer: coarse) {
+  .bar__btn { min-width: 2.75rem; height: 2.75rem; }
+  .qlink, .outro__top, .crumbs a, .cover__toggle { position: relative; }
+  .qlink::after, .outro__top::after, .crumbs a::after, .cover__toggle::after {
+    content: "";
+    position: absolute;
+    inset: -.75rem -.35rem;
+  }
+}

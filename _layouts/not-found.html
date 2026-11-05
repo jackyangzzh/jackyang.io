@@ -7,12 +7,8 @@ line goes quiet, and after the pause Jack answers with the closest page.
 Without JavaScript the reply simply stands there.
 {%- endcomment -%}
 <section class="lost wrap">
-  <h1 class="lost__title">Signal lost.</h1>
-  <svg class="lost__line" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-    <path d="M0 60 H520 l14 -34 l16 68 l14 -52 l10 18 H1200" fill="none" stroke="currentColor" stroke-width="1.5" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>
-    <path class="lost__scan" pathLength="1" d="M0 60 H520 l14 -34 l16 68 l14 -52 l10 18 H1200" fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>
-  </svg>
-  <p class="label lost__code"><span class="live__dot live__dot--off" aria-hidden="true"></span>Error 404</p>
+  <p class="lost__code micro"><span class="lamp lamp--off" aria-hidden="true"></span>Error 404</p>
+  <h1 class="lost__title"><span class="fit" data-fit style="--n: 12"><span class="fit__in">Signal lost.</span></span></h1>
 
   <ol class="lost__turns" data-lost>
     <li class="lost__turn" data-lost-ask hidden>

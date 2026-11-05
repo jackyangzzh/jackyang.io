@@ -1,0 +1,13 @@
+{%- comment -%}
+A track's title card: the number, and the name set edge to edge across the
+page. Params: no, title, id, aux, aux_url, aux_icon
+{%- endcomment -%}
+<header class="th wrap">
+  <div class="th__top">
+    <span class="th__no">{{ include.no }}</span>
+    {%- if include.aux_url %}
+    <a class="qlink" href="{{ include.aux_url | relative_url }}">{{ include.aux }}{% if include.aux_icon %} {% include icon.html name=include.aux_icon %}{% endif %}</a>
+    {%- endif %}
+  </div>
+  <h2 class="th__title" id="{{ include.id }}"><span class="fit" data-fit style="--n: {{ include.title | size }}"><span class="fit__in">{{ include.title }}</span></span></h2>
+</header>
