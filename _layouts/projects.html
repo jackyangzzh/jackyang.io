@@ -28,6 +28,7 @@ layout: base
     {%- for proj in projects %}
     <li class="intro" style="--d: {{ forloop.index | plus: 1 }}" data-cat="{{ proj.category }}">
       <a class="disc" href="{{ proj.url | relative_url }}" data-vt-link>
+        <span class="disc__vinyl" aria-hidden="true"></span>
         <span class="disc__art{% if proj.image.position %} disc__art--{{ proj.image.position }}{% endif %}">{% include media.html image=proj.image sizes="(min-width: 64em) 31vw, (min-width: 40em) 46vw, 100vw" eager=forloop.first %}</span>
         <span class="disc__title">{{ proj.title }}</span>
         {% include eyebrow.html project=proj %}

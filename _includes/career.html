@@ -49,7 +49,7 @@ Positions are computed here, so it renders without JavaScript.
         {%- assign role = it.role | default: it.position | default: it.studyType -%}
         {%- capture dates -%}{{ it.startDate | date: "%b %Y" }} to {% if ongoing %}present{% else %}{{ it.endDate | date: "%b %Y" }}{% if future %}, expected{% endif %}{% endif %}{%- endcapture -%}
         {%- assign fill = 100 -%}{%- if future -%}{%- assign dur = e | minus: s -%}{%- assign fill = now | minus: s | times: 100.0 | divided_by: dur | round: 1 -%}{%- endif -%}
-        <a class="career__bar{% if ongoing %} is-now{% endif %}{% if future %} is-future{% endif %}" href="#{{ it.short | slugify | prepend: 'exp-' }}" title="{{ org | escape }}, {{ role | escape }}, {{ dates }}" style="--l: {{ s | minus: t0 | times: 100.0 | divided_by: span | round: 3 }}%; --w: {{ e | minus: s | times: 100.0 | divided_by: span | round: 3 }}%; --row: {{ row }}; --f: {{ fill }}%"><span>{{ it.short }}</span><span class="sr-only">: {{ org }}, {{ role }}, {{ dates }}</span></a>
+        <a class="career__bar{% if ongoing %} is-now{% endif %}{% if future %} is-future{% endif %}" href="#{{ it.short | slugify | prepend: 'exp-' }}" title="{{ org | escape }}, {{ role | escape }}, {{ dates }}" style="--l: {{ s | minus: t0 | times: 100.0 | divided_by: span | round: 3 }}%; --w: {{ e | minus: s | times: 100.0 | divided_by: span | round: 3 }}%; --row: {{ row }}; --f: {{ fill }}%; --dl: {{ s | minus: t0 | times: 900.0 | divided_by: span | round }}"><span>{{ it.short }}</span><span class="sr-only">: {{ org }}, {{ role }}, {{ dates }}</span></a>
       {%- endfor -%}
       {%- endcapture %}
       <div class="career__lane" style="--rows: {{ rows }}">

@@ -255,11 +255,16 @@ kbd { font-family: inherit; }
 
 @view-transition { navigation: auto; }
 
-::view-transition-old(root),
+// Pages change like a light trail crossing the screen: the new page sweeps
+// in from the left behind a soft leading edge.
+@property --wipe { syntax: "<percentage>"; inherits: false; initial-value: 0%; }
+::view-transition-old(root) { animation: none; }
 ::view-transition-new(root) {
-  animation-duration: .3s;
-  animation-timing-function: var(--ease);
+  animation: wipe .7s var(--ease-in-out) both;
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(var(--wipe) - 14%), transparent var(--wipe));
+  mask-image: linear-gradient(90deg, #000 calc(var(--wipe) - 14%), transparent var(--wipe));
 }
+@keyframes wipe { from { --wipe: 0%; } to { --wipe: 114%; } }
 ::view-transition-group(hero-media) {
   animation-duration: .65s;
   animation-timing-function: var(--ease);
@@ -278,6 +283,8 @@ kbd { font-family: inherit; }
 }
 .theme-vt::view-transition-new(root) {
   animation: theme-reveal .6s var(--ease-in-out);
+  -webkit-mask-image: none;
+  mask-image: none;
 }
 @keyframes theme-reveal {
   from { clip-path: circle(0 at var(--vt-x, 100%) var(--vt-y, 100%)); }

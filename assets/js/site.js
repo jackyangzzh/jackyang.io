@@ -219,6 +219,8 @@
     const who = $("[data-lyric-who]", hero);
     const line = $("[data-lyric-line]", hero);
     const meter = $("[data-lyric-meter]", hero);
+    const gapText = $("[data-lyric-gap]", hero);
+    const LENGTH = 10; // seconds, the whole performance
     const rail = $("[data-rail]");
     const track = $("[data-bar-track]");
     const TURN = 1.2; // illustrative: how long a gap must last before the agent may speak
@@ -226,10 +228,16 @@
     try { turns = JSON.parse($("[data-fig-data]", fig).textContent); } catch { return; }
     if (!Array.isArray(turns) || !turns.length) return;
 
+    // Pauses play in real time, so their labels stay true; the speech is
+    // compressed to fit what's left of LENGTH.
+    const raw = (x) => Number(x.pause != null ? x.pause : x.dur) || 1;
+    const paused = turns.filter((x) => x.pause != null).reduce((a, x) => a + raw(x), 0);
+    const spoken = turns.filter((x) => x.pause == null).reduce((a, x) => a + raw(x), 0);
+    const squeeze = Math.min(1, Math.max(0.1, LENGTH - paused) / spoken);
     let t = 0;
     const segs = turns.map((x) => {
       const gap = x.pause != null;
-      const dur = Number(gap ? x.pause : x.dur) || 1;
+      const dur = gap ? raw(x) : raw(x) * squeeze;
       const s = { who: x.who, text: String(x.text || ""), gap, agent: !gap && x.who === "agent", start: t, end: t + dur };
       t += dur;
       return s;
@@ -256,16 +264,19 @@
         cur = seg;
         said = -1;
         lyric.classList.toggle("is-gap", seg.gap);
-        lyric.classList.toggle("is-agent", seg.agent);
         lyric.classList.remove("is-over");
         if (seg.gap) {
-          who.textContent = "";
-          line.textContent = seg.text || "Pause";
-          words = [];
+          // The last line stays up, dimmed, while the pause draws under it.
+          gapText.textContent = seg.text || "Pause";
+          words.forEach((w) => w.classList.add("is-said"));
         } else {
+          lyric.classList.toggle("is-agent", seg.agent);
           who.textContent = seg.agent ? "Agent" : seg.who;
           line.innerHTML = seg.text.split(" ").map((w) => `<span>${esc(w)}</span>`).join(" ");
           words = $$("span", line);
+          lyric.classList.remove("is-cut");
+          void lyric.offsetWidth;
+          lyric.classList.add("is-cut");
         }
         hero.classList.toggle("is-flood", seg.agent);
       }
@@ -273,7 +284,7 @@
         meter.style.setProperty("--m", Math.min(1, into / TURN).toFixed(3));
         lyric.classList.toggle("is-over", into >= TURN);
       } else {
-        const n = Math.min(words.length, Math.ceil((words.length * into) / ((seg.end - seg.start) * 0.9)));
+        const n = Math.min(words.length, Math.ceil((words.length * into) / ((seg.end - seg.start) * 0.5)));
         if (n !== said) { said = n; words.forEach((w, i) => w.classList.toggle("is-said", i < n)); }
       }
       if (rail) rail.style.setProperty("--p", (tt / total).toFixed(4));
@@ -371,6 +382,51 @@
     d.addEventListener("visibilitychange", () => {
       if (d.hidden && playing) { stop(); held = true; }
       else if (!d.hidden && held && inView) play();
+    });
+  }
+
+  /* ------------------------------------------------------------ motion */
+
+  // The cover's three lines drift against each other with the pointer, a
+  // few pixels each way, so the headline reads as planes at different depths.
+  function drift() {
+    const stack = $("[data-stack]");
+    if (!stack || reduced.matches || !matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    const lines = $$(".hero__line", stack);
+    let raf = 0;
+    addEventListener("pointermove", (e) => {
+      if (scrollY > innerHeight) return;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const x = e.clientX / innerWidth - 0.5;
+        const y = e.clientY / innerHeight - 0.5;
+        lines.forEach((l, i) => {
+          const k = (i % 2 ? -1 : 1) * (10 + i * 8);
+          l.style.transform = `translate3d(${(x * k).toFixed(1)}px, ${(y * 6).toFixed(1)}px, 0)`;
+        });
+      });
+    }, { passive: true });
+  }
+
+  // The career strip plays once it's on screen; a role hovered below lights its bar.
+  function career() {
+    const el = $(".career");
+    if (!el) return;
+    const scroller = $("[data-career]", el);
+    if (scroller.scrollWidth > scroller.clientWidth + 4) scroller.scrollLeft = scroller.scrollWidth;
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((en) => {
+        if (!en.some((x) => x.isIntersecting)) return;
+        el.classList.add("is-in");
+        io.disconnect();
+      }, { threshold: 0.35 });
+      io.observe(el);
+    } else el.classList.add("is-in");
+    $$(".row[id]").forEach((row) => {
+      const bar = $(`.career__bar[href="#${row.id}"]`, el);
+      if (!bar) return;
+      row.addEventListener("pointerenter", () => bar.classList.add("is-lit"));
+      row.addEventListener("pointerleave", () => bar.classList.remove("is-lit"));
     });
   }
 
@@ -749,8 +805,8 @@
   requestAnimationFrame(() => setTimeout(() => {
     fit();
     bar();
-    const career = $("[data-career]");
-    if (career && career.scrollWidth > career.clientWidth + 4) career.scrollLeft = career.scrollWidth;
+    career();
+    drift();
     fig1();
     turn();
     lost();

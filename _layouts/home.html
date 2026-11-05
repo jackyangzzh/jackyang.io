@@ -40,6 +40,7 @@ whole cover floods red.
       <p class="lyric__who" data-lyric-who></p>
       <p class="lyric__line" data-lyric-line></p>
       <span class="lyric__meter"><i data-lyric-meter></i></span>
+      <p class="lyric__gap" data-lyric-gap></p>
     </div>
   </div>
 
@@ -85,14 +86,23 @@ whole cover floods red.
 
   <div class="hero__flood" aria-hidden="true"></div>
   <div class="hero__flash" aria-hidden="true"></div>
+  <div class="hero__ring" aria-hidden="true"></div>
 </section>
 
 <section class="track" id="about" data-track="01 About" aria-labelledby="about-title">
   {% include track-head.html no="01" title="About" id="about-title" %}
   <div class="wrap about">
-    <div class="about__cover"><img src="{{ site.logo | relative_url }}" srcset="{{ '/assets/img/profile256.webp' | relative_url }} 256w, {{ site.logo | relative_url }} 694w" sizes="(min-width: 56em) 14rem, 9rem" alt="{{ page.photo_alt | default: r.basics.name | escape }}" width="694" height="694" loading="lazy" decoding="async"></div>
+    {%- assign paras = summary | split: "</p>" %}
+    <div class="about__lead">
+      <div class="about__cover"><img src="{{ site.logo | relative_url }}" srcset="{{ '/assets/img/profile256.webp' | relative_url }} 256w, {{ site.logo | relative_url }} 694w" sizes="(min-width: 56em) 11rem, 6.5rem" alt="{{ page.photo_alt | default: r.basics.name | escape }}" width="694" height="694" loading="lazy" decoding="async"></div>
+      {{ paras[0] | strip }}</p>
+    </div>
     <div class="about__text">
-      <div class="about__body">{{ summary }}</div>
+      <div class="about__body">
+        {%- for p in paras offset: 1 %}{% assign t = p | strip %}{% if t != "" %}
+        {{ t }}</p>
+        {%- endif %}{% endfor %}
+      </div>
       <dl class="credits">
         {%- for f in page.facts %}
         <div><dt>{{ f.label }}</dt><dd>{{ f.value | markdownify | remove: "<p>" | remove: "</p>" | strip }}</dd></div>
@@ -172,6 +182,7 @@ whole cover floods red.
       {%- for proj in projects limit: featured_count %}
       <li>
         <a class="disc" href="{{ proj.url | relative_url }}" data-vt-link>
+          <span class="disc__vinyl" aria-hidden="true"></span>
           <span class="disc__art{% if proj.image.position %} disc__art--{{ proj.image.position }}{% endif %}">{% include media.html image=proj.image sizes="(min-width: 56em) 31vw, 100vw" %}</span>
           <span class="disc__title">{{ proj.title }}</span>
           {% include eyebrow.html project=proj %}
