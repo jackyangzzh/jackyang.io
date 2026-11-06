@@ -1,17 +1,17 @@
 {%- comment -%}
 The outro. The record ends the way Fig. 1 does: the talking stops, the room
 goes quiet, and the turn passes to the visitor. The lamp lights when it's
-theirs. Opposite ground: black by day, sandstone by night.
+theirs.
 {%- endcomment -%}
 {%- assign r = site.data.resume -%}
-<footer class="outro slab">
+<footer class="outro">
   <div class="wrap outro__in">
     <p class="outro__turn" data-turn><span class="sr-only">Contact. </span><span class="lamp" aria-hidden="true"></span><span>Your turn</span></p>
 
     <a class="outro__email" href="mailto:{{ site.contact.email }}"><span class="fit" data-fit style="--n: {{ site.contact.email | size }}"><span class="fit__in">{{ site.contact.email }}</span></span></a>
 
     <div class="outro__actions">
-      <button type="button" class="copy" data-copy="{{ site.contact.email }}" hidden>
+      <button type="button" class="slabbtn slabbtn--line copy" data-copy="{{ site.contact.email }}" hidden>
         <span class="copy__idle">{% include icon.html name="copy" px="14" %}<span>Copy</span></span>
         <span class="copy__done" aria-hidden="true">{% include icon.html name="check" px="14" %}<span>Copied</span></span>
       </button>

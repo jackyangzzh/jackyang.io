@@ -21,37 +21,137 @@
   @include up($md) { grid-column: 1 / span 6; }
   a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
 }
-.phead__count { font-weight: 700; color: var(--ink); @include up($md) { grid-column: 12; justify-self: end; } }
 
 .filters {
   @include up($md) { grid-column: 7 / -1; justify-self: end; }
-  ul { display: flex; flex-wrap: wrap; gap: .4rem; }
+  ul { display: flex; flex-wrap: wrap; gap: .5rem; }
   button {
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
     gap: .5rem;
-    padding: .55rem .8rem;
-    box-shadow: inset 0 0 0 1px var(--ink);
+    min-height: var(--control-height);
+    padding: .5rem .75rem;
+    box-shadow: inset 0 0 0 2px var(--ink);
     @include micro;
     font-weight: 700;
     transition: background-color .15s, color .15s;
     span { font-weight: 500; opacity: .7; }
-    &:hover { background: var(--ink); color: var(--bg); }
+    @include hover { &:hover { background: var(--ink); color: var(--bg); } }
+    @include press;
     &[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
   }
+}
+
+// Projects index: names cut large in a numbered list, the screen beside it.
+
+.pindex {
+  display: grid;
+  gap: var(--gap);
+  @include up($lg) { @include grid12; }
+}
+.plist {
+  border-top: 2px solid var(--ink);
+  @include up($lg) { grid-column: 1 / span 7; }
+}
+.prow.is-hidden { display: none; }
+.prow__link {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  align-items: start;
+  gap: 0 .5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--line-2);
+}
+.prow__no { padding-top: .3rem; @include micro; font-weight: 700; color: var(--ink); }
+.prow__main { min-width: 0; }
+.prow__title {
+  display: block;
+  @include display;
+  font-size: clamp(1.75rem, 3.4vw, 3.5rem);
+  line-height: .9;
+  text-wrap: balance;
+  transition: transform .4s var(--ease), color .2s;
+}
+.prow__main .eyebrow { margin-top: .7rem; }
+.prow__media, .prow__desc { display: none; }
+
+@include up($lg) {
+  .plist.is-hovering .prow__link:not(.is-active) .prow__title { color: var(--line-2); }
+}
+
+// Phones and tablets: each row carries its own image and description.
+@include down($lg) {
+  .plist { display: grid; gap: 0 var(--gap); border-top: 0; }
+  .prow__link { grid-template-columns: 2.5rem 1fr; padding: 0 0 2.75rem; border: 0; }
+  .prow__media {
+    display: block;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--bg-2);
+    margin-bottom: 1rem;
+    img { width: 100%; height: 100%; object-fit: cover; }
+  }
+  .prow__desc {
+    display: block;
+    grid-column: 2;
+    margin-top: .7rem;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--ink-2);
+    text-wrap: pretty;
+  }
+}
+@media (min-width: $md) and (max-width: $lg - .001em) {
+  .plist { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.viewer {
+  display: none;
+  @include up($lg) { display: block; grid-column: 8 / -1; }
+  html:not(.js) & { display: none; }
+}
+.viewer__sticky { position: sticky; top: 1.5rem; }
+.viewer__screen {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--bg-2);
+}
+.viewer__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity .3s var(--ease), transform .8s var(--ease);
+  img { width: 100%; height: 100%; object-fit: cover; }
+  &.is-on { opacity: 1; transform: none; }
+}
+.viewer__caption {
+  position: relative;
+  margin-top: 1rem;
+  padding-top: .9rem;
+  border-top: 1px solid var(--ink);
+  min-height: 6rem;
+}
+.viewer__desc {
+  position: absolute;
+  inset: .9rem 0 auto;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+  text-wrap: pretty;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .25s var(--ease), transform .35s var(--ease);
+  &.is-on { opacity: 1; transform: none; }
 }
 
 // A single (case study)
 
 .single__head { padding-top: clamp(1.5rem, 4vw, 2.5rem); }
-.crumbs {
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-  @include micro;
-  color: var(--muted);
-  a { font-weight: 700; color: var(--ink); &:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .3em; } }
-  [aria-current] { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-}
 .single__title {
   margin-top: clamp(2rem, 7vw, 5.5rem);
   @include display;
@@ -83,17 +183,6 @@
   @include up($md) { grid-column: 9 / -1; }
   .eyebrow { color: var(--ink); white-space: normal; }
   ul { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; }
-}
-.single__by {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: .5rem 1.5rem;
-  margin-top: 2rem;
-  @include micro;
-  color: var(--muted);
-  > span { flex-basis: 100%; @include up($sm) { flex-basis: auto; margin-right: auto; } }
-  > span a { color: var(--ink); font-weight: 700; }
 }
 
 .single__art {
@@ -166,7 +255,7 @@
 .posts--full {
   .post__link {
     align-items: start;
-    @include up($md) { grid-template-rows: auto 1fr; padding: 1.6rem 0; }
+    @include up($md) { grid-template-rows: auto 1fr; }
   }
   .post__date { @include up($md) { grid-row: 1; padding-top: .35rem; } }
   .post__main { @include up($md) { grid-column: 3 / span 7; grid-row: 1 / span 2; } }

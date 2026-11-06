@@ -33,15 +33,15 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-behavior: smooth;
-  scroll-padding-top: 1rem;
-  scroll-padding-bottom: calc(var(--bar) + 1rem);
+  scroll-padding-top: calc(var(--bar) + 1rem);
+  scroll-padding-bottom: 1rem;
   background: var(--bg);
   -webkit-tap-highlight-color: transparent;
 }
 
 body {
   margin: 0;
-  padding-bottom: var(--bar);
+  padding-top: var(--bar);
   background: var(--bg);
   color: var(--ink);
   font-family: var(--f-sans);
@@ -61,12 +61,12 @@ h1, h2, h3, h4, h5, h6 { font-weight: inherit; font-size: inherit; }
 ul, ol { padding: 0; list-style: none; }
 img, svg, video, iframe { display: block; max-width: 100%; }
 img { height: auto; }
-button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; letter-spacing: inherit; text-transform: inherit; }
+button { appearance: none; border-radius: 0; font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; letter-spacing: inherit; text-transform: inherit; }
 a { color: inherit; text-decoration: none; }
 a, button, summary, [role="button"] { touch-action: manipulation; }
 button, .slabbtn { -webkit-user-select: none; user-select: none; }
 @media (hover: none), (pointer: coarse) {
-  a:active:not(.slabbtn, .qlink, .bar__cta) { opacity: .7; }
+  a:active:not(.slabbtn, .qlink) { opacity: .7; }
 }
 kbd { font-family: inherit; }
 [hidden] { display: none !important; }
@@ -90,7 +90,7 @@ kbd { font-family: inherit; }
 
 .skip {
   position: fixed;
-  left: 1rem; top: 1rem;
+  left: 1rem; top: calc(var(--bar) + .5rem);
   z-index: 100;
   padding: .7rem 1rem;
   background: var(--ink);
@@ -108,7 +108,6 @@ kbd { font-family: inherit; }
   padding-inline: var(--gutter);
 }
 
-.slab { background: var(--bg); color: var(--ink); }
 
 .mono { font-variant-numeric: tabular-nums; }
 .micro { @include micro; color: var(--muted); }
@@ -138,18 +137,7 @@ kbd { font-family: inherit; }
   background: var(--signal);
   flex: none;
   &--off { background: var(--muted); }
-}
-
-// The tape: a strip of red, stuck on whatever is happening now.
-.tape {
-  display: inline-flex;
-  align-items: center;
-  padding: .15rem .55rem .1rem;
-  background: var(--signal);
-  color: var(--on-signal);
-  @include micro;
-  font-weight: 700;
-  white-space: nowrap;
+  &--ink { background: var(--ink); }
 }
 
 // Category square + eyebrow ("■ Personal, 2026")
@@ -175,15 +163,15 @@ kbd { font-family: inherit; }
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  height: 3.25rem;
-  padding: 0 1.1rem 0 1.25rem;
+  min-height: 3.25rem;
+  padding: .75rem 1.125rem;
   border: 2px solid var(--ink);
   background: var(--ink);
   color: var(--bg);
   @include micro;
   font-size: .8125rem;
   font-weight: 700;
-  white-space: nowrap;
+  text-align: left;
   transition: background-color .15s, color .15s, transform .16s var(--ease);
   .i { transition: transform .3s var(--ease); }
   @include hover {

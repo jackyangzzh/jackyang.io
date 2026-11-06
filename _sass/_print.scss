@@ -3,11 +3,11 @@
 @media print {
   :root { @include light-tokens; --bg: #fff; --bg-2: #f4f4f4; }
   body { font-size: 10.5pt; }
-  .bar, .index, .fig, .hero__actions, .outro, .cmdk, .skip,
+  .bar, .index, .hero__foot, .outro, .cmdk, .skip,
   .about__cover, #work, #writing, .next,
   .copy, .row__case, [data-cmdk-open] { display: none !important; }
   .hero { min-height: auto; padding-bottom: 0; }
-  body { padding-bottom: 0; }
+  body { padding-top: 0; padding-bottom: 0; }
   .hero { min-height: auto; }
   .hero__line .fit { font-size: 30pt !important; }
   .track { padding-top: 18pt; break-inside: auto; }

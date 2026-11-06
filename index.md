@@ -7,7 +7,7 @@ description: >
 # Link-preview card (1200×630): the hero headline, role and waveform.
 image:
   path: /assets/img/og-card.png
-  alt: "Jack Yang — Real-time AI for real conversations. Software Engineer II, Microsoft Teams AI, Seattle."
+  alt: "Jack Yang — Real-time AI for real conversations. Software Engineer, Microsoft Teams AI, Seattle."
 twitter:
   card: summary_large_image
 # Alt text for the portrait in About.
@@ -23,18 +23,13 @@ headline_lines:
   - "conver&shy;sations."
 
 # The sentence beside the photo under the headline.
-intro: >
-  I'm Jack Yang, a software engineer at Microsoft Teams AI building real-time
-  multimodal agents for Microsoft 365 Copilot. Before that, I built avatar and
-  XR systems for Microsoft Mesh.
-
 # How many projects (by weight) get a card on the home page; the rest are listed.
 featured_count: 3
 
 # Quick facts beside the About text.
 facts:
   - label: Now
-    value: Software Engineer II, Microsoft Teams AI
+    value: Software Engineer, Microsoft Teams AI
   - label: Before
     value: Microsoft Mesh, Holos
   - label: Studying
@@ -50,7 +45,7 @@ film:
   poster: /assets/video/fig1-poster.webp
   duration: 18
   label: >
-    Fig. 1, an eighteen-second film. A meeting drawn as a waveform: two people
+    The reel, an eighteen-second film. A meeting drawn as a waveform: two people
     talk, there is a pause, and the agent speaks. Then Jack Yang's work:
     Facilitator in Microsoft Teams, avatars across Microsoft Mesh runtimes and
     20+ languages, the outfit picker Satya Nadella showed at Microsoft Ignite,

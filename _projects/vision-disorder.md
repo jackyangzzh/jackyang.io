@@ -1,7 +1,7 @@
 ---
 layout: project
 weight: 5
-title: 'Color Vision & Binocular Rivalry in VR'
+title: 'Optics Research in VR'
 description: >
   Per-eye rendering in Unity and SteamVR, built to explore color perception and binocular rivalry.
 date: '2020-01-01'

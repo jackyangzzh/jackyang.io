@@ -1,7 +1,7 @@
 ---
 layout: project
 weight: 0
-title: 'Microsoft Mesh & Avatars for Teams'
+title: 'Microsoft Mesh'
 description: >
   The shared UI framework every Mesh product team adopted, plus avatar editing and rendering across mobile, desktop, and AR/VR.
 date: '2022-06-01'
@@ -23,9 +23,9 @@ links:
     url: https://support.microsoft.com/en-us/office/customize-your-avatar-in-microsoft-teams-be6a9703-f03d-4eb5-9908-995fdc5c91a8
 
 ---
-I worked on Microsoft Mesh and Avatars for Teams from June 2022 to September 2024, across the **full Avatars stack and shared UI on mobile, desktop, and AR/VR devices**. That covered how people create their avatar, how it looks and moves once they're in a meeting, and the interface around it.
+I worked on Microsoft Mesh from June 2022 to September 2024, across the **full Avatars stack and shared UI on mobile, desktop, and AR/VR devices**. That covered how people create their avatar, how it looks and moves once they're in a meeting, and the interface around it.
 
-Mesh has since become **[Teams Immersive](https://www.microsoft.com/en-us/microsoft-teams/immersive)**. Everything here is about the earlier Mesh and Avatars generation I worked on; the diagrams borrow Microsoft's current product imagery to illustrate it.
+Mesh has since become **[Teams Immersive](https://www.microsoft.com/en-us/microsoft-teams/immersive)**. Everything here is about the earlier Mesh generation I worked on; the diagrams borrow Microsoft's current product imagery to illustrate it.
 
 {% include pro/project-video.html id="fSKBHOWOcSM" title="Microsoft Mesh" %}
 
@@ -70,7 +70,7 @@ Expression also comes from more than one place. Microsoft's research team [descr
 
 ## One UI toolkit, five kinds of input
 
-I engineered **UXTools, the shared UI framework** behind Mesh and Avatars in Teams, and it was **adopted by every Mesh product team**. It ran across mobile, desktop, web-hosted surfaces, and AR/VR clients, with reusable components for **touch, pointer, keyboard, hand, and controller input** and common patterns for theming, accessibility, focus, and input routing.
+I engineered **UXTools, the shared UI framework** behind Microsoft Mesh, and it was **adopted by every Mesh product team**. It ran across mobile, desktop, web-hosted surfaces, and AR/VR clients, with reusable components for **touch, pointer, keyboard, hand, and controller input** and common patterns for theming, accessibility, focus, and input routing.
 
 Choosing an outfit should mean the same thing whether someone taps it, clicks it, or reaches for it in 3D. So the part we shared across devices was the action and its state: what's selected, what has focus, whether the action is available, and what feedback comes after. The device only decides how someone gets there.
 

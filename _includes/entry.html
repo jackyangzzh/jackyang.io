@@ -17,14 +17,17 @@
     <span aria-hidden="true">–</span><span class="sr-only">to</span>
     {% if ongoing %}<span>Present</span>{% else %}<time datetime="{{ it.endDate | date: '%Y-%m' }}">{{ it.endDate | date: "%b %Y" }}</time>{% endif %}
     {%- endif %}
-    {%- if ongoing %}<span class="tape">Now</span>{% elsif expected %}<span class="row__exp">Expected</span>{% endif %}
+    {%- if expected %}<span class="row__exp">(expected)</span>{% endif %}
   </div>
   <div class="row__who">
-    <h{{ hl }} class="row__org">{% if it.website and it.website != "" %}<a href="{{ it.website }}" rel="noopener">{{ org }}</a>{% else %}{{ org }}{% endif %}</h{{ hl }}>
-    <p class="row__role">{{ role }}</p>
-    {%- if it.project %}
-    <a class="qlink row__case" href="{{ it.project | relative_url }}">Case study</a>
-    {%- endif %}
+    {%- comment -%}With a case study, the role line ends in words that say so, and the name links there too. Otherwise the name links out to the organisation.{%- endcomment %}
+    <h{{ hl }} class="row__org">{% if it.project %}<a href="{{ it.project | relative_url }}"><span>{{ org }}</span></a>{% elsif it.website and it.website != "" %}<a href="{{ it.website }}" rel="noopener"><span>{{ org }}</span></a>{% else %}{{ org }}{% endif %}</h{{ hl }}>
+    <div class="row__line">
+      <p class="row__role">{{ role }}</p>
+      {%- if it.project %}
+      <a class="row__case" href="{{ it.project | relative_url }}" aria-label="{{ org | escape }} case study">Case study {% include icon.html name="arrow-r" px="14" %}</a>
+      {%- endif %}
+    </div>
   </div>
   <ul class="row__what">
     {%- for h in it.highlights %}

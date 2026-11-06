@@ -8,7 +8,7 @@ description: >
   [Medium](https://medium.com/@jackyangzzh){:target="_blank" rel="noopener noreferrer"}.
 image:
   path: /assets/img/og-card.png
-  alt: "Jack Yang — Real-time AI for real conversations. Software Engineer II, Microsoft Teams AI, Seattle."
+  alt: "Jack Yang — Real-time AI for real conversations. Software Engineer, Microsoft Teams AI, Seattle."
 twitter:
   card: summary_large_image
 sitemap: true

@@ -1,7 +1,11 @@
 ---
 layout: base
 ---
-{%- comment -%}The discography: every project as a square record sleeve.{%- endcomment -%}
+{%- comment -%}
+The projects index: every project's name cut large in a numbered list, and a
+screen beside it showing whichever one you're on. On phones each row carries
+its own image and description.
+{%- endcomment -%}
 {%- assign projects = site.projects | sort: "weight" -%}
 {%- assign cats = "professional,personal,research" | split: "," -%}
 
@@ -23,18 +27,37 @@ layout: base
   </div>
 </header>
 
-<section class="wrap" aria-label="All projects">
-  <ol class="discs" data-discs>
+<section class="pindex wrap" aria-label="All projects">
+  <ol class="plist" data-plist>
     {%- for proj in projects %}
-    <li class="intro" style="--d: {{ forloop.index | plus: 1 }}" data-cat="{{ proj.category }}">
-      <a class="disc" href="{{ proj.url | relative_url }}" data-vt-link>
-        <span class="disc__vinyl" aria-hidden="true"></span>
-        <span class="disc__art{% if proj.image.position %} disc__art--{{ proj.image.position }}{% endif %}">{% include media.html image=proj.image sizes="(min-width: 64em) 31vw, (min-width: 40em) 46vw, 100vw" eager=forloop.first %}</span>
-        <span class="disc__title">{{ proj.title }}</span>
-        {% include eyebrow.html project=proj %}
-        <span class="disc__desc">{% include smart.html text=proj.description %}</span>
+    <li class="prow intro" style="--d: {{ forloop.index | plus: 1 }}" data-cat="{{ proj.category }}">
+      <a class="prow__link" href="{{ proj.url | relative_url }}" data-vt-link data-preview="{{ forloop.index0 }}">
+        <span class="prow__no">{{ forloop.index | prepend: "0" }}</span>
+        <span class="prow__main">
+          <span class="prow__title">{{ proj.title }}</span>
+          {% include eyebrow.html project=proj %}
+        </span>
+        <span class="prow__media{% if proj.image.position %} disc__art--{{ proj.image.position }}{% endif %}">{% include media.html image=proj.image sizes="(min-width: 64em) 1px, (min-width: 40em) 46vw, 100vw" alt="" %}</span>
+        <span class="prow__desc">{% include smart.html text=proj.description %}</span>
       </a>
     </li>
     {%- endfor %}
   </ol>
+
+  <aside class="viewer" data-viewer aria-hidden="true">
+    <div class="viewer__sticky">
+      <div class="viewer__screen">
+        {%- for proj in projects %}
+        <div class="viewer__slide{% if forloop.first %} is-on{% endif %}{% if proj.image.position %} disc__art--{{ proj.image.position }}{% endif %}" data-slide="{{ forloop.index0 }}">
+          {% include media.html image=proj.image sizes="(min-width: 64em) 38vw, 1px" alt="" eager=forloop.first %}
+        </div>
+        {%- endfor %}
+      </div>
+      <div class="viewer__caption">
+        {%- for proj in projects %}
+        <p class="viewer__desc{% if forloop.first %} is-on{% endif %}" data-desc="{{ forloop.index0 }}">{% include smart.html text=proj.description %}</p>
+        {%- endfor %}
+      </div>
+    </div>
+  </aside>
 </section>

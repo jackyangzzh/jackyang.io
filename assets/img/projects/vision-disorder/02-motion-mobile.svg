@@ -513,12 +513,13 @@ L 256.386188 538.734919
     </g>
    </g>
   </g>
+  <path d="M25.92 42.48H406.08 M25.92 831.6H406.08" fill="none" stroke="#34414f" stroke-width="0.72"/>
   <g id="text_23">
-   <text style="font-size: 12px; font-family: Menlo, Consolas, monospace; text-anchor: start; fill: #a9b6c3" x="25.92" y="29.0304" transform="rotate(-0 25.92 29.0304)">FIG. 02  /  MOTION MODEL</text>
+   <text style="font-size: 11.52px; font-family: Menlo, Consolas, monospace; text-anchor: start; fill: #a9b6c3" x="25.92" y="30.96" transform="rotate(-0 25.92 30.96)">FIG. 02  /  MOTION MODEL</text>
   </g>
   <g id="text_24">
-   <text style="font-size: 24px; font-family: Georgia, 'Times New Roman', serif; fill: #edf2f6" transform="translate(25.92 80.851125)">A shared clock,</text>
-   <text style="font-size: 24px; font-family: Georgia, 'Times New Roman', serif; fill: #edf2f6" transform="translate(25.92 108.331125)">two trajectories.</text>
+   <text style="font-size: 25.92px; font-family: Georgia, 'Times New Roman', serif; fill: #edf2f6" transform="translate(25.92 79.2)">A shared clock,</text>
+   <text style="font-size: 25.92px; font-family: Georgia, 'Times New Roman', serif; fill: #edf2f6" transform="translate(25.92 110.88)">two trajectories.</text>
   </g>
   <g id="text_25">
    <text style="font-size: 15px; font-family: Helvetica, Arial, sans-serif; text-anchor: start; fill: #edf2f6" x="25.92" y="857.304" transform="rotate(-0 25.92 857.304)">Unit amplitude · ω = 1 rad/s</text>

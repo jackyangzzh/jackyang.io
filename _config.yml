@@ -17,12 +17,7 @@ description: >
 tagline: Building real-time AI agents for live conversation
 
 # Role line shown above the hero headline.
-role: Software Engineer II @ Microsoft Teams AI
-
-# City for the live clock in the header and footer (an IANA time zone).
-location:
-  city: Seattle
-  timezone: America/Los_Angeles
+role: Software Engineer @ Microsoft Teams AI
 
 # Square image used by jekyll-seo-tag and the structured data.
 logo: /assets/img/profile.webp
@@ -34,8 +29,9 @@ author:
 
 medium_username: jackyangzzh
 
-# Primary navigation, in the home page's section order. The current page is marked by the travelling line; on the
-# home page it follows the section in view (an item whose url has a #hash).
+# Primary navigation. The bar and the menu list these. The current page is
+# marked by the travelling line; on the home page it follows the section in
+# view (an item whose url has a #hash).
 menu:
   - title: About
     url: /
@@ -45,15 +41,6 @@ menu:
     url: /projects/
   - title: Writing
     url: /writing/
-
-# The home page's sections, in order: the record's tracks. The player bar and
-# the index list them.
-tracks:
-  - { n: "01", title: About, url: "/#about" }
-  - { n: "02", title: Experience, url: "/#experience" }
-  - { n: "03", title: Education, url: "/#education" }
-  - { n: "04", title: Selected work, url: "/#work" }
-  - { n: "05", title: Writing, url: "/#writing" }
 
 # Contact actions, shared by the hero, the outro and the command menu.
 contact:
@@ -111,6 +98,7 @@ exclude:
   - vendor
   - Gemfile
   - Gemfile.lock
+  - PRODUCT.md
 include:
   - LICENSE.md
 

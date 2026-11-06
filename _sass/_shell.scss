@@ -1,21 +1,21 @@
-// The player bar: fixed to the foot of the screen, the site's only chrome.
+// The player bar: fixed to the top of the screen, the site's only chrome.
 
 .bar {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  top: 0;
   z-index: 60;
   height: var(--bar);
-  padding: 0 max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))) env(safe-area-inset-bottom, 0px);
+  padding: env(safe-area-inset-top, 0px) max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter))) 0;
   display: grid;
   grid-template-columns: minmax(0, auto) 1fr auto;
   align-items: center;
   gap: clamp(1rem, 2.5vw, 2.5rem);
   background: var(--bg);
   color: var(--ink);
-  box-shadow: 0 -1px 0 var(--ink);
-  @include down($md) { grid-template-columns: minmax(0, 1fr) auto; gap: .75rem; }
+  box-shadow: 0 1px 0 var(--ink);
+  @include down($lg) { grid-template-columns: minmax(0, 1fr) auto; gap: .75rem; }
 }
 
 .bar__now {
@@ -24,8 +24,7 @@
   gap: .8rem;
   min-width: 0;
 }
-// The sleeve: an ink square. While something is live, a strip of red tape
-// runs across it.
+// The sleeve: a portrait in an ink square.
 .bar__cover {
   position: relative;
   flex: none;
@@ -36,18 +35,6 @@
   // The portrait file is cut to a circle on white; scaling it pushes the
   // white corners out of the square.
   img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.42); }
-  i {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 40%;
-    height: 24%;
-    background: var(--signal);
-    transform: scaleX(0);
-    transform-origin: 0 50%;
-    transition: transform .5s var(--ease);
-  }
-  .is-live & i { transform: none; }
 }
 .bar__who { display: grid; min-width: 0; }
 .bar__name {
@@ -56,25 +43,17 @@
   letter-spacing: -.01em;
   line-height: 1.1;
   white-space: nowrap;
-}
-.bar__track {
-  @include micro;
-  font-weight: 500;
-  color: var(--muted);
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 24rem;
-  .is-live & { color: var(--signal-text); }
 }
 
-// The rail: how far through the page you are, a line along the bar's top edge.
+// The rail: how far through the page you are, a line along the bar's bottom edge.
 .bar__rail {
   --p: 0;
   position: absolute;
   left: 0;
   right: 0;
-  top: -1px;
+  bottom: -1px;
   height: 3px;
   cursor: pointer;
 }
@@ -85,26 +64,16 @@
   transform: scaleX(var(--p));
   transform-origin: 0 50%;
 }
-// While Fig. 1 plays, the rail is its timeline: the agent's turn is red.
-.bar__agent {
-  position: absolute;
-  top: 0;
-  height: 3px;
-  left: var(--a0, 0);
-  width: var(--aw, 0);
-  background: var(--signal);
-  opacity: 0;
-  transition: opacity .3s;
-  .is-fig & { opacity: 1; }
-}
 // The pages, always in view on wide screens.
 .bar__nav {
   justify-self: center;
   @include down($lg) { display: none; }
   ul { display: flex; gap: clamp(1.25rem, 2.2vw, 2.25rem); }
   a {
-    display: block;
-    padding: .55rem 0 .4rem;
+    display: flex;
+    align-items: center;
+    min-height: var(--control-height);
+    padding: .5rem 0;
     @include micro;
     font-weight: 700;
     color: var(--muted);
@@ -121,96 +90,68 @@
   justify-self: end;
   display: flex;
   align-items: center;
-  gap: .3rem;
+  gap: .5rem;
 }
-.bar__btn {
-  display: inline-grid;
-  place-items: center;
-  min-width: 2.25rem;
-  height: 2.25rem;
-  color: var(--ink);
-  transition: color .15s, background-color .15s, transform .16s var(--ease);
-  @include hover { &:hover { color: var(--bg); background: var(--ink); } }
-  @include press(.94);
-}
+// Menu: a word, like the page links beside it. No box; a rule under it
+// on hover, and while the menu is open it reads Close, underlined.
 .bar__index {
-  padding: 0 .75rem;
-  @include micro;
-  font-weight: 700;
-  box-shadow: inset 0 0 0 1px var(--ink);
-  &[aria-expanded="true"] { background: var(--ink); color: var(--bg); }
-}
-.bar__cta {
   display: inline-flex;
   align-items: center;
-  gap: .6rem;
-  height: 2.25rem;
-  padding: 0 .8rem 0 .9rem;
-  margin-left: .3rem;
-  background: var(--ink);
-  color: var(--bg);
+  min-height: var(--control-height);
+  padding: 0 .1rem;
   @include micro;
   font-weight: 700;
-  white-space: nowrap;
-  transition: background-color .15s, color .15s, transform .16s var(--ease);
-  box-shadow: inset 0 0 0 1px var(--ink);
-  .i { transition: transform .3s var(--ease); }
-  @include hover { &:hover { background: transparent; color: var(--ink); .i { transform: translate(2px, -2px); } } }
-  @include press;
+  color: var(--ink);
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0 2px;
+  background-repeat: no-repeat;
+  background-position: 0 72%;
+  transition: background-size .3s var(--ease);
+  @include hover { &:hover { background-size: 100% 2px; } }
+  &[aria-expanded="true"] { background-size: 100% 2px; }
 }
 
-// The index: the record's back cover, rising out of the bar. Opposite ground.
+// The index: the record's back cover, on the same ground as the page.
 
 .index {
-  @include dark-tokens;
   position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: var(--bar);
+  inset: var(--bar) 0 0;
   z-index: 55;
   overflow-y: auto;
   overscroll-behavior: contain;
   background: var(--bg);
   color: var(--ink);
-  clip-path: inset(100% 0 0 0);
+  clip-path: inset(0 0 100% 0);
   transition: clip-path .4s var(--ease-in-out);
   &.is-open { clip-path: inset(0); }
   &:focus { outline: none; }
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .index { @include light-tokens; }
-}
-:root[data-theme="dark"] .index { @include light-tokens; }
 
 .index__in {
-  position: relative;
   max-width: var(--max);
   min-height: 100%;
   margin-inline: auto;
-  padding: clamp(3.5rem, 8vh, 6rem) var(--gutter) 2rem;
-  display: grid;
-  gap: 3rem var(--gap);
-  align-content: space-between;
-  @include up($lg) { @include grid12; align-content: end; }
+  padding: clamp(1.5rem, 5vh, 3rem) var(--gutter) clamp(1.5rem, 4vh, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(1.75rem, 4vh, 3rem);
 }
+
+// The pages: names cut large, a hairline under each.
 .index__tracks {
-  @include up($lg) { grid-column: 1 / span 8; }
-  ol { border-top: 2px solid var(--ink); }
-  a {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.25rem;
-    padding: .7rem 0 .45rem;
-    border-bottom: 1px solid var(--ink);
-    transition: padding .3s var(--ease);
-    @include hover { &:hover { padding-left: 1rem; } }
-  }
+  ol { border-top: 1px solid var(--line-2); }
   li {
+    border-bottom: 1px solid var(--line-2);
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(14px);
     transition: opacity .2s, transform .2s;
   }
+  a {
+    display: block;
+    padding: clamp(.5rem, 1.4vh, 1rem) 0;
+  }
+  @include hover { a:hover .index__title { transform: translateX(.6rem); } }
 }
 .index.is-open .index__tracks li {
   opacity: 1;
@@ -218,55 +159,119 @@
   transition: opacity .35s var(--ease), transform .5s var(--ease);
   transition-delay: calc(var(--i) * 45ms + 120ms);
 }
-.index__no { @include micro; font-weight: 700; padding-top: .3em; min-width: 1.6rem; }
 .index__title {
+  display: inline-block;
   @include display;
-  font-size: clamp(2rem, 6vw, 6rem);
+  font-size: clamp(2.25rem, 8vw, 6.5rem);
+  transition: transform .4s var(--ease);
+  .is-active & {
+    text-decoration: underline;
+    text-decoration-thickness: .06em;
+    text-underline-offset: .1em;
+  }
 }
-.index__side {
-  display: grid;
-  gap: 2rem;
-  align-content: end;
-  @include up($lg) { grid-column: 10 / -1; }
-  a { font-size: 1rem; display: inline-flex; align-items: center; gap: .4rem; }
-  a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
-  [aria-current] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; }
+
+// Everything else: one quiet line each, in the small capitals.
+// Contact: the same display capitals as the pages, one size down on phones.
+// On wide screens it is the whole panel, so it takes the poster size.
+.index__contact {
+  border-top: 1px solid var(--line-2);
+  li {
+    border-bottom: 1px solid var(--line-2);
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .2s, transform .2s;
+  }
 }
-.index__group {
-  .micro { margin-bottom: .6rem; }
-  ul { display: grid; gap: .35rem; }
+.index.is-open .index__contact li {
+  opacity: 1;
+  transform: none;
+  transition: opacity .35s var(--ease), transform .5s var(--ease);
+  transition-delay: calc(var(--i) * 45ms + 160ms);
 }
-.index__row { display: flex !important; flex-wrap: wrap; gap: .35rem 1.25rem !important; }
-.index__theme {
-  justify-self: start;
-  padding: .5rem .8rem;
-  box-shadow: inset 0 0 0 1px var(--ink);
+.index__line {
+  display: flex;
+  align-items: center;
+  gap: .3em;
+  width: 100%;
+  padding: clamp(.45rem, 1.2vh, .9rem) 0;
+  @include display;
+  // The address is the longest line (18.1em); every line shares its size.
+  font-size: min(calc(var(--measure) / 18.4), 1.75rem);
+  text-align: left;
+  color: var(--ink);
+  .i { width: .7em; height: .7em; flex: none; transition: transform .35s var(--ease); }
+  > span:first-child { transition: transform .4s var(--ease); }
+  @include hover { &:hover { > span:first-child { transform: translateX(.25em); } .i { transform: translate(.08em, -.08em); } } }
+  @include up($lg) { font-size: min(calc(var(--measure) / 18.4), 4.5rem); }
+}
+.index__mail { text-transform: uppercase; }
+.index__done {
   @include micro;
-  font-weight: 700;
-  transition: background-color .15s, color .15s;
-  &:hover { background: var(--ink); color: var(--bg); }
+  font-size: max(.75rem, .22em);
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity .25s;
+  .is-done & { opacity: 1; }
 }
+// Wide screens: the bar has the pages, so the panel is all contact.
+@include up($lg) {
+  .index__tracks { display: none; }
+  .index__in { justify-content: center; }
+}
+.bar__index-wide { display: none; }
+@include up($lg) {
+  .bar__index-wide { display: inline; }
+  .bar__index-narrow { display: none; }
+}
+
+.index__foot {
+  display: grid;
+  gap: .9rem;
+}
+.index__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .4rem 1.5rem;
+  a, button {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    min-height: 2rem;
+    @include micro;
+    font-weight: 700;
+    color: var(--ink);
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0 2px;
+    background-repeat: no-repeat;
+    background-position: 0 85%;
+    transition: background-size .3s var(--ease);
+    @include hover { &:hover { background-size: 100% 2px; } }
+  }
+  // The address reads as an address, not a label.
+  a[href^="mailto:"] { text-transform: none; letter-spacing: 0; font-size: .9375rem; font-weight: 500; }
+}
+.index__theme-item { margin-left: auto; }
+.index__theme { color: var(--muted) !important; }
 .index-open { overflow: hidden; }
 
 // The outro: a full screen of quiet, the email at monument scale.
 
 .outro {
-  margin-top: clamp(8rem, 18vw, 16rem);
+  margin-top: clamp(4.5rem, 9vw, 8rem);
 }
 .outro__in {
-  min-height: calc(100svh - var(--bar));
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: clamp(1.75rem, 4vh, 3rem);
-  padding-top: clamp(4rem, 10vh, 7rem);
+  padding-top: clamp(2rem, 5vw, 4rem);
+  padding-bottom: 1.25rem;
   text-align: center;
 }
-// Auto margins above the lamp and above the base split the free space, so
-// the email sits dead centre on the screen.
 .outro__turn {
-  margin-top: auto;
   display: inline-flex;
   align-items: center;
   gap: .7rem;
@@ -290,7 +295,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: .5rem;
-  .copy { height: 3.25rem; padding: 0 1.1rem; }
+  @include down($sm) { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; }
 }
 .outro__lists {
   display: grid;
@@ -302,7 +307,7 @@
 }
 .outro__base {
   width: 100%;
-  margin-top: auto;
+  margin-top: clamp(3rem, 6vw, 5rem);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -318,12 +323,7 @@
 .copy {
   position: relative;
   display: inline-grid;
-  height: 2.25rem;
-  padding: 0 .8rem;
-  box-shadow: inset 0 0 0 2px var(--ink);
-  @include micro;
-  font-weight: 700;
-  color: var(--ink);
+  justify-content: center;
   justify-items: center;
   align-items: center;
   transition: background-color .15s, color .15s, transform .16s var(--ease);
@@ -423,9 +423,8 @@
 
 // Touch screens: grow tap areas to about 44px without moving anything.
 @media (pointer: coarse) {
-  .bar__btn { min-width: 2.75rem; height: 2.75rem; }
-  .qlink, .outro__top, .crumbs a { position: relative; }
-  .qlink::after, .outro__top::after, .crumbs a::after {
+  .qlink, .outro__top, .row__case { position: relative; }
+  .qlink::after, .outro__top::after, .row__case::after {
     content: "";
     position: absolute;
     inset: -.75rem -.35rem;

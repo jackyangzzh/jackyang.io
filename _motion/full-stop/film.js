@@ -460,7 +460,7 @@ function sceneMesh(t) {
     footage(clip, off + kt * 1.1, 0, 0, VW, VH, { zoom: 1.12 - kt * .25, fy });
     fill('#fff', decay(t, T.cuts + k * CUT, 30) * .25);
     scrim(VH * .5, VH, 0, .85);
-    mono('■ Microsoft Mesh · Avatars in Teams', HERO.x, 136, { size: 19 });
+    mono('■ Microsoft Mesh', HERO.x, 136, { size: 19 });
     rise([{ t: 'One avatar,' }], HERO.x - 6, 790, 150, 1, { exit: seg(t, T.langs - .14, T.langs), maxW: 880 });
     rise([{ t: 'every runtime.' }], HERO.x - 6, 935, 150, seg(t, T.cuts, T.cuts + .35), { exit: seg(t, T.langs - .14, T.langs), maxW: 880 });
     /* The runtimes, with the site's gliding underline. */
@@ -731,7 +731,7 @@ function sceneEnd(t) {
   const chrome = seg(t, T.land, T.land + .3);
   if (chrome > 0) {
     dot(HERO.x + 9, 92, 9, SIG, .3 * chrome);
-    typed('Software Engineer II @ Microsoft Teams AI', HERO.x + 34, 100, seg(t, T.land + .05, T.land + .5), { size: 20, alpha: chrome, weight: 700, keep: true });
+    typed('Software Engineer @ Microsoft Teams AI', HERO.x + 34, 100, seg(t, T.land + .05, T.land + .5), { size: 20, alpha: chrome, weight: 700, keep: true });
   }
   if (t >= T.land) ring(PERIOD.x, PERIOD.y, R0 + E.outX(seg(t, T.land, T.land + .7)) * 320, (1 - seg(t, T.land, T.land + .7)) * .7, 2);
   /* Once landed, the square is the full stop: it settles from red to ink. */

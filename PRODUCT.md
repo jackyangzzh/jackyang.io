@@ -44,7 +44,7 @@ Jack is a software engineer who connects low-latency systems with generative mod
 
 - Résumé: `assets/Jack_Yang_Resume.pdf`. Structured data: `_data/resume.yml`.
 - Papers: `assets/files/Breaking Binocular Redundancy.pdf`, `assets/files/too-late-to-rely.pdf`.
-- Case studies: FakeHaul, DishVue, Holos, Microsoft Mesh & Avatars for Teams, Robot Control Through VR, Project Virtualso, and Color Vision & Binocular Rivalry in VR (`_projects/`).
+- Case studies: FakeHaul, Holos, Microsoft Mesh, Robot Control Through VR, Project Virtualso, and Optics Research in VR (`_projects/`).
 - Press, as stated in the résumé: FakeHaul was covered by *The New York Times*, *Fast Company*, *Digital Trends*, *BBC*, and *TODAY*, and its monthly visitors grew 18x in two months (828 to 14,375); see `projects` in `_data/resume.yml`. Satya Nadella showed Jack's outfit-selection flow at Microsoft Ignite. Holos secured a $750K U.S. Air Force contract and a place in Techstars.
 - Images: project imagery in `assets/img/projects/`, the portrait in `assets/img/profile*.webp`, and the link-preview card in `assets/img/og-card.png`.
 - Absent, and not to be fabricated: testimonials, quotes from colleagues, and usage metrics beyond those in the résumé.

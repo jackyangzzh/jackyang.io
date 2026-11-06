@@ -117,11 +117,8 @@
     const el = $("[data-bar]");
     if (!el) return;
     const rail = $("[data-rail]", el);
-    const track = $("[data-bar-track]", el);
-    const label0 = track ? track.textContent : "";
     const navLinks = $$(".bar__nav a").filter((a) => new URL(a.href, location.href).pathname === location.pathname);
-    let marks = $$("main [data-track]").map((m) => [m, m.dataset.track]);
-    if (!marks.length) marks = $$("[data-prose] > h2[id]").map((h) => [h, h.textContent]);
+    const marks = $$("main [data-track]");
     let tops = [];
     let shown = null;
     const fig = () => root.classList.contains("is-fig");
@@ -131,18 +128,16 @@
       rail.style.setProperty("--p", Math.min(1, scrollY / max).toFixed(4));
       let cur = -1;
       tops.forEach((t, i) => { if (scrollY + innerHeight * 0.4 >= t) cur = i; });
-      const text = cur < 0 ? label0 : marks[cur][1];
-      if (text !== shown) {
-        shown = text;
-        if (track) track.textContent = text;
+      if (cur !== shown) {
+        shown = cur;
         // The bar's nav follows the section in view.
-        const id = cur < 0 ? "" : marks[cur][0].id;
+        const id = cur < 0 ? "" : marks[cur].id;
         const hit = navLinks.find((a) => a.hash && a.hash === `#${id}`);
         navLinks.forEach((a) => a.classList.toggle("is-here", a === hit));
       }
     };
     const measure = () => {
-      tops = marks.map(([m]) => m.getBoundingClientRect().top + scrollY);
+      tops = marks.map((m) => m.getBoundingClientRect().top + scrollY);
       update();
     };
     let ticking = false;
@@ -171,10 +166,11 @@
     if (!btn || !panel) return;
     const background = $$("main, footer, .skip");
     const isOpen = () => btn.getAttribute("aria-expanded") === "true";
+    const label = btn.innerHTML; // "Contact" on wide screens, "Menu" on phones
     const set = (open) => {
       if (open === isOpen()) return;
       btn.setAttribute("aria-expanded", String(open));
-      btn.textContent = open ? "Close" : "Menu";
+      if (open) btn.textContent = "Close"; else btn.innerHTML = label;
       root.classList.toggle("index-open", open);
       background.forEach((e) => { e.inert = open; });
       if (open) {
@@ -189,7 +185,9 @@
       }
     };
     btn.addEventListener("click", () => set(!isOpen()));
-    panel.addEventListener("click", (e) => { if (e.target.closest("a")) set(false); });
+    panel.addEventListener("click", (e) => {
+      if (e.target.closest("a")) set(false);
+    });
     d.addEventListener("keydown", (e) => {
       if (!isOpen() || $("dialog[open]")) return;
       if (e.key === "Escape") { set(false); btn.focus(); return; }
@@ -220,13 +218,10 @@
     const stage = $("[data-stage]", hero);
     const label = btn.innerHTML;
     const rail = $("[data-rail]");
-    // The agent's turn in the film: 2.0 s to 2.5 s.
-    const markAgent = (dur) => { if (rail) { rail.style.setProperty("--a0", `${(200 / dur).toFixed(2)}%`); rail.style.setProperty("--aw", `${(50 / dur).toFixed(2)}%`); } };
-    markAgent(17.9);
-    v.addEventListener("loadedmetadata", () => markAgent(v.duration));
     const narrow = matchMedia("(max-width: 39.999em)");
     let open = false;
     let raf = 0;
+    let closing = 0; // the fade-out's timer, cancelled if Play comes back first
 
     const tick = () => {
       if (!open) return;
@@ -298,14 +293,17 @@
       const source = $("source[data-src]", v);
       if (source) { source.src = source.dataset.src; delete source.dataset.src; v.load(); }
       place();
+      // Reopened mid fade-out: cancel the fade and its pending hide.
+      clearTimeout(closing);
+      film.classList.remove("is-closing");
       film.hidden = false;
       hero.classList.add("is-film");
       root.classList.add("is-fig", "is-live");
-      requestAnimationFrame(() => requestAnimationFrame(() => film.classList.add("is-open")));
+      requestAnimationFrame(() => requestAnimationFrame(() => { if (open) film.classList.add("is-open"); }));
       v.currentTime = 0;
       v.play().catch(() => {});
       btn.innerHTML = '<svg class="i" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="3" width="8" height="8" fill="currentColor"/></svg><span>Close</span>';
-      btn.setAttribute("aria-label", "Close Fig. 1");
+      btn.setAttribute("aria-label", "Close the reel");
       raf = requestAnimationFrame(tick);
     };
     const hide = (landing) => {
@@ -319,7 +317,8 @@
       hero.classList.remove("is-film");
       root.classList.remove("is-fig", "is-live");
       d.dispatchEvent(new Event("bar:refresh"));
-      setTimeout(() => { if (!open) { film.hidden = true; film.classList.remove("is-closing"); } }, reduced.matches ? 0 : 700);
+      clearTimeout(closing);
+      closing = setTimeout(() => { if (!open) { film.hidden = true; film.classList.remove("is-closing"); } }, reduced.matches ? 0 : 700);
       btn.innerHTML = label;
       btn.setAttribute("aria-label", btn.dataset.label);
       if (landing) {
@@ -426,9 +425,35 @@
 
   /* ------------------------------------------------------------ projects: filter */
 
+  // Hovering or focusing a row puts its image on the screen beside the list.
+  function projectsIndex() {
+    const list = $("[data-plist]");
+    if (!list) return;
+    const slides = $$("[data-slide]");
+    const descs = $$("[data-desc]");
+    let active = null;
+    const activate = (a) => {
+      if (!a || a === active) return;
+      if (active) active.classList.remove("is-active");
+      a.classList.add("is-active");
+      active = a;
+      const i = Number(a.dataset.preview);
+      slides.forEach((s) => s.classList.toggle("is-on", Number(s.dataset.slide) === i));
+      descs.forEach((s) => s.classList.toggle("is-on", Number(s.dataset.desc) === i));
+    };
+    list.addEventListener("pointerover", (e) => {
+      const a = e.target.closest(".prow__link");
+      if (a) { activate(a); list.classList.add("is-hovering"); }
+    });
+    list.addEventListener("pointerleave", () => list.classList.remove("is-hovering"));
+    list.addEventListener("focusin", (e) => activate(e.target.closest(".prow__link")));
+    list.addEventListener("projects:filter", () => activate($(".prow:not(.is-hidden) .prow__link", list)));
+    activate($(".prow__link", list));
+  }
+
   function filters() {
     const nav = $("[data-filters]");
-    const list = $("[data-discs]");
+    const list = $("[data-plist]");
     if (!nav || !list) return;
     nav.hidden = false;
     const btns = $$("[data-filter]", nav);
@@ -446,6 +471,7 @@
         }
       });
       if (push) history.replaceState(null, "", cat === "all" ? location.pathname : `#${cat}`);
+      list.dispatchEvent(new Event("projects:filter"));
       d.dispatchEvent(new Event("bar:refresh"));
     };
     btns.forEach((b) => b.addEventListener("click", () => apply(b.dataset.filter, true)));
@@ -462,7 +488,8 @@
     d.addEventListener("click", (e) => {
       const a = e.target.closest("[data-vt-link]");
       if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      const img = $("img", a);
+      let img = $("img", a);
+      if (a.classList.contains("prow__link") && matchMedia("(min-width: 64em)").matches) img = $(`[data-slide="${a.dataset.preview}"] img`);
       if (!img) return;
       $$("img").forEach((el) => { if (el.style.viewTransitionName) el.style.viewTransitionName = ""; });
       img.style.viewTransitionName = "hero-media";
@@ -615,8 +642,6 @@
     let data;
     try { data = JSON.parse(dataEl.textContent); } catch { return; }
 
-    const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
-    if (!isMac) $$("[data-mod]").forEach((k) => { k.textContent = "Ctrl "; });
     const openers = $$("[data-cmdk-open]");
     openers.forEach((o) => { o.hidden = false; o.addEventListener("click", () => open()); });
 
@@ -736,6 +761,7 @@
   videos();
   copy();
   cmdk();
+  projectsIndex();
   filters();
 
   // These measure the page, so they wait until it has been laid out once.

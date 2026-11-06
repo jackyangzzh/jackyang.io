@@ -11,5 +11,6 @@ image:
 redirect_from:
   - /projects/mrtk/
   - /projects/polyspace/
+  - /projects/dishvue/
 ---
 

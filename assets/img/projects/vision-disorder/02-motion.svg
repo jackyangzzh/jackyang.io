@@ -507,14 +507,15 @@ L 559.033875 180.054788
     </g>
    </g>
   </g>
+  <path d="M34.56 42.48H685.44 M34.56 448.56H685.44" fill="none" stroke="#34414f" stroke-width="0.72"/>
   <g id="text_23">
-   <text style="font-size: 12px; font-family: Menlo, Consolas, monospace; text-anchor: start; fill: #a9b6c3" x="34.56" y="31.104" transform="rotate(-0 34.56 31.104)">FIG. 02  /  MOTION MODEL</text>
+   <text style="font-size: 11.52px; font-family: Menlo, Consolas, monospace; text-anchor: start; fill: #a9b6c3" x="34.56" y="30.96" transform="rotate(-0 34.56 30.96)">FIG. 02  /  MOTION MODEL</text>
   </g>
   <g id="text_24">
-   <text style="font-size: 28px; font-family: Georgia, 'Times New Roman', serif; text-anchor: start; fill: #edf2f6" x="34.56" y="79.8336" transform="rotate(-0 34.56 79.8336)">A shared clock, two trajectories.</text>
+   <text style="font-size: 30.24px; font-family: Georgia, 'Times New Roman', serif; text-anchor: start; fill: #edf2f6" x="34.56" y="79.2" transform="rotate(-0 34.56 79.2)">A shared clock, two trajectories.</text>
   </g>
   <g id="text_25">
-   <text style="font-size: 15px; font-family: Helvetica, Arial, sans-serif; text-anchor: start; fill: #a9b6c3" x="34.56" y="116.64" transform="rotate(-0 34.56 116.64)">Two eye-specific objects follow the same sine clock.</text>
+   <text style="font-size: 16.56px; font-family: Helvetica, Arial, sans-serif; text-anchor: start; fill: #a9b6c3" x="34.56" y="106.56" transform="rotate(-0 34.56 106.56)">Two eye-specific objects follow the same sine clock.</text>
   </g>
   <g id="text_26">
    <text style="font-size: 15px; font-family: Helvetica, Arial, sans-serif; text-anchor: start; fill: #edf2f6" x="34.56" y="469.152" transform="rotate(-0 34.56 469.152)">p(t) = p₀ + sin(ωt) on the active axis</text>

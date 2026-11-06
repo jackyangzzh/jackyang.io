@@ -14,7 +14,7 @@ button, the bar's rail becomes its timeline, and it ends on this headline,
 so when it fades the page is already there.
 {%- endcomment %}
 <section class="hero" data-hero aria-labelledby="hero-title">
-  <p class="hero__role wrap intro" style="--d: 0"><span class="lamp" aria-hidden="true"></span>{{ site.role }}</p>
+  <p class="hero__role wrap intro" style="--d: 0"><span class="lamp lamp--ink" aria-hidden="true"></span>{{ site.role }}</p>
 
   <div class="hero__stage wrap" data-stage>
     <h1 class="hero__title" id="hero-title">
@@ -40,10 +40,6 @@ so when it fades the page is already there.
   {%- if page.film %}
   {%- assign film = site.static_files | where: "path", page.film.src | first -%}
   {%- capture fv %}{% if film %}?v={{ film.modified_time | date: "%s" }}{% endif %}{% endcapture %}
-  <figure class="fig intro" style="--d: 4" data-fig>
-    <button type="button" class="fig__play" data-fig-play aria-label="Play Fig. 1, a film of my work, {{ page.film.duration }} seconds">{% include icon.html name="play" px="14" %}<span>Fig. 1</span><span class="fig__dur">0:{{ page.film.duration }}</span></button>
-    <noscript><a class="fig__play" href="{{ page.film.src | relative_url }}">Watch Fig. 1</a></noscript>
-  </figure>
   {%- comment -%}The screen takes the headline's place on the cover. It sits outside the figure, whose entrance transform would otherwise anchor it.{%- endcomment %}
   <div class="film" data-film hidden>
     <video class="film__video" data-film-video muted playsinline preload="none" poster="{{ page.film.poster | relative_url }}" aria-label="{{ page.film.label | escape }}">
@@ -52,30 +48,31 @@ so when it fades the page is already there.
   </div>
   {%- endif %}
 
-  <div class="hero__foot wrap intro" style="--d: 5">
-    <p class="hero__intro">
-      {{ page.intro | markdownify | remove: "<p>" | remove: "</p>" | strip }}
-    </p>
-    <div class="hero__actions">
-      <div class="hero__btns">
-        <a class="slabbtn" href="{{ site.contact.resume | relative_url }}">Open résumé {% include icon.html name="arrow-ur" %}</a>
-        {%- if linkedin %}
-        <a class="slabbtn slabbtn--line" href="{{ linkedin.url }}" rel="me noopener">Connect on LinkedIn {% include icon.html name="arrow-ur" %}</a>
-        {%- endif %}
-      </div>
-      {%- comment -%}
-      The address copies itself on click: friendlier than mailto: for anyone
-      on webmail. Without JavaScript (or a clipboard) it's a plain email link.
-      {%- endcomment %}
-      <div class="hero__more">
-        <button type="button" class="addr" data-copy="{{ site.contact.email }}" title="Copy email address" hidden>
-          <span class="addr__text">{{ site.contact.email }}</span>
-          <span class="addr__icon" aria-hidden="true"><span class="addr__copy">{% include icon.html name="copy" px="14" %}</span><span class="addr__check">{% include icon.html name="check" px="14" %}</span></span>
-          <span class="addr__done" aria-hidden="true">Copied</span>
-          <span class="sr-only">(copy to clipboard)</span>
-        </button>
-        <a class="addr" href="mailto:{{ site.contact.email }}" data-copy-fallback><span class="addr__text">{{ site.contact.email }}</span></a>
-      </div>
+  {%- comment -%}
+  The cover's one row of actions under the headline: the film, the résumé,
+  LinkedIn. The email sits under them and copies itself on click (friendlier
+  than mailto: on webmail); without JavaScript it's a plain email link. Who
+  Jack is gets said once, in About, not here as well.
+  {%- endcomment %}
+  <div class="hero__foot wrap intro" style="--d: 4"{% if page.film %} data-fig{% endif %}>
+    <div class="hero__btns">
+      {%- if page.film %}
+      <button type="button" class="fig__play slabbtn slabbtn--line" data-fig-play aria-label="Watch the reel, a film of my work, {{ page.film.duration }} seconds">{% include icon.html name="play" px="14" %}<span>Watch the reel</span><span class="fig__dur">0:{{ page.film.duration }}</span></button>
+      <noscript><a class="fig__play" href="{{ page.film.src | relative_url }}">Watch the reel</a></noscript>
+      {%- endif %}
+      <a class="slabbtn" href="{{ site.contact.resume | relative_url }}">Open résumé {% include icon.html name="arrow-ur" %}</a>
+      {%- if linkedin %}
+      <a class="slabbtn slabbtn--line" href="{{ linkedin.url }}" rel="me noopener">Connect on LinkedIn {% include icon.html name="arrow-ur" %}</a>
+      {%- endif %}
+    </div>
+    <div class="hero__more">
+      <button type="button" class="addr" data-copy="{{ site.contact.email }}" title="Copy email address" hidden>
+        <span class="addr__text">{{ site.contact.email }}</span>
+        <span class="addr__icon" aria-hidden="true"><span class="addr__copy">{% include icon.html name="copy" px="14" %}</span><span class="addr__check">{% include icon.html name="check" px="14" %}</span></span>
+        <span class="addr__done" aria-hidden="true">Copied</span>
+        <span class="sr-only">(copy to clipboard)</span>
+      </button>
+      <a class="addr" href="mailto:{{ site.contact.email }}" data-copy-fallback><span class="addr__text">{{ site.contact.email }}</span></a>
     </div>
   </div>
 
@@ -83,23 +80,26 @@ so when it fades the page is already there.
 
 <section class="track" id="about" data-track="01 About" aria-labelledby="about-title">
   {% include track-head.html no="01" title="About" id="about-title" %}
+  {%- comment -%}
+  Liner notes: the statement with the portrait set into it, the credits a
+  recruiter scans for straight after, then the rest of the story in two
+  columns across the full width.
+  {%- endcomment %}
   <div class="wrap about">
     {%- assign paras = summary | split: "</p>" %}
     <div class="about__lead">
       <div class="about__cover"><img src="{{ site.logo | relative_url }}" srcset="{{ '/assets/img/profile256.webp' | relative_url }} 256w, {{ site.logo | relative_url }} 694w" sizes="(min-width: 56em) 11rem, 6.5rem" alt="{{ page.photo_alt | default: r.basics.name | escape }}" width="694" height="694" loading="lazy" decoding="async"></div>
       {{ paras[0] | strip }}</p>
     </div>
-    <div class="about__text">
-      <div class="about__body">
-        {%- for p in paras offset: 1 %}{% assign t = p | strip %}{% if t != "" %}
-        {{ t }}</p>
-        {%- endif %}{% endfor %}
-      </div>
-      <dl class="credits">
-        {%- for f in page.facts %}
-        <div><dt>{{ f.label }}</dt><dd>{{ f.value | markdownify | remove: "<p>" | remove: "</p>" | strip }}</dd></div>
-        {%- endfor %}
-      </dl>
+    <dl class="credits">
+      {%- for f in page.facts %}
+      <div><dt>{{ f.label }}</dt><dd>{{ f.value | markdownify | remove: "<p>" | remove: "</p>" | strip }}</dd></div>
+      {%- endfor %}
+    </dl>
+    <div class="about__body">
+      {%- for p in paras offset: 1 %}{% assign t = p | strip %}{% if t != "" %}
+      {{ t }}</p>
+      {%- endif %}{% endfor %}
     </div>
   </div>
 </section>
@@ -139,41 +139,25 @@ so when it fades the page is already there.
         {% include entry.html item=ed level=4 %}
         {%- endfor %}
       </ol>
-      <h3 class="side__label side__label--next">Certifications</h3>
+    </div>
+    <div class="side">
+      <h3 class="side__label">Certifications</h3>
       <ul class="certs">
         {%- for c in r.certifications %}
         <li><a class="cert" href="{{ c.website }}" rel="noopener"><span class="cert__name">{{ c.name }}</span><span class="cert__pub">{{ c.publisher }}</span>{% include icon.html name="arrow-ur" %}</a></li>
         {%- endfor %}
       </ul>
     </div>
-    <div class="side">
-      <h3 class="side__label" id="publications">Publications</h3>
-      <ol class="pubs">
-        {%- for pub in r.publications %}
-        <li class="pub">
-          <span class="pub__year">{% if pub.releaseDate %}<time datetime="{{ pub.releaseDate }}">{{ pub.releaseDate | date: "%Y" }}</time>{% else %}<span class="row__exp">Under review</span>{% endif %}</span>
-          <div class="pub__main">
-            <h3 class="pub__title"><a href="{{ pub.website | relative_url }}" rel="noopener">{% include smart.html text=pub.name %}</a></h3>
-            <p class="pub__sum">{% include smart.html text=pub.summary %}</p>
-            <p class="pub__venue">{% if pub.releaseDate %}{{ pub.publisher }}{% else %}{{ pub.publisher | remove: " (under review)" }}{% endif %}</p>
-          </div>
-          <span class="pub__kind" aria-hidden="true">{% include icon.html name="arrow-ur" %}</span>
-        </li>
-        {%- endfor %}
-      </ol>
-    </div>
   </div>
 </section>
 
-{%- comment -%}The screening room: opposite ground, the records.{%- endcomment %}
-<section class="track slab" id="work" data-track="04 Selected work" aria-labelledby="work-title">
+<section class="track" id="work" data-track="04 Selected work" aria-labelledby="work-title">
   {% include track-head.html no="04" title="Selected work" id="work-title" %}
   <div class="wrap">
     <ol class="discs discs--three">
       {%- for proj in projects limit: featured_count %}
       <li>
         <a class="disc" href="{{ proj.url | relative_url }}" data-vt-link>
-          <span class="disc__vinyl" aria-hidden="true"></span>
           <span class="disc__art{% if proj.image.position %} disc__art--{{ proj.image.position }}{% endif %}">{% include media.html image=proj.image sizes="(min-width: 56em) 31vw, 100vw" %}</span>
           <span class="disc__title">{{ proj.title }}</span>
           {% include eyebrow.html project=proj %}
@@ -185,9 +169,28 @@ so when it fades the page is already there.
   </div>
 </section>
 
+<section class="track" id="publications" data-track="05 Publications" aria-labelledby="pubs-title">
+  {% include track-head.html no="05" title="Publications" id="pubs-title" %}
+  <div class="wrap">
+    <ol class="pubs">
+      {%- for pub in r.publications %}
+      <li class="pub">
+        <span class="pub__year">{% if pub.releaseDate %}<time datetime="{{ pub.releaseDate }}">{{ pub.releaseDate | date: "%Y" }}</time>{% else %}<span class="row__exp">Under review</span>{% endif %}</span>
+        <div class="pub__main">
+          <h3 class="pub__title"><a href="{{ pub.website | relative_url }}" rel="noopener">{% include smart.html text=pub.name %}</a></h3>
+          <p class="pub__sum">{% include smart.html text=pub.summary %}</p>
+          <p class="pub__venue">{% if pub.releaseDate %}{{ pub.publisher }}{% else %}{{ pub.publisher | remove: " (under review)" }}{% endif %}</p>
+        </div>
+        <span class="pub__kind" aria-hidden="true">{% include icon.html name="arrow-ur" %}</span>
+      </li>
+      {%- endfor %}
+    </ol>
+  </div>
+</section>
+
 {%- if site.data.medium_posts.size > 0 %}
-<section class="track" id="writing" data-track="05 Writing" aria-labelledby="writing-title">
-  {% include track-head.html no="05" title="Writing" id="writing-title" %}
+<section class="track" id="writing" data-track="06 Writing" aria-labelledby="writing-title">
+  {% include track-head.html no="06" title="Writing" id="writing-title" %}
   <div class="wrap">
     <ol class="posts">
       {%- for post in site.data.medium_posts limit: 4 %}
