@@ -486,6 +486,7 @@
     stage.setAttribute("role", "slider");
     stage.setAttribute("aria-valuemin", "0");
     stage.setAttribute("aria-valuemax", total.toFixed(1));
+    stage.setAttribute("aria-valuenow", "0");
     let ki = -1;
     const goTo = (i) => {
       ki = Math.max(0, Math.min(segs.length - 1, i));

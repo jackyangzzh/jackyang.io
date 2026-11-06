@@ -171,7 +171,7 @@ kbd { font-family: var(--f-code); }
   &--now {
     color: var(--signal-text);
     border-color: color-mix(in srgb, var(--signal) 40%, transparent);
-    background: var(--wash);
+    // No wash behind it: on the sandstone the red text fell under 4.5:1.
     i { background: var(--signal); }
   }
 }
