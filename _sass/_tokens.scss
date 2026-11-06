@@ -61,7 +61,7 @@
   --gap: clamp(1rem, 1.8vw, 1.75rem);
   --max: 84rem;
   --hd: 4.25rem;
-  --radius: 6px;
+  --radius: 0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -94,8 +94,25 @@ $xl: 80em;   // 1280
   column-gap: var(--gap);
 }
 
+// Display type: heavy, condensed capitals, set like a monument. Archivo's
+// width axis does the condensing, so no extra font file loads.
+@mixin display {
+  font-family: var(--f-serif);
+  font-weight: 800;
+  font-stretch: 64%;
+  text-transform: uppercase;
+  letter-spacing: -.012em;
+}
+
+// Small tracked capitals for labels, dates and controls.
+@mixin caps {
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .09em;
+}
+
 @mixin label {
-  font-size: .8125rem;
+  @include caps;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
   color: var(--muted);
