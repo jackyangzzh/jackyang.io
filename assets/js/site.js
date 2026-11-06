@@ -59,22 +59,6 @@
     $$("[data-theme-toggle]").forEach((b) => b.addEventListener("click", () => toggleTheme(b)));
   }
 
-  /* ------------------------------------------------------------ clock */
-
-  function clock() {
-    const els = $$("[data-clock]");
-    if (!els.length) return;
-    let fmt;
-    try { fmt = new Intl.DateTimeFormat("en-US", { timeZone: els[0].dataset.tz, hour: "numeric", minute: "2-digit" }); }
-    catch { return; }
-    const tick = () => {
-      const s = fmt.format(new Date());
-      els.forEach((el) => { const t = $("[data-clock-time]", el); if (t) t.textContent = s; el.hidden = false; });
-    };
-    tick();
-    setTimeout(() => { tick(); setInterval(tick, 60000); }, (60 - new Date().getSeconds()) * 1000 + 50);
-  }
-
   /* ------------------------------------------------------------ header + menu */
 
   function header() {
@@ -262,7 +246,6 @@
     const head = $("[data-signal-head]", fig);
     const time = $("[data-signal-time]", fig);
     const text = $("[data-signal-text]", fig);
-    const hint = $("[data-signal-hint]", fig);
     const btn = $("[data-signal-play]", fig);
     // Illustrative only: how long a gap must last before the agent may speak.
     const TURN = 1.2;
@@ -270,10 +253,17 @@
     try { turns = JSON.parse($("[data-signal-data]", fig).textContent); } catch { return; }
     if (!Array.isArray(turns) || !turns.length) return;
 
+    // Ten seconds in all. Pauses play in real time, so their labels stay true;
+    // the speech is compressed to fit what's left.
+    const LENGTH = 10;
+    const raw = (x) => Number(x.pause != null ? x.pause : x.dur) || 1;
+    const paused = turns.filter((x) => x.pause != null).reduce((a, x) => a + raw(x), 0);
+    const spoken = turns.filter((x) => x.pause == null).reduce((a, x) => a + raw(x), 0);
+    const squeeze = Math.min(1, Math.max(0.1, LENGTH - paused) / spoken);
     let t = 0;
     const segs = turns.map((x) => {
       const gap = x.pause != null;
-      const dur = Number(gap ? x.pause : x.dur) || 1;
+      const dur = gap ? raw(x) : raw(x) * squeeze;
       const s = { who: x.who, text: x.text, gap, start: t, end: t + dur };
       t += dur;
       return s;
@@ -491,10 +481,6 @@
     // Touch keeps the last line on screen after the finger lifts, so it can be read.
 
     // Keyboard: a slider that steps one turn (or pause) at a time.
-    const fine = matchMedia("(hover: hover) and (pointer: fine)");
-    const setHint = () => { if (hint) hint.textContent = fine.matches ? "Hover or use arrow keys" : "Drag to scrub"; };
-    setHint();
-    fine.addEventListener("change", setHint);
     stage.removeAttribute("aria-hidden");
     stage.tabIndex = 0;
     stage.setAttribute("role", "slider");
@@ -1078,7 +1064,6 @@
 
   // These only wire up listeners, so they run right away.
   theme();
-  clock();
   menu();
   vtLinks();
   videos();

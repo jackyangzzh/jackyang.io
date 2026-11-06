@@ -16,11 +16,10 @@
   h2 {
     margin-top: 2.4em;
     font-family: var(--f-serif);
-    font-stretch: 112%;
-    font-weight: 500;
+    font-weight: 600;
     font-size: clamp(2rem, 3.3vw, 2.85rem);
     line-height: 1.04;
-    letter-spacing: -.02em;
+    letter-spacing: -.03em;
     color: var(--ink);
     text-wrap: balance;
     scroll-margin-top: calc(var(--hd) + 2rem);
@@ -87,7 +86,6 @@
     padding-left: 1.25em;
     border-left: 2px solid var(--ink);
     font-family: var(--f-serif);
-    font-stretch: 112%;
     font-weight: 500;
     font-size: 1.5em;
     line-height: 1.3;
@@ -266,7 +264,7 @@
   transition: transform .45s var(--ease), background-color .3s;
   .i { margin-left: 3px; }
 }
-@include hover { .video__poster:hover .video__play { background: #E5291F; } }
+@include hover { .video__poster:hover .video__play { background: var(--signal); } }
 .video__meta {
   position: absolute;
   z-index: 2;
@@ -284,7 +282,7 @@
   width: .45rem;
   height: .45rem;
   border-radius: 50%;
-  background: #E5291F;
+  background: var(--signal);
   flex: none;
 }
 .video__frame {
@@ -319,14 +317,13 @@
 }
 .press-source {
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1.6rem;
   line-height: 1;
   letter-spacing: -.01em;
   color: var(--ink);
 }
-.press-quote { flex: 1; font-size: .975rem; line-height: 1.5; }
+.press-quote { flex: 1; font-size: 1rem; line-height: 1.5; }
 .press-link-label {
   font-size: .8125rem;
   color: var(--muted);

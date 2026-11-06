@@ -6,11 +6,10 @@
 }
 .phead__title {
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(4.25rem, 15vw, 14rem);
   line-height: .82;
-  letter-spacing: -.035em;
+  letter-spacing: -.05em;
   margin-left: -.04em;
 }
 .phead__count {
@@ -80,11 +79,10 @@
 .prow__title {
   display: block;
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(2rem, 3.5vw, 3.15rem);
   line-height: 1;
-  letter-spacing: -.02em;
+  letter-spacing: -.025em;
   transition: transform .35s var(--ease), color .25s;
 }
 .prow__main .eyebrow { margin-top: .55rem; }
@@ -177,7 +175,7 @@
 .viewer__rec {
   width: .4rem; height: .4rem;
   border-radius: 50%;
-  background: #E5291F;
+  background: var(--signal);
 }
 .viewer__of { opacity: .8; }
 .viewer__caption {
@@ -201,33 +199,13 @@
 // Case study
 
 .cs__head { padding-top: clamp(1.5rem, 4vw, 3rem); }
-.crumbs {
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-  font-size: .8125rem;
-  color: var(--muted);
-  a {
-    display: inline-flex;
-    align-items: center;
-    gap: .4rem;
-    min-height: 1.5rem;
-    color: var(--ink-2);
-    transition: color .2s, transform .16s var(--ease);
-    @include press;
-    .i { transition: transform .35s var(--ease); }
-    @include hover { &:hover { color: var(--ink); .i { transform: translateX(-3px); } } }
-  }
-  [aria-current] { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-}
 .cs__title {
   margin-top: clamp(1.25rem, 3vw, 2.25rem);
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(3.25rem, 9vw, 8.75rem);
   line-height: .9;
-  letter-spacing: -.03em;
+  letter-spacing: -.045em;
   max-width: 18ch;
   text-wrap: balance;
   margin-left: -.03em;
@@ -370,11 +348,10 @@
   display: block;
   margin: 1rem 0 1.1rem;
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(3rem, 7.5vw, 7rem);
   line-height: .92;
-  letter-spacing: -.03em;
+  letter-spacing: -.045em;
   text-wrap: balance;
 }
 .next__media {
@@ -443,11 +420,10 @@
 }
 .page__title {
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(3rem, 8vw, 6rem);
   line-height: .95;
-  letter-spacing: -.025em;
+  letter-spacing: -.04em;
   margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
@@ -504,11 +480,10 @@
 }
 .lost__title {
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(4.5rem, 16vw, 15rem);
   line-height: .82;
-  letter-spacing: -.035em;
+  letter-spacing: -.05em;
 }
 .lost__line {
   width: 100%;

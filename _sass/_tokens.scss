@@ -59,7 +59,7 @@
   // the gutter grows to clear the safe area.
   --gutter: max(clamp(1.25rem, 4vw, 3.5rem), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
   --gap: clamp(1rem, 1.8vw, 1.75rem);
-  --max: 88rem;
+  --max: 84rem;
   --hd: 4.25rem;
   --radius: 6px;
 }

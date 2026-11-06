@@ -24,9 +24,9 @@ headline_lines:
 
 # The sentence beside the photo under the headline.
 intro: >
-  I'm Jack Yang, a software engineer at Microsoft Teams AI building real-time
-  multimodal agents for Microsoft 365 Copilot. Before that, I built avatar and
-  XR systems for Microsoft Mesh.
+  I'm Jack Yang, a software engineer at Microsoft&nbsp;Teams&nbsp;AI<br>
+  building real-time multimodal agents for Microsoft&nbsp;365&nbsp;Copilot.<br>
+  Before that, I built avatar and XR systems for Microsoft&nbsp;Mesh.
 
 # How many projects (by weight) get a card on the home page; the rest are listed.
 featured_count: 3
@@ -52,53 +52,27 @@ facts:
 signal:
   label: >
     Illustration of a hiring conversation as an audio waveform. A hiring
-    manager and an engineering lead discuss Jack Yang's work on Facilitator at
-    Microsoft Teams AI, his contributions to Microsoft Mesh, and his HCI research
-    at Georgia Tech. Once they decide to talk to him and there's a real
+    manager and an engineering lead discuss Jack Yang's work on Copilot in
+    live Teams meetings. Once they decide to talk to him and there's a real
     pause, an AI agent notes the decision and the action item.
   caption: "An illustrated hiring sync: the agent waits for the decision, and a real pause, before it speaks."
   turns:
     - who: Hiring manager
-      text: "We need someone who’s shipped real-time AI. Who’s on the list?"
+      text: "Who’s shipped real-time AI?"
       dur: 4.4
     - pause: 0.4
-      text: "Gap · 0.4 s: too short to take the turn"
+      text: "Gap of 0.4 s: too short to take the turn"
     - who: Eng lead
-      text: "Jack Yang. He works on Facilitator, the Microsoft 365 Copilot agent that runs inside live Teams meetings."
+      text: "Jack Yang. He works on Copilot in live Teams meetings."
       dur: 6.3
     - pause: 0.5
-      text: "Gap · 0.5 s: still their conversation"
-    - who: Hiring manager
-      text: "Anything at scale?"
-      dur: 1.6
-    - pause: 0.3
-      text: "Gap · 0.3 s"
-    - who: Eng lead
-      text: "He was a key contributor at Microsoft Mesh, which shipped weekly in 20+ languages to millions of users."
-      dur: 6.2
-    - pause: 0.4
-      text: "Gap · 0.4 s: no decision yet"
-    - who: Hiring manager
-      text: "And research?"
-      dur: 1.4
-    - pause: 0.3
-      text: "Gap · 0.3 s"
-    - who: Eng lead
-      text: "HCI research at Georgia Tech: how later confirmation can hide a lack of support for an earlier action."
-      dur: 5.6
-    - pause: 0.5
-      text: "Gap · 0.5 s: still no decision"
+      text: "Gap of 0.5 s: still their conversation"
     - who: Hiring manager
       text: "Okay. Let’s talk to him."
       dur: 2.1
     - pause: 1.6
-      text: "Pause · 1.6 s, decision made: room for the agent"
+      text: "Pause of 1.6 s, decision made: room for the agent"
     - who: agent
-      text: "Noted. Decision: talk to Jack Yang. Action item: book time with him. Owner: you."
+      text: "Noted. Talk to Jack Yang. Book time with him. Owner: you."
       dur: 5.2
-    - pause: 0.6
-      text: "Gap · 0.6 s"
-    - who: Hiring manager
-      text: "On it."
-      dur: 1.0
 ---

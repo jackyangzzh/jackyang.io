@@ -8,10 +8,6 @@ layout: base
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="wrap hero__in">
-    <div class="hero__top intro" style="--d: 0">
-      <span class="live"><span class="live__dot" aria-hidden="true"></span>{{ site.role }}</span>
-    </div>
-
     <div class="hero__body">
     <h1 class="hero__title" id="hero-title">
       <span class="sr-only">{{ r.basics.name }}: </span>
@@ -61,7 +57,6 @@ layout: base
       <span class="signal__fig" aria-hidden="true">Fig. 1</span>
       <span class="signal__text" data-signal-text data-default="{{ page.signal.caption | escape }}" aria-hidden="true">{{ page.signal.caption }}</span>
       <span class="signal__ctl">
-        <span class="signal__hint" data-signal-hint aria-hidden="true">Hover to scrub</span>
         <button type="button" class="signal__btn" data-signal-play hidden></button>
       </span>
     </figcaption>

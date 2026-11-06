@@ -34,8 +34,7 @@
   align-items: baseline;
   gap: .3rem;
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1.5rem;
   line-height: 1;
   letter-spacing: -.01em;
@@ -60,15 +59,6 @@
   display: flex;
   align-items: center;
   gap: .25rem;
-}
-
-.hd__clock {
-  font-size: .8125rem;
-  color: var(--muted);
-  margin-right: .75rem;
-  white-space: nowrap;
-  font-variant-numeric: tabular-nums;
-  @include down($lg) { display: none; }
 }
 
 .hd__btn {
@@ -210,8 +200,7 @@
     gap: 1rem;
     padding: .9rem 0;
     font-family: var(--f-serif);
-    font-stretch: 112%;
-    font-weight: 500;
+    font-weight: 600;
     font-size: clamp(2.5rem, 12vw, 3.5rem);
     line-height: 1;
     letter-spacing: -.02em;
@@ -298,8 +287,7 @@
 }
 .ft__email {
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(1.9rem, 3.6vw, 3rem);
   line-height: 1.05;
   letter-spacing: -.015em;
@@ -345,8 +333,6 @@
   margin-top: 1rem;
   display: grid;
   gap: .55rem;
-  .qlink { font-weight: 450; }
-  button.qlink { font-weight: 450; }
 }
 .ft__contact .ft__list { margin-top: 1.5rem; }
 
@@ -371,12 +357,11 @@
   pointer-events: none;
   user-select: none;
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
-  // "Jack Yang" is 4.8em in Archivo set wide: just inside the page.
-  font-size: 20vw;
+  font-weight: 600;
+  // "Jack Yang" is 4.12em in Archivo at weight 600: just inside the page.
+  font-size: 23.3vw;
   line-height: .74;
-  letter-spacing: -.045em;
+  letter-spacing: -.06em;
   white-space: nowrap;
   text-align: center;
   color: color-mix(in srgb, var(--ink) 7%, var(--bg));
@@ -397,7 +382,7 @@
     right: 0;
     bottom: -1px;
     height: 2px;
-    background: var(--ink);
+    background: var(--signal);
     transform: scaleX(0);
     transform-origin: 0 50%;
     animation: read-line linear both;
@@ -488,7 +473,7 @@
   padding: .6rem .75rem;
   border-radius: 8px;
   cursor: pointer;
-  font-size: .975rem;
+  font-size: 1rem;
   color: var(--ink-2);
   scroll-margin: .5rem;
   &[aria-selected="true"] {
@@ -531,8 +516,8 @@
   .hd__btn { min-width: 2.75rem; height: 2.75rem; }
   .socials a { width: 2.75rem; height: 2.75rem; }
   .ft__list { gap: 1.125rem; }
-  .ft__list .qlink, .ft__top, .crumbs a, .entry__case, .sh__aux, .cs__by .qlink, .cover__toggle, .signal__btn { position: relative; }
-  .ft__list .qlink::after, .ft__top::after, .crumbs a::after,
+  .ft__list .qlink, .ft__top, .entry__case, .sh__aux, .cs__by .qlink, .cover__toggle, .signal__btn { position: relative; }
+  .ft__list .qlink::after, .ft__top::after,
   .entry__case::after, .sh__aux::after, .cs__by .qlink::after, .cover__toggle::after,
   .signal__btn::after {
     content: "";

@@ -14,38 +14,21 @@
   padding-top: clamp(1rem, 3vh, 2rem);
 }
 
-.hero__top {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: .5rem 1.5rem;
-  font-size: .8125rem;
-  color: var(--ink-2);
-}
-
 .hero__body {
   margin-top: auto;
   padding-top: clamp(2.5rem, 7vh, 5rem);
-  @include up($xl) {
-    @include grid12;
-    align-items: end;
-  }
 }
 
 .hero__title {
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
-  // Sized for Archivo set wide: "conversations." is 7.1em, so each size
-  // keeps it inside its column with air to spare.
-  font-size: clamp(2.5rem, #{"min(11.5vw, 19svh)"}, 9rem);
-  @include down($md) { font-size: clamp(2.1rem, 12.2vw, 6rem); }
-  @include up($xl) {
-    grid-column: 1 / span 7;
-    font-size: clamp(3rem, #{"min(6.9vw, 15svh)"}, 6.75rem);
-  }
+  font-weight: 600;
+  // Sized for Archivo at weight 600: "conversations." is 6.24em, so each
+  // size keeps it inside the page with air to spare, and the height cap
+  // keeps Fig. 1 in the first screen.
+  font-size: clamp(2.85rem, #{"min(13vw, 17svh)"}, 11.75rem);
+  @include down($md) { font-size: clamp(2.4rem, 13.8vw, 6.75rem); }
   line-height: .86;
-  letter-spacing: -.028em;
+  letter-spacing: -.045em;
   // The one coloured word: roman, in the signal colour.
   em { font-style: normal; color: var(--signal); }
 }
@@ -62,21 +45,18 @@
   gap: 1.5rem;
   align-items: end;
   @include up($md) { @include grid12; }
-  @include up($xl) {
-    grid-column: 8 / -1;
-    display: block;
-    margin: 0;
-    padding-bottom: .5rem;
-  }
 }
 .hero__intro {
   font-size: clamp(1.125rem, 1.45vw, 1.375rem);
   line-height: 1.45;
   color: var(--ink-2);
   max-width: 34ch;
-  text-wrap: pretty;
+  text-wrap: balance;
   @include up($md) { grid-column: 1 / span 6; }
-  @include up($xl) { max-width: 33ch; font-size: clamp(1.125rem, 1.35vw, 1.3rem); }
+  // Wide screens: one line per phrase, broken by hand. Narrow ones keep
+  // only the sentence break.
+  @include up($lg) { grid-column: 1 / span 8; max-width: none; }
+  br:first-of-type { @include down($lg) { display: none; } }
 }
 .hero__face {
   display: inline-block;
@@ -98,14 +78,13 @@
   align-items: flex-start;
   gap: .85rem;
   @include up($md) { grid-column: 7 / -1; justify-self: end; align-items: flex-end; }
-  @include up($xl) { margin-top: 2.25rem; justify-self: start; align-items: flex-start; }
+  @include up($lg) { grid-column: 9 / -1; }
 }
 .hero__btns {
   display: flex;
   flex-wrap: wrap;
   gap: .55rem;
   @include up($md) { justify-content: flex-end; }
-  @include up($xl) { justify-content: flex-start; }
 }
 // "or email jack@… ⧉": the address reads as the alternative to the
 // primary action, not a stray caption.
@@ -324,10 +303,6 @@
   white-space: nowrap;
   @include up($sm) { flex: none; width: 17rem; }
 }
-.signal__hint {
-  transition: opacity .3s;
-  .signal.is-scrub & { display: none; }
-}
 .signal__btn {
   display: inline-flex;
   align-items: center;
@@ -390,27 +365,23 @@
   align-items: end;
   gap: 1rem;
   @include up($md) { @include grid12; }
+  @include down($sm) { grid-template-columns: 1fr; }
 }
-.sh__no {
-  grid-column: 1 / -1;
-  @include label;
-  color: var(--ink-2);
-  @include up($md) { grid-column: 1 / span 3; align-self: start; padding-top: .35rem; }
-}
+.sh__no { color: var(--muted); }
 .sh__title {
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
+  font-weight: 600;
   font-size: clamp(2.6rem, 5.6vw, 5.25rem);
   line-height: .92;
-  letter-spacing: -.025em;
-  @include up($md) { grid-column: 4 / span 6; }
+  letter-spacing: -.04em;
+  @include up($md) { grid-column: 1 / span 9; }
 }
 .sh__aux {
   justify-self: end;
   margin-bottom: .45rem;
   @include up($md) { grid-column: 10 / -1; }
-  @include down($sm) { font-size: .875rem; margin-bottom: .3rem; }
+  // Phones: under the title, so the title keeps the full width.
+  @include down($sm) { grid-column: 1 / -1; justify-self: start; font-size: .875rem; margin: -.25rem 0 0; }
 }
 
 
@@ -487,7 +458,6 @@
   // The first paragraph is a serif lead-in; the next two sit side by side.
   p:first-child {
     font-family: var(--f-serif);
-    font-stretch: 112%;
     font-weight: 500;
     font-size: clamp(1.45rem, 2.05vw, 1.9rem);
     line-height: 1.2;
@@ -568,11 +538,10 @@
 .card__title {
   margin-bottom: .55rem;
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
-  font-size: clamp(1.75rem, 2.3vw, 2.4rem);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 2vw, 1.9rem);
   text-wrap: balance;
-  line-height: .98;
+  line-height: 1.08;
   letter-spacing: -.02em;
   span {
     background-image: linear-gradient(currentColor, currentColor);
@@ -819,6 +788,7 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
     align-items: start;
   }
 }
+.sh + .spread { margin-top: 0; }
 .block { min-width: 0; }
 .block__label {
   display: block;
@@ -869,11 +839,10 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
 .entry__who { margin-top: .8rem; }
 .entry__org {
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
-  font-size: clamp(1.55rem, 2vw, 1.95rem);
-  line-height: 1.04;
-  letter-spacing: -.015em;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 2vw, 1.9rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
   text-wrap: balance;
   a {
     background-image: linear-gradient(currentColor, currentColor);
@@ -964,18 +933,17 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
 .pub__title {
   margin-top: .8rem;
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
-  font-size: clamp(1.35rem, 1.75vw, 1.6rem);
-  line-height: 1.12;
-  letter-spacing: -.01em;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 2vw, 1.9rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
   text-wrap: balance;
   a::after { content: ""; position: absolute; inset: 0; }
 }
 .pub__sum {
   margin-top: .75rem;
   color: var(--ink-2);
-  font-size: .975rem;
+  font-size: 1rem;
   line-height: 1.62;
   text-wrap: pretty;
 }
@@ -1040,11 +1008,10 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
 .post__title {
   display: block;
   font-family: var(--f-serif);
-  font-stretch: 112%;
-  font-weight: 500;
-  font-size: clamp(1.45rem, 2.1vw, 1.95rem);
-  line-height: 1.12;
-  letter-spacing: -.01em;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 2vw, 1.9rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
   text-wrap: balance;
   transition: color .2s;
 }
@@ -1055,7 +1022,7 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
   overflow: hidden;
   margin-top: .55rem;
   color: var(--ink-2);
-  font-size: .975rem;
+  font-size: 1rem;
   line-height: 1.55;
 }
 .post__src {

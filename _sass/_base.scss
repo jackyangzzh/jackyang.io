@@ -76,7 +76,7 @@ button, .btn { -webkit-user-select: none; user-select: none; }
 // With no hover and no tap flash, links answer the press itself on touch.
 // Buttons and standalone arrow links shrink instead (see .btn, .qlink).
 @media (hover: none), (pointer: coarse) {
-  a:active:not(.btn, .qlink, .crumbs a) { opacity: .7; }
+  a:active:not(.btn, .qlink) { opacity: .7; }
 }
 kbd { font-family: var(--f-code); }
 [hidden] { display: none !important; }
@@ -177,11 +177,6 @@ kbd { font-family: var(--f-code); }
 }
 
 // The live dot: a small vermilion light, like a studio's ON AIR lamp.
-.live {
-  display: inline-flex;
-  align-items: center;
-  gap: .65em;
-}
 .live__dot {
   width: .5rem; height: .5rem;
   border-radius: 50%;

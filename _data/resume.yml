@@ -75,9 +75,8 @@ research:
     startDate: "2026-01-01"
     endDate: ""
     highlights:
-      - Built **Ground Tracker**, a transcript-analysis system that separates language-model perception from deterministic grounding rules.
-      - Designed a **264-dialogue controlled benchmark** to study how later confirmation can obscure missing evidence at the time of an earlier action.
-      - "Authored *Preserving Action-Time Grounding Judgments in Transcript Trackers*; manuscript under consideration at **Dialogue & Discourse**."
+      - Built **Ground Tracker**, which separates language-model perception from deterministic grounding rules, and a **264-dialogue benchmark** showing how later confirmation can hide missing evidence at the time of an earlier action.
+      - "Authored *Preserving Action-Time Grounding Judgments in Transcript Trackers*, under consideration at **Dialogue & Discourse**."
   - company: "Kats Research Group"
     position: "XR Researcher"
     short: "Kats Group"
@@ -152,6 +151,10 @@ certifications:
     publisher: "UC San Diego"
     website: "https://www.coursera.org/account/accomplishments/specialization/certificate/WRB5BFC3DYGD"
 publications:
+  - name: "Preserving Action-Time Grounding Judgments in Transcript Trackers"
+    publisher: "Dialogue & Discourse (under review)"
+    website: "/assets/files/Preserving-Action-Time-Grounding-Judgments.pdf"
+    summary: "Sole-authored study of how transcript assistants that judge an earlier action by the conversation's final state lose the evidence available when it happened, tested on a 264-dialogue benchmark built with Ground Tracker."
   - name: "Passive frequency conversion of ultraviolet images into the visible using perovskite nanocrystals"
     publisher: "Journal of Optics (IOP Publishing)"
     releaseDate: "2021-04-08"
