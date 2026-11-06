@@ -1,7 +1,0 @@
-{%- comment -%}
-A track's title card: the number and the name on one line, set large and
-centred. Params: no, title, id
-{%- endcomment -%}
-<header class="th wrap">
-  <h2 class="th__title" id="{{ include.id }}"><span class="fit" data-fit style="--n: {{ include.title | size | plus: 3 }}"><span class="fit__in"><span class="th__no">{{ include.no }}</span> {{ include.title }}</span></span></h2>
-</header>

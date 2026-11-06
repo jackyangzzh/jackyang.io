@@ -1,579 +1,1034 @@
-// The cover
+// Hero
 
 .hero {
-  position: relative;
-  isolation: isolate;
-  // Set here so the red plane's black tokens reach every line of text.
-  color: var(--ink);
-  min-height: calc(100svh - var(--bar));
   display: flex;
   flex-direction: column;
+  min-height: calc(100svh - var(--hd));
+  padding-bottom: clamp(1.25rem, 3vh, 2.25rem);
+  @include down($md) { min-height: auto; }
 }
-
-// The one line a recruiter looks for first: role and company, lamp lit.
-.hero__role {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: .65rem;
-  padding-top: 1.25rem;
-  @include micro;
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.hero__stage {
-  position: relative;
+.hero__in {
   flex: 1;
   display: flex;
-  align-items: center;
-  padding-block: clamp(1.5rem, 6vh, 4rem) clamp(1rem, 3vh, 2rem);
+  flex-direction: column;
+  padding-top: clamp(1rem, 3vh, 2rem);
 }
+
+.hero__top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: .5rem 1.5rem;
+  font-size: .8125rem;
+  color: var(--ink-2);
+}
+
+.hero__body {
+  margin-top: auto;
+  padding-top: clamp(2.5rem, 7vh, 5rem);
+  @include up($xl) {
+    @include grid12;
+    align-items: end;
+  }
+}
+
 .hero__title {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  transition: opacity .4s var(--ease), visibility 0s;
-}
-.hero__stack { display: block; .fit { --fit-w: 76rem; --fit-cap: 200; } }
-// Each line rises out of the line below it, once.
-.hero__line {
-  overflow: hidden;
-  padding-bottom: .035em;
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: clamp(3.4rem, #{"min(10.4vw, 19.5svh)"}, 12.5rem);
+  @include down($md) { font-size: clamp(3.4rem, 17.5vw, 8rem); }
+  @include up($xl) {
+    grid-column: 1 / span 7;
+    // Sized so "conversations." (~4.4em) keeps ≥70px of air before the
+    // aside at every width, including once the page stops widening (88rem).
+    font-size: clamp(3.4rem, #{"min(11vw, 21.5svh)"}, 9.75rem);
+  }
+  line-height: .86;
+  letter-spacing: -.028em;
+  // The one coloured word: roman, in the signal colour.
   em { font-style: normal; color: var(--signal); }
-  .js & .fit__in {
-    animation: rise-line 1s var(--ease) both;
-    animation-delay: calc(var(--d, 0) * 90ms + 80ms);
-  }
 }
-@keyframes rise-line { from { transform: translateY(102%); } }
-.hero__line.is-narrow { display: none; }
-@include down($sm) {
-  .hero__line.is-wide { display: none; }
-  .hero__line.is-narrow { display: block; }
-}
-
-// The film's button, one of the cover's three actions.
-.fig__play {
-  justify-content: center;
-  gap: .65rem;
-  .i { margin-left: -.1rem; }
-  @include hover { &:hover .i { transform: none; } }
-}
-// The running time steps back with the muted ink (5.3:1 on sand, 5.9:1 on
-// black), not with opacity, which fell below 4.5:1. On hover it inverts with the label.
-.fig__dur { font-weight: 500; color: var(--muted); }
-@include hover { .fig__play:hover .fig__dur { color: inherit; } }
-
-// The screen: a 16:9 box in the headline's place (placed by script). It rises
-// from its bottom edge, toward the button, and fades back into the headline.
-.film {
-  position: absolute;
-  z-index: 4;
-  background: #000;
-  clip-path: inset(100% 42% 0 42%);
-  transition: clip-path .75s var(--ease-in-out), opacity .6s var(--ease);
-  &.is-open { clip-path: inset(0); }
-  &.is-closing { clip-path: inset(0); opacity: 0; }
-}
-.film__video {
+.hero__line {
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  cursor: pointer;
+  overflow: hidden;
+  padding-bottom: .09em;
+  margin-bottom: -.09em;
 }
-// The square the film ends on, flying into the headline's full stop.
-.flystop {
-  position: fixed;
-  z-index: 45;
-  background: var(--signal);
-  pointer-events: none;
-  &.is-flying {
-    transition: left .85s var(--ease-in-out) .2s, top .85s cubic-bezier(.4, 0, .2, 1) .2s, width .85s var(--ease-in-out) .2s, height .85s var(--ease-in-out) .2s;
+
+.hero__foot {
+  margin-top: clamp(1.75rem, 4.5vh, 3rem);
+  display: grid;
+  gap: 1.5rem;
+  align-items: end;
+  @include up($md) { @include grid12; }
+  @include up($xl) {
+    grid-column: 8 / -1;
+    display: block;
+    margin: 0;
+    padding-bottom: .5rem;
   }
 }
-// The full stop waits, unseen, for the square; lands red; settles to ink.
-.hero__stop {
-  transition: color .7s var(--ease) .15s;
-  &.is-waiting { color: transparent; transition: none; }
-  &.is-landed { color: var(--signal); transition: none; }
+.hero__intro {
+  font-size: clamp(1.125rem, 1.45vw, 1.375rem);
+  line-height: 1.45;
+  color: var(--ink-2);
+  max-width: 34ch;
+  text-wrap: pretty;
+  @include up($md) { grid-column: 1 / span 6; }
+  @include up($xl) { max-width: 33ch; font-size: clamp(1.125rem, 1.35vw, 1.3rem); }
 }
-
-// The headline steps back while the film plays, and holds still.
-.hero.is-film {
-  .hero__title { opacity: 0; }
-  .hero__line { transform: none !important; }
+.hero__face {
+  display: inline-block;
+  width: 1.75em;
+  height: 1.75em;
+  vertical-align: -.5em;
+  margin-right: .3em;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--bg-2);
+  box-shadow: 0 0 0 1px var(--line);
+  transition: transform .5s var(--ease);
+  img { width: 100%; height: 100%; object-fit: cover; }
+  @include hover { &:hover { transform: rotate(-8deg) scale(1.08); } }
 }
-
-// Under the headline: one centred row of actions, the email beneath it.
-.hero__foot {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  justify-items: center;
-  gap: 1rem;
-  padding-block: clamp(1rem, 3vh, 2rem) clamp(1.5rem, 4vh, 2.75rem);
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .85rem;
+  @include up($md) { grid-column: 7 / -1; justify-self: end; align-items: flex-end; }
+  @include up($xl) { margin-top: 2.25rem; justify-self: start; align-items: flex-start; }
 }
 .hero__btns {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: .5rem;
+  gap: .55rem;
+  @include up($md) { justify-content: flex-end; }
+  @include up($xl) { justify-content: flex-start; }
 }
-.hero__more { display: flex; justify-content: center; }
+// "or email jack@… ⧉": the address reads as the alternative to the
+// primary action, not a stray caption.
+.hero__more {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: .55rem;
+  font-size: .875rem;
+}
+.hero__or { color: var(--muted); }
 .addr {
   display: inline-flex;
   align-items: center;
   gap: .5rem;
-  min-height: var(--control-height);
-  padding: .25rem 0;
-  font-size: .875rem;
-  color: var(--ink);
+  padding: .3rem 0;
+  font-size: .8125rem;
+  color: var(--ink-2);
   cursor: pointer;
   transition: transform .16s var(--ease);
   @include press(.98);
   &[hidden] { display: none; }
-  .addr__text { box-shadow: inset 0 -1px 0 var(--line-2); }
-  .addr__icon { display: inline-grid; color: var(--muted); }
+  .addr__text {
+    background-image: linear-gradient(var(--line-2), var(--line-2));
+    background-size: 100% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    padding-bottom: 1px;
+    transition: background-image .2s, color .2s;
+  }
+  .addr__icon { display: inline-grid; align-self: center; color: var(--muted); transition: color .2s; }
   .addr__copy, .addr__check { grid-area: 1 / 1; display: grid; transition: opacity .2s, transform .3s var(--ease); }
-  .addr__check { opacity: 0; transform: scale(.6); color: var(--ink); }
-  .addr__done { @include micro; color: var(--ink); opacity: 0; transition: opacity .25s; }
-  @include hover { &:hover .addr__text { box-shadow: inset 0 -2px 0 var(--ink); } }
+  .addr__check { opacity: 0; transform: scale(.6); color: var(--signal-text); }
+  .addr__done {
+    font-size: .8125rem;
+    color: var(--signal-text);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity .25s, transform .35s var(--ease);
+  }
+  @include hover {
+    &:hover {
+      color: var(--ink);
+      .addr__text { background-image: linear-gradient(var(--ink), var(--ink)); }
+      .addr__icon { color: var(--ink); }
+    }
+  }
   &.is-done {
     .addr__copy { opacity: 0; transform: scale(.6); }
     .addr__check { opacity: 1; transform: none; }
-    .addr__done { opacity: 1; }
+    .addr__done { opacity: 1; transform: none; }
   }
 }
-// Phones: full-width slabs, the résumé first.
+.hero__btns .btn {
+  padding: 0 .95rem 0 1.05rem;
+}
+// Phones: the two actions stack full width, and the email line centres under
+// them like the buttons' labels.
 @include down($sm) {
-  .hero__foot { justify-items: stretch; }
-  .hero__btns { display: grid; justify-content: stretch; }
-  .hero__btns .fig__play { order: 3; }
-  .hero__more { justify-self: center; }
+  .hero__actions { align-items: stretch; }
+  .hero__more { justify-content: center; }
+  .hero__btns {
+    display: grid;
+    .btn { justify-content: center; }
+  }
 }
 
-// Tracks
+// The showreel opens Selected work. From $md it sits on the content axis
+// (col 4, under the section title) with its caption in the label columns,
+// like About's aside, so the heading, film and top of the cards share a
+// screen. On short screens the height cap (viewport minus the header and
+// section title, about 20rem) takes over from the column width.
 
-.track {
-  padding-top: clamp(4.5rem, 9vw, 8rem);
-  scroll-margin-top: var(--bar);
+.cover {
+  margin: 0 0 clamp(2rem, 4vw, 3.5rem);
+  @include up($md) { @include grid12; align-items: end; }
 }
-
-// The title card: the number, then the name edge to edge.
-.th { margin-bottom: clamp(2.5rem, 5vw, 4.5rem); }
-.th__no { color: var(--muted); }
-
-
-// 01 About: liner notes. The statement with the portrait set into it, the
-// credits directly under it, then the story in two columns.
-
-.about { display: grid; }
-.about__lead {
-  display: flow-root;
-  font-size: clamp(1.375rem, 2.6vw, 2.75rem);
-  font-weight: 500;
-  line-height: 1.12;
-  letter-spacing: -.022em;
-  color: var(--ink);
-  text-wrap: pretty;
-  strong { font-weight: inherit; }
-  a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .16em; text-decoration-color: var(--line-2); }
-  a:hover { text-decoration-color: var(--ink); }
-}
-.about__cover {
-  float: left;
-  width: 6.5rem;
-  aspect-ratio: 1;
-  margin: .25rem clamp(1rem, 2vw, 1.75rem) .5rem 0;
+.cover__stage {
+  position: relative;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: var(--bg-2);
-  @include up($md) { width: 11rem; }
-  img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.42); }
+  border-radius: var(--radius);
+  background: var(--ink);
+  width: 100%;
+  @include up($md) { grid-column: 4 / -1; grid-row: 1; max-width: calc((100vh - 20rem) * 16 / 9); }
 }
+.cover__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cover__cap {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: .8rem;
+  border-top: 1px solid var(--line);
+  font-size: .8125rem;
+  color: var(--muted);
+  min-height: 2.6rem;
+  @include up($md) {
+    grid-column: 1 / span 3;
+    grid-row: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .45rem;
+    margin-top: 0;
+    .cover__text { flex: none; }
+  }
+}
+.cover__fig {
+  color: var(--ink);
+  white-space: nowrap;
+}
+.cover__text {
+  flex: 1;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.cover__toggle {
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  cursor: pointer;
+  transition: color .25s var(--ease);
+  &:hover, &:focus-visible { color: var(--signal-text); }
+  html:not(.js) & { display: none; }
+}
+
+// Fig. 1 — the conversation waveform
+
+.signal {
+  margin-top: clamp(1.75rem, 4vh, 2.75rem);
+  // Wide hero: the headline sits right above, so the playhead's time label
+  // needs clear air below "conversations." (taken from the band above the title).
+  @include up($xl) { margin-top: clamp(3rem, 7vh, 4.25rem); }
+  html:not(.js) & { display: none; }
+}
+.signal__stage {
+  position: relative;
+  height: clamp(40px, 6.5vh, 64px);
+  cursor: crosshair;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  border-radius: 2px;
+  &:focus-visible { outline-offset: 10px; }
+  svg { width: 100%; height: 100%; overflow: visible; }
+  .w-rest { opacity: .15; }
+}
+.signal__head {
+  position: absolute;
+  top: -8px;
+  bottom: -8px;
+  left: 0;
+  width: 1px;
+  background: var(--ink);
+  transform: translateX(var(--x, 0));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s;
+}
+.signal__time {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  transform: translate(-50%, -6px);
+  padding: .2rem .45rem;
+  border-radius: 4px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: .8125rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.signal.is-scrub .signal__head { opacity: 1; }
+
+.signal__cap {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: .8rem;
+  border-top: 1px solid var(--line);
+  font-size: .8125rem;
+  color: var(--muted);
+  min-height: 2.6rem;
+}
+.signal__fig {
+  color: var(--ink);
+  white-space: nowrap;
+}
+.signal__text {
+  flex: 1;
+  color: var(--ink-2);
+  text-wrap: pretty;
+  b {
+    font-weight: 500;
+    margin-right: .6em;
+    color: var(--ink);
+  }
+  &.is-agent b { color: var(--signal-text); }
+  &.is-gap { color: var(--muted); }
+}
+// Controls: a fixed-width slot, so the caption beside it never reflows.
+.signal__ctl {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 1.1rem;
+  white-space: nowrap;
+  @include up($sm) { flex: none; width: 17rem; }
+}
+.signal__hint {
+  transition: opacity .3s;
+  .signal.is-scrub & { display: none; }
+}
+.signal__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  .i { transform: translateY(-.5px); }
+  color: var(--ink-2);
+  transition: color .2s;
+  @include hover { &:hover { color: var(--ink); } }
+  &[hidden] { display: none; }
+}
+// A gap's pause meter: full width is the turn threshold; crossing it lights it.
+.signal__meter {
+  display: inline-block;
+  vertical-align: middle;
+  width: 2.75rem;
+  height: 3px;
+  margin: -2px .7em 0 0;
+  border-radius: 2px;
+  background: var(--line-2);
+  overflow: hidden;
+  i {
+    display: block;
+    height: 100%;
+    width: calc(var(--p, 0) * 100%);
+    background: var(--muted);
+    transition: background-color .25s;
+  }
+  .is-over & i { background: var(--signal); }
+}
+.signal__text.is-over { color: var(--ink-2); }
+// Phones: Fig. 1 and the controls share the first row, the line gets its own.
+@include down($sm) {
+  .signal__cap { flex-wrap: wrap; row-gap: .4rem; }
+  .signal__ctl { margin-left: auto; }
+  .signal__text { order: 3; flex-basis: 100%; }
+}
+
+// Section scaffolding
+
+.sec {
+  --sec-pad: clamp(4rem, 7.5vw, 6.75rem);
+  padding-top: var(--sec-pad);
+  scroll-margin-top: calc(var(--sec-pad) * -1 + .5rem);
+}
+
+
+.sh {
+  padding-top: 1rem;
+  border-top: 1px solid var(--line-2);
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 1rem;
+  @include up($md) { @include grid12; }
+}
+.sh__no {
+  grid-column: 1 / -1;
+  @include label;
+  color: var(--ink-2);
+  @include up($md) { grid-column: 1 / span 3; align-self: start; padding-top: .35rem; }
+}
+.sh__title {
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 5.6vw, 5.25rem);
+  line-height: .92;
+  letter-spacing: -.025em;
+  @include up($md) { grid-column: 4 / span 6; }
+}
+.sh__aux {
+  justify-self: end;
+  margin-bottom: .45rem;
+  @include up($md) { grid-column: 10 / -1; }
+  @include down($sm) { font-size: .875rem; margin-bottom: .3rem; }
+}
+
+
+// About
+
+.about {
+  display: grid;
+  gap: 2.5rem var(--gap);
+  @include up($md) { @include grid12; }
+}
+.about__aside {
+  @include up($md) { grid-column: 1 / span 3; }
+  @include down($md) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "photo socials" "facts facts";
+    align-items: center;
+    gap: 1.25rem 1rem;
+  }
+}
+.about__photo {
+  width: 100%;
+  max-width: 7rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg-2);
+  @include down($md) { grid-area: photo; width: 4.5rem; }
+}
+.facts {
+  margin-top: 1.25rem;
+  @include down($md) { grid-area: facts; margin-top: 0; }
+}
+.facts__row {
+  display: grid;
+  grid-template-columns: 5.25rem 1fr;
+  gap: .75rem;
+  padding: .6rem 0;
+  border-top: 1px solid var(--line);
+  font-size: .9375rem;
+  line-height: 1.4;
+  &:last-child { border-bottom: 1px solid var(--line); }
+  dt { font-size: .8125rem; color: var(--muted); padding-top: .15rem; }
+}
+.socials {
+  list-style: none;
+  display: flex;
+  gap: .25rem;
+  margin: 1rem 0 0 -.55rem;
+  @include down($md) { grid-area: socials; margin: 0; }
+  a {
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    color: var(--ink-2);
+    transition: color .2s, background-color .2s;
+    @include hover { &:hover { color: var(--ink); background: var(--bg-2); } }
+  }
+}
+
 .about__body {
-  margin-top: clamp(2.5rem, 5vw, 4rem);
+  @include up($md) { grid-column: 4 / -1; }
   p {
-    font-size: 1rem;
+    font-size: 1.0625rem;
     line-height: 1.65;
     color: var(--ink-2);
     text-wrap: pretty;
+    // Serif italic is already preloaded for the hero, so publication names
+    // don't pull in the 32 KB sans italic. Sized up to match the sans x-height.
+    em { font-family: var(--f-serif); font-size: 1.12em; line-height: 1; }
+  }
+  // The first paragraph is a serif lead-in; the next two sit side by side.
+  p:first-child {
+    font-family: var(--f-serif);
+    font-size: clamp(1.45rem, 2.05vw, 1.9rem);
+    line-height: 1.2;
+    letter-spacing: -.008em;
+    color: var(--ink);
+    margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+    max-width: 52ch;
+    strong { font-weight: inherit; }
     em { font-style: italic; }
   }
   @include up($lg) {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: clamp(2rem, 4vw, 4rem);
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    column-gap: var(--gap);
+    p:first-child { grid-column: 1 / -1; }
+    p:nth-child(2) { grid-column: 1 / span 4; }
+    p:nth-child(3) { grid-column: 5 / span 5; }
   }
   @include down($lg) { p + p { margin-top: 1.1em; } }
-  a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; text-decoration-color: var(--line-2); }
-  a:hover { text-decoration-color: var(--ink); }
-  strong { font-weight: 650; color: var(--ink); }
-}
-
-// Credits: label over value, in a row of cells.
-.credits {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: clamp(2.5rem, 5vw, 4rem);
-  border-top: 2px solid var(--ink);
-  @include up($xl) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  > div { padding: .8rem 1rem 1rem 0; border-bottom: 1px solid var(--line-2); }
-  dt { @include micro; color: var(--muted); margin-bottom: .35rem; }
-  dd { font-size: .9375rem; line-height: 1.4; color: var(--ink); text-wrap: pretty; }
-}
-
-// 02 Experience: the career at a glance. One lane per kind of credit, a bar
-// per role, the red line at now; each bar jumps to its row.
-
-.career {
-  --lab: 5.75rem;
-  --pitch: 30px;
-  margin-bottom: clamp(3rem, 6vw, 5rem);
-}
-.career__scroll {
-  overflow-x: auto;
-  scrollbar-width: none;
-  &::-webkit-scrollbar { display: none; }
-  @include down($md) { margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
-}
-.career__chart {
-  position: relative;
-  min-width: 44rem;
-  padding: 1.9rem 0 1.9rem;
-  border-top: 2px solid var(--ink);
-}
-.career__years {
-  position: absolute;
-  inset: 0 0 0 var(--lab);
-  pointer-events: none;
-  li {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: var(--l);
-    padding: .45rem 0 0 .35rem;
-    border-left: 1px solid var(--line);
-    @include micro;
-    font-weight: 500;
-    color: var(--muted);
+  a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: .18em;
+    text-decoration-color: var(--line-2);
+    transition: text-decoration-color .2s;
+    &:hover { text-decoration-color: var(--signal); }
   }
+  strong { font-weight: 600; color: var(--ink); }
 }
-.career__lane {
-  position: relative;
+
+// Selected work
+
+.work {
+  list-style: none;
   display: grid;
-  grid-template-columns: var(--lab) 1fr;
-  border-bottom: 1px solid var(--line-2);
-  &:first-of-type { border-top: 1px solid var(--line-2); }
+  gap: clamp(3rem, 6vw, 5rem) var(--gap);
+  // Three featured projects, one row from tablet up.
+  @include up($md) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
-.career__label {
-  position: sticky;
-  left: 0;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  background: var(--bg);
-  @include micro;
-  font-weight: 700;
-  color: var(--ink);
-  // On phones the strip scrolls under the labels; cover the gutter too.
-  @include down($md) {
-    &::before { content: ""; position: absolute; top: 0; bottom: 0; right: 100%; width: var(--gutter); background: var(--bg); }
-  }
-}
-.career__track {
+
+.card { display: block; }
+.card__media {
   position: relative;
-  height: calc(var(--rows) * var(--pitch) + 10px);
-}
-.career__bar {
-  position: absolute;
-  top: calc(8px + var(--row) * var(--pitch));
-  left: var(--l);
-  width: calc(var(--w) - 3px);
-  min-width: 6px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  padding: 0 .5rem;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
-  white-space: nowrap;
-  background: var(--ink);
-  color: var(--bg);
-  @include micro;
-  font-weight: 700;
-  letter-spacing: .05em;
-  transition: background-color .15s, color .15s, box-shadow .15s;
-  @include hover { &:hover { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); } }
-  // Running now: red, right up to the line.
-  &.is-now { width: var(--w); background: var(--signal); color: var(--on-signal); }
-  // Ends in the future: ink up to now, open after it.
-  &.is-future {
-    background: linear-gradient(90deg, var(--ink) var(--f), transparent var(--f));
-    box-shadow: inset 0 0 0 2px var(--ink);
-  }
-}
-.career__now {
-  position: absolute;
-  inset: 0 0 0 var(--lab);
-  pointer-events: none;
-  &::before {
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  &::after {
     content: "";
     position: absolute;
-    top: 1.6rem;
-    bottom: 1.6rem;
-    left: var(--l);
-    width: 2px;
-    margin-left: -1px;
-    background: var(--signal);
-  }
-  span {
-    position: absolute;
-    bottom: .1rem;
-    left: var(--l);
-    transform: translateX(-50%);
-    padding: .05rem .45rem;
-    background: var(--signal);
-    color: var(--on-signal);
-    @include micro;
-    font-weight: 700;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px var(--line);
+    pointer-events: none;
   }
 }
-
-// 02 Experience and 03 Education: sides of the record, one row per credit.
-
-.sides {
-  display: grid;
-  gap: clamp(3.5rem, 8vw, 5rem) clamp(2.5rem, 5vw, 5rem);
-  @include up($lg) { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+.card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.1s var(--ease);
 }
-.side__label {
+.card__media--left img { object-position: 22% center; }
+@include hover { .card:hover .card__img { transform: scale(1.035); } }
+
+.card__body { padding-top: 1.1rem; }
+.card__meta {
   display: flex;
   align-items: center;
   gap: .9rem;
-  margin-bottom: 1rem;
-  @include display;
-  font-size: clamp(1.375rem, 2.4vw, 2.25rem);
+  margin-bottom: .7rem;
+}
+.card__no {
+  font-size: .8125rem;
+  color: var(--ink);
+}
+.card__title {
+  margin-bottom: .55rem;
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 2.3vw, 2.4rem);
+  text-wrap: balance;
+  line-height: .98;
+  letter-spacing: -.02em;
+  span {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0 1px;
+    background-repeat: no-repeat;
+    background-position: 0 92%;
+    transition: background-size .6s var(--ease);
+  }
+}
+@include hover { .card:hover .card__title span { background-size: 100% 1px; } }
+.card__desc {
+  color: var(--ink-2);
+  max-width: 46ch;
+  font-size: 1rem;
+  line-height: 1.55;
+  text-wrap: pretty;
 }
 
-.rows { border-top: 2px solid var(--ink); }
-.row {
-  display: grid;
-  gap: .7rem;
-  padding: 1.5rem 0;
-  border-bottom: 1px solid var(--line-2);
-  scroll-margin-top: calc(var(--bar) + .5rem);
+// Career timeline (multitrack)
+
+.tl {
+  --lab: 5.5rem;
+  --bar: 24px;
+  --pitch: 30px;
+  position: relative;
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
 }
-.row__when {
+.tl__scroll {
+  overflow-x: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+  @include down($md) {
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    mask-image: linear-gradient(90deg, transparent, #000 var(--gutter), #000 calc(100% - var(--gutter)), transparent);
+  }
+}
+.tl__chart {
+  position: relative;
+  min-width: 46rem;
+  padding: 2.4rem 0 2.1rem;
+}
+.tl__grid,
+.tl__now {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--lab);
+  right: 0;
+  pointer-events: none;
+}
+.tl__tick {
+  position: absolute;
+  top: 1.6rem;
+  bottom: 1.6rem;
+  left: var(--l);
+  width: 1px;
+  background: var(--line);
+  span {
+    position: absolute;
+    bottom: -1.5rem;
+    left: 0;
+    transform: translateX(-50%);
+    font-size: .8125rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+}
+.tl__now {
+  &::before {
+    content: "";
+    position: absolute;
+    top: 1.35rem;
+    bottom: 1.6rem;
+    left: var(--l);
+    width: 1px;
+    background: var(--signal);
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: 1.1rem;
+    left: var(--l);
+    width: 7px;
+    height: 7px;
+    margin-left: -3px;
+    border-radius: 50%;
+    background: var(--signal);
+  }
+}
+.tl__now-label {
+  position: absolute;
+  top: .55rem;
+  left: var(--l);
+  transform: translateX(calc(-100% - .6rem));
+  font-size: .8125rem;
+  color: var(--signal-text);
+  white-space: nowrap;
+}
+
+.tl__lane {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--lab) 1fr;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  &:last-of-type { border-bottom: 1px solid var(--line); }
+}
+.tl__lane-label {
+  // Stays in view while the chart scrolls sideways on small screens.
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, var(--bg) 78%, transparent);
+  font-size: .8125rem;
+  color: var(--muted);
+  // On phones the chart scrolls under the labels: they become a frozen
+  // column with a hard edge, so bars are cut cleanly instead of showing
+  // through a fade, and the strip in the page gutter is covered too.
+  @include down($md) {
+    background: var(--bg);
+    box-shadow: 1px 0 0 var(--line);
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 100%;
+      width: var(--gutter);
+      background: var(--bg);
+    }
+  }
+}
+.tl__track {
+  position: relative;
+  height: calc(var(--rows) * var(--pitch) + 14px);
+}
+.tl__bar {
+  position: absolute;
+  top: calc(10px + var(--row) * var(--pitch));
+  left: var(--l);
+  width: calc(var(--w) - 2px);
+  height: var(--bar);
+  display: flex;
+  align-items: center;
+  padding: 0 .55rem;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--bg-3);
+  color: var(--ink);
+  font-size: .8125rem;
+  white-space: nowrap;
+  transition: background-color .2s, color .2s, box-shadow .2s;
+  &:focus-visible,
+  &.is-active {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  @include hover { &:hover { background: var(--ink); color: var(--bg); } }
+  &.is-now {
+    // An ongoing role runs right up to the "now" line.
+    width: var(--w);
+    background: var(--signal);
+    color: var(--on-signal);
+    &:focus-visible, &.is-active { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--signal); }
+    @include hover { &:hover { box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px var(--signal); } }
+  }
+  &.is-tight .tl__label { opacity: 0; }
+}
+
+.tl__label { position: relative; z-index: 1; }
+.tl__future {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  // --f is a percentage of the date span, which is 2px wider than the bar.
+  left: calc(var(--f) * (1% + .02px));
+  right: 0;
+  background: repeating-linear-gradient(-45deg, var(--bg) 0 2px, transparent 2px 6px);
+  opacity: .75;
+  border-left: 1px solid var(--bg);
+}
+
+.tl__cap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 1.5rem;
+  margin-top: .25rem;
+  font-size: .8125rem;
+  color: var(--muted);
+  > span { display: inline-flex; align-items: center; gap: .5rem; }
+}
+.tl__key {
+  width: 1.1rem;
+  height: .55rem;
+  border-radius: 2px;
+  &--now { background: var(--signal); }
+  &--future { background: repeating-linear-gradient(-45deg, var(--bg) 0 2px, var(--bg-3) 2px 5px); box-shadow: inset 0 0 0 1px var(--line-2); }
+}
+.tl__hint { margin-left: auto; @include down($md) { display: none !important; } }
+
+.tl__tip {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  min-width: 12rem;
+  max-width: 18rem;
+  padding: .6rem .75rem;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--bg);
+  box-shadow: var(--shadow);
+  font-size: .8125rem;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 10px));
+  b {
+    display: block;
+    font-family: var(--f-sans);
+    font-size: .875rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    margin-bottom: .1rem;
+  }
+  span { display: block; opacity: .75; }
+  span + span { margin-top: .25rem; }
+}
+
+// Résumé rows: two parallel columns of the same kind of thing
+// (Industry | Research, Degrees | Certifications). Publications, a section of
+// their own, lay out two-up on the same column gap.
+
+$col-gap: clamp(2.5rem, 6vw, 6rem);
+
+.spread {
+  display: grid;
+  gap: clamp(3.5rem, 7vw, 5rem) $col-gap;
+  margin-top: clamp(2.75rem, 5.5vw, 4.25rem);
+  @include up($lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+.block { min-width: 0; }
+.block__label {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--ink-2);
+}
+
+// Résumé entries: dates, then company and title, then what the work was
+
+.entries {
+  list-style: none;
+  border-top: 1px solid var(--line-2);
+}
+.entry {
+  position: relative;
+  padding: 1.75rem 0 1.95rem;
+  border-bottom: 1px solid var(--line);
+  scroll-margin-top: calc(var(--hd) + 2rem);
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 -.75rem;
+    border-radius: 8px;
+    background: var(--wash);
+    opacity: 0;
+    transition: opacity .5s var(--ease);
+    pointer-events: none;
+  }
+  &.is-lit::before { opacity: 1; }
+}
+.entry__top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem 1.25rem;
+}
+.entry__when {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  align-content: start;
-  gap: .4rem .45rem;
-  @include micro;
+  gap: .35rem .45rem;
+  font-size: .8125rem;
   color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  .tag { margin-left: .35rem; }
 }
-.row__exp { @include micro; color: var(--ink); }
-.row__org {
-  @include display;
-  font-size: clamp(1.5rem, 2.3vw, 2.375rem);
-  line-height: .86;
-  letter-spacing: -.035em;
+.entry__who { margin-top: .8rem; }
+.entry__org {
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: clamp(1.55rem, 2vw, 1.95rem);
+  line-height: 1.04;
+  letter-spacing: -.015em;
   text-wrap: balance;
-  // Links underline on hover, a heavy rule like the sleeve titles; never dim.
-  a span {
+  a {
     background-image: linear-gradient(currentColor, currentColor);
-    background-size: 0 3px;
+    background-size: 0 1px;
     background-repeat: no-repeat;
-    background-position: 0 100%;
-    transition: background-size .4s var(--ease);
+    background-position: 0 95%;
+    transition: background-size .5s var(--ease);
+    @include hover { &:hover { background-size: 100% 1px; } }
   }
-  @include hover { a:hover span { background-size: 100% 3px; } }
 }
-// The role line: the role, and on the right "Case study →".
-.row__line {
-  margin-top: .5rem;
-  .row__role { margin-top: 0; }
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: .5rem 1.25rem;
-}
-.row__case {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  @include micro;
-  font-weight: 700;
+.entry__role {
+  margin-top: .4rem;
   color: var(--ink);
-  background-image: linear-gradient(currentColor, currentColor);
-  background-size: 0 2px;
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-  padding-bottom: 3px;
-  transition: background-size .35s var(--ease);
-  .i { transition: transform .35s var(--ease); }
-  @include hover { &:hover { background-size: 100% 2px; .i { transform: translateX(3px); } } }
+  font-size: 1.0625rem;
+  font-weight: 500;
+  line-height: 1.4;
 }
-// Hovering the name lights its case study link too.
-@include hover { .row__who:has(.row__org a:hover) .row__case { background-size: 100% 2px; } }
-.row__role { margin-top: .5rem; font-size: 1rem; font-weight: 650; color: var(--ink); }
-
-.row__what {
-  font-size: .9375rem;
-  line-height: 1.6;
+.entry__case { font-size: .8125rem; flex: none; color: var(--ink-2); &:hover { color: var(--ink); } }
+.entry__what {
+  list-style: none;
+  // One or two outcome phrases per bullet are bolded in _data/resume.yml,
+  // so a skim lands on the impact. With 2-3 per bullet, 600 turned the list into
+  // a wall of bold; tone (ink on ink-2) plus 500 still pulls the eye.
+  strong { color: var(--ink); font-weight: 500; }
+  margin-top: 1.15rem;
+  font-size: 1rem;
+  line-height: 1.62;
   color: var(--ink-2);
   text-wrap: pretty;
-  margin-top: .2rem;
-  strong { color: var(--ink); font-weight: 650; }
-  li { position: relative; padding-left: 1.4rem; }
-  li::before { content: ""; position: absolute; left: 0; top: .78em; width: .7rem; height: 2px; background: var(--ink); }
-  li + li { margin-top: .6rem; }
+  li {
+    position: relative;
+    padding-left: 1.35rem;
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: .8em;
+      width: .6rem;
+      height: 1px;
+      background: var(--muted);
+    }
+  }
+  li + li { margin-top: .7rem; }
 }
-.rows--edu .row__what {
-  li { padding-left: 0; }
-  li::before { display: none; }
-  li + li { margin-top: .25rem; }
-}
-
-.certs {
-  display: grid;
-  border-top: 2px solid var(--ink);
-  @include up($md) { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gap); }
-}
-.cert {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: .35rem 1rem;
-  height: 100%;
-  padding: 1rem 0 1.15rem;
-  border-bottom: 1px solid var(--line-2);
-  &__name { font-size: 1rem; font-weight: 650; line-height: 1.3; color: var(--ink); }
-  &__pub { grid-row: 2; @include micro; color: var(--muted); }
-  .i { grid-row: 1 / span 2; grid-column: 2; transition: transform .35s var(--ease); }
-  @include hover { &:hover { .i { transform: translate(2px, -2px); } .cert__name { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; } } }
+.entries--edu .entry__what {
+  margin-top: .8rem;
+  li { padding-left: 0; &::before { display: none; } }
+  li + li { margin-top: .3rem; }
 }
 
-// 04 Publications
+// Publications
 
-.pubs { border-top: 2px solid var(--ink); }
+.pubs {
+  list-style: none;
+  border-top: 1px solid var(--line-2);
+  @include up($lg) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: $col-gap;
+  }
+}
 .pub {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: .6rem 1rem;
-  padding: 1.5rem 0;
-  border-bottom: 1px solid var(--line-2);
+  padding: 1.75rem 0 1.9rem;
+  border-bottom: 1px solid var(--line);
 }
-.pub__year { @include micro; color: var(--muted); }
-.pub__main { grid-column: 1 / -1; grid-row: 2; }
+.pub__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .35rem .9rem;
+  font-size: .8125rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+// The venue takes the free space and wraps inside it, so a long journal
+// name never pushes the PDF/DOI link onto a line of its own.
+.pub__venue { flex: 1 1 0; min-width: 8rem; }
 .pub__title {
-  font-size: clamp(1.25rem, 1.7vw, 1.625rem);
-  font-weight: 650;
-  line-height: 1.18;
-  letter-spacing: -.015em;
+  margin-top: .8rem;
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: clamp(1.35rem, 1.75vw, 1.6rem);
+  line-height: 1.12;
+  letter-spacing: -.01em;
   text-wrap: balance;
   a::after { content: ""; position: absolute; inset: 0; }
 }
-.pub__sum { margin-top: .6rem; max-width: 60ch; font-size: 1rem; line-height: 1.55; color: var(--ink); }
-.pub__venue { margin-top: .6rem; @include micro; color: var(--muted); }
+.pub__sum {
+  margin-top: .75rem;
+  color: var(--ink-2);
+  font-size: .975rem;
+  line-height: 1.62;
+  text-wrap: pretty;
+}
 .pub__kind {
+  margin-left: auto;
   display: inline-flex;
   align-items: center;
   gap: .3rem;
-  @include micro;
-  font-weight: 700;
-  grid-column: 2;
-  grid-row: 1;
+  transition: color .2s;
   .i { transition: transform .35s var(--ease); }
 }
 @include hover {
   .pub:hover {
-    .pub__title a { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .16em; }
-    .pub__kind .i { transform: translate(2px, -2px); }
+    .pub__kind { color: var(--ink); .i { transform: translate(2px, -2px); } }
+    .pub__title a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .15em; text-decoration-color: var(--line-2); }
   }
 }
 
-// Sleeves: square art, the number and name beneath, like a discography.
-.discs {
+// Certifications
+
+.certs {
+  list-style: none;
+  border-top: 1px solid var(--line-2);
+}
+.cert {
   display: grid;
-  gap: clamp(3rem, 6vw, 4.5rem) var(--gap);
-  @include up($sm) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  @include up($lg) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  > li.is-hidden { display: none; }
-}
-.discs--three { @include up($md) { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.disc {
-  display: grid;
-  align-items: start;
-}
-.disc__art {
-  grid-column: 1 / -1;
-  aspect-ratio: 1;
-  overflow: hidden;
-  background: var(--bg-2);
-  margin-bottom: 1.1rem;
-  img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease); }
-}
-.disc__art--left img { object-position: 12% center; }
-.disc__title {
-  @include display;
-  font-size: clamp(1.5rem, 2.3vw, 2.5rem);
-  line-height: .86;
-  text-wrap: balance;
-  background-image: linear-gradient(currentColor, currentColor);
-  background-size: 0 3px;
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-  padding-bottom: .12em;
-  transition: background-size .45s var(--ease);
-  justify-self: start;
-}
-.disc .eyebrow { margin-top: .55rem; }
-.disc__desc { margin-top: .6rem; font-size: .9375rem; line-height: 1.55; color: var(--ink-2); max-width: 44ch; text-wrap: pretty; }
-@include hover {
-  .disc:hover {
-    .disc__art img { transform: scale(1.05); }
-    .disc__title { background-size: 100% 3px; }
+  grid-template-columns: 1fr auto;
+  gap: .25rem 1rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--line);
+  &__name { font-size: 1rem; font-weight: 500; line-height: 1.35; color: var(--ink); }
+  &__pub { grid-row: 2; font-size: .8125rem; color: var(--muted); }
+  &__go { grid-row: 1 / span 2; grid-column: 2; align-self: center; color: var(--muted); transition: color .2s, transform .35s var(--ease); }
+  @include hover {
+    &:hover &__go { color: var(--ink); transform: translate(2px, -2px); }
+    &:hover &__name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; text-decoration-color: var(--line-2); }
   }
 }
 
-// 06 Writing
+// Writing rows (home + /writing/)
 
-.posts { border-top: 2px solid var(--ink); }
+.posts {
+  list-style: none;
+  border-top: 1px solid var(--line-2);
+}
 .post__link {
   position: relative;
-  isolation: isolate;
   display: grid;
-  gap: .45rem var(--gap);
-  padding: 1.5rem 0;
-  border-bottom: 1px solid var(--line-2);
+  gap: .4rem var(--gap);
+  padding: 1.35rem 0;
+  border-bottom: 1px solid var(--line);
   align-items: baseline;
-  transition: color .15s;
   @include up($md) { @include grid12; }
-  // Hover: an ink plane rises under the row.
-  &::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    inset: 0 calc(var(--gutter) * -.5);
-    background: var(--ink);
-    transform: scaleY(0);
-    transform-origin: 50% 100%;
-    transition: transform .3s var(--ease);
-  }
 }
-.post__date { @include micro; color: var(--muted); @include up($md) { grid-column: 1 / span 2; } }
-.post__main { @include up($md) { grid-column: 3 / span 7; } }
+.post__date {
+  font-size: .8125rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  @include up($md) { grid-column: 1 / span 3; }
+}
+.post__main { @include up($md) { grid-column: 4 / span 7; } }
 .post__title {
   display: block;
-  font-size: clamp(1.25rem, 1.8vw, 1.75rem);
-  font-weight: 650;
-  line-height: 1.18;
-  letter-spacing: -.018em;
+  font-family: var(--f-serif);
+  font-size: clamp(1.45rem, 2.1vw, 1.95rem);
+  line-height: 1.12;
+  letter-spacing: -.01em;
   text-wrap: balance;
+  transition: color .2s;
 }
 .post__excerpt {
   display: -webkit-box;
@@ -582,66 +1037,34 @@
   overflow: hidden;
   margin-top: .55rem;
   color: var(--ink-2);
-  font-size: .9375rem;
+  font-size: .975rem;
   line-height: 1.55;
 }
 .post__src {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  @include micro;
+  font-size: .8125rem;
   color: var(--muted);
-  @include up($md) { grid-column: 10 / -1; justify-self: end; }
+  @include up($md) { grid-column: 11; }
   @include down($md) { display: none; }
+}
+.post__go {
+  display: none;
+  color: var(--muted);
+  transition: color .2s, transform .35s var(--ease);
+  @include up($md) { display: block; grid-column: 12; justify-self: end; }
 }
 .post__thumb { display: none; }
 @include hover {
-  .posts:not(.posts--full) .post__link:hover {
-    color: var(--bg);
-    &::before { transform: none; }
-    .post__date, .post__src { color: var(--bg); }
+  .post__link:hover {
+    .post__title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .14em; text-decoration-color: var(--line-2); }
+    .post__go { color: var(--ink); transform: translate(2px, -2px); }
   }
 }
-.hero__stack.is-capped { text-align: center; }
 
-// ---------------------------------------------------------------- motion
-// Everything here is decoration on top of a page that already reads: it is
-// skipped with reduced motion, and nothing waits on it to be visible.
-
-@media (prefers-reduced-motion: no-preference) {
-  // Titles assemble as they scroll in: the number from the left, the name
-  // from the right. Tied to scroll position, so it plays both ways.
-  @supports (animation-timeline: view()) {
-    .th__title .fit__in {
-      animation: title-in linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 38%;
-    }
-    .th__no {
-      display: inline-block;
-      animation: no-in linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 38%;
-    }
-  }
-
-  // The cover's lines drift against each other with the pointer (set by script).
-  .hero__line { transition: transform .9s var(--ease); }
-
-  // The career strip plays in time order once it's on screen.
-  .js .career .career__bar {
-    transform-origin: 0 50%;
-    transition: transform .7s var(--ease) calc(var(--dl, 0) * 1ms), background-color .15s, color .15s, box-shadow .15s;
-  }
-  .js .career:not(.is-in) .career__bar { transform: scaleX(0); }
-  .js .career .career__now::before { transform-origin: 50% 0; transition: transform .6s var(--ease) 1s; }
-  .js .career:not(.is-in) .career__now::before { transform: scaleY(0); }
-  .career.is-in .career__now::before { animation: live 2.4s ease-in-out 1.8s infinite; }
+// Phones: tighten the hero so Fig. 1's caption is read in the first screen.
+@include down($sm) {
+  .hero__body { padding-top: 1rem; }
+  .hero__foot { margin-top: 1.25rem; }
+  .signal { margin-top: 2.75rem; }
+  .signal__stage { height: 40px; }
+  .signal__cap { margin-top: .75rem; }
 }
-@keyframes title-in { from { transform: translateX(10%); } }
-@keyframes no-in { from { transform: translateX(-80%); opacity: 0; } }
-@keyframes live { 50% { opacity: .35; } }
-
-// A role hovered below lights its bar in the strip.
-.career__bar.is-lit { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
-

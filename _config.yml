@@ -19,6 +19,11 @@ tagline: Building real-time AI agents for live conversation
 # Role line shown above the hero headline.
 role: Software Engineer @ Microsoft Teams AI
 
+# City for the live clock in the header and footer (an IANA time zone).
+location:
+  city: Seattle
+  timezone: America/Los_Angeles
+
 # Square image used by jekyll-seo-tag and the structured data.
 logo: /assets/img/profile.webp
 
@@ -29,9 +34,8 @@ author:
 
 medium_username: jackyangzzh
 
-# Primary navigation. The bar and the menu list these. The current page is
-# marked by the travelling line; on the home page it follows the section in
-# view (an item whose url has a #hash).
+# Primary navigation, in the home page's section order. The current page is marked by the travelling line; on the
+# home page it follows the section in view (an item whose url has a #hash).
 menu:
   - title: About
     url: /
@@ -42,7 +46,7 @@ menu:
   - title: Writing
     url: /writing/
 
-# Contact actions, shared by the hero, the outro and the command menu.
+# Contact actions, shared by the hero, the footer and the command menu.
 contact:
   email: jackyangzzh@gmail.com
   schedule: https://calendly.com/jackyangzzh/30min
@@ -50,7 +54,7 @@ contact:
 
 # Browser UI color, per color scheme (matches --bg in _sass/_tokens.scss).
 theme_color:
-  light: "#DBD3C7"
+  light: "#E4DFD7"
   dark: "#000000"
 
 # Format of any future local writing permalinks

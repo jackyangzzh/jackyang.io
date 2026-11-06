@@ -1,3 +1,3 @@
-{%- comment -%}"■ Professional, 2022–2024": what kind of project, and when.{%- endcomment -%}
+{%- comment -%}"● Personal, 2026": the category colour lives in the dot only.{%- endcomment -%}
 {%- assign p = include.project -%}
-<span class="eyebrow"><i class="dot" aria-hidden="true"></i>{% capture yrs %}{% include years.html project=p %}{% endcapture %}{{ p.category | capitalize }}, {{ yrs | strip }}</span>
+<span class="eyebrow"><i class="dot dot--{{ p.category | default: 'other' }}" aria-hidden="true"></i>{% capture yrs %}{% include years.html project=p %}{% endcapture %}{{ p.category | capitalize }}, {{ yrs | strip }}</span>

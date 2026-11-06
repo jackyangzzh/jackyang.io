@@ -1,6 +1,5 @@
 // jackyang.io — progressive enhancement. Every page works without this file;
-// it stretches the type, runs the player bar, performs Fig. 1, and adds a few
-// conveniences.
+// it adds motion, the interactive figures and a few conveniences.
 (() => {
   "use strict";
 
@@ -29,7 +28,7 @@
 
   function syncThemeUI() {
     const t = currentTheme();
-    $$("[data-theme-toggle]").forEach((b) => { b.textContent = t === "dark" ? "Light mode" : "Dark mode"; });
+    $$("[data-theme-toggle]").forEach((b) => b.setAttribute("aria-label", t === "dark" ? "Switch to light theme" : "Switch to dark theme"));
     if (themeMeta) themeMeta.content = themeMeta.dataset[t];
   }
 
@@ -44,7 +43,7 @@
     if (!d.startViewTransition || reduced.matches) return applyTheme(next);
     const r = origin && origin.getBoundingClientRect ? origin.getBoundingClientRect() : null;
     const x = r ? r.left + r.width / 2 : innerWidth - 48;
-    const y = r ? r.top + r.height / 2 : innerHeight - 30;
+    const y = r ? r.top + r.height / 2 : 32;
     const rad = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
     root.style.setProperty("--vt-x", `${x}px`);
     root.style.setProperty("--vt-y", `${y}px`);
@@ -60,378 +59,596 @@
     $$("[data-theme-toggle]").forEach((b) => b.addEventListener("click", () => toggleTheme(b)));
   }
 
-  /* ------------------------------------------------------------ edge to edge */
+  /* ------------------------------------------------------------ clock */
 
-  // Each [data-fit] line is stretched to the full measure: measured at 100px,
-  // then scaled. The last letter's negative tracking hangs past the box, so
-  // that overhang is counted in. On the cover, if the stretched headline
-  // would push the first screen past the bar, the whole stack shrinks and
-  // centres instead.
-  const OVERHANG = 3.5; // px at 100px: .035em of trailing tracking
-  function fit() {
-    const lines = $$("[data-fit]");
-    if (!lines.length) return;
-    const hero = $("[data-hero]");
-    const stack = hero && $("[data-stack]", hero);
-    const bar = $("[data-bar]");
-    const size = () => {
-      lines.forEach((el) => {
-        const avail = el.clientWidth;
-        if (!avail) return; // the wide/narrow headline set not shown at this width
-        el.style.fontSize = "100px";
-        const w = el.firstElementChild.getBoundingClientRect().width;
-        const cap = parseFloat(getComputedStyle(el).getPropertyValue("--fit-cap")) || Infinity;
-        if (w) el.style.fontSize = `${Math.min(cap, (100 * avail) / (w + OVERHANG)).toFixed(2)}px`;
-      });
-      if (!stack) return;
-      stack.classList.remove("is-capped");
-      const over = hero.offsetHeight - (innerHeight - (bar ? bar.offsetHeight : 0));
-      const h = stack.offsetHeight;
-      if (over > 1 && h) {
-        const k = Math.max(0.5, (h - over) / h);
-        $$("[data-fit]", stack).forEach((el) => { if (el.clientWidth) el.style.fontSize = `${(parseFloat(el.style.fontSize) * k).toFixed(2)}px`; });
-        stack.classList.add("is-capped");
+  function clock() {
+    const els = $$("[data-clock]");
+    if (!els.length) return;
+    let fmt;
+    try { fmt = new Intl.DateTimeFormat("en-US", { timeZone: els[0].dataset.tz, hour: "numeric", minute: "2-digit" }); }
+    catch { return; }
+    const tick = () => {
+      const s = fmt.format(new Date());
+      els.forEach((el) => { const t = $("[data-clock-time]", el); if (t) t.textContent = s; el.hidden = false; });
+    };
+    tick();
+    setTimeout(() => { tick(); setInterval(tick, 60000); }, (60 - new Date().getSeconds()) * 1000 + 50);
+  }
+
+  /* ------------------------------------------------------------ header + menu */
+
+  function header() {
+    const hd = $("[data-hd]");
+    if (!hd) return;
+    const on = () => hd.classList.toggle("is-scrolled", scrollY > 4);
+    on();
+    addEventListener("scroll", on, { passive: true });
+  }
+
+  function menu() {
+    const btn = $("[data-menu-toggle]");
+    const panel = $("[data-menu]");
+    if (!btn || !panel) return;
+    const background = $$("main, footer, .skip");
+    let previousInert = [];
+    panel.inert = true;
+    const isOpen = () => btn.getAttribute("aria-expanded") === "true";
+    const set = (open) => {
+      if (open === isOpen()) return;
+      btn.setAttribute("aria-expanded", String(open));
+      root.classList.toggle("menu-open", open);
+      if (open) {
+        previousInert = background.map((element) => element.inert);
+        background.forEach((element) => { element.inert = true; });
+        panel.inert = false;
+        panel.hidden = false;
+        requestAnimationFrame(() => requestAnimationFrame(() => { if (isOpen()) panel.classList.add("is-open"); }));
+      } else {
+        background.forEach((element, index) => { element.inert = previousInert[index]; });
+        if (panel.contains(d.activeElement) || d.activeElement === btn) {
+          (btn.getClientRects().length ? btn : $(".hd__mark")).focus();
+        }
+        panel.inert = true;
+        panel.classList.remove("is-open");
+        setTimeout(() => { if (!isOpen()) panel.hidden = true; }, 200);
       }
     };
-    size();
-    if (d.fonts) d.fonts.ready.then(size);
-    let w = innerWidth;
-    let h = innerHeight;
-    let t = 0;
-    addEventListener("resize", () => {
-      // Phone toolbars change the height while scrolling; only a real resize refits.
-      if (innerWidth === w && Math.abs(innerHeight - h) < 120) return;
-      w = innerWidth;
-      h = innerHeight;
-      cancelAnimationFrame(t);
-      t = requestAnimationFrame(size);
+    btn.addEventListener("click", () => set(!isOpen()));
+    panel.addEventListener("click", (e) => { if (e.target.closest("a")) set(false); });
+    d.addEventListener("keydown", (e) => {
+      if (!isOpen() || $("dialog[open]")) return;
+      if (e.key === "Escape") { set(false); btn.focus(); }
+      else if (e.key === "Tab") {
+        const controls = $$("[data-hd] a[href], [data-hd] button, [data-menu] a[href]")
+          .filter((element) => !element.disabled && element.tabIndex >= 0 && element.getClientRects().length && !element.closest("[inert]"));
+        const first = controls[0];
+        const last = controls[controls.length - 1];
+        if (e.shiftKey && (d.activeElement === first || !controls.includes(d.activeElement))) {
+          e.preventDefault(); last.focus();
+        } else if (!e.shiftKey && (d.activeElement === last || !controls.includes(d.activeElement))) {
+          e.preventDefault(); first.focus();
+        }
+      }
+    });
+    matchMedia("(min-width: 56em)").addEventListener("change", (e) => { if (e.matches && isOpen()) set(false); });
+  }
+
+  /* ------------------------------------------------------------ travelling line */
+
+  // One 2px line under the current option that glides to whatever is hovered
+  // or focused: the leading edge moves first, the trailing edge 140ms later.
+  function tracks() {
+    $$("[data-track]").forEach((track) => {
+      const line = d.createElement("span");
+      line.className = "track__line";
+      line.setAttribute("aria-hidden", "true");
+      track.append(line);
+      track.classList.add("has-line");
+
+      const opts = () => $$(":scope > li > a, :scope > li > button", track);
+      const current = () =>
+        opts().find((a) => a.classList.contains("is-here")) ||
+        opts().find((a) => a.matches('[aria-current="page"], [aria-pressed="true"]'));
+      let shown = null;
+      let pointerIn = false;
+
+      const place = (el, instant) => {
+        if (!el || !el.offsetWidth) { line.classList.remove("is-on"); shown = null; return; }
+        const tr = track.getBoundingClientRect();
+        const r = el.getBoundingClientRect();
+        const prev = shown && shown.isConnected ? shown.getBoundingClientRect() : null;
+        const dir = prev ? Math.sign(r.left - prev.left) : 0;
+        line.style.setProperty("--lag-l", dir > 0 ? ".14s" : "0s");
+        line.style.setProperty("--lag-r", dir < 0 ? ".14s" : "0s");
+        const jump = instant || !shown;
+        if (jump) line.classList.add("is-instant");
+        line.style.left = `${r.left - tr.left}px`;
+        line.style.right = `${tr.right - r.right}px`;
+        const low = Math.max(...opts().map((o) => o.getBoundingClientRect().bottom));
+        line.style.setProperty("--row", `${Math.round(low - r.bottom)}px`);
+        if (jump) { void line.offsetWidth; line.classList.remove("is-instant"); }
+        line.classList.add("is-on");
+        shown = el;
+      };
+      const rest = () => place(current());
+
+      track.addEventListener("pointerover", (e) => {
+        pointerIn = true;
+        const a = e.target.closest("a, button");
+        if (a && track.contains(a)) place(a);
+      });
+      track.addEventListener("pointerleave", () => { pointerIn = false; rest(); });
+      track.addEventListener("focusin", (e) => place(e.target.closest("a, button")));
+      track.addEventListener("focusout", () => setTimeout(() => { if (!track.contains(d.activeElement)) rest(); }, 0));
+      track.addEventListener("track:update", () => { if (!pointerIn && !track.contains(d.activeElement)) rest(); });
+      new ResizeObserver(() => place(current(), true)).observe(track);
+      if (d.fonts) d.fonts.ready.then(() => place(current(), true));
     });
   }
 
-  /* ------------------------------------------------------------ the player bar */
+  /* ------------------------------------------------------------ section links */
 
-  // The rail shows how far through the page you are, with a mark at each
-  // track (the home page's sections, or a case study's headings); the bar
-  // names the track you're in. While Fig. 1 plays, the rail is Fig. 1's.
-  function bar() {
-    const el = $("[data-bar]");
-    if (!el) return;
-    const rail = $("[data-rail]", el);
-    const navLinks = $$(".bar__nav a").filter((a) => new URL(a.href, location.href).pathname === location.pathname);
-    const marks = $$("main [data-track]");
-    let tops = [];
-    let shown = null;
-    const fig = () => root.classList.contains("is-fig");
-    const update = () => {
-      if (fig()) return;
-      const max = Math.max(1, root.scrollHeight - innerHeight);
-      rail.style.setProperty("--p", Math.min(1, scrollY / max).toFixed(4));
-      let cur = -1;
-      tops.forEach((t, i) => { if (scrollY + innerHeight * 0.4 >= t) cur = i; });
-      if (cur !== shown) {
-        shown = cur;
-        // The bar's nav follows the section in view.
-        const id = cur < 0 ? "" : marks[cur].id;
-        const hit = navLinks.find((a) => a.hash && a.hash === `#${id}`);
-        navLinks.forEach((a) => a.classList.toggle("is-here", a === hit));
-      }
+  // A nav item like "/#experience" is "here" while its section is in view, so
+  // on the home page the travelling line follows you from About to Experience.
+  function sectionSpy() {
+    const pairs = $$("[data-track] a[href*='#']")
+      .map((a) => {
+        const u = new URL(a.href, location.href);
+        const sec = u.pathname === location.pathname && u.hash && d.getElementById(u.hash.slice(1));
+        return sec ? [a, sec] : null;
+      })
+      .filter(Boolean);
+    if (!pairs.length) return;
+    const track = pairs[0][0].closest("[data-track]");
+    const setHere = (link) => {
+      pairs.forEach(([a]) => a.classList.toggle("is-here", a === link));
+      track.dispatchEvent(new Event("track:update"));
     };
-    const measure = () => {
-      tops = marks.map((m) => m.getBoundingClientRect().top + scrollY);
-      update();
+    // While a click's smooth scroll is in flight, the clicked item keeps the
+    // line instead of the line tracking every section scrolled past.
+    let locked = false;
+    let lockTimer = 0;
+    const unlock = () => { clearTimeout(lockTimer); locked = false; update(); };
+    const lock = () => {
+      locked = true;
+      clearTimeout(lockTimer);
+      lockTimer = setTimeout(unlock, 1500);
+      addEventListener("scrollend", unlock, { once: true });
     };
-    let ticking = false;
-    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; update(); }); } }, { passive: true });
-    d.addEventListener("bar:refresh", () => { shown = null; update(); });
-    new ResizeObserver(measure).observe(d.body);
-    measure();
-
-    // Links back to this very page scroll to the top instead of reloading it.
+    const plain = (e) => !(e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey);
+    pairs.forEach(([a]) => a.addEventListener("click", (e) => { if (plain(e)) { setHere(a); lock(); } }));
+    // Links to this very page (About, the wordmark) scroll back up and drop
+    // the #hash rather than reloading the page.
     $$("a[href]").forEach((a) => {
       const u = new URL(a.href, location.href);
       if (u.origin !== location.origin || u.pathname !== location.pathname || u.hash || u.search) return;
       a.addEventListener("click", (e) => {
-        if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        if (!plain(e)) return;
         e.preventDefault();
+        setHere(null);
+        lock();
+        history.replaceState(null, "", location.pathname);
         scrollTo({ top: 0, behavior: reduced.matches ? "auto" : "smooth" });
       });
     });
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      if (locked) return;
+      const y = innerHeight * 0.35;
+      pairs.forEach(([a, sec]) => {
+        const r = sec.getBoundingClientRect();
+        const here = r.top <= y && r.bottom > y;
+        if (here !== a.classList.contains("is-here")) {
+          a.classList.toggle("is-here", here);
+          a.closest("[data-track]").dispatchEvent(new Event("track:update"));
+        }
+      });
+    };
+    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    update();
   }
 
-  /* ------------------------------------------------------------ the index */
+  /* ------------------------------------------------------------ Fig. 1: the conversation */
 
-  function indexMenu() {
-    const btn = $("[data-index-open]");
-    const panel = $("[data-index]");
-    if (!btn || !panel) return;
-    const background = $$("main, footer, .skip");
-    const isOpen = () => btn.getAttribute("aria-expanded") === "true";
-    const label = btn.innerHTML; // "Contact" on wide screens, "Menu" on phones
-    const set = (open) => {
-      if (open === isOpen()) return;
-      btn.setAttribute("aria-expanded", String(open));
-      if (open) btn.textContent = "Close"; else btn.innerHTML = label;
-      root.classList.toggle("index-open", open);
-      background.forEach((e) => { e.inert = open; });
-      if (open) {
-        panel.hidden = false;
-        requestAnimationFrame(() => requestAnimationFrame(() => { if (isOpen()) panel.classList.add("is-open"); }));
-        panel.tabIndex = -1;
-        panel.focus({ preventScroll: true });
+  // An illustrated conversation drawn as a voice waveform. On screen it plays
+  // itself in real time: words arrive as they're "said", and each gap fills a
+  // pause meter toward the agent's turn threshold. Hovering, dragging or the
+  // keyboard takes over; the caption then shows who is speaking at the playhead.
+  function signal() {
+    const fig = $("[data-signal]");
+    if (!fig) return;
+    const stage = $("[data-signal-stage]", fig);
+    const head = $("[data-signal-head]", fig);
+    const time = $("[data-signal-time]", fig);
+    const text = $("[data-signal-text]", fig);
+    const hint = $("[data-signal-hint]", fig);
+    const btn = $("[data-signal-play]", fig);
+    // Illustrative only: how long a gap must last before the agent may speak.
+    const TURN = 1.2;
+    let turns;
+    try { turns = JSON.parse($("[data-signal-data]", fig).textContent); } catch { return; }
+    if (!Array.isArray(turns) || !turns.length) return;
+
+    let t = 0;
+    const segs = turns.map((x) => {
+      const gap = x.pause != null;
+      const dur = Number(gap ? x.pause : x.dur) || 1;
+      const s = { who: x.who, text: x.text, gap, start: t, end: t + dur };
+      t += dur;
+      return s;
+    });
+    const total = t;
+    const segAt = (tt) => segs.find((s) => tt >= s.start && tt < s.end) || segs[segs.length - 1];
+
+    const NS = "http://www.w3.org/2000/svg";
+    const svg = d.createElementNS(NS, "svg");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("focusable", "false");
+    stage.prepend(svg);
+
+    let W = 0;
+    let H = 0;
+    let clipA;
+    let clipB;
+
+    const build = () => {
+      const r = stage.getBoundingClientRect();
+      W = Math.round(r.width);
+      H = Math.round(r.height);
+      if (!W || !H) return;
+      const pitch = W < 560 ? 4.5 : 6;
+      const bw = W < 560 ? 2.25 : 3;
+      const n = Math.floor(W / pitch);
+      let seed = 20261018;
+      const rnd = () => ((seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0) / 4294967296);
+      const bars = { h: "", a: "", g: "" };
+      for (let i = 0; i < n; i++) {
+        const tt = ((i + 0.5) / n) * total;
+        const seg = segAt(tt);
+        let amp = 0;
+        if (!seg.gap) {
+          const edge = Math.max(0, Math.min(1, (tt - seg.start) / 0.3, (seg.end - tt) / 0.3));
+          const syllable = 0.5 + 0.5 * Math.abs(Math.sin(tt * 4.6 + seg.start * 3));
+          const phrase = 0.72 + 0.28 * Math.sin(tt * 1.3 + seg.start);
+          amp = edge * syllable * phrase * (0.42 + 0.58 * rnd());
+          if (seg.who === "agent") amp *= 0.92;
+        }
+        const h = Math.max(2, amp * H);
+        const x = i * pitch + (pitch - bw) / 2;
+        bars[seg.gap ? "g" : seg.who === "agent" ? "a" : "h"] += `<rect x="${x.toFixed(2)}" y="${((H - h) / 2).toFixed(2)}" width="${bw}" height="${h.toFixed(2)}" rx="${bw / 2}"/>`;
+      }
+      svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+      // The bars are drawn through <use>, whose clones live in a shadow tree
+      // that page selectors can't reach, so colours go on as inline styles
+      // (copied with the clone; the custom properties still inherit).
+      svg.innerHTML =
+        `<defs><g id="sig-bars"><g style="fill:var(--ink);opacity:.55">${bars.h}</g>` +
+        `<g style="fill:var(--ink);opacity:.3">${bars.g}</g><g style="fill:var(--signal)">${bars.a}</g></g>` +
+        `<clipPath id="sig-a"><rect x="0" y="-4" width="${W}" height="${H + 8}"/></clipPath>` +
+        `<clipPath id="sig-b"><rect x="${W}" y="-4" width="0" height="${H + 8}"/></clipPath></defs>` +
+        `<use href="#sig-bars" clip-path="url(#sig-a)"/><use href="#sig-bars" class="w-rest" clip-path="url(#sig-b)"/>`;
+      clipA = svg.querySelector("#sig-a rect");
+      clipB = svg.querySelector("#sig-b rect");
+    };
+
+    const stamp = (s) => {
+      const m = Math.floor(s / 60);
+      const sec = (s - m * 60).toFixed(1).padStart(4, "0");
+      return `${String(m).padStart(2, "0")}:${sec}`;
+    };
+
+    const paint = (el, seg) => {
+      if (!seg) {
+        el.className = "signal__text";
+        el.textContent = text.dataset.default;
+      } else if (seg.gap) {
+        const len = seg.end - seg.start;
+        el.className = `signal__text is-gap${len >= TURN ? " is-over" : ""}`;
+        el.innerHTML = `<span class="signal__meter" style="--p:${Math.min(1, len / TURN)}"><i></i></span>${esc(seg.text || "Pause")}`;
       } else {
-        panel.classList.remove("is-open");
-        if (panel.contains(d.activeElement)) btn.focus();
-        setTimeout(() => { if (!isOpen()) panel.hidden = true; }, reduced.matches ? 0 : 420);
+        const agent = seg.who === "agent";
+        el.className = `signal__text${agent ? " is-agent" : ""}`;
+        el.innerHTML = `<b>${esc(agent ? "Agent" : seg.who)}</b>“${esc(seg.text)}”`;
       }
     };
-    btn.addEventListener("click", () => set(!isOpen()));
-    panel.addEventListener("click", (e) => {
-      if (e.target.closest("a")) set(false);
-    });
-    d.addEventListener("keydown", (e) => {
-      if (!isOpen() || $("dialog[open]")) return;
-      if (e.key === "Escape") { set(false); btn.focus(); return; }
-      if (e.key !== "Tab") return;
-      const controls = [...$$("a[href], button", panel), btn].filter((c) => c.getClientRects().length);
-      const first = controls[0];
-      const last = controls[controls.length - 1];
-      if (d.activeElement === panel) { e.preventDefault(); (e.shiftKey ? last : first).focus(); }
-      else if (e.shiftKey && d.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && d.activeElement === last) { e.preventDefault(); first.focus(); }
-    });
-  }
-
-  /* ------------------------------------------------------------ Fig. 1, the film */
-
-  // Play turns the headline into a screen: the film rises in a box in the
-  // headline's place, inside the page, and the button becomes Close. The
-  // bar's rail is its timeline (click to seek) and Esc closes it. The film
-  // ends on a red square; the page takes over from there: the screen fades,
-  // the headline rises again, and the square flies into its full stop.
-  function fig1() {
-    const hero = $("[data-hero]");
-    const fig = hero && $("[data-fig]", hero);
-    if (!fig) return;
-    const btn = $("[data-fig-play]", fig);
-    const film = $("[data-film]", hero);
-    const v = $("[data-film-video]", film);
-    const stage = $("[data-stage]", hero);
-    const label = btn.innerHTML;
-    const rail = $("[data-rail]");
-    const narrow = matchMedia("(max-width: 39.999em)");
-    let open = false;
-    let raf = 0;
-    let closing = 0; // the fade-out's timer, cancelled if Play comes back first
-
-    const tick = () => {
-      if (!open) return;
-      if (rail && v.duration) rail.style.setProperty("--p", (v.currentTime / v.duration).toFixed(4));
-      raf = requestAnimationFrame(tick);
+    let cur = null;
+    const caption = (seg) => {
+      if (seg === cur) return;
+      cur = seg;
+      paint(text, seg);
+      const said = !seg ? text.dataset.default : seg.gap ? seg.text || "Pause" : `${seg.who === "agent" ? "Agent" : seg.who}: ${seg.text}`;
+      stage.setAttribute("aria-valuetext", said);
     };
-    // Wide screens: the largest 16:9 box that fits the headline's area,
-    // centred in it. Phones: edge to edge at 16:10 (the crop only takes the
-    // film's side margins), pushing the intro down if it needs the room.
-    const place = () => {
-      const gap = 24; // clear of the role line above
-      stage.style.minHeight = "";
-      const h = hero.getBoundingClientRect();
-      let st = stage.getBoundingClientRect();
-      if (narrow.matches) {
-        const w = h.width, hh = (w * 10) / 16;
-        if (hh + gap > st.height) { stage.style.minHeight = `${Math.ceil(hh + gap * 2)}px`; st = stage.getBoundingClientRect(); }
-        Object.assign(film.style, { left: "0px", top: `${st.top - h.top + gap + (st.height - gap - hh) / 2}px`, width: `${w}px`, height: `${hh}px` });
+    // Live caption: the words said so far, or a gap's meter filling in real time.
+    let liveKey = "";
+    const liveCaption = (seg, tt) => {
+      cur = undefined;
+      const into = tt - seg.start;
+      if (seg.gap) {
+        const over = into >= TURN;
+        const key = `g${seg.start}${over}`;
+        if (key !== liveKey) {
+          liveKey = key;
+          text.className = `signal__text is-gap${over ? " is-over" : ""}`;
+          text.innerHTML = `<span class="signal__meter"><i></i></span>${esc(seg.text || "Pause")}`;
+        }
+        text.firstChild.style.setProperty("--p", Math.min(1, into / TURN).toFixed(3));
         return;
       }
-      const cs = getComputedStyle(stage);
-      const pl = parseFloat(cs.paddingLeft), pr = parseFloat(cs.paddingRight);
-      const aw = st.width - pl - pr, ah = st.height - gap;
-      const w = Math.min(aw, (ah * 16) / 9), hh = (w * 9) / 16;
-      Object.assign(film.style, {
-        left: `${st.left - h.left + pl + (aw - w) / 2}px`,
-        top: `${st.top - h.top + gap + (ah - hh) / 2}px`,
-        width: `${w}px`,
-        height: `${hh}px`,
-      });
+      const words = seg.text.split(" ");
+      const n = Math.min(words.length, Math.ceil((words.length * into) / ((seg.end - seg.start) * 0.9)));
+      const key = `s${seg.start}:${n}`;
+      if (key === liveKey) return;
+      liveKey = key;
+      const agent = seg.who === "agent";
+      text.className = `signal__text${agent ? " is-agent" : ""}`;
+      text.innerHTML = `<b>${esc(agent ? "Agent" : seg.who)}</b>“${esc(words.slice(0, n).join(" "))}${n === words.length ? "”" : ""}`;
+    };
+    // Reserve the height of the longest line at this width, so scrubbing
+    // never moves the page below the figure.
+    const fitCaption = () => {
+      const probe = d.createElement("span");
+      probe.setAttribute("aria-hidden", "true");
+      probe.style.cssText = `position:absolute;visibility:hidden;pointer-events:none;width:${text.getBoundingClientRect().width}px`;
+      text.parentNode.append(probe);
+      let max = 0;
+      [null, ...segs].forEach((seg) => { paint(probe, seg); max = Math.max(max, probe.getBoundingClientRect().height); });
+      probe.remove();
+      text.style.minHeight = `${Math.ceil(max)}px`;
     };
 
-    // The headline's final full stop, wrapped once so the square can land in it.
-    const stopOf = () => {
-      const line = $$(".hero__line", hero).filter((l) => l.clientWidth).pop();
-      if (!line) return null;
-      let sp = $(".hero__stop", line);
-      if (sp) return sp;
-      const walk = d.createTreeWalker(line, NodeFilter.SHOW_TEXT);
-      let last = null;
-      while (walk.nextNode()) if (walk.currentNode.nodeValue.trim()) last = walk.currentNode;
-      const i = last ? last.nodeValue.lastIndexOf(".") : -1;
-      if (i < 0) return null;
-      const dotText = last.splitText(i);
-      dotText.splitText(1);
-      sp = d.createElement("span");
-      sp.className = "hero__stop";
-      dotText.replaceWith(sp);
-      sp.append(dotText);
-      return sp;
+    const show = (x, live) => {
+      if (!clipA) return;
+      x = Math.max(0, Math.min(W, x));
+      clipA.setAttribute("width", x);
+      clipB.setAttribute("x", x);
+      clipB.setAttribute("width", W - x);
+      head.style.setProperty("--x", `${x}px`);
+      const tt = (x / W) * total;
+      time.textContent = stamp(tt);
+      time.style.transform = x < 32 ? "translate(0, -6px)" : x > W - 32 ? "translate(-100%, -6px)" : "";
+      if (live) return liveCaption(segAt(Math.min(live, total - 0.001)), live);
+      stage.setAttribute("aria-valuenow", tt.toFixed(1));
+      caption(segAt(Math.min(tt, total - 0.001)));
     };
-    // Where the full stop's ink sits on screen, measured from the font.
-    const inkOf = (sp) => {
-      const cs = getComputedStyle(sp);
-      const cx = d.createElement("canvas").getContext("2d");
-      cx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
-      cx.fontStretch = "expanded"; // after .font, which resets it
-      const m = cx.measureText(".");
-      const r = sp.getBoundingClientRect();
-      const base = r.bottom - m.fontBoundingBoxDescent;
-      const x0 = r.left - m.actualBoundingBoxLeft, x1 = r.left + m.actualBoundingBoxRight;
-      const y0 = base - m.actualBoundingBoxAscent, y1 = base + m.actualBoundingBoxDescent;
-      return { x: (x0 + x1) / 2, y: (y0 + y1) / 2, s: Math.max(x1 - x0, y1 - y0) };
-    };
-    new ResizeObserver(() => { if (open) place(); }).observe(hero);
-    const show = () => {
-      if (open) return;
-      open = true;
-      const source = $("source[data-src]", v);
-      if (source) { source.src = source.dataset.src; delete source.dataset.src; v.load(); }
-      place();
-      // Reopened mid fade-out: cancel the fade and its pending hide.
-      clearTimeout(closing);
-      film.classList.remove("is-closing");
-      film.hidden = false;
-      hero.classList.add("is-film");
-      root.classList.add("is-fig", "is-live");
-      requestAnimationFrame(() => requestAnimationFrame(() => { if (open) film.classList.add("is-open"); }));
-      v.currentTime = 0;
-      v.play().catch(() => {});
-      btn.innerHTML = '<svg class="i" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="3" y="3" width="8" height="8" fill="currentColor"/></svg><span>Close</span>';
-      btn.setAttribute("aria-label", "Close the reel");
-      raf = requestAnimationFrame(tick);
-    };
-    const hide = (landing) => {
-      if (!open) return;
-      open = false;
-      stage.style.minHeight = "";
-      cancelAnimationFrame(raf);
-      v.pause();
-      film.classList.remove("is-open");
-      film.classList.add("is-closing");
-      hero.classList.remove("is-film");
-      root.classList.remove("is-fig", "is-live");
-      d.dispatchEvent(new Event("bar:refresh"));
-      clearTimeout(closing);
-      closing = setTimeout(() => { if (!open) { film.hidden = true; film.classList.remove("is-closing"); } }, reduced.matches ? 0 : 700);
-      btn.innerHTML = label;
-      btn.setAttribute("aria-label", btn.dataset.label);
-      if (landing) {
-        // The headline rises again, as it does on load.
-        $$(".hero__line .fit__in", hero).forEach((el) => { el.style.animation = "none"; void el.offsetWidth; el.style.animation = ""; });
-      }
+    const reset = () => {
+      fig.classList.remove("is-scrub");
+      if (clipA) { clipA.setAttribute("width", W); clipB.setAttribute("x", W); clipB.setAttribute("width", 0); }
+      caption(null);
     };
 
-    // The end: the film's last frame is a red square at its centre. A square
-    // on the page takes its place and flies into the headline's full stop,
-    // which takes the red and settles to ink, as in the film.
-    const land = () => {
-      if (!open) return;
-      const sp = stopOf();
-      if (reduced.matches || !sp) { hide(); return; }
-      const f = film.getBoundingClientRect();
-      const k = Math.max(f.width / 1920, f.height / 1080);
-      const s0 = 32 * k;
-      // Measure the landing spot before the headline starts rising.
-      stage.style.minHeight = "";
-      const to = inkOf(sp);
-      const sq = d.createElement("span");
-      sq.className = "flystop";
-      sq.setAttribute("aria-hidden", "true");
-      Object.assign(sq.style, { left: `${f.left + f.width / 2 - s0 / 2}px`, top: `${f.top + f.height / 2 - s0 / 2}px`, width: `${s0}px`, height: `${s0}px` });
-      d.body.append(sq);
-      sp.classList.add("is-waiting");
-      hide(true);
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        sq.classList.add("is-flying");
-        Object.assign(sq.style, { left: `${to.x - to.s / 2}px`, top: `${to.y - to.s / 2}px`, width: `${to.s}px`, height: `${to.s}px` });
-      }));
-      setTimeout(() => {
-        sq.remove();
-        sp.classList.remove("is-waiting");
-        sp.classList.add("is-landed");
-        setTimeout(() => sp.classList.remove("is-landed"), 80);
-      }, 1150);
+    /* Playback */
+    const ICON = {
+      pause: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2v8M8.5 2v8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+      play: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2.2v7.6L9.8 6z" fill="currentColor"/></svg>',
+      replay: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.2 6a3.8 3.8 0 1 0 1.1-2.7M2.2 1.6v2.2h2.2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     };
+    let playing = false;
+    let ended = false;
+    let held = false; // paused because the figure left the screen or the tab hid
+    let pt = 0;
+    let last = 0;
+    let rafP = 0;
+    let doneTimer = 0;
+    const setBtn = () => {
+      if (!btn) return;
+      const [k, label] = playing ? ["pause", "Pause"] : ended ? ["replay", "Replay"] : ["play", pt > 0 ? "Resume" : "Play"];
+      btn.innerHTML = `${ICON[k]}<span>${label}</span>`;
+      btn.setAttribute("aria-label", `${label} the illustrated conversation`);
+    };
+    const frame = (now) => {
+      if (!playing) return;
+      pt += Math.min(0.1, (now - last) / 1000);
+      last = now;
+      if (pt >= total) return finish();
+      show((pt / total) * W, pt);
+      rafP = requestAnimationFrame(frame);
+    };
+    const play = () => {
+      clearTimeout(doneTimer);
+      if (ended) { pt = 0; ended = false; }
+      playing = true;
+      held = false;
+      liveKey = "";
+      fig.classList.add("is-scrub", "is-playing");
+      last = performance.now();
+      cancelAnimationFrame(rafP);
+      rafP = requestAnimationFrame(frame);
+      setBtn();
+    };
+    const stop = () => {
+      if (!playing) return;
+      playing = false;
+      cancelAnimationFrame(rafP);
+      fig.classList.remove("is-playing");
+      setBtn();
+    };
+    const finish = () => {
+      stop();
+      ended = true;
+      setBtn();
+      // Rest on the last line a moment, then hand the figure back.
+      doneTimer = setTimeout(() => { if (!playing && !stage.matches(":focus-visible")) reset(); }, 2600);
+    };
+    // Any direct handling of the figure takes over from playback.
+    const takeOver = () => { clearTimeout(doneTimer); held = false; stop(); };
 
-    btn.dataset.label = btn.getAttribute("aria-label");
-    btn.addEventListener("click", () => (open ? hide() : show()));
-    addEventListener("scroll", () => { const sq = $(".flystop"); if (sq) sq.remove(); $$(".hero__stop").forEach((s) => s.classList.remove("is-waiting")); }, { passive: true });
-    v.addEventListener("ended", land);
-    v.addEventListener("click", () => (v.paused ? v.play() : v.pause()));
-    d.addEventListener("keydown", (e) => { if (open && e.key === "Escape" && !$("dialog[open]")) hide(); });
-    if (rail) rail.addEventListener("click", (e) => {
-      if (!open || !v.duration) return;
-      const r = rail.getBoundingClientRect();
-      v.currentTime = Math.max(0, Math.min(0.999, (e.clientX - r.left) / r.width)) * v.duration;
-      if (v.paused) v.play().catch(() => {});
-    });
-    // Scrolled away or tab hidden: it pauses; it doesn't resume by itself.
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(([en]) => { if (open && en.intersectionRatio < 0.4) v.pause(); }, { threshold: [0, 0.4] }).observe(hero);
-    }
-    d.addEventListener("visibilitychange", () => { if (d.hidden && open) v.pause(); });
-  }
-
-  /* ------------------------------------------------------------ motion */
-
-  // The cover's three lines drift against each other with the pointer, a
-  // few pixels each way, so the headline reads as planes at different depths.
-  function drift() {
-    const stack = $("[data-stack]");
-    if (!stack || reduced.matches || !matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-    const lines = $$(".hero__line", stack);
     let raf = 0;
-    addEventListener("pointermove", (e) => {
-      if (scrollY > innerHeight) return;
+    const move = (e) => {
+      takeOver();
+      const x = e.clientX - stage.getBoundingClientRect().left;
+      fig.classList.add("is-scrub");
       cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const x = e.clientX / innerWidth - 0.5;
-        const y = e.clientY / innerHeight - 0.5;
-        lines.forEach((l, i) => {
-          const k = (i % 2 ? -1 : 1) * (10 + i * 8);
-          l.style.transform = `translate3d(${(x * k).toFixed(1)}px, ${(y * 6).toFixed(1)}px, 0)`;
-        });
+      raf = requestAnimationFrame(() => show(x));
+    };
+    stage.addEventListener("pointermove", move);
+    stage.addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "mouse") { try { stage.setPointerCapture(e.pointerId); } catch { /* ignore */ } }
+      move(e);
+    });
+    stage.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse" && !stage.matches(":focus-visible")) reset(); });
+    // Touch keeps the last line on screen after the finger lifts, so it can be read.
+
+    // Keyboard: a slider that steps one turn (or pause) at a time.
+    const fine = matchMedia("(hover: hover) and (pointer: fine)");
+    const setHint = () => { if (hint) hint.textContent = fine.matches ? "Hover or use arrow keys" : "Drag to scrub"; };
+    setHint();
+    fine.addEventListener("change", setHint);
+    stage.removeAttribute("aria-hidden");
+    stage.tabIndex = 0;
+    stage.setAttribute("role", "slider");
+    stage.setAttribute("aria-valuemin", "0");
+    stage.setAttribute("aria-valuemax", total.toFixed(1));
+    let ki = -1;
+    const goTo = (i) => {
+      ki = Math.max(0, Math.min(segs.length - 1, i));
+      const s = segs[ki];
+      fig.classList.add("is-scrub");
+      show((((s.start + s.end) / 2) / total) * W);
+    };
+    stage.addEventListener("keydown", (e) => {
+      const step = { ArrowRight: 1, ArrowDown: 1, PageDown: 3, ArrowLeft: -1, ArrowUp: -1, PageUp: -3 }[e.key];
+      if (step) goTo((ki < 0 ? (step > 0 ? -1 : segs.length) : ki) + step);
+      else if (e.key === "Home") goTo(0);
+      else if (e.key === "End") goTo(segs.length - 1);
+      else return;
+      e.preventDefault();
+    });
+    stage.addEventListener("focus", () => { if (ki < 0 && stage.matches(":focus-visible")) { takeOver(); goTo(0); } });
+    stage.addEventListener("blur", () => { ki = -1; reset(); });
+
+    build();
+    reset();
+    fitCaption();
+    if (d.fonts) d.fonts.ready.then(fitCaption);
+    let rt = 0;
+    new ResizeObserver(() => { cancelAnimationFrame(rt); rt = requestAnimationFrame(() => { build(); if (!playing) reset(); fitCaption(); }); }).observe(stage);
+
+    if (btn) {
+      btn.hidden = false;
+      setBtn();
+      btn.addEventListener("click", () => {
+        if (playing) { stop(); return; }
+        play();
       });
-    }, { passive: true });
+    }
+    // Plays by itself once, when on screen; never under reduced motion.
+    // Leaving the screen or hiding the tab holds it; coming back resumes.
+    if (!reduced.matches && "IntersectionObserver" in window) {
+      let started = false;
+      let inView = false;
+      const io = new IntersectionObserver(([en]) => {
+        inView = en.isIntersecting;
+        if (inView) {
+          if (!started) { started = true; setTimeout(() => { if (!pt && !ended && !fig.matches(":hover") && d.activeElement !== stage) play(); }, 900); }
+          else if (held) play();
+        } else if (playing) { stop(); held = true; }
+      }, { threshold: 0.6 });
+      io.observe(fig);
+      d.addEventListener("visibilitychange", () => {
+        if (d.hidden && playing) { stop(); held = true; }
+        else if (!d.hidden && held && inView) play();
+      });
+    }
   }
 
-  // The career strip plays once it's on screen; a role hovered below lights its bar.
-  function career() {
-    const el = $(".career");
-    if (!el) return;
-    const scroller = $("[data-career]", el);
-    if (scroller.scrollWidth > scroller.clientWidth + 4) scroller.scrollLeft = scroller.scrollWidth;
-    if ("IntersectionObserver" in window) {
-      const io = new IntersectionObserver((en) => {
-        if (!en.some((x) => x.isIntersecting)) return;
-        el.classList.add("is-in");
-        io.disconnect();
-      }, { threshold: 0.35 });
-      io.observe(el);
-    } else el.classList.add("is-in");
-    $$(".row[id]").forEach((row) => {
-      const bar = $(`.career__bar[href="#${row.id}"]`, el);
+  /* ------------------------------------------------------------ career timeline */
+
+  function timeline() {
+    const tl = $("[data-tl]");
+    if (!tl) return;
+    const tip = $("[data-tl-tip]", tl);
+    const scroller = $("[data-tl-scroll]", tl);
+    const bars = $$(".tl__bar", tl);
+
+    // The build places "now"; move it to today so it stays right between
+    // rebuilds, along with the ongoing bars and the start of "expected".
+    const t0 = +tl.dataset.t0;
+    const span = +tl.dataset.span;
+    const nowEl = $(".tl__now", tl);
+    const pct = (el, prop) => parseFloat(el.style.getPropertyValue(prop));
+    const now = ((Date.now() / 1000 - t0) / span) * 100;
+    if (nowEl && span && now > pct(nowEl, "--l") && now <= 100) {
+      nowEl.style.setProperty("--l", `${now.toFixed(3)}%`);
+      const month = $("[data-tl-month]", nowEl);
+      if (month) month.textContent = new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" });
+      bars.forEach((b) => {
+        const l = pct(b, "--l");
+        if (b.classList.contains("is-now")) b.style.setProperty("--w", `${(now - l).toFixed(3)}%`);
+        const future = $(".tl__future", b);
+        if (future) future.style.setProperty("--f", Math.min(100, ((now - l) / pct(b, "--w")) * 100).toFixed(2));
+      });
+    }
+
+    // A name too long for its bar widens the bar just enough to hold it, when
+    // the row has free space before the next bar; otherwise the name hides.
+    const fit = () => bars.forEach((b) => {
+      const lab = $(".tl__label", b);
+      b.style.width = "";
+      b.classList.remove("is-tight");
+      const need = lab.offsetWidth + 16;
+      if (need <= b.clientWidth) return;
+      const row = b.style.getPropertyValue("--row");
+      const end = b.offsetLeft + b.offsetWidth;
+      const next = Math.min(b.parentElement.clientWidth, ...bars
+        .filter((o) => o.parentElement === b.parentElement && o.style.getPropertyValue("--row") === row && o.offsetLeft >= end)
+        .map((o) => o.offsetLeft));
+      if (b.offsetLeft + need + 4 <= next) b.style.width = `${need}px`;
+      else b.classList.add("is-tight");
+    });
+    fit();
+    new ResizeObserver(fit).observe(tl);
+    if (d.fonts) d.fonts.ready.then(fit);
+
+    // On narrow screens the chart scrolls; start at "now".
+    requestAnimationFrame(() => { if (scroller.scrollWidth > scroller.clientWidth + 4) scroller.scrollLeft = scroller.scrollWidth; });
+
+    const light = (id, on) => { const en = id && d.getElementById(id); if (en) en.classList.toggle("is-lit", on); };
+    const showTip = (b) => {
+      tip.innerHTML = `<b>${esc(b.dataset.tipTitle)}</b><span>${esc(b.dataset.tipSub)}</span><span>${esc(b.dataset.tipDates)}</span>`;
+      tip.hidden = false;
+      const tr = tl.getBoundingClientRect();
+      const br = b.getBoundingClientRect();
+      const w = tip.offsetWidth;
+      const x = Math.max(w / 2, Math.min(tr.width - w / 2, br.left + br.width / 2 - tr.left));
+      tip.style.left = `${x}px`;
+      tip.style.top = `${br.top - tr.top}px`;
+    };
+    const hideTip = () => { tip.hidden = true; };
+
+    bars.forEach((b) => {
+      b.addEventListener("pointerenter", () => { showTip(b); light(b.dataset.target, true); });
+      b.addEventListener("pointerleave", () => { hideTip(); light(b.dataset.target, false); });
+      b.addEventListener("focus", () => showTip(b));
+      b.addEventListener("blur", hideTip);
+      b.addEventListener("click", () => {
+        hideTip();
+        const id = b.dataset.target;
+        light(id, true);
+        setTimeout(() => light(id, false), 1800);
+      });
+    });
+
+    // Hovering an entry lights its bar.
+    $$("[data-entry]").forEach((en) => {
+      const bar = bars.find((b) => b.dataset.target === en.id);
       if (!bar) return;
-      row.addEventListener("pointerenter", () => bar.classList.add("is-lit"));
-      row.addEventListener("pointerleave", () => bar.classList.remove("is-lit"));
+      en.addEventListener("pointerenter", () => bar.classList.add("is-active"));
+      en.addEventListener("pointerleave", () => bar.classList.remove("is-active"));
     });
   }
 
-  /* ------------------------------------------------------------ projects: filter */
+  /* ------------------------------------------------------------ projects index */
 
-  // Hovering or focusing a row puts its image on the screen beside the list.
   function projectsIndex() {
     const list = $("[data-plist]");
     if (!list) return;
     const slides = $$("[data-slide]");
     const descs = $$("[data-desc]");
+    const no = $("[data-viewer-no]");
     let active = null;
+
     const activate = (a) => {
       if (!a || a === active) return;
       if (active) active.classList.remove("is-active");
@@ -440,6 +657,7 @@
       const i = Number(a.dataset.preview);
       slides.forEach((s) => s.classList.toggle("is-on", Number(s.dataset.slide) === i));
       descs.forEach((s) => s.classList.toggle("is-on", Number(s.dataset.desc) === i));
+      if (no) no.textContent = String(i + 1).padStart(2, "0");
     };
     list.addEventListener("pointerover", (e) => {
       const a = e.target.closest(".prow__link");
@@ -447,32 +665,30 @@
     });
     list.addEventListener("pointerleave", () => list.classList.remove("is-hovering"));
     list.addEventListener("focusin", (e) => activate(e.target.closest(".prow__link")));
-    list.addEventListener("projects:filter", () => activate($(".prow:not(.is-hidden) .prow__link", list)));
     activate($(".prow__link", list));
-  }
 
-  function filters() {
     const nav = $("[data-filters]");
-    const list = $("[data-plist]");
-    if (!nav || !list) return;
+    if (!nav) return;
     nav.hidden = false;
     const btns = $$("[data-filter]", nav);
-    const items = $$(":scope > li", list);
+    const rows = $$(".prow", list);
     const apply = (cat, push) => {
       btns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === cat)));
       let k = 0;
-      items.forEach((li) => {
-        const on = cat === "all" || li.dataset.cat === cat;
-        li.classList.toggle("is-hidden", !on);
-        if (on && !reduced.matches) {
-          li.style.animation = "none";
-          void li.offsetWidth;
-          li.style.animation = `rise .5s var(--ease) ${k++ * 45}ms both`;
+      rows.forEach((r) => {
+        const show = cat === "all" || r.dataset.cat === cat;
+        r.classList.toggle("is-hidden", !show);
+        if (show && !reduced.matches) {
+          r.style.animation = "none";
+          void r.offsetWidth;
+          r.style.animation = `rise .4s var(--ease) ${k++ * 35}ms both`;
         }
       });
+      const first = rows.find((r) => !r.classList.contains("is-hidden"));
+      if (first) activate($(".prow__link", first));
+      const track = $("[data-track]", nav);
+      if (track) track.dispatchEvent(new Event("track:update"));
       if (push) history.replaceState(null, "", cat === "all" ? location.pathname : `#${cat}`);
-      list.dispatchEvent(new Event("projects:filter"));
-      d.dispatchEvent(new Event("bar:refresh"));
     };
     btns.forEach((b) => b.addEventListener("click", () => apply(b.dataset.filter, true)));
     const h = location.hash.slice(1);
@@ -481,15 +697,17 @@
 
   /* ------------------------------------------------------------ view transitions */
 
-  // The art you click travels into the single's page. Only one element per
-  // page may carry the name, so it moves to the clicked sleeve's image.
+  // The image you click travels into the case-study hero. Only one element
+  // per page may carry the name, so it moves to the clicked card's image.
   function vtLinks() {
     if (!("onpagereveal" in window)) return;
     d.addEventListener("click", (e) => {
       const a = e.target.closest("[data-vt-link]");
       if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       let img = $("img", a);
-      if (a.classList.contains("prow__link") && matchMedia("(min-width: 64em)").matches) img = $(`[data-slide="${a.dataset.preview}"] img`);
+      if (a.classList.contains("prow__link") && matchMedia("(min-width: 64em)").matches) {
+        img = $(`[data-slide="${a.dataset.preview}"] img`);
+      }
       if (!img) return;
       $$("img").forEach((el) => { if (el.style.viewTransitionName) el.style.viewTransitionName = ""; });
       img.style.viewTransitionName = "hero-media";
@@ -497,23 +715,56 @@
     addEventListener("pageshow", (e) => {
       if (!e.persisted) return;
       $$("[data-vt-link] img").forEach((el) => { el.style.viewTransitionName = ""; });
-      const hero = $(".single__img");
+      const hero = $(".cs__img");
       if (hero) hero.style.viewTransitionName = "hero-media";
     });
   }
 
-  /* ------------------------------------------------------------ outro: your turn */
+  /* ------------------------------------------------------------ case-study contents */
 
-  // The lamp lights once the outro is on screen.
-  function turn() {
-    const el = $("[data-turn]");
-    if (!el || reduced.matches || !("IntersectionObserver" in window)) return;
-    const io = new IntersectionObserver((entries) => {
-      if (!entries.some((en) => en.isIntersecting)) return;
-      el.classList.add("is-on");
-      io.disconnect();
-    }, { threshold: 1 });
-    io.observe(el);
+  function toc() {
+    const box = $("[data-toc]");
+    const prose = $("[data-prose]");
+    if (!box || !prose) return;
+    const hs = $$(":scope > h2[id]", prose);
+    if (hs.length < 2) return;
+    const list = $("[data-toc-list]", box);
+    list.innerHTML = hs.map((h) => `<li><a href="#${esc(h.id)}">${esc(h.textContent)}</a></li>`).join("");
+    const line = d.createElement("span");
+    line.className = "toc__line";
+    line.setAttribute("aria-hidden", "true");
+    list.append(line);
+    box.hidden = false;
+    const links = $$("a", list);
+    let last = -2;
+    const setActive = (i) => {
+      if (i === last) return;
+      last = i;
+      links.forEach((a, j) => {
+        a.classList.toggle("is-active", i === j);
+        if (i === j) a.setAttribute("aria-current", "location"); else a.removeAttribute("aria-current");
+      });
+      const a = links[i];
+      if (a) {
+        line.style.transform = `translateY(${a.offsetTop}px)`;
+        line.style.height = `${a.offsetHeight}px`;
+        line.classList.add("is-on");
+      } else line.classList.remove("is-on");
+    };
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        const y = innerHeight * 0.32;
+        let idx = -1;
+        hs.forEach((h, i) => { if (h.getBoundingClientRect().top < y) idx = i; });
+        setActive(idx);
+      });
+    };
+    addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
   }
 
   /* ------------------------------------------------------------ media */
@@ -574,6 +825,62 @@
     vids.forEach((v) => io.observe(v));
   }
 
+  /* ------------------------------------------------------- cover film */
+
+  // The cover film plays muted and loops, but it is longer than five
+  // seconds, so it gets a pause control. Attach its source only near the
+  // viewport or on Play; reduced-motion visitors always start it manually.
+  // The first play opens at data-start, past the film's near-black opening
+  // second; later loops still run from 0, so the seam stays invisible.
+  function cover() {
+    const fig = $("[data-cover]");
+    if (!fig) return;
+    const v = $("[data-cover-video]", fig);
+    const btn = $("[data-cover-toggle]", fig);
+    if (!v) return;
+    let held = false;
+
+    const sync = () => {
+      const playing = !v.paused && !v.ended;
+      fig.classList.toggle("is-playing", playing);
+      if (!btn) return;
+      btn.textContent = playing ? "Pause" : "Play";
+      btn.setAttribute("aria-label", playing ? "Pause the cover film" : "Play the cover film");
+      btn.setAttribute("aria-pressed", playing ? "true" : "false");
+    };
+    const play = () => {
+      const source = $("source[data-src]", v);
+      if (source) {
+        source.src = source.dataset.src;
+        delete source.dataset.src;
+        const start = +v.dataset.start || 0;
+        if (start) v.addEventListener("loadedmetadata", () => { if (v.currentTime < start) v.currentTime = start; }, { once: true });
+        v.load();
+      }
+      v.play().catch(sync);
+    };
+
+    v.addEventListener("play", sync);
+    v.addEventListener("pause", sync);
+
+    if (btn) {
+      btn.addEventListener("click", () => {
+        if (v.paused) { held = false; play(); }
+        else { held = true; v.pause(); }
+        sync();
+      });
+    }
+
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+        if (en.isIntersecting) { if (!held && !reduced.matches) play(); }
+        else if (!v.paused) v.pause();
+      }), { rootMargin: "120px 0px" });
+      io.observe(v);
+    }
+    sync();
+  }
+
   /* ------------------------------------------------------------ 404: one turn */
 
   // Words a path or title shares with others are noise: section names, ids, years.
@@ -601,7 +908,7 @@
     try { pages = JSON.parse($("[data-lost-pages]").textContent); } catch { /* no suggestions */ }
     $("[data-lost-path]", el).textContent = path;
     const hit = closest(path, pages);
-    if (hit) $("[data-lost-said] p", el).insertAdjacentHTML("afterend", `<p>You were probably after <a href="${esc(hit.u)}">${esc(hit.t.replace(/[.!?]+$/, ""))}</a>.</p>`);
+    if (hit) $("[data-lost-said] p", el).insertAdjacentHTML("afterend", `<p>You were probably after <a href="${esc(hit.u)}">${esc(hit.t)}</a>.</p>`);
     $("[data-lost-ask]", el).hidden = false;
     if (reduced.matches) return;
     // Jack waits for a real pause before taking the turn, as in Fig. 1.
@@ -610,6 +917,20 @@
     reply.classList.add("is-waiting");
     requestAnimationFrame(() => requestAnimationFrame(() => pause.classList.add("is-on")));
     setTimeout(() => reply.classList.remove("is-waiting"), 1100);
+  }
+
+  /* ------------------------------------------------------------ footer: your turn */
+
+  // Plays once, when the footer comes into view.
+  function turn() {
+    const el = $("[data-turn]");
+    if (!el || reduced.matches || !("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((en) => en.isIntersecting)) return;
+      el.classList.add("is-on");
+      io.disconnect();
+    }, { threshold: 1 });
+    io.observe(el);
   }
 
   /* ------------------------------------------------------------ copy email */
@@ -642,9 +963,12 @@
     let data;
     try { data = JSON.parse(dataEl.textContent); } catch { return; }
 
+    const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
+    if (!isMac) $$("[data-mod]").forEach((k) => { k.textContent = "Ctrl "; });
     const openers = $$("[data-cmdk-open]");
     openers.forEach((o) => { o.hidden = false; o.addEventListener("click", () => open()); });
 
+    const arrow = '<svg class="i cmdk__go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     const search = '<svg class="i" width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12.5 12.5l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
 
     // Contact leads: it's what most visitors open the menu to find.
@@ -704,7 +1028,7 @@
       let group = "";
       shown.forEach((c, i) => {
         if (!q && c.group !== group) { group = c.group; html += `<li class="cmdk__group" role="presentation">${esc(group)}</li>`; }
-        html += `<li class="cmdk__item" role="option" id="cmdk-${i}" data-i="${i}" aria-selected="false"><span>${mark(c.label, words[0])}</span>${c.meta ? `<span class="cmdk__meta">${esc(c.meta)}</span>` : ""}</li>`;
+        html += `<li class="cmdk__item" role="option" id="cmdk-${i}" data-i="${i}" aria-selected="false"><span>${mark(c.label, words[0])}</span>${c.meta ? `<span class="cmdk__meta">${esc(c.meta)}</span>` : ""}${arrow}</li>`;
       });
       list.innerHTML = html;
       setActive(0, true);
@@ -756,22 +1080,26 @@
 
   // These only wire up listeners, so they run right away.
   theme();
-  indexMenu();
+  clock();
+  menu();
   vtLinks();
   videos();
   copy();
   cmdk();
-  projectsIndex();
-  filters();
+  cover();
 
-  // These measure the page, so they wait until it has been laid out once.
+  // These measure the page. Reading geometry before the first frame would
+  // force the browser to do the whole initial layout inside this script, so
+  // they wait until it has been laid out and painted once.
   requestAnimationFrame(() => setTimeout(() => {
-    fit();
-    bar();
-    career();
-    drift();
-    fig1();
+    header();
+    projectsIndex();
+    sectionSpy();
+    tracks();
+    signal();
     turn();
     lost();
+    timeline();
+    toc();
   }, 0));
 })();

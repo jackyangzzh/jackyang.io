@@ -1,7 +1,6 @@
 ---
 layout: base
 ---
-{%- comment -%}A single: the project's name cut large, its credits, the art, then the notes.{%- endcomment -%}
 {%- assign projects = site.projects | sort: "weight" -%}
 {%- assign idx = 0 -%}
 {%- for proj in projects -%}{%- if proj.url == page.url -%}{%- assign idx = forloop.index0 -%}{%- endif -%}{%- endfor -%}
@@ -9,54 +8,75 @@ layout: base
 {%- assign next = projects[next_i] -%}
 {%- assign maxw = page.image.srcset | last | first | default: 0 -%}
 {%- if maxw >= 1400 -%}{%- assign hero = "full" -%}{%- else -%}{%- assign hero = "inset" -%}{%- endif -%}
-{%- comment -%}Framed art is drawn at ~1.6x its source density, so it stays crisp.{%- endcomment -%}
+{%- comment -%}Framed heroes are drawn at ~1.6x their source density, so they stay crisp.{%- endcomment -%}
 {%- assign inset_w = maxw | divided_by: 1.6 | round -%}
 {%- if page.end_date and page.end_date != "" -%}
   {%- capture when -%}{{ page.date | date: "%b %Y" }} – {{ page.end_date | date: "%b %Y" }}{%- endcapture -%}
+  {%- assign when_label = "Timeline" -%}
 {%- else -%}
   {%- capture when -%}{{ page.date | date: "%Y" }}{%- endcapture -%}
+  {%- assign when_label = "Year" -%}
 {%- endif -%}
 
-<article class="single">
-  <header class="single__head wrap">
-    {%- comment -%}Short names stretch edge to edge; long ones wrap at monument size.{%- endcomment %}
-    <h1 class="single__title intro" style="--d: 1">{% if page.title.size <= 14 %}<span class="fit" data-fit style="--n: {{ page.title | size }}"><span class="fit__in">{{ page.title }}</span></span>{% else %}{{ page.title }}{% endif %}</h1>
-    <div class="single__credits intro" style="--d: 2">
-      <p class="single__lede">{% include smart.html text=page.description %}</p>
-      <div class="single__meta">
-        <p class="eyebrow"><i class="dot" aria-hidden="true"></i>{{ page.category | capitalize }}, {{ when }}</p>
+<article class="cs">
+  <header class="cs__head wrap">
+    <nav class="crumbs intro" style="--d: 0" aria-label="Breadcrumb">
+      <a href="{{ '/projects/' | relative_url }}">Projects</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{{ page.title }}</span>
+    </nav>
+    <h1 class="cs__title intro" style="--d: 1">{{ page.title }}</h1>
+    <div class="cs__intro intro" style="--d: 2">
+      <p class="cs__lede">{% include smart.html text=page.description %}</p>
+      <dl class="cs__meta">
+        <div><dt class="label">Category</dt><dd><i class="dot dot--{{ page.category }}" aria-hidden="true"></i>{{ page.category | capitalize }}</dd></div>
+        <div><dt class="label">{{ when_label }}</dt><dd>{{ when }}</dd></div>
         {%- if page.links %}
-        <ul>
+        <div class="cs__links"><dt class="label">Links</dt><dd><ul>
           {%- for l in page.links %}
           <li><a class="qlink" href="{{ l.url | relative_url }}" rel="noopener">{{ l.title }} {% include icon.html name="arrow-ur" %}</a></li>
           {%- endfor %}
-        </ul>
+        </ul></dd></div>
         {%- endif %}
-      </div>
+      </dl>
     </div>
+    {%- comment -%}Many visitors land here first, so say who wrote this and how to reach him.{%- endcomment %}
+    <p class="cs__by intro" style="--d: 2">
+      <span><a href="{{ '/' | relative_url }}">{{ site.title }}</a>, {{ site.role }}</span>
+      <a class="qlink" href="{{ site.contact.resume | relative_url }}">Résumé (PDF) {% include icon.html name="arrow-ur" %}</a>
+    </p>
   </header>
 
-  <figure class="single__art single__art--{{ hero }} intro" style="--d: 3">
-    <div class="single__frame{% if page.image.position %} disc__art--{{ page.image.position }}{% endif %}"{% if page.image.ratio or hero == "inset" %} style="{% if page.image.ratio %}--ratio: {{ page.image.ratio }};{% endif %}{% if hero == "inset" %} --inset: {{ inset_w }}px;{% endif %}"{% endif %}>
+  <figure class="cs__hero cs__hero--{{ hero }} wrap intro" style="--d: 3">
+    <div class="cs__frame{% if page.image.position %} card__media--{{ page.image.position }}{% endif %}"{% if page.image.ratio or hero == "inset" %} style="{% if page.image.ratio %}--ratio: {{ page.image.ratio }};{% endif %}{% if hero == "inset" %} --inset: {{ inset_w }}px;{% endif %}"{% endif %}>
       {%- if hero == "full" -%}
-      {% include media.html image=page.image class="single__img" eager=true vt="hero-media" sizes="100vw" %}
+      {% include media.html image=page.image class="cs__img" eager=true vt="hero-media" sizes="(min-width: 86em) 84rem, 100vw" %}
       {%- else -%}
-      {% include media.html image=page.image class="single__img" eager=true vt="hero-media" sizes="(min-width: 54em) 40rem, 100vw" %}
+      {% include media.html image=page.image class="cs__img" eager=true vt="hero-media" sizes="(min-width: 54em) 40rem, 100vw" %}
       {%- endif -%}
     </div>
   </figure>
 
-  <div class="single__body wrap">
+  <div class="cs__body wrap">
+    <nav class="toc" data-toc aria-label="On this page" hidden>
+      <div class="toc__in">
+        <p class="label">On this page</p>
+        <ol class="toc__list" data-toc-list></ol>
+      </div>
+    </nav>
     <div class="prose" data-prose>
 {{ content }}
     </div>
   </div>
 
-  <nav class="next" aria-label="Next project">
-    <a class="next__link wrap" href="{{ next.url | relative_url }}" data-vt-link>
-      <span class="next__top"><span class="micro">Next project</span></span>
-      <span class="next__title"><span class="fit" data-fit style="--n: {{ next.title | size }}"><span class="fit__in">{{ next.title }}</span></span></span>
-      <span class="next__art{% if next.image.position %} disc__art--{{ next.image.position }}{% endif %}">{% include media.html image=next.image sizes="100vw" alt="" %}</span>
+  <nav class="next wrap" aria-label="Next project">
+    <a class="next__link" href="{{ next.url | relative_url }}" data-vt-link>
+      <span class="next__text">
+        <span class="label">Next project</span>
+        <span class="next__title">{{ next.title }}</span>
+        {% include eyebrow.html project=next %}
+      </span>
+      <span class="next__media{% if next.image.position %} card__media--{{ next.image.position }}{% endif %}">{% include media.html image=next.image sizes="(min-width: 54em) 36vw, 100vw" alt="" %}</span>
     </a>
   </nav>
 </article>
