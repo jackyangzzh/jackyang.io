@@ -512,9 +512,9 @@
   .hd__btn { min-width: 2.75rem; height: 2.75rem; }
   .socials a { width: 2.75rem; height: 2.75rem; }
   .ft__list { gap: 1.125rem; }
-  .ft__list .qlink, .ft__top, .entry__case, .sh__aux, .cs__by .qlink, .cover__toggle, .signal__btn { position: relative; }
+  .ft__list .qlink, .ft__top, .entry__case, .sh__aux, .cover__toggle, .signal__btn { position: relative; }
   .ft__list .qlink::after, .ft__top::after,
-  .entry__case::after, .sh__aux::after, .cs__by .qlink::after, .cover__toggle::after,
+  .entry__case::after, .sh__aux::after, .cover__toggle::after,
   .signal__btn::after {
     content: "";
     position: absolute;

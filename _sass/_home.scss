@@ -1034,7 +1034,7 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
   line-height: 1.55;
 }
 .post__src {
-  font-size: .8125rem;
+  @include caps;
   color: var(--muted);
   @include up($md) { grid-column: 11; }
   @include down($md) { display: none; }

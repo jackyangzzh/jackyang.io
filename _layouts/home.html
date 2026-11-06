@@ -193,7 +193,7 @@ layout: base
   <div class="wrap">
     {% include sec-head.html no="06" title="Writing" id="writing-title" aux="All writing" aux_url="/writing/" %}
     <ol class="posts">
-      {%- for post in site.data.medium_posts limit: 4 %}
+      {%- for post in site.data.medium_posts limit: 5 %}
       {% include post-row.html post=post %}
       {%- endfor %}
     </ol>
