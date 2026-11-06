@@ -1,65 +1,30 @@
-// Fonts (self-hosted, OFL) and metric-matched local fallbacks, so text keeps
-// its size and line breaks while the web fonts load.
+// Font (self-hosted, OFL) and a metric-matched local fallback, so text keeps
+// its size and line breaks while the web font loads.
 
 @font-face {
-  font-family: "Instrument Serif";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/assets/fonts/instrument-serif-400.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Instrument Serif";
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/assets/fonts/instrument-serif-400-italic.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Instrument Sans";
-  font-style: normal;
-  font-weight: 400 700;
-  font-display: swap;
-  src: url("/assets/fonts/instrument-sans-var.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Instrument Sans";
-  font-style: italic;
-  font-weight: 400 700;
-  font-display: swap;
-  src: url("/assets/fonts/instrument-sans-var-italic.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Geist Mono";
+  font-family: "Archivo";
   font-style: normal;
   font-weight: 100 900;
+  font-stretch: 62% 125%;
   font-display: swap;
-  src: url("/assets/fonts/geist-mono-var.woff2") format("woff2");
+  src: url("/assets/fonts/archivo-var.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Archivo";
+  font-style: italic;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url("/assets/fonts/archivo-var-italic.woff2") format("woff2");
 }
 
-// Computed with fontTools against each family's average advance width.
+// Computed with fontTools against Archivo's average advance width (wght 400).
 @font-face {
-  font-family: "Instrument Serif Fallback";
-  src: local("Times New Roman"), local("TimesNewRomanPSMT");
-  size-adjust: 82.78%;
-  ascent-override: 119.6%;
-  descent-override: 37.45%;
-  line-gap-override: 0%;
-}
-@font-face {
-  font-family: "Instrument Sans Fallback";
+  font-family: "Archivo Fallback";
   src: local("Arial"), local("ArialMT");
-  size-adjust: 102.83%;
-  ascent-override: 94.33%;
-  descent-override: 24.31%;
-  line-gap-override: 0%;
-}
-@font-face {
-  font-family: "Geist Mono Fallback";
-  src: local("Courier New"), local("CourierNewPSMT");
-  size-adjust: 99.98%;
-  ascent-override: 100.52%;
-  descent-override: 29.5%;
+  size-adjust: 98.26%;
+  ascent-override: 89.35%;
+  descent-override: 21.37%;
   line-gap-override: 0%;
 }
 
@@ -113,7 +78,7 @@ button, .btn { -webkit-user-select: none; user-select: none; }
 @media (hover: none), (pointer: coarse) {
   a:active:not(.btn, .qlink, .crumbs a) { opacity: .7; }
 }
-kbd { font-family: var(--f-mono); }
+kbd { font-family: var(--f-code); }
 [hidden] { display: none !important; }
 
 ::selection { background: var(--signal); color: var(--on-signal); }
@@ -157,7 +122,7 @@ kbd { font-family: var(--f-mono); }
   padding-inline: var(--gutter);
 }
 
-.mono { font-family: var(--f-mono); }
+.mono { font-variant-numeric: tabular-nums; }
 .label { @include label; }
 
 .i { flex: none; }
@@ -291,16 +256,6 @@ kbd { font-family: var(--f-mono); }
   .qlink:hover .i:has(path[d^="M8 13.5v-11"]) { transform: translateY(-2px); }
 }
 
-.kbd {
-  display: inline-flex;
-  gap: .1em;
-  padding: .05rem .4rem;
-  border: 1px solid var(--line-2);
-  border-radius: 5px;
-  font-size: .8125rem;
-  color: var(--muted);
-  margin-left: .35rem;
-}
 
 // Motion: first-screen entrance only (CSS); content below the fold never waits.
 

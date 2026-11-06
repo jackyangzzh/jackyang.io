@@ -34,6 +34,8 @@
   align-items: baseline;
   gap: .3rem;
   font-family: var(--f-serif);
+  font-stretch: 112%;
+  font-weight: 500;
   font-size: 1.5rem;
   line-height: 1;
   letter-spacing: -.01em;
@@ -81,26 +83,6 @@
   @include press(.94);
 }
 
-.hd__k {
-  display: none;
-  @include up($md) {
-    display: inline-flex;
-    gap: .15rem;
-    padding: 0 .65rem;
-    kbd {
-      font-size: .8125rem;
-      min-width: 1.15rem;
-      height: 1.4rem;
-      display: grid;
-      place-items: center;
-      border: 1px solid var(--line-2);
-      border-radius: 4px;
-      padding: 0 .2rem;
-      color: var(--muted);
-    }
-  }
-  &[hidden] { display: none; }
-}
 
 .hd__theme {
   position: relative;
@@ -228,6 +210,8 @@
     gap: 1rem;
     padding: .9rem 0;
     font-family: var(--f-serif);
+    font-stretch: 112%;
+    font-weight: 500;
     font-size: clamp(2.5rem, 12vw, 3.5rem);
     line-height: 1;
     letter-spacing: -.02em;
@@ -314,6 +298,8 @@
 }
 .ft__email {
   font-family: var(--f-serif);
+  font-stretch: 112%;
+  font-weight: 500;
   font-size: clamp(1.9rem, 3.6vw, 3rem);
   line-height: 1.05;
   letter-spacing: -.015em;
@@ -385,7 +371,10 @@
   pointer-events: none;
   user-select: none;
   font-family: var(--f-serif);
-  font-size: 24.4vw;
+  font-stretch: 112%;
+  font-weight: 500;
+  // "Jack Yang" is 4.8em in Archivo set wide: just inside the page.
+  font-size: 20vw;
   line-height: .74;
   letter-spacing: -.045em;
   white-space: nowrap;

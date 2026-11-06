@@ -34,14 +34,15 @@
 
 .hero__title {
   font-family: var(--f-serif);
-  font-weight: 400;
-  font-size: clamp(3.4rem, #{"min(10.4vw, 19.5svh)"}, 12.5rem);
-  @include down($md) { font-size: clamp(3.4rem, 17.5vw, 8rem); }
+  font-stretch: 112%;
+  font-weight: 500;
+  // Sized for Archivo set wide: "conversations." is 7.1em, so each size
+  // keeps it inside its column with air to spare.
+  font-size: clamp(2.5rem, #{"min(11.5vw, 19svh)"}, 9rem);
+  @include down($md) { font-size: clamp(2.1rem, 12.2vw, 6rem); }
   @include up($xl) {
     grid-column: 1 / span 7;
-    // Sized so "conversations." (~4.4em) keeps ≥70px of air before the
-    // aside at every width, including once the page stops widening (88rem).
-    font-size: clamp(3.4rem, #{"min(11vw, 21.5svh)"}, 9.75rem);
+    font-size: clamp(3rem, #{"min(6.9vw, 15svh)"}, 6.75rem);
   }
   line-height: .86;
   letter-spacing: -.028em;
@@ -398,7 +399,8 @@
 }
 .sh__title {
   font-family: var(--f-serif);
-  font-weight: 400;
+  font-stretch: 112%;
+  font-weight: 500;
   font-size: clamp(2.6rem, 5.6vw, 5.25rem);
   line-height: .92;
   letter-spacing: -.025em;
@@ -485,6 +487,8 @@
   // The first paragraph is a serif lead-in; the next two sit side by side.
   p:first-child {
     font-family: var(--f-serif);
+    font-stretch: 112%;
+    font-weight: 500;
     font-size: clamp(1.45rem, 2.05vw, 1.9rem);
     line-height: 1.2;
     letter-spacing: -.008em;
@@ -564,7 +568,8 @@
 .card__title {
   margin-bottom: .55rem;
   font-family: var(--f-serif);
-  font-weight: 400;
+  font-stretch: 112%;
+  font-weight: 500;
   font-size: clamp(1.75rem, 2.3vw, 2.4rem);
   text-wrap: balance;
   line-height: .98;
@@ -864,7 +869,8 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
 .entry__who { margin-top: .8rem; }
 .entry__org {
   font-family: var(--f-serif);
-  font-weight: 400;
+  font-stretch: 112%;
+  font-weight: 500;
   font-size: clamp(1.55rem, 2vw, 1.95rem);
   line-height: 1.04;
   letter-spacing: -.015em;
@@ -885,7 +891,16 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
   font-weight: 500;
   line-height: 1.4;
 }
-.entry__case { font-size: .8125rem; flex: none; color: var(--ink-2); &:hover { color: var(--ink); } }
+// The role line, and on the right "Case study →".
+.entry__line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .25rem 1.25rem;
+  margin-top: .4rem;
+  .entry__role { margin-top: 0; }
+}
+.entry__case { flex: none; }
 .entry__what {
   list-style: none;
   // One or two outcome phrases per bullet are bolded in _data/resume.yml,
@@ -949,7 +964,8 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
 .pub__title {
   margin-top: .8rem;
   font-family: var(--f-serif);
-  font-weight: 400;
+  font-stretch: 112%;
+  font-weight: 500;
   font-size: clamp(1.35rem, 1.75vw, 1.6rem);
   line-height: 1.12;
   letter-spacing: -.01em;
@@ -1024,6 +1040,8 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
 .post__title {
   display: block;
   font-family: var(--f-serif);
+  font-stretch: 112%;
+  font-weight: 500;
   font-size: clamp(1.45rem, 2.1vw, 1.95rem);
   line-height: 1.12;
   letter-spacing: -.01em;

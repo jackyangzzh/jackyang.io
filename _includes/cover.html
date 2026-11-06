@@ -1,7 +1,7 @@
 {%- comment -%}
-The showreel introducing Selected work: Full Stop, a twenty-second film. One orange
-dot carries it from the live light through Teams AI, Mesh, Holos and FakeHaul,
-and lands as the full stop on the site's headline. Source: _motion/full-stop.
+The showreel introducing Selected work: Full Stop, a twenty-second film. It cuts
+through Teams AI, Mesh, Holos and FakeHaul, and lands on the site's headline
+with a red full stop. Source: _motion/full-stop.
 
 The video is decorative and carries its own accessible description; the
 caption beside it (below it on narrow screens) identifies the reel and its
@@ -26,7 +26,7 @@ avoids that everywhere.
   <div class="cover__stage">
     <video class="cover__media" data-cover-video data-start="{{ include.start | default: 1 }}" muted loop playsinline preload="none"
       poster="{{ cover_poster | relative_url }}{{ poster_v }}"
-      aria-label="{{ include.label | default: 'Full Stop: a twenty-second reel of Jack Yang’s work. An orange dot becomes an AI agent waiting for a pause in a Teams meeting, an iris onto Microsoft Mesh, the joints of a tracked hand at Holos, a $750,000 Air Force contract, and a $0.00 FakeHaul checkout, then lands as the full stop in “Real-time AI for real conversations.”' }}">
+      aria-label="{{ include.label | default: 'Full Stop: a twenty-second reel of Jack Yang’s work. The Facilitator agent in a Teams meeting, one avatar across Microsoft Mesh, an outfit picker shown by Satya Nadella, a $750,000 U.S. Air Force contract at Holos, press from The New York Times, Fast Company and the BBC on a $0.00 FakeHaul receipt, then “Real-time AI for real conversations.”' }}">
       <source data-src="{{ cover_src | relative_url }}{{ cover_v }}" type="video/mp4">
     </video>
   </div>

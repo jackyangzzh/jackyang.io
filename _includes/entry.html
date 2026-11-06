@@ -21,14 +21,17 @@
     {%- if ongoing %}<span class="tag tag--now"><i aria-hidden="true"></i>Now</span>{% elsif expected %}<span class="tag">Expected</span>{% endif %}
   </div>
   {%- endif %}
-  {%- if it.project %}
-  <a class="qlink entry__case" href="{{ it.project | relative_url }}">Case study</a>
-  {%- endif %}
   </div>
   {%- endif %}
   <div class="entry__who">
     <h{{ hl }} class="entry__org">{% if it.website and it.website != "" %}<a href="{{ it.website }}" rel="noopener">{{ org }}</a>{% else %}{{ org }}{% endif %}</h{{ hl }}>
-    <div class="entry__role">{{ role }}</div>
+    {%- comment -%}With a case study, the role line ends in a link to it.{%- endcomment %}
+    <div class="entry__line">
+      <div class="entry__role">{{ role }}</div>
+      {%- if it.project %}
+      <a class="qlink entry__case" href="{{ it.project | relative_url }}" aria-label="{{ org | escape }} case study">Case study {% include icon.html name="arrow-r" %}</a>
+      {%- endif %}
+    </div>
   </div>
   <ul class="entry__what">
     {%- for h in it.highlights %}

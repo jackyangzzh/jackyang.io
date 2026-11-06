@@ -963,8 +963,6 @@
     let data;
     try { data = JSON.parse(dataEl.textContent); } catch { return; }
 
-    const isMac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
-    if (!isMac) $$("[data-mod]").forEach((k) => { k.textContent = "Ctrl "; });
     const openers = $$("[data-cmdk-open]");
     openers.forEach((o) => { o.hidden = false; o.addEventListener("click", () => open()); });
 

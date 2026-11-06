@@ -6,7 +6,8 @@
 }
 .phead__title {
   font-family: var(--f-serif);
-  font-weight: 400;
+  font-stretch: 112%;
+  font-weight: 500;
   font-size: clamp(4.25rem, 15vw, 14rem);
   line-height: .82;
   letter-spacing: -.035em;
@@ -79,6 +80,8 @@
 .prow__title {
   display: block;
   font-family: var(--f-serif);
+  font-stretch: 112%;
+  font-weight: 500;
   font-size: clamp(2rem, 3.5vw, 3.15rem);
   line-height: 1;
   letter-spacing: -.02em;
@@ -174,7 +177,7 @@
 .viewer__rec {
   width: .4rem; height: .4rem;
   border-radius: 50%;
-  background: #E5322A;
+  background: #E5291F;
 }
 .viewer__of { opacity: .8; }
 .viewer__caption {
@@ -220,7 +223,8 @@
 .cs__title {
   margin-top: clamp(1.25rem, 3vw, 2.25rem);
   font-family: var(--f-serif);
-  font-weight: 400;
+  font-stretch: 112%;
+  font-weight: 500;
   font-size: clamp(3.25rem, 9vw, 8.75rem);
   line-height: .9;
   letter-spacing: -.03em;
@@ -366,6 +370,8 @@
   display: block;
   margin: 1rem 0 1.1rem;
   font-family: var(--f-serif);
+  font-stretch: 112%;
+  font-weight: 500;
   font-size: clamp(3rem, 7.5vw, 7rem);
   line-height: .92;
   letter-spacing: -.03em;
@@ -437,7 +443,8 @@
 }
 .page__title {
   font-family: var(--f-serif);
-  font-weight: 400;
+  font-stretch: 112%;
+  font-weight: 500;
   font-size: clamp(3rem, 8vw, 6rem);
   line-height: .95;
   letter-spacing: -.025em;
@@ -466,7 +473,7 @@
   line-height: 1.6;
   color: var(--ink-2);
   &.prose > * + * { margin-top: .6em; }
-  code { font-family: var(--f-mono); font-size: .86em; color: var(--ink); overflow-wrap: anywhere; }
+  code { font-family: var(--f-code); font-size: .86em; color: var(--ink); overflow-wrap: anywhere; }
 }
 .lost__pause .lost__said {
   display: flex;
@@ -497,7 +504,8 @@
 }
 .lost__title {
   font-family: var(--f-serif);
-  font-weight: 400;
+  font-stretch: 112%;
+  font-weight: 500;
   font-size: clamp(4.5rem, 16vw, 15rem);
   line-height: .82;
   letter-spacing: -.035em;
