@@ -9,9 +9,8 @@
   const $$ = (s, el = d) => Array.from(el.querySelectorAll(s));
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-  const store = {
-    set(k, v) { try { localStorage.setItem(k, v); } catch { /* private mode */ } },
-  };
+  // A plain left click, with no modifier asking for a new tab or window.
+  const plain = (e) => !(e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey);
 
   // A polite live region for small confirmations ("Copied").
   const live = d.createElement("div");
@@ -34,7 +33,7 @@
 
   function applyTheme(next) {
     root.setAttribute("data-theme", next);
-    store.set("theme", next);
+    try { localStorage.setItem("theme", next); } catch { /* private mode */ }
     syncThemeUI();
   }
 
@@ -166,7 +165,7 @@
       track.addEventListener("focusout", () => setTimeout(() => { if (!track.contains(d.activeElement)) rest(); }, 0));
       track.addEventListener("track:update", () => { if (!pointerIn && !track.contains(d.activeElement)) rest(); });
       new ResizeObserver(() => place(current(), true)).observe(track);
-      if (d.fonts) d.fonts.ready.then(() => place(current(), true));
+      d.fonts.ready.then(() => place(current(), true));
     });
   }
 
@@ -199,7 +198,6 @@
       lockTimer = setTimeout(unlock, 1500);
       addEventListener("scrollend", unlock, { once: true });
     };
-    const plain = (e) => !(e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey);
     pairs.forEach(([a]) => a.addEventListener("click", (e) => { if (plain(e)) { setHere(a); lock(); } }));
     // Links to this very page (About, the wordmark) scroll back up and drop
     // the #hash rather than reloading the page.
@@ -248,14 +246,14 @@
     const text = $("[data-signal-text]", fig);
     const btn = $("[data-signal-play]", fig);
     // Illustrative only: how long a gap must last before the agent may speak.
-    const TURN = 1.2;
+    const TURN = 0.4;
     let turns;
     try { turns = JSON.parse($("[data-signal-data]", fig).textContent); } catch { return; }
     if (!Array.isArray(turns) || !turns.length) return;
 
-    // Ten seconds in all. Pauses play in real time, so their labels stay true;
-    // the speech is compressed to fit what's left.
-    const LENGTH = 10;
+    // Six seconds in all. Pauses play in real time, so their
+    // labels stay true; the speech is compressed to fit what's left.
+    const LENGTH = 6;
     const raw = (x) => Number(x.pause != null ? x.pause : x.dur) || 1;
     const paused = turns.filter((x) => x.pause != null).reduce((a, x) => a + raw(x), 0);
     const spoken = turns.filter((x) => x.pause == null).reduce((a, x) => a + raw(x), 0);
@@ -328,6 +326,8 @@
       return `${String(m).padStart(2, "0")}:${sec}`;
     };
 
+    const said = (seg) => `<b>${esc(seg.who === "agent" ? "Agent" : seg.who)}</b>“${esc(seg.text)}”`;
+    const METER = '<span class="signal__meter"><i></i></span>';
     const paint = (el, seg) => {
       if (!seg) {
         el.className = "signal__text";
@@ -337,9 +337,8 @@
         el.className = `signal__text is-gap${len >= TURN ? " is-over" : ""}`;
         el.innerHTML = `<span class="signal__meter" style="--p:${Math.min(1, len / TURN)}"><i></i></span>${esc(seg.text || "Pause")}`;
       } else {
-        const agent = seg.who === "agent";
-        el.className = `signal__text${agent ? " is-agent" : ""}`;
-        el.innerHTML = `<b>${esc(agent ? "Agent" : seg.who)}</b>“${esc(seg.text)}”`;
+        el.className = `signal__text${seg.who === "agent" ? " is-agent" : ""}`;
+        el.innerHTML = said(seg);
       }
     };
     let cur = null;
@@ -350,30 +349,33 @@
       const said = !seg ? text.dataset.default : seg.gap ? seg.text || "Pause" : `${seg.who === "agent" ? "Agent" : seg.who}: ${seg.text}`;
       stage.setAttribute("aria-valuetext", said);
     };
-    // Live caption: the words said so far, or a gap's meter filling in real time.
-    let liveKey = "";
+    // Live caption: words stream in as the line is spoken, then the line stays
+    // through the gap after it, where a meter fills toward the turn threshold.
+    // The whole line is laid out up front (unsaid words transparent), so
+    // nothing reflows as the words arrive.
+    let liveLine = null;
+    let wordEls = [];
+    let shown = 0;
     const liveCaption = (seg, tt) => {
       cur = undefined;
-      const into = tt - seg.start;
-      if (seg.gap) {
-        const over = into >= TURN;
-        const key = `g${seg.start}${over}`;
-        if (key !== liveKey) {
-          liveKey = key;
-          text.className = `signal__text is-gap${over ? " is-over" : ""}`;
-          text.innerHTML = `<span class="signal__meter"><i></i></span>${esc(seg.text || "Pause")}`;
-        }
-        text.firstChild.style.setProperty("--p", Math.min(1, into / TURN).toFixed(3));
-        return;
+      const line = seg.gap ? segs[segs.indexOf(seg) - 1] : seg;
+      if (line !== liveLine) {
+        liveLine = line;
+        shown = 0;
+        const ws = line.text.split(" ");
+        const last = ws.length - 1;
+        text.className = `signal__text is-live${line.who === "agent" ? " is-agent" : ""}`;
+        text.innerHTML = `<b>${esc(line.who === "agent" ? "Agent" : line.who)}</b>` +
+          ws.map((w, i) => `<span class="w">${i ? "" : "“"}${esc(w)}${i === last ? "”" : ""}</span>`).join(" ") + METER;
+        wordEls = $$(".w", text);
       }
-      const words = seg.text.split(" ");
-      const n = Math.min(words.length, Math.ceil((words.length * into) / ((seg.end - seg.start) * 0.9)));
-      const key = `s${seg.start}:${n}`;
-      if (key === liveKey) return;
-      liveKey = key;
-      const agent = seg.who === "agent";
-      text.className = `signal__text${agent ? " is-agent" : ""}`;
-      text.innerHTML = `<b>${esc(agent ? "Agent" : seg.who)}</b>“${esc(words.slice(0, n).join(" "))}${n === words.length ? "”" : ""}`;
+      // Words land across the first 70% of the line: quick, like speech.
+      const n = seg.gap ? wordEls.length : Math.ceil((wordEls.length * (tt - seg.start)) / ((seg.end - seg.start) * 0.7));
+      for (; shown < Math.min(n, wordEls.length); shown++) wordEls[shown].classList.add("is-said");
+      const into = seg.gap ? tt - seg.start : -1;
+      text.classList.toggle("is-wait", into >= 0);
+      text.classList.toggle("is-over", into >= TURN);
+      text.lastChild.style.setProperty("--p", into >= 0 ? Math.min(1, into / TURN).toFixed(3) : "0");
     };
     // Reserve the height of the longest line at this width, so scrubbing
     // never moves the page below the figure.
@@ -383,7 +385,12 @@
       probe.style.cssText = `position:absolute;visibility:hidden;pointer-events:none;width:${text.getBoundingClientRect().width}px`;
       text.parentNode.append(probe);
       let max = 0;
-      [null, ...segs].forEach((seg) => { paint(probe, seg); max = Math.max(max, probe.getBoundingClientRect().height); });
+      const measure = () => { max = Math.max(max, probe.getBoundingClientRect().height); };
+      [null, ...segs].forEach((seg) => {
+        paint(probe, seg);
+        measure();
+        if (seg && !seg.gap) { probe.className += " is-live"; probe.innerHTML += METER; measure(); }
+      });
       probe.remove();
       text.style.minHeight = `${Math.ceil(max)}px`;
     };
@@ -414,21 +421,24 @@
       play: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2.2v7.6L9.8 6z" fill="currentColor"/></svg>',
       replay: '<svg class="i" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.2 6a3.8 3.8 0 1 0 1.1-2.7M2.2 1.6v2.2h2.2" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     };
-    let playing = false;
-    let ended = false;
-    let held = false; // paused because the figure left the screen or the tab hid
+    // One state, mirrored to data-state so CSS, tests and agents can read it:
+    // idle -> playing <-> paused | held -> ended -> (Replay) playing.
+    // "held" is a pause the visitor didn't ask for: off screen or tab hidden.
+    let state = "idle";
+    fig.dataset.state = state;
+    const go = (next) => { state = next; fig.dataset.state = next; setBtn(); };
     let pt = 0;
     let last = 0;
     let rafP = 0;
     let doneTimer = 0;
     const setBtn = () => {
       if (!btn) return;
-      const [k, label] = playing ? ["pause", "Pause"] : ended ? ["replay", "Replay"] : ["play", pt > 0 ? "Resume" : "Play"];
+      const [k, label] = state === "playing" ? ["pause", "Pause"] : state === "ended" ? ["replay", "Replay"] : ["play", pt > 0 ? "Resume" : "Play"];
       btn.innerHTML = `${ICON[k]}<span>${label}</span>`;
       btn.setAttribute("aria-label", `${label} the illustrated conversation`);
     };
     const frame = (now) => {
-      if (!playing) return;
+      if (state !== "playing") return;
       pt += Math.min(0.1, (now - last) / 1000);
       last = now;
       if (pt >= total) return finish();
@@ -437,32 +447,22 @@
     };
     const play = () => {
       clearTimeout(doneTimer);
-      if (ended) { pt = 0; ended = false; }
-      playing = true;
-      held = false;
-      liveKey = "";
-      fig.classList.add("is-scrub", "is-playing");
+      if (state === "ended") pt = 0;
+      liveLine = null;
+      fig.classList.add("is-scrub");
       last = performance.now();
       cancelAnimationFrame(rafP);
       rafP = requestAnimationFrame(frame);
-      setBtn();
+      go("playing");
     };
-    const stop = () => {
-      if (!playing) return;
-      playing = false;
-      cancelAnimationFrame(rafP);
-      fig.classList.remove("is-playing");
-      setBtn();
-    };
+    const stop = (next) => { cancelAnimationFrame(rafP); go(next); };
     const finish = () => {
-      stop();
-      ended = true;
-      setBtn();
+      stop("ended");
       // Rest on the last line a moment, then hand the figure back.
-      doneTimer = setTimeout(() => { if (!playing && !stage.matches(":focus-visible")) reset(); }, 2600);
+      doneTimer = setTimeout(() => { if (state !== "playing" && !stage.matches(":focus-visible")) reset(); }, 2600);
     };
     // Any direct handling of the figure takes over from playback.
-    const takeOver = () => { clearTimeout(doneTimer); held = false; stop(); };
+    const takeOver = () => { clearTimeout(doneTimer); if (state === "playing" || state === "held") stop("paused"); };
 
     let raf = 0;
     const move = (e) => {
@@ -508,34 +508,41 @@
     build();
     reset();
     fitCaption();
-    if (d.fonts) d.fonts.ready.then(fitCaption);
+    d.fonts.ready.then(fitCaption);
     let rt = 0;
-    new ResizeObserver(() => { cancelAnimationFrame(rt); rt = requestAnimationFrame(() => { build(); if (!playing) reset(); fitCaption(); }); }).observe(stage);
+    new ResizeObserver(() => { cancelAnimationFrame(rt); rt = requestAnimationFrame(() => { build(); if (state !== "playing") reset(); fitCaption(); }); }).observe(stage);
 
     if (btn) {
       btn.hidden = false;
       setBtn();
       btn.addEventListener("click", () => {
-        if (playing) { stop(); return; }
-        play();
+        if (state === "playing") stop("paused");
+        else play();
       });
     }
     // Plays by itself once, when on screen; never under reduced motion.
     // Leaving the screen or hiding the tab holds it; coming back resumes.
-    if (!reduced.matches && "IntersectionObserver" in window) {
+    if (!reduced.matches) {
       let started = false;
       let inView = false;
       const io = new IntersectionObserver(([en]) => {
         inView = en.isIntersecting;
         if (inView) {
-          if (!started) { started = true; setTimeout(() => { if (!pt && !ended && !fig.matches(":hover") && d.activeElement !== stage) play(); }, 900); }
-          else if (held) play();
-        } else if (playing) { stop(); held = true; }
+          // If the visitor scrolled past or switched tabs during the delay, hold
+          // the first play for their return instead of playing it unseen.
+          if (!started) {
+            started = true;
+            setTimeout(() => {
+              if (state !== "idle" || fig.matches(":hover") || d.activeElement === stage) return;
+              if (inView && !d.hidden) play(); else go("held");
+            }, 900);
+          } else if (state === "held") play();
+        } else if (state === "playing") stop("held");
       }, { threshold: 0.6 });
       io.observe(fig);
       d.addEventListener("visibilitychange", () => {
-        if (d.hidden && playing) { stop(); held = true; }
-        else if (!d.hidden && held && inView) play();
+        if (d.hidden && state === "playing") stop("held");
+        else if (!d.hidden && state === "held" && inView) play();
       });
     }
   }
@@ -586,7 +593,7 @@
     });
     fit();
     new ResizeObserver(fit).observe(tl);
-    if (d.fonts) d.fonts.ready.then(fit);
+    d.fonts.ready.then(fit);
 
     // On narrow screens the chart scrolls; start at "now".
     requestAnimationFrame(() => { if (scroller.scrollWidth > scroller.clientWidth + 4) scroller.scrollLeft = scroller.scrollWidth; });
@@ -690,7 +697,7 @@
     if (!("onpagereveal" in window)) return;
     d.addEventListener("click", (e) => {
       const a = e.target.closest("[data-vt-link]");
-      if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (!a || !plain(e)) return;
       let img = $("img", a);
       if (a.classList.contains("prow__link") && matchMedia("(min-width: 64em)").matches) {
         img = $(`[data-slide="${a.dataset.preview}"] img`);
@@ -759,7 +766,7 @@
   function videos() {
     d.addEventListener("click", (e) => {
       const a = e.target.closest("[data-video-id]");
-      if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+      if (!a || !plain(e)) return;
       e.preventDefault();
       const frame = d.createElement("div");
       frame.className = "video__frame";
@@ -801,7 +808,6 @@
       box.append(v, btn);
       sync();
     });
-    if (!("IntersectionObserver" in window)) return;
     const io = new IntersectionObserver((entries) => entries.forEach((en) => {
       const v = en.target;
       if (en.isIntersecting) {
@@ -825,11 +831,9 @@
     const v = $("[data-cover-video]", fig);
     const btn = $("[data-cover-toggle]", fig);
     if (!v) return;
-    let held = false;
 
     const sync = () => {
       const playing = !v.paused && !v.ended;
-      fig.classList.toggle("is-playing", playing);
       if (!btn) return;
       btn.textContent = playing ? "Pause" : "Play";
       btn.setAttribute("aria-label", playing ? "Pause the cover film" : "Play the cover film");
@@ -852,19 +856,15 @@
 
     if (btn) {
       btn.addEventListener("click", () => {
-        if (v.paused) { held = false; play(); }
-        else { held = true; v.pause(); }
-        sync();
+        if (v.paused) { delete v.dataset.held; play(); }
+        else { v.dataset.held = ""; v.pause(); }
       });
     }
 
-    if ("IntersectionObserver" in window) {
-      const io = new IntersectionObserver((entries) => entries.forEach((en) => {
-        if (en.isIntersecting) { if (!held && !reduced.matches) play(); }
-        else if (!v.paused) v.pause();
-      }), { rootMargin: "120px 0px" });
-      io.observe(v);
-    }
+    new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (en.isIntersecting) { if (!("held" in v.dataset) && !reduced.matches) play(); }
+      else if (!v.paused) v.pause();
+    }), { rootMargin: "120px 0px" }).observe(v);
     sync();
   }
 
@@ -911,7 +911,7 @@
   // Plays once, when the footer comes into view.
   function turn() {
     const el = $("[data-turn]");
-    if (!el || reduced.matches || !("IntersectionObserver" in window)) return;
+    if (!el || reduced.matches) return;
     const io = new IntersectionObserver((entries) => {
       if (!entries.some((en) => en.isIntersecting)) return;
       el.classList.add("is-on");

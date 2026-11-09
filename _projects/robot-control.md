@@ -1,5 +1,4 @@
 ---
-layout: project
 weight: 6
 title: 'Robot Control Through VR'
 description: >

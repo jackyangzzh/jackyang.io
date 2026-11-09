@@ -1,5 +1,4 @@
 ---
-layout: project
 weight: 4
 title: 'Project Virtualso'
 description: >

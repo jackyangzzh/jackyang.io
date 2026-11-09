@@ -1,5 +1,4 @@
 ---
-layout: project
 weight: 2
 title: 'Holos'
 description: >

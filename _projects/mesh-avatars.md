@@ -1,5 +1,4 @@
 ---
-layout: project
 weight: 0
 title: 'Microsoft Mesh'
 description: >

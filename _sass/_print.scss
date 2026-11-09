@@ -5,7 +5,7 @@
   body { font-size: 10.5pt; }
   .hd, .mnav, .signal, .hero__actions, .tl, .ft__word, .ft__base, .cmdk, .skip,
   .sh__aux, .socials, .about__photo, #work, #writing, .next, .toc,
-  .copy, .entry__case, .ft__col:last-child, [data-cmdk-open] { display: none !important; }
+  .copy, .entry__case, [data-cmdk-open] { display: none !important; }
   .hero { min-height: auto; padding-bottom: 0; }
   .hero__title { font-size: 34pt; padding-top: 0; }
   .sec { padding-top: 18pt; break-inside: auto; }

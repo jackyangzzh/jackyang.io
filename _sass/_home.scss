@@ -347,6 +347,15 @@
   .is-over & i { background: var(--signal); }
 }
 .signal__text.is-over { color: var(--ink-2); }
+// Playing: the meter trails the line, shown only while the room is quiet.
+.signal__text.is-live .signal__meter {
+  margin: -2px 0 0 .7em;
+  opacity: 0;
+  transition: opacity .2s;
+}
+.signal__text.is-wait .signal__meter { opacity: 1; }
+.signal__text .w { opacity: 0; transition: opacity .14s; }
+.signal__text .w.is-said { opacity: 1; }
 // Phones: Fig. 1 and the controls share the first row, the line gets its own.
 @include down($sm) {
   .signal__cap { flex-wrap: wrap; row-gap: .4rem; }

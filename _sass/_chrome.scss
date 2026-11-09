@@ -248,8 +248,7 @@
   }
 }
 .ft__contact { @include up($md) { grid-column: 1 / span 6; } }
-.ft__col:nth-child(2) { @include up($md) { grid-column: 8 / span 2; } }
-.ft__col:nth-child(3) { @include up($md) { grid-column: 10 / span 3; justify-self: end; } }
+.ft__col:nth-child(2) { @include up($md) { grid-column: 10 / span 3; justify-self: end; } }
 
 // "Your turn": a short waveform winds down into a pause, then the live dot lights.
 .ft__turn {

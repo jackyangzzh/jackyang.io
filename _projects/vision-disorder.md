@@ -1,5 +1,4 @@
 ---
-layout: project
 weight: 5
 title: 'Optics Research in VR'
 description: >

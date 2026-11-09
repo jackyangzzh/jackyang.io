@@ -52,27 +52,28 @@ facts:
 signal:
   label: >
     Illustration of a hiring conversation as an audio waveform. A hiring
-    manager and an engineering lead discuss Jack Yang's work on Copilot in
-    live Teams meetings. Once they decide to talk to him and there's a real
-    pause, an AI agent notes the decision and the action item.
+    manager needs someone who has shipped real-time AI, and an engineering
+    lead names Jack Yang, who designs when the AI speaks up in live meetings.
+    Once they decide to talk to him and there's a real pause, an AI agent
+    notes the decision and offers to book 30 minutes.
   caption: "An illustrated hiring sync: the agent waits for the decision, and a real pause, before it speaks."
   turns:
     - who: Hiring manager
-      text: "Who’s shipped real-time AI?"
-      dur: 4.4
-    - pause: 0.4
-      text: "Gap of 0.4 s: too short to take the turn"
+      text: "We need someone who’s shipped real-time AI."
+      dur: 3
+    - pause: 0.2
+      text: "0.2 s gap: too short to cut in"
     - who: Eng lead
-      text: "Jack Yang. He works on Copilot in live Teams meetings."
-      dur: 6.3
-    - pause: 0.5
-      text: "Gap of 0.5 s: still their conversation"
+      text: "Jack Yang. He designs when the AI speaks up in live meetings."
+      dur: 4.2
+    - pause: 0.3
+      text: "0.3 s gap: still their conversation"
     - who: Hiring manager
-      text: "Okay. Let’s talk to him."
-      dur: 2.1
-    - pause: 1.6
-      text: "Pause of 1.6 s, decision made: room for the agent"
+      text: "Perfect. Let’s talk to him."
+      dur: 1.8
+    - pause: 0.75
+      text: "0.75 s pause, decision made: the agent’s turn"
     - who: agent
-      text: "Noted. Talk to Jack Yang. Book time with him. Owner: you."
-      dur: 5.2
+      text: "Noted: talk to Jack Yang. Want me to book 30 minutes?"
+      dur: 3.8
 ---

@@ -1,5 +1,4 @@
 ---
-layout: project
 weight: 1
 featured: true
 title: 'FakeHaul'

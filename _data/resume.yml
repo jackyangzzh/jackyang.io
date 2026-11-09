@@ -38,7 +38,7 @@ work:
     startDate: "2024-09-01"
     endDate: ""
     highlights:
-      - Build **Facilitator**, a meeting agent for **Microsoft 365 Copilot** that takes live notes, tracks agendas and decisions, and answers questions in Teams.
+      - Build **M365 Copilot** for **Microsoft Teams meetings** that takes live notes, tracks agendas and decisions, and answers questions in Teams.
       - Design the **turn-taking layer of a proactive agent**, deciding when and how the AI speaks into a live group conversation without interrupting.
       - Contribute to **conversation orchestration**, tool calling, context management, observability, and **multimodal LLM features**.
   - company: "Microsoft"
@@ -129,7 +129,7 @@ education:
     startDate: "2016-09-01"
     endDate: "2020-06-01"
     courses:
-      - Double-majored in Computer Science and Communication.
+      - Double-majored in **Computer Science** and **Communication**.
       - TA for CS 559 (Computer Graphics) for 2 semesters.
 certifications:
   - name: "Machine Learning Specialization"
