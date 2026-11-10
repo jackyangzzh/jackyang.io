@@ -38,13 +38,18 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--hd) + 1.5rem);
   background: var(--bg);
+  scrollbar-color: var(--line-2) var(--bg);
   // Controls give their own press feedback, so drop the grey tap flash.
   -webkit-tap-highlight-color: transparent;
 }
 
+// Grain: sparse black specks, tiled, so the sandstone reads as a surface
+// rather than a flat fill. On the dark theme's black they vanish, by design.
+$grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .29 -.125'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
 body {
   margin: 0;
-  background: var(--bg);
+  background: var(--bg) $grain;
   color: var(--ink);
   font-family: var(--f-sans);
   font-size: 1.0625rem;
@@ -237,7 +242,9 @@ kbd { font-family: var(--f-code); }
   .i { transition: transform .35s var(--ease); }
   @include hover {
     &:hover {
-      background-size: calc(100% - 1.4rem) 1px;
+      background-size: 100% 1px;
+      // The line stops short of a trailing icon.
+      &:has(.i) { background-size: calc(100% - 1.4rem) 1px; }
       [viewBox="0 0 16 16"] { transform: translate(2px, -2px); }
     }
   }

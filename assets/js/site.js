@@ -949,6 +949,8 @@
     if (!dataEl) return;
     let data;
     try { data = JSON.parse(dataEl.textContent); } catch { return; }
+    // The menu has no button, so tell the people who look here.
+    console.log(`Hi. ⌘K (or Ctrl+K) opens the command menu. Say hello: ${data.email}`);
 
     const arrow = '<svg class="i cmdk__go" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11M9.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     const search = '<svg class="i" width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12.5 12.5l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
@@ -957,7 +959,7 @@
     const commands = [
       { group: "Contact", label: "Book a 30-minute call", keys: "calendly meeting schedule", url: data.schedule, ext: true },
       { group: "Contact", label: "Send an email", keys: "contact mail", meta: data.email, url: `mailto:${data.email}` },
-      { group: "Contact", label: "Copy email address", keys: "contact mail", run: () => copyText(data.email, "Email address copied") },
+      { group: "Contact", label: "Copy email address", keys: "contact mail", done: "Copied", run: () => copyText(data.email, "Email address copied") },
       { group: "Contact", label: "Open résumé (PDF)", keys: "resume cv download", url: data.resume },
       ...data.pages.map((p) => ({ group: "Pages", label: p.label, url: p.url })),
       ...data.projects.map((p) => ({ group: "Projects", label: p.label, url: p.url, meta: p.meta })),
@@ -1034,6 +1036,14 @@
 
     function run(c, e) {
       if (!c) return;
+      // A command with a `done` label confirms in its own row before the menu closes.
+      if (c.done) {
+        c.run().then((ok) => {
+          if (ok) $(`#cmdk-${shown.indexOf(c)} span`, list).textContent = c.done;
+          setTimeout(() => dlg.close(), ok ? 650 : 0);
+        });
+        return;
+      }
       if (c.run) { dlg.close(); setTimeout(() => c.run(), 80); return; }
       const newTab = c.ext || (e && (e.metaKey || e.ctrlKey));
       dlg.close();

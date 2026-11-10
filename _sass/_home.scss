@@ -229,7 +229,8 @@
 // Fig. 1 — the conversation waveform
 
 .signal {
-  margin-top: clamp(1.75rem, 4vh, 2.75rem);
+  // The playhead's time label hangs 2.6rem above the stage; any less and it covers the intro's last line.
+  margin-top: 2.75rem;
   // Wide hero: the headline sits right above, so the playhead's time label
   // needs clear air below "conversations." (taken from the band above the title).
   @include up($xl) { margin-top: clamp(3rem, 7vh, 4.25rem); }
@@ -674,14 +675,13 @@
   align-self: stretch;
   display: flex;
   align-items: center;
-  background: linear-gradient(90deg, var(--bg) 78%, transparent);
   font-size: .8125rem;
   color: var(--muted);
   // On phones the chart scrolls under the labels: they become a frozen
   // column with a hard edge, so bars are cut cleanly instead of showing
   // through a fade, and the strip in the page gutter is covered too.
   @include down($md) {
-    background: var(--bg);
+    background: var(--bg) $grain;
     box-shadow: 1px 0 0 var(--line);
     &::before {
       content: "";
@@ -690,7 +690,7 @@
       bottom: 0;
       right: 100%;
       width: var(--gutter);
-      background: var(--bg);
+      background: var(--bg) $grain;
     }
   }
 }
@@ -761,6 +761,8 @@
   &--future { background: repeating-linear-gradient(-45deg, var(--bg) 0 2px, var(--bg-3) 2px 5px); box-shadow: inset 0 0 0 1px var(--line-2); }
 }
 .tl__hint { margin-left: auto; @include down($md) { display: none !important; } }
+// Shown only while the chart (46rem wide, inside the page gutters) scrolls sideways.
+.tl__more { @media (min-width: 50em) { display: none !important; } }
 
 .tl__tip {
   position: absolute;
@@ -943,6 +945,8 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
   @include caps;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+  // Every item takes the "Under review" tag's box, so titles line up across the two columns.
+  > :not(.tag) { line-height: 1.5; padding-block: calc(.12rem + 1px); }
 }
 // The venue takes the free space and wraps inside it, so a long journal
 // name never pushes the PDF/DOI link onto a line of its own.
@@ -1021,7 +1025,7 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
   font-variant-numeric: tabular-nums;
   @include up($md) { grid-column: 1 / span 3; }
 }
-.post__main { @include up($md) { grid-column: 4 / span 7; } }
+.post__main { @include up($md) { grid-column: 4 / span 6; } }
 .post__title {
   display: block;
   font-family: var(--f-serif);
@@ -1045,7 +1049,8 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
 .post__src {
   @include caps;
   color: var(--muted);
-  @include up($md) { grid-column: 11; }
+  white-space: nowrap;
+  @include up($md) { grid-column: 10 / span 2; }
   @include down($md) { display: none; }
 }
 .post__go {
@@ -1066,7 +1071,6 @@ $col-gap: clamp(2.5rem, 6vw, 6rem);
 @include down($sm) {
   .hero__body { padding-top: 1rem; }
   .hero__foot { margin-top: 1.25rem; }
-  .signal { margin-top: 2.75rem; }
   .signal__stage { height: 40px; }
   .signal__cap { margin-top: .75rem; }
 }

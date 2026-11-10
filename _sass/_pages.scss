@@ -11,6 +11,10 @@
   margin-left: -.04em;
 }
 .phead__count {
+  // Regular width and weight: the title's condensed heavy caps close up into a blob at this size.
+  font-weight: 500;
+  font-stretch: 100%;
+  letter-spacing: 0;
   font-size: .8125rem;
   color: var(--muted);
   vertical-align: top;
@@ -38,7 +42,7 @@
 
 .filters {
   @include up($md) { grid-column: 7 / -1; justify-self: end; }
-  .track { gap: 1.5rem; flex-wrap: wrap; }
+  .track { gap: 0 1.5rem; flex-wrap: wrap; }
   .track > li > button span { font-size: .8125rem; color: var(--muted); }
 }
 
